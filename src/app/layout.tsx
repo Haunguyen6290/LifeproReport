@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Quản lý Khách hàng · Thị trường · Chiến dịch",
+  title: "Quản lý Khách hàng - Thị trường - Chiến dịch bằng Lifepro Report",
   description: "Hệ thống quản trị kinh doanh nội bộ",
 };
 
