@@ -1,0 +1,48 @@
+@import "tailwindcss";
+
+:root {
+  /* Tokens — Supernova tone xanh (màu đơn, chiều sâu bằng lớp) */
+  --color-primary: #2563eb;
+  --color-primary-hover: #1d4ed8;
+  --color-on-primary: #ffffff;
+  --color-accent: #ea580c;
+  --color-background: #f1f5f9;          /* slate-100 — nền đơn, tương phản card tốt hơn */
+  --color-foreground: #1e293b;
+  --color-card: #ffffff;                 /* card đặc, không mờ */
+  --color-card-solid: #ffffff;
+  --color-muted: #e2e8f0;               /* slate-200 */
+  --color-muted-foreground: #475569;
+  --color-border: #e2e8f0;              /* viền rõ, tạo chiều sâu */
+  --color-destructive: #dc2626;
+  --color-ring: #2563eb;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --shadow-card: 0 1px 3px rgba(15, 23, 42, 0.08), 0 1px 2px rgba(15, 23, 42, 0.06);
+  --shadow-hover: 0 4px 12px rgba(15, 23, 42, 0.10), 0 2px 4px rgba(15, 23, 42, 0.08);
+}
+
+/* Dark mode tự động đã tắt — app thiết kế cho nền sáng.
+   Nếu nhân viên bật Windows Dark Mode, prefers-color-scheme:dark
+   sẽ đổi --color-foreground sang màu sáng nhưng card vẫn bg-white
+   khiến chữ sáng trên nền sáng (như ảnh chụp). Giữ light-only. */
+html { color-scheme: light; }
+
+@theme inline {
+  --color-background: var(--color-background);
+  --color-foreground: var(--color-foreground);
+  --font-sans: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-foreground);
+  min-height: 100vh;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
