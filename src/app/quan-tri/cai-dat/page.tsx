@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { supabase } from '@/lib/supabase/client';
 import { RequireAuth, useAuth } from '@/components/RequireAuth';
 import { AppSidebar } from '@/components/AppSidebar';
@@ -37,6 +37,7 @@ function Screen() {
   const [msg, setMsg] = useState('');
   const [logoPreview, setLogoPreview] = useState<string | null>(null);
   const [logoBusy, setLogoBusy] = useState(false);
+  const logoRef = useRef<HTMLInputElement>(null);
 
   async function load() {
     const { data } = await supabase.from('settings').select('key, value');
@@ -84,14 +85,14 @@ function Screen() {
     if (!f) return;
     if (!f.type.startsWith('image/')) { setMsg('Chỉ chọn file ảnh PNG/JPG.'); return; }
     if (f.size > 2 * 1024 * 1024) { setMsg('Ảnh tối đa 2MB.'); return; }
+    if (logoPreview) URL.revokeObjectURL(logoPreview);
     setLogoPreview(URL.createObjectURL(f));
-    (e.target as any)._file = f;
+    setMsg('');
   }
 
   async function uploadLogo() {
-    const fileInput = document.getElementById('logo-file') as HTMLInputElement & { _file?: File };
-    const f = fileInput?._file;
-    if (!f) { setMsg('Chưa chọn logo.'); return; }
+    const f = logoRef.current?.files?.[0];
+    if (!f) { setMsg('Chưa chọn logo — bấm Chọn ảnh trước.'); return; }
     setLogoBusy(true); setMsg('Đang upload logo…');
     try {
       // Nén ảnh xuống tối đa 600px
@@ -107,8 +108,8 @@ function Screen() {
       const url = supabase.storage.from('avatars').getPublicUrl(path).data.publicUrl;
       await supabase.from('settings').upsert({ key: 'LOGO_URL', value: url, updated_by: userId }, { onConflict: 'key' });
       setVals((prev) => ({ ...prev, LOGO_URL: url }));
-      setLogoPreview(null);
-      if (fileInput) { fileInput.value = ''; fileInput._file = undefined; }
+      setLogoPreview((prev) => { if (prev) URL.revokeObjectURL(prev); return null; });
+      if (logoRef.current) logoRef.current.value = '';
       setMsg('Đã upload logo — mở trang đăng nhập để xem.');
     } catch (e: any) {
       setMsg('Upload thất bại: ' + (e?.message ?? ''));
@@ -120,9 +121,8 @@ function Screen() {
     try {
       await supabase.from('settings').upsert({ key: 'LOGO_URL', value: '', updated_by: userId }, { onConflict: 'key' });
       setVals((prev) => ({ ...prev, LOGO_URL: '' }));
-      setLogoPreview(null);
-      const fileInput = document.getElementById('logo-file') as HTMLInputElement & { _file?: File };
-      if (fileInput) { fileInput.value = ''; fileInput._file = undefined; }
+      setLogoPreview((prev) => { if (prev) URL.revokeObjectURL(prev); return null; });
+      if (logoRef.current) logoRef.current.value = '';
       setMsg('Đã gỡ logo — trang đăng nhập sẽ dùng biểu tượng mặc định.');
     } catch (e: any) { setMsg('Lỗi: ' + (e as any).message); }
     finally { setLogoBusy(false); }
@@ -167,10 +167,8 @@ function Screen() {
             </div>
           )}
           <div className="flex flex-wrap gap-2">
-            <label className="rounded-md border border-[var(--color-muted)] px-3 py-2 text-sm hover:border-[var(--color-primary)] cursor-pointer">
-              Chọn ảnh
-              <input id="logo-file" type="file" accept="image/png,image/jpeg,image/webp" className="hidden" onChange={onPickLogo} />
-            </label>
+            <button type="button" onClick={() => logoRef.current?.click()} className="rounded-md border border-[var(--color-muted)] px-3 py-2 text-sm hover:border-[var(--color-primary)]">Chọn ảnh</button>
+            <input ref={logoRef} id="logo-file" type="file" accept="image/png,image/jpeg,image/webp" className="hidden" onChange={onPickLogo} />
             <button onClick={uploadLogo} disabled={logoBusy} className="rounded-md bg-[var(--color-primary)] px-3 py-2 text-sm font-semibold text-white hover:bg-[var(--color-primary-hover)] disabled:opacity-60">{logoBusy ? 'Đang upload…' : 'Upload'}</button>
             {vals.LOGO_URL && <button onClick={removeLogo} disabled={logoBusy} className="rounded-md border border-[var(--color-muted)] px-3 py-2 text-sm hover:border-red-300 hover:text-red-600">Gỡ logo</button>}
           </div>
