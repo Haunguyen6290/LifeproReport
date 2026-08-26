@@ -102,10 +102,12 @@ function Screen() {
       const canvas = document.createElement('canvas'); canvas.width = w; canvas.height = h;
       canvas.getContext('2d')!.drawImage(bmp, 0, 0, w, h);
       const blob: Blob = await new Promise((res) => canvas.toBlob((b) => res(b!), 'image/png', 0.92));
-      const path = `branding/logo-${Date.now()}.png`;
-      const { error: upErr } = await supabase.storage.from('avatars').upload(path, blob, { contentType: 'image/png' });
-      if (upErr) throw upErr;
-      const url = supabase.storage.from('avatars').getPublicUrl(path).data.publicUrl;
+      const fd = new FormData();
+      fd.append('file', blob, 'logo.png');
+      const resp = await fetch('/api/branding/logo', { method: 'POST', body: fd });
+      const body = await resp.json();
+      if (!resp.ok) throw new Error(body?.error ?? 'Upload thất bại');
+      const url = body.url as string;
       await supabase.from('settings').upsert({ key: 'LOGO_URL', value: url, updated_by: userId }, { onConflict: 'key' });
       setVals((prev) => ({ ...prev, LOGO_URL: url }));
       setLogoPreview((prev) => { if (prev) URL.revokeObjectURL(prev); return null; });
