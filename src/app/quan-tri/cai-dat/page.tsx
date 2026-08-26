@@ -7,6 +7,8 @@ import { AdminTabs } from '@/components/AdminTabs';
 
 const KEYS = [
   { key: 'APP_NAME', label: 'Tên ứng dụng (hiện ở sidebar)' },
+  { key: 'LOGIN_TITLE', label: 'Dòng chào mừng (trang đăng nhập)' },
+  { key: 'LOGIN_SUBTITLE', label: 'Dòng phụ đề (trang đăng nhập)' },
   { key: 'TEN_DOANH_NGHIEP', label: 'Tên doanh nghiệp' },
   { key: 'TEN_RUT_GON', label: 'Tên rút gọn' },
   { key: 'TIMEZONE', label: 'Múi giờ (vd Asia/Ho_Chi_Minh)' },
@@ -33,6 +35,8 @@ function Screen() {
   const [vals, setVals] = useState<Record<string, string>>({});
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState('');
+  const [logoPreview, setLogoPreview] = useState<string | null>(null);
+  const [logoBusy, setLogoBusy] = useState(false);
 
   async function load() {
     const { data } = await supabase.from('settings').select('key, value');
@@ -75,6 +79,55 @@ function Screen() {
     } catch (e: any) { setMsg('Lỗi: ' + (e as any).message); }
   }
 
+  async function onPickLogo(e: React.ChangeEvent<HTMLInputElement>) {
+    const f = e.target.files?.[0];
+    if (!f) return;
+    if (!f.type.startsWith('image/')) { setMsg('Chỉ chọn file ảnh PNG/JPG.'); return; }
+    if (f.size > 2 * 1024 * 1024) { setMsg('Ảnh tối đa 2MB.'); return; }
+    setLogoPreview(URL.createObjectURL(f));
+    (e.target as any)._file = f;
+  }
+
+  async function uploadLogo() {
+    const fileInput = document.getElementById('logo-file') as HTMLInputElement & { _file?: File };
+    const f = fileInput?._file;
+    if (!f) { setMsg('Chưa chọn logo.'); return; }
+    setLogoBusy(true); setMsg('Đang upload logo…');
+    try {
+      // Nén ảnh xuống tối đa 600px
+      const bmp = await createImageBitmap(f);
+      const scale = Math.min(1, 600 / Math.max(bmp.width, bmp.height));
+      const w = Math.round(bmp.width * scale), h = Math.round(bmp.height * scale);
+      const canvas = document.createElement('canvas'); canvas.width = w; canvas.height = h;
+      canvas.getContext('2d')!.drawImage(bmp, 0, 0, w, h);
+      const blob: Blob = await new Promise((res) => canvas.toBlob((b) => res(b!), 'image/png', 0.92));
+      const path = `branding/logo-${Date.now()}.png`;
+      const { error: upErr } = await supabase.storage.from('avatars').upload(path, blob, { contentType: 'image/png' });
+      if (upErr) throw upErr;
+      const url = supabase.storage.from('avatars').getPublicUrl(path).data.publicUrl;
+      await supabase.from('settings').upsert({ key: 'LOGO_URL', value: url, updated_by: userId }, { onConflict: 'key' });
+      setVals((prev) => ({ ...prev, LOGO_URL: url }));
+      setLogoPreview(null);
+      if (fileInput) { fileInput.value = ''; fileInput._file = undefined; }
+      setMsg('Đã upload logo — mở trang đăng nhập để xem.');
+    } catch (e: any) {
+      setMsg('Upload thất bại: ' + (e?.message ?? ''));
+    } finally { setLogoBusy(false); }
+  }
+
+  async function removeLogo() {
+    setLogoBusy(true);
+    try {
+      await supabase.from('settings').upsert({ key: 'LOGO_URL', value: '', updated_by: userId }, { onConflict: 'key' });
+      setVals((prev) => ({ ...prev, LOGO_URL: '' }));
+      setLogoPreview(null);
+      const fileInput = document.getElementById('logo-file') as HTMLInputElement & { _file?: File };
+      if (fileInput) { fileInput.value = ''; fileInput._file = undefined; }
+      setMsg('Đã gỡ logo — trang đăng nhập sẽ dùng biểu tượng mặc định.');
+    } catch (e: any) { setMsg('Lỗi: ' + (e as any).message); }
+    finally { setLogoBusy(false); }
+  }
+
   if (!can('quan_ly_cai_dat')) return <AppSidebar><main className="px-6 py-10 text-slate-700">Bạn không có quyền.</main></AppSidebar>;
   const sel = 'rounded-md border-[1.5px] border-[var(--color-muted)] bg-white px-3 py-2 text-sm outline-none focus:border-[var(--color-ring)]';
   const card = 'rounded-xl border border-slate-200 bg-white p-4 backdrop-blur sm:p-5';
@@ -93,6 +146,33 @@ function Screen() {
                 <input value={vals[k.key] ?? ''} onChange={(e) => setVals({ ...vals, [k.key]: e.target.value })} className={sel} type={k.key.includes('TOKEN') ? 'password' : 'text'} />
               </div>
             ))}
+          </div>
+        </div>
+
+        <div className={`${card} mt-4`}>
+          <h2 className="mb-2 text-sm font-bold text-[#1e3a8a]">Logo trang đăng nhập</h2>
+          <p className="mb-2 text-xs text-slate-600">Upload ảnh PNG/JPG (tối đa 2MB, tự nén). Chưa có logo sẽ dùng biểu tượng mặc định.</p>
+          {vals.LOGO_URL ? (
+            <div className="mb-2">
+              <img src={vals.LOGO_URL} alt="Logo hiện tại" className="max-h-[80px] max-w-[220px] object-contain rounded-lg bg-white border border-slate-200 p-2" />
+              <p className="mt-1 text-xs text-slate-500 break-all">{vals.LOGO_URL}</p>
+            </div>
+          ) : (
+            <p className="mb-2 text-xs italic text-slate-500">Chưa có logo.</p>
+          )}
+          {logoPreview && (
+            <div className="mb-2">
+              <img src={logoPreview} alt="Xem trước" className="max-h-[80px] max-w-[220px] object-contain rounded-lg bg-white border border-slate-200 p-2" />
+              <p className="mt-1 text-xs text-slate-600">Xem trước — bấm Upload để lưu.</p>
+            </div>
+          )}
+          <div className="flex flex-wrap gap-2">
+            <label className="rounded-md border border-[var(--color-muted)] px-3 py-2 text-sm hover:border-[var(--color-primary)] cursor-pointer">
+              Chọn ảnh
+              <input id="logo-file" type="file" accept="image/png,image/jpeg,image/webp" className="hidden" onChange={onPickLogo} />
+            </label>
+            <button onClick={uploadLogo} disabled={logoBusy} className="rounded-md bg-[var(--color-primary)] px-3 py-2 text-sm font-semibold text-white hover:bg-[var(--color-primary-hover)] disabled:opacity-60">{logoBusy ? 'Đang upload…' : 'Upload'}</button>
+            {vals.LOGO_URL && <button onClick={removeLogo} disabled={logoBusy} className="rounded-md border border-[var(--color-muted)] px-3 py-2 text-sm hover:border-red-300 hover:text-red-600">Gỡ logo</button>}
           </div>
         </div>
 
