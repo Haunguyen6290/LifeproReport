@@ -54,7 +54,7 @@ export function AppSidebar({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
   const [avatarOpen, setAvatarOpen] = useState(false);
-  const [appName, setAppName] = useState('NOVAX SALES');
+  const [appName, setAppName] = useState('Lifepro - Quản lý Mục tiêu, Báo cáo');
   useEffect(() => {
     let cancelled = false;
     (async () => {
@@ -114,7 +114,7 @@ export function AppSidebar({ children }: { children: React.ReactNode }) {
             className="grid h-9 w-9 place-items-center rounded-md text-slate-700 hover:bg-slate-100 focus-visible:outline-2 focus-visible:outline-[#0f2a4a]">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
           </button>
-          <span className="text-[15px] font-bold tracking-tight text-[#0f2a4a]">Quản lý khách hàng</span>
+          <span className="text-[15px] font-bold tracking-tight text-[#0f2a4a]">{appName}</span>
         </header>
         <div className="flex-1">{children}</div>
       </div>
