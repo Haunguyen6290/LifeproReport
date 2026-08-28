@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { RequireAuth } from '@/components/RequireAuth';
 import { AppSidebar } from '@/components/AppSidebar';
 import * as echarts from 'echarts';
@@ -62,17 +62,20 @@ type DetailRow = {
   kinh_doanh: string; so_luong: number | null; thanh_tien: number; vung: string; nhom_hang: string; hang_sx: string;
 };
 
-function useChart(ref: React.RefObject<HTMLDivElement | null>, option: echarts.EChartsOption | null) {
-  const inst = useRef<echarts.ECharts | null>(null);
+function Chart({ option, height = 280 }: { option: echarts.EChartsOption | null; height?: number }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const instRef = useRef<echarts.ECharts | null>(null);
   useEffect(() => {
-    if (!ref.current || !option) return;
-    if (!inst.current) inst.current = echarts.init(ref.current);
-    inst.current.setOption(option, true as any);
-    const onResize = () => inst.current?.resize();
+    if (!ref.current) return;
+    instRef.current = echarts.init(ref.current);
+    const onResize = () => instRef.current?.resize();
     window.addEventListener('resize', onResize);
-    return () => window.removeEventListener('resize', onResize);
+    return () => { window.removeEventListener('resize', onResize); instRef.current?.dispose(); instRef.current = null; };
+  }, []);
+  useEffect(() => {
+    if (instRef.current && option) instRef.current.setOption(option, true as any);
   }, [option]);
-  useEffect(() => () => { inst.current?.dispose(); inst.current = null; }, []);
+  return <div ref={ref} style={{ width: '100%', height }} />;
 }
 
 function FilterDropdown({ label, options, selected, onChange, searchable }: { label: string; options: string[]; selected: string[]; onChange: (v: string[]) => void; searchable?: boolean }) {
@@ -147,12 +150,6 @@ function DashboardInner() {
   const [initializing, setInitializing] = useState(true);
   const [err, setErr] = useState('');
 
-  // chart refs
-  const cMonthlyRef = useRef<HTMLDivElement>(null);
-  const cNhomRef = useRef<HTMLDivElement>(null);
-  const cStaffRef = useRef<HTMLDivElement>(null);
-  const cHangRef = useRef<HTMLDivElement>(null);
-
   // insight
   const insight = (() => {
     if (!result || result.total === 0) return null;
@@ -168,8 +165,8 @@ function DashboardInner() {
     return { t1, t2, t3, t4 };
   })();
 
-  // chart options
-  const monthlyOpt = (() => {
+  // chart options — stable across tab switches so they don't flicker
+  const monthlyOpt = useMemo(() => {
     if (!result) return null;
     const byMonth = result.byMonth;
     if (byMonth.length === 0) return null;
@@ -192,9 +189,9 @@ function DashboardInner() {
         { name: 'Trung bình', type: 'line' as const, data: byMonth.map(() => avg), yAxisIndex: 0, lineStyle: { color: '#EF4444', type: 'dashed', width: 1.5 }, symbol: 'none' as const, tooltip: { show: false } as any },
       ],
     } as echarts.EChartsOption;
-  })();
+  }, [result]);
 
-  const nhomOpt = (() => {
+  const nhomOpt = useMemo(() => {
     if (!result) return null;
     const top8 = result.byNhom.slice(0, 8);
     if (top8.length === 0) return null;
@@ -206,9 +203,9 @@ function DashboardInner() {
       legend: { bottom: 0, textStyle: { fontSize: 10 }, type: 'scroll' as const },
       series: [{ type: 'pie' as const, radius: ['38%', '65%'], center: ['50%', '44%'], data, label: { formatter: (p: any) => p.percent + '%', fontSize: 11 } }],
     } as echarts.EChartsOption;
-  })();
+  }, [result]);
 
-  const staffOpt = (() => {
+  const staffOpt = useMemo(() => {
     if (!result) return null;
     const staff = result.byKd.filter((x) => x.value > 0);
     if (staff.length === 0) return null;
@@ -219,9 +216,9 @@ function DashboardInner() {
       yAxis: { type: 'category' as const, data: staff.map((e) => e.label).reverse(), axisLabel: { fontSize: 11, width: 135, overflow: 'truncate' as const } },
       series: [{ type: 'bar' as const, data: staff.map((e, i) => ({ value: e.value, itemStyle: { color: COLORS[staff.length - 1 - i] || COLORS[0], borderRadius: [0, 5, 5, 0] } })).reverse(), label: { show: true, position: 'right' as const, formatter: (p: any) => fmts(p.value), fontSize: 10 } }],
     } as echarts.EChartsOption;
-  })();
+  }, [result]);
 
-  const hangOpt = (() => {
+  const hangOpt = useMemo(() => {
     if (!result) return null;
     const top6 = result.byHang.slice(0, 6);
     if (top6.length === 0) return null;
@@ -233,12 +230,9 @@ function DashboardInner() {
       legend: { bottom: 0, textStyle: { fontSize: 11 } },
       series: [{ type: 'pie' as const, radius: ['38%', '65%'], center: ['50%', '44%'], data: hData, label: { formatter: (p: any) => p.percent + '%', fontSize: 11 } }],
     } as echarts.EChartsOption;
-  })();
+  }, [result]);
 
-  useChart(cMonthlyRef, monthlyOpt);
-  useChart(cNhomRef, nhomOpt);
-  useChart(cStaffRef, staffOpt);
-  useChart(cHangRef, hangOpt);
+  // fetchMeta
 
   async function fetchMeta() {
     try {
@@ -485,19 +479,19 @@ function DashboardInner() {
             <div className="grid gap-4 lg:grid-cols-2">
               <div className="rounded-xl bg-white p-4 shadow-[0_1px_4px_rgba(0,0,0,0.07),0_4px_16px_rgba(0,0,0,0.04)]">
                 <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-[#1e293b]"><span className="h-2 w-2 rounded-full" style={{ background: PRIMARY }} />Doanh thu theo tháng</div>
-                <div ref={cMonthlyRef} style={{ width: '100%', height: 280 }} />
+                <Chart option={monthlyOpt} />
               </div>
               <div className="rounded-xl bg-white p-4 shadow-[0_1px_4px_rgba(0,0,0,0.07),0_4px_16px_rgba(0,0,0,0.04)]">
                 <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-[#1e293b]"><span className="h-2 w-2 rounded-full" style={{ background: '#6B60E8' }} />Cơ cấu nhóm hàng (Top 8)</div>
-                <div ref={cNhomRef} style={{ width: '100%', height: 280 }} />
+                <Chart option={nhomOpt} />
               </div>
               <div className="rounded-xl bg-white p-4 shadow-[0_1px_4px_rgba(0,0,0,0.07),0_4px_16px_rgba(0,0,0,0.04)]">
                 <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-[#1e293b]"><span className="h-2 w-2 rounded-full" style={{ background: '#3B82F6' }} />Doanh thu theo nhân viên</div>
-                <div ref={cStaffRef} style={{ width: '100%', height: 280 }} />
+                <Chart option={staffOpt} />
               </div>
               <div className="rounded-xl bg-white p-4 shadow-[0_1px_4px_rgba(0,0,0,0.07),0_4px_16px_rgba(0,0,0,0.04)]">
                 <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-[#1e293b]"><span className="h-2 w-2 rounded-full" style={{ background: '#F59E0B' }} />Cơ cấu hãng sản xuất</div>
-                <div ref={cHangRef} style={{ width: '100%', height: 280 }} />
+                <Chart option={hangOpt} />
               </div>
             </div>
 
