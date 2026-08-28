@@ -63,7 +63,6 @@ export function CustomerForm({ initial = {}, mode, cats, provinces, products, us
     setError('');
     if (!v.ma_kh?.trim()) return setError('Phải có Mã khách hàng.');
     if (!v.ten_kh?.trim()) return setError('Phải có Tên khách hàng.');
-    if (!v.sdt?.trim()) return setError('Phải có Số điện thoại.');
     setSaving(true);
     const err = await onSubmit(v);
     setSaving(false);
@@ -111,7 +110,7 @@ export function CustomerForm({ initial = {}, mode, cats, provinces, products, us
             </div>
             {tier?.description && <p className="mt-1 text-xs text-slate-700">{tier.description}</p>}
           </div>
-          <div><label htmlFor="sdt" className={LABEL}>Số điện thoại *</label><input id="sdt" value={v.sdt ?? ''} onChange={set('sdt')} onBlur={(e) => setV((p) => ({ ...p, sdt: fmtPhones(e.target.value) }))} disabled={disabled} placeholder="0905123456, 0905..." className={FIELD} /></div>
+          <div><label htmlFor="sdt" className={LABEL}>Số điện thoại</label><input id="sdt" value={v.sdt ?? ''} onChange={set('sdt')} onBlur={(e) => setV((p) => ({ ...p, sdt: fmtPhones(e.target.value) }))} disabled={disabled} placeholder="0905123456, 0905..." className={FIELD} /></div>
           <div><label htmlFor="facebook" className={LABEL}>Facebook</label><GrowArea id="facebook" value={v.facebook ?? ''} onChange={set('facebook')} disabled={disabled} className={FIELD} /></div>
           <div className="sm:col-span-2"><label htmlFor="dia_chi" className={LABEL}>Địa chỉ</label><GrowArea id="dia_chi" value={v.dia_chi ?? ''} onChange={set('dia_chi')} disabled={disabled} className={FIELD} /></div>
           <div><label htmlFor="quan_huyen" className={LABEL}>Quận/Huyện</label><input id="quan_huyen" value={v.quan_huyen ?? ''} onChange={set('quan_huyen')} disabled={disabled} className={FIELD} /></div>
