@@ -24,6 +24,47 @@ async function fetchAllRows(admin: any, from: string, to: string) {
   return out;
 }
 
+/** Fallback Node — chỉ dùng khi hàm SQL sales_detail chưa tồn tại. */
+async function nodeFallback(admin: any, from: string, to: string, selKd: string[], selVung: string[], selNhom: string[], selKh: string[], selSp: string[], search: string, page: number, limit: number) {
+  const rows = await fetchAllRows(admin, from, to);
+  try {
+    const { data: custs } = await admin.from('customers').select('ma_kh, tinh_thanh').limit(20000);
+    const custTinh = new Map<string, string>();
+    for (const c of (custs ?? []) as { ma_kh: string; tinh_thanh: string | null }[]) {
+      const ma = String(c.ma_kh ?? '').trim();
+      const tinh = String(c.tinh_thanh ?? '').trim();
+      if (ma && tinh) custTinh.set(ma, tinh);
+    }
+    for (const r of rows) {
+      const ma = String(r.ma_kh ?? '').trim();
+      if (ma && custTinh.has(ma)) r.vung = custTinh.get(ma)!;
+    }
+  } catch {}
+
+  const filtered = rows.filter((r) => {
+    if (selKd.length && !selKd.includes(r.kinh_doanh)) return false;
+    if (selVung.length && !selVung.includes(r.vung)) return false;
+    if (selNhom.length && !selNhom.includes(r.nhom_hang)) return false;
+    if (selKh.length && !selKh.includes(r.ten_kh)) return false;
+    if (selSp.length && !selSp.includes(r.ten_vt)) return false;
+    if (search) {
+      const hay = `${r.ten_kh ?? ''} ${r.ma_kh ?? ''} ${r.ten_vt ?? ''} ${r.ma_vt ?? ''} ${r.so_ct ?? ''} ${r.kinh_doanh ?? ''}`.toLowerCase();
+      if (!hay.includes(search)) return false;
+    }
+    return true;
+  });
+
+  const total = filtered.length;
+  const start = (page - 1) * limit;
+  const pageRows = filtered.slice(start, start + limit).map((r) => ({
+    ngay: r.ngay, so_ct: r.so_ct, ma_vt: r.ma_vt, ten_vt: r.ten_vt,
+    ma_kh: r.ma_kh, ten_kh: r.ten_kh, kinh_doanh: r.kinh_doanh,
+    so_luong: Number(r.so_luong ?? 0), thanh_tien: Number(r.thanh_tien ?? 0),
+    vung: r.vung, nhom_hang: r.nhom_hang,
+  }));
+  return { rows: pageRows, total, page, limit, hasMore: start + limit < total, engine: 'node' };
+}
+
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
@@ -37,49 +78,34 @@ export async function POST(req: NextRequest) {
     const selNhom: string[] = Array.isArray(body.nhom) ? body.nhom : [];
     const selKh: string[] = Array.isArray(body.kh) ? body.kh : [];
     const selSp: string[] = Array.isArray(body.sp) ? body.sp : [];
-    const search = String(body.search ?? '').trim().toLowerCase();
+    const search = String(body.search ?? '').trim();
 
     const admin = createClient(URL, SRV, { auth: { autoRefreshToken: false, persistSession: false } });
-    const rows = await fetchAllRows(admin, from, to);
 
-    // Tỉnh: ưu tiên lấy từ hệ thống theo Mã KH
+    // Ưu tiên hàm SQL (DB tự lọc + phân trang). Nếu chưa chạy migration 0020 thì fallback Node.
     try {
-      const { data: custs } = await admin.from('customers').select('ma_kh, tinh_thanh').limit(20000);
-      const custTinh = new Map<string, string>();
-      for (const c of (custs ?? []) as { ma_kh: string; tinh_thanh: string | null }[]) {
-        const ma = String(c.ma_kh ?? '').trim();
-        const tinh = String(c.tinh_thanh ?? '').trim();
-        if (ma && tinh) custTinh.set(ma, tinh);
+      const { data, error } = await admin.rpc('sales_detail', {
+        p_from: from, p_to: to,
+        p_kd: selKd.length ? selKd : null,
+        p_vung: selVung.length ? selVung : null,
+        p_nhom: selNhom.length ? selNhom : null,
+        p_kh: selKh.length ? selKh : null,
+        p_sp: selSp.length ? selSp : null,
+        p_search: search || null,
+        p_page: page, p_limit: limit,
+      });
+      if (!error && data) {
+        return NextResponse.json({ ...(data as any), page, limit });
       }
-      for (const r of rows) {
-        const ma = String(r.ma_kh ?? '').trim();
-        if (ma && custTinh.has(ma)) r.vung = custTinh.get(ma)!;
+      if (error && String((error as any).code) !== 'PGRST202' && String((error as any).code) !== '42883') throw error;
+    } catch (rpcErr: any) {
+      if (String(rpcErr?.code) !== 'PGRST202' && String(rpcErr?.code) !== '42883') {
+        // lỗi khác -> vẫn thử fallback Node
       }
-    } catch {}
+    }
 
-    const filtered = rows.filter((r) => {
-      if (selKd.length && !selKd.includes(r.kinh_doanh)) return false;
-      if (selVung.length && !selVung.includes(r.vung)) return false;
-      if (selNhom.length && !selNhom.includes(r.nhom_hang)) return false;
-      if (selKh.length && !selKh.includes(r.ten_kh)) return false;
-      if (selSp.length && !selSp.includes(r.ten_vt)) return false;
-      if (search) {
-        const hay = `${r.ten_kh ?? ''} ${r.ma_kh ?? ''} ${r.ten_vt ?? ''} ${r.ma_vt ?? ''} ${r.so_ct ?? ''} ${r.kinh_doanh ?? ''}`.toLowerCase();
-        if (!hay.includes(search)) return false;
-      }
-      return true;
-    });
-
-    const total = filtered.length;
-    const start = (page - 1) * limit;
-    const pageRows = filtered.slice(start, start + limit).map((r) => ({
-      ngay: r.ngay, so_ct: r.so_ct, ma_vt: r.ma_vt, ten_vt: r.ten_vt,
-      ma_kh: r.ma_kh, ten_kh: r.ten_kh, kinh_doanh: r.kinh_doanh,
-      so_luong: Number(r.so_luong ?? 0), thanh_tien: Number(r.thanh_tien ?? 0),
-      vung: r.vung, nhom_hang: r.nhom_hang,
-    }));
-
-    return NextResponse.json({ rows: pageRows, total, page, limit, hasMore: start + limit < total });
+    const result = await nodeFallback(admin, from, to, selKd, selVung, selNhom, selKh, selSp, search.toLowerCase(), page, limit);
+    return NextResponse.json(result);
   } catch (e: any) {
     if (e?.message === 'TABLE_MISSING') {
       return NextResponse.json({ error: 'Bảng sales_rows chưa tồn tại — vui lòng chạy migration 0019_sales_rows.sql trong Supabase SQL Editor.' }, { status: 500 });
