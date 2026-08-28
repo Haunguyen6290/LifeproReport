@@ -20,6 +20,8 @@ const DM = [
   { slug: 'tinh_thanh', name: 'Tỉnh/Thành phố' },
   { slug: 'trang_thai_chien_dich', name: 'Trạng thái chiến dịch' },
   { slug: 'nhom_van_de_kho', name: 'Nhóm vấn đề kho' },
+  { slug: 'okr_o_template', name: 'O mẫu (OKRs)' },
+  { slug: 'okr_kr_template', name: 'KR mẫu (OKRs)' },
 ];
 
 type Item = { id: string; code: string; name: string; description: string; sort_order: number };
