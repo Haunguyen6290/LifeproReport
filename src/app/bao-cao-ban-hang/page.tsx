@@ -281,7 +281,7 @@ function DashboardInner() {
   useEffect(() => { fetchMeta(); }, []);
 
   function buildFilters() {
-    const body: any = { from: fromDate, to: toDate };
+    const body: any = {};
     if (selKd.length) body.kd = selKd;
     if (selVung.length) body.vung = selVung;
     if (selNhom.length) body.nhom = selNhom;
@@ -304,18 +304,21 @@ function DashboardInner() {
       if (!res.ok) throw new Error(j?.error ?? 'Lỗi query');
       setResult(j);
       setFilterOpts({ kd: j.options?.kd ?? [], vung: j.options?.vung ?? [], nhom: j.options?.nhom ?? [], kh: j.options?.kh ?? [], sp: j.options?.sp ?? [] });
-      // reset detail & load page 1
+      // reset detail & load page 1 — truyền f/t trực tiếp để Chi tiết dùng đúng kỳ vừa Chạy (không đọc state cũ)
       setDetailPage(1); setDetailSearch('');
-      await loadDetail(1, '');
+      await loadDetail(1, '', false, f, t);
     } catch (e: any) { setErr(e?.message ?? String(e)); }
     finally { setLoading(false); }
   }
 
-  async function loadDetail(page: number, search: string, append = false) {
-    if (!fromDate || !toDate) return;
+  async function loadDetail(page: number, search: string, append = false, f?: string, t?: string) {
+    const ff = f ?? fromDate;
+    const tt = t ?? toDate;
+    if (!ff || !tt) return;
     setDetailLoading(true);
     try {
       const body = buildFilters();
+      body.from = ff; body.to = tt;
       body.page = page; body.limit = 20;
       if (search.trim()) body.search = search.trim();
       const res = await fetch('/api/sales/detail', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
@@ -538,32 +541,43 @@ function DashboardInner() {
               <p className="py-8 text-center text-sm text-[#64748b]">Không có dòng chi tiết nào trong kỳ/bộ lọc này.</p>
             ) : (
               <div className="overflow-x-auto">
-                <table className="w-full text-sm">
+                <table className="w-full text-[10px] leading-[1.5]">
+                  <colgroup>
+                    <col style={{ width: '7%' }} />
+                    <col style={{ width: '11%' }} />
+                    <col style={{ width: '24%' }} />
+                    <col style={{ width: '9%' }} />
+                    <col style={{ width: '20%' }} />
+                    <col style={{ width: '11%' }} />
+                    <col style={{ width: '9%' }} />
+                    <col style={{ width: '4%' }} />
+                    <col style={{ width: '5%' }} />
+                  </colgroup>
                   <thead>
-                    <tr className="border-b border-[#e2e8f0] text-left text-xs font-bold text-[#64748b]">
-                      <th className="py-2">Ngày</th>
-                      <th className="py-2">Số CT</th>
-                      <th className="py-2">Tên vật tư</th>
-                      <th className="py-2">Mã KH</th>
-                      <th className="py-2">Tên KH</th>
-                      <th className="py-2">Kinh doanh</th>
-                      <th className="py-2">Tỉnh</th>
-                      <th className="py-2 text-right">SL</th>
-                      <th className="py-2 text-right">Thành tiền</th>
+                    <tr className="border-b border-[#e2e8f0] text-left text-[10px] font-bold text-[#64748b]">
+                      <th className="py-1.5">Ngày</th>
+                      <th className="py-1.5">Số CT</th>
+                      <th className="py-1.5">Tên vật tư</th>
+                      <th className="py-1.5">Mã KH</th>
+                      <th className="py-1.5">Tên KH</th>
+                      <th className="py-1.5">Kinh doanh</th>
+                      <th className="py-1.5">Tỉnh</th>
+                      <th className="py-1.5 text-right">SL</th>
+                      <th className="py-1.5 text-right">Thành tiền</th>
                     </tr>
                   </thead>
                   <tbody>
                     {detailRows.map((r, i) => (
                       <tr key={`${r.so_ct}-${r.ma_vt}-${i}`} className="border-t border-[#f1f5f9] hover:bg-[#f8fafc]">
-                        <td className="py-2 text-[#64748b]">{r.ngay}</td>
-                        <td className="py-2 font-mono text-xs text-[#334155]">{r.so_ct}</td>
-                        <td className="py-2 text-[#1e293b] line-clamp-1" title={r.ten_vt}>{r.ten_vt}</td>
-                        <td className="py-2 font-mono text-xs text-[#334155]">{r.ma_kh}</td>
-                        <td className="py-2 text-[#1e293b] line-clamp-1" title={r.ten_kh}>{r.ten_kh}</td>
-                        <td className="py-2 text-[#334155]">{r.kinh_doanh}</td>
-                        <td className="py-2 text-[#334155]">{r.vung || '–'}</td>
-                        <td className="py-2 text-right">{(r.so_luong ?? 0).toLocaleString('vi-VN')}</td>
-                        <td className="py-2 text-right font-semibold text-[#0d7a59]">{fmtFull(r.thanh_tien)}</td>
+                        <td className="py-1.5 text-[#64748b]">{r.ngay}</td>
+                        <td className="py-1.5 font-mono text-[9px] text-[#334155]">{r.so_ct}</td>
+                        <td className="py-1.5 text-[#1e293b] line-clamp-1" title={r.ten_vt}>{r.ten_vt}</td>
+                        <td className="py-1.5 font-mono text-[9px] text-[#334155]">{r.ma_kh}</td>
+                        <td className="py-1.5 text-[#1e293b] line-clamp-1" title={r.ten_kh}>{r.ten_kh}</td>
+                        <td className="py-1.5 text-[#334155]">{r.kinh_doanh}</td>
+                        <td className="py-1.5 text-[#334155]">{r.vung || '–'}</td>
+                        <td className="py-1.5 text-right">{(r.so_luong ?? 0).toLocaleString('vi-VN')}</td>
+                        <td className="py-1.5 text-right font-semibold text-[#0d7a59]">{fmtFull(r.thanh_tien)}</td>
                       </tr>
                     ))}
                   </tbody>
