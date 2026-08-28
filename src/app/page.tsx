@@ -262,12 +262,18 @@ function ScreenInner() {
         supabase.from('customers').select('*'),
         supabase.from('market_news').select('id, type:category_items!market_news_type_id_fkey(name), content, status, conclusion_resolved').order('created_at', { ascending: false }).limit(6),
         supabase.from('campaigns').select('id, name, type:category_items!campaigns_type_id_fkey(name), status:category_items!campaigns_status_id_fkey(name)').order('created_at', { ascending: false }).limit(6),
-        supabase.from('profiles').select('id, username, full_name').eq('status', 'ACTIVE'),
+        supabase.from('profiles').select('id, username, full_name, roles(name)').eq('status', 'ACTIVE'),
       ]);
       const rows = (kh.data ?? []) as unknown as Record<string, any>[];
-      const profiles = (users.data ?? []) as { id: string; username: string; full_name: string }[];
+      const profiles = (users.data ?? []) as { id: string; username: string; full_name: string; roles?: { name: string } | { name: string }[] | null }[];
+      const roleName = (p: { roles?: { name: string } | { name: string }[] | null }) => {
+        const r = p.roles;
+        if (!r) return '';
+        return Array.isArray(r) ? (r[0]?.name ?? '') : (r.name ?? '');
+      };
       const admin = profiles.find((p) => p.username === 'admin');
-      const others = profiles.filter((p) => p.username !== 'admin');
+      // Chỉ thống kê nhân viên KINH DOANH (KINH_DOANH / SALES) — không tính cả công ty
+      const others = profiles.filter((p) => p.username !== 'admin' && ['KINH_DOANH', 'SALES'].includes(roleName(p)));
       const list: NV[] = others.map((u) => {
         const mine = rows.filter((r) => String(r.assigned_to) === String(u.id));
         return { hoTen: u.full_name, soKh: mine.length, thieuVH: mine.filter((r) => filled(r, VH) < 2).length, thieuKT: mine.filter((r) => filled(r, KT) < 2).length };
