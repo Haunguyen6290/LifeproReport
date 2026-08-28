@@ -52,7 +52,11 @@ export async function POST(req: NextRequest) {
     const khOpts = [...new Set(filtered.map((r) => r.ten_kh).filter(Boolean))].sort();
 
     const total = filtered.reduce((s, r) => s + Number(r.thanh_tien ?? 0), 0);
+    const totalQty = filtered.reduce((s, r) => s + Number(r.so_luong ?? 0), 0);
     const count = filtered.length;
+    const soHoaDon = new Set(filtered.map((r) => String(r.so_ct ?? '').trim()).filter(Boolean)).size;
+    const soKhachHang = new Set(filtered.map((r) => String(r.ma_kh ?? '').trim()).filter(Boolean)).size;
+    const avgValue = soHoaDon > 0 ? total / soHoaDon : 0;
 
     const kdMap = new Map<string, number>();
     for (const r of filtered) kdMap.set(r.kinh_doanh || '(trống)', (kdMap.get(r.kinh_doanh || '(trống)') ?? 0) + Number(r.thanh_tien ?? 0));
@@ -66,23 +70,42 @@ export async function POST(req: NextRequest) {
     for (const r of filtered) nhomMap.set(r.nhom_hang || '(không rõ)', (nhomMap.get(r.nhom_hang || '(không rõ)') ?? 0) + Number(r.thanh_tien ?? 0));
     const byNhom = [...nhomMap.entries()].sort((a, b) => b[1] - a[1]).map(([label, value]) => ({ label, value }));
 
+    const hangMap = new Map<string, number>();
+    for (const r of filtered) hangMap.set(r.hang_sx || '(không rõ)', (hangMap.get(r.hang_sx || '(không rõ)') ?? 0) + Number(r.thanh_tien ?? 0));
+    const byHang = [...hangMap.entries()].sort((a, b) => b[1] - a[1]).map(([label, value]) => ({ label, value }));
+
     const khMap = new Map<string, number>();
     for (const r of filtered) khMap.set(r.ten_kh || r.ma_kh || '(không rõ)', (khMap.get(r.ten_kh || r.ma_kh || '(không rõ)') ?? 0) + Number(r.thanh_tien ?? 0));
-    const byKh = [...khMap.entries()].sort((a, b) => b[1] - a[1]).slice(0, 10).map(([label, value]) => ({ label, value }));
+    const byKh = [...khMap.entries()].sort((a, b) => b[1] - a[1]).map(([label, value]) => ({ label, value }));
 
-    const spMap = new Map<string, { total: number; count: number }>();
+    // Doanh thu + số HĐ theo tháng (cho chart cột+đường)
+    const monthMap = new Map<string, { dt: number; hd: Set<string> }>();
+    for (const r of filtered) {
+      const m = String(r.sale_month ?? '');
+      if (!m) continue;
+      const cur = monthMap.get(m) ?? { dt: 0, hd: new Set<string>() };
+      cur.dt += Number(r.thanh_tien ?? 0);
+      const sc = String(r.so_ct ?? '').trim();
+      if (sc) cur.hd.add(sc);
+      monthMap.set(m, cur);
+    }
+    const byMonth = [...monthMap.entries()].sort((a, b) => a[0].localeCompare(b[0])).map(([m, v]) => ({ m, dt: v.dt, hd: v.hd.size }));
+
+    const spMap = new Map<string, { total: number; qty: number; count: number }>();
     for (const r of filtered) {
       const k = r.ten_vt || r.ma_vt || '(không rõ)';
-      const cur = spMap.get(k) ?? { total: 0, count: 0 };
+      const cur = spMap.get(k) ?? { total: 0, qty: 0, count: 0 };
       cur.total += Number(r.thanh_tien ?? 0);
+      cur.qty += Number(r.so_luong ?? 0);
       cur.count += 1;
       spMap.set(k, cur);
     }
-    const topSp = [...spMap.entries()].sort((a, b) => b[1].total - a[1].total).slice(0, 10).map(([label, v]) => ({ label, total: v.total, count: v.count }));
+    const topSp = [...spMap.entries()].sort((a, b) => b[1].total - a[1].total).slice(0, 15).map(([label, v]) => ({ label, total: v.total, qty: v.qty, count: v.count }));
+    const topSpQty = [...spMap.entries()].sort((a, b) => b[1].qty - a[1].qty).slice(0, 15).map(([label, v]) => ({ label, total: v.total, qty: v.qty, count: v.count }));
 
     return NextResponse.json({
-      total, count,
-      byKd, byVung, byNhom, byKh, topSp,
+      total, totalQty, count, soHoaDon, soKhachHang, avgValue,
+      byKd, byVung, byNhom, byHang, byKh, byMonth, topSp, topSpQty,
       options: { kd: kdOpts, vung: vungOpts, nhom: nhomOpts, kh: khOpts },
       meta: { scanned: rows.length, filtered: filtered.length },
     });
