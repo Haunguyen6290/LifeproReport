@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task inline (no subagents per owner decision). Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Import file Excel sổ chi tiết bán hàng Odoo, lưu vài năm trong DB, ánh xạ/gộp tên NVKD, và hiển thị dashboard 1 trang với 5 báo cáo + 4 chiều lọc.
+**Goal:** Import file Excel sổ chi tiết bán hàng Odoo, lưu vài năm trong DB, ánh xạ/gộp tên NVKD, và hiển thị dashboard 1 trang với 5 báo cáo + 5 bộ lọc (tháng/quý/năm/tùy ngày + NVKD + Tỉnh + Nhóm hàng + Khách hàng).
 
 **Architecture:** Bảng `sales_rows` lưu mỗi dòng Excel (ghi đè theo `sale_month`). Settings `SALES_ALLOWED_NAMES` + `SALES_NAME_MAP` cho phép owner tự chỉnh. API `POST /api/sales/import` parse bằng `xlsx` (dò header theo tên cột), filter/map, delete tháng cũ, bulk insert, trả về cảnh báo khách mới. Dashboard `/bao-cao-ban-hang` query `sales_rows` theo `ngay` + filter, aggregate client-side và vẽ Chart.js (dùng CDN hoặc `chart.js` + `react` wrapper tự vẽ canvas). Import UI tại `/bao-cao-ban-hang/import`.
 
@@ -15,7 +15,7 @@
 - Next.js 16.3.1 — đọc `node_modules/next/dist/docs/` nếu cần, không giả định API cũ.
 - DB: Supabase project `kibxnlhgdprkevqnbtfy` — service_role `sb_secret_SB2Nzf4GaMZCYxAnfIp53w_RYEnvA8k` (đã fix `sb_`).
 - File Excel thực tế: header ở dòng chứa `Số CT` + `Thành tiền` (row 8 trong file mẫu), không hardcode index.
-- Chỉ tính 5 NVKD ban đầu; ô trống/tên khác bỏ qua. Ánh xạ SG/Công → Chính qua settings.
+- Chỉ tính 5 NVKD ban đầu; ô trống/tên khác bỏ qua. Ánh xạ SG/Công → Chính qua settings. Thêm filter Khách hàng (Mã KH/Tên KH).
 - Ghi đè theo `sale_month` (YYYY-MM từ cột `Ngày`).
 - Lưu vài năm (≤100k rows) — dashboard chỉ query theo khoảng ngày được lọc.
 - Owner non-tech — settings editor phải có UI bảng thêm/xóa dòng, không bắt gõ JSON thô.
@@ -298,8 +298,8 @@ git commit -m "feat(sales): editor SALES_ALLOWED_NAMES + SALES_NAME_MAP trong ca
 
 - [ ] **Step 2: Trang dashboard**
 
-- Bộ lọc: `Tháng | Quý | Năm | Tùy chọn (từ ngày - đến ngày)` — render 4 nút + 2 input date khi chọn Tùy chọn. `Nhân viên` (multi select từ `SALES_ALLOWED_NAMES` đã map), `Tỉnh` (distinct `vung` từ DB), `Nhóm hàng` (distinct `nhom_hang`).
-- Fetch: `supabase.from('sales_rows').select('*').gte('ngay', from).lte('ngay', to)` (+ filter `in` nếu chọn).
+- Bộ lọc: `Tháng | Quý | Năm | Tùy chọn (từ ngày - đến ngày)` — render 4 nút + 2 input date khi chọn Tùy chọn. `Nhân viên` (multi select từ `SALES_ALLOWED_NAMES` đã map), `Tỉnh` (distinct `vung` từ DB), `Nhóm hàng` (distinct `nhom_hang`), `Khách hàng` (theo Mã KH/Tên KH, multi/combobox).
+- Fetch: `supabase.from('sales_rows').select('*').gte('ngay', from).lte('ngay', to)` (+ filter `in` nếu chọn, gồm cả `ten_kh`/`ma_kh`).
 - Aggregate client:
   1. KPI: `sum(thanh_tien)`, `count`.
   2. Theo NV: `groupBy(kinh_doanh) sum(thanh_tien)` → bar chart.
@@ -361,7 +361,7 @@ git push
 
 ## Self-Review
 
-- **Spec coverage:** Đủ 5 báo cáo + 4 chiều lọc + map tên + ghi đè tháng + cảnh báo khách mới + lưu vài năm + trang riêng. Quyền: import cần `quan_ly_cai_dat`, xem dashboard cho mọi authenticated.
+- **Spec coverage:** Đủ 5 báo cáo + 5 bộ lọc (tháng/quý/năm/tùy ngày + NV, tỉnh, nhóm hàng, khách hàng) + map tên + ghi đè tháng + cảnh báo khách mới + lưu vài năm + trang riêng. Quyền: import cần `quan_ly_cai_dat`, xem dashboard cho mọi authenticated.
 - **Placeholder scan:** Không có TODO/TBD.
 - **Type consistency:** `sales_rows.kinh_doanh` là tên đã map; `kinh_doanh_raw` giữ gốc để debug. `sale_month` là `YYYY-MM` string, không phải date.
 - **Không làm trong mảnh này:** Bảng tin/tag @ (A), bot tự động (C), tự tạo khách hàng từ cảnh báo.

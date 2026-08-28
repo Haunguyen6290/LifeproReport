@@ -9,7 +9,7 @@
 ## 1) Mục tiêu
 
 - Cho phép Admin import file Excel `.xls` xuất từ Odoo (mẫu `ACC.15 - Sổ chi tiết bán hàng ... .xls`), lưu vào DB để xem lại qua nhiều năm mà không nặng.
-- Dashboard 1 trang riêng với 5 báo cáo, bộ lọc linh hoạt (tháng/quý/năm/tùy ngày, theo NVKD, tỉnh, nhóm hàng). Sau này thêm báo cáo chỉ việc thêm khối mới.
+- Dashboard 1 trang riêng với 5 báo cáo, bộ lọc linh hoạt (tháng/quý/năm/tùy ngày, theo NVKD, tỉnh, nhóm hàng, khách hàng). Sau này thêm báo cáo chỉ việc thêm khối mới.
 - Chỉ tính 5 NVKD ban đầu; tên khác và ô trống bỏ qua. Có ánh xạ tên (SG/Công → Chính) để gộp doanh số. Có cảnh báo khách mới chưa có trong hệ thống.
 
 ## 2) Đầu vào (file thực tế đã đọc)
@@ -81,8 +81,8 @@ create index idx_sales_ngay on public.sales_rows (ngay);
 ### 4.4 Dashboard
 
 - Route mới: `/bao-cao-ban-hang` (1 trang riêng).
-- Bộ lọc trên cùng: `Tháng | Quý | Năm | Tùy chọn (từ ngày - đến ngày)` + `Nhân viên (multi)` + `Tỉnh (Vùng)` + `Nhóm hàng`.
-- Query: `select ... from sales_rows where ngay between :from and :to and kinh_doanh in (...) and vung in (...) and nhom_hang in (...)`. Gom nhóm ở server hoặc client (dưới 10k rows/filter thì client OK; lớn hơn thì aggregate ở server).
+- Bộ lọc trên cùng: `Tháng | Quý | Năm | Tùy chọn (từ ngày - đến ngày)` + `Nhân viên (multi)` + `Tỉnh (Vùng)` + `Nhóm hàng` + `Khách hàng (theo Mã KH/Tên KH trong file, multi)`.
+- Query: `select ... from sales_rows where ngay between :from and :to and kinh_doanh in (...) and vung in (...) and nhom_hang in (...) and ten_kh in (...)`. Gom nhóm ở server hoặc client (dưới 10k rows/filter thì client OK; lớn hơn thì aggregate ở server).
 - 5 khối (dùng Chart.js):
   1. KPI: Tổng Thành tiền + Tổng số dòng (đơn).
   2. Cột: Doanh số theo nhân viên (`kinh_doanh`).
@@ -119,5 +119,5 @@ create index idx_sales_ngay on public.sales_rows (ngay);
 
 - Import file mẫu `ACC.15 ... .xls` thành công, data lưu DB, import lại cùng tháng ghi đè đúng.
 - Đổi ánh xạ trong Cài đặt chung và thấy dashboard gộp đúng.
-- Dashboard lọc theo tháng/quý/năm/tùy ngày + 3 chiều (NV, tỉnh, nhóm hàng) ra đúng 5 báo cáo.
+- Dashboard lọc theo tháng/quý/năm/tùy ngày + 4 chiều (NV, tỉnh, nhóm hàng, khách hàng) ra đúng 5 báo cáo.
 - Build xanh, push Vercel OK.
