@@ -234,48 +234,36 @@ function DashboardInner() {
 
   // fetchMeta
 
+  // Lần 1 (meta) chỉ lấy danh sách tháng/năm (rất nhẹ) để chọn kỳ mới nhất,
+  // rồi await luôn lần 2 (Chạy báo cáo) — giữ skeleton tới khi có số liệu => cảm giác 1 lần load.
   async function fetchMeta() {
+    let from = '', to = '';
     try {
       const res = await fetch('/api/sales/meta');
       const j = await res.json();
-      let didInit = false;
-      if (j.months && Array.isArray(j.months) && j.months.length > 0) {
-        const inf = j.months[0] as string;
-        if (inf && /^\d{4}-\d{2}$/.test(inf)) {
-          const [yStr, mStr] = inf.split('-');
-          const y = Number(yStr), m = Number(mStr);
-          if (!isNaN(y) && !isNaN(m)) {
-            setSelYear(y); setSelMonth(m); setSelQuarter(Math.ceil(m / 3));
-            const { from, to } = monthRange(y, m);
-            setFromDate(from); setToDate(to);
-            if (Array.isArray(j.years) && j.years.length > 0) {
-              const ys = (j.years as string[]).map(Number).filter((n) => !isNaN(n)).sort((a, b) => b - a);
-              if (ys.length) setAvailableYears(ys);
-            }
-            setMode('month');
-            setInitializing(false);
-            runQuery({ from, to });
-            didInit = true;
+      if (Array.isArray(j.months) && j.months.length > 0 && /^\d{4}-\d{2}$/.test(String(j.months[0]))) {
+        const [yStr, mStr] = String(j.months[0]).split('-');
+        const y = Number(yStr), m = Number(mStr);
+        if (!isNaN(y) && !isNaN(m)) {
+          setSelYear(y); setSelMonth(m); setSelQuarter(Math.ceil(m / 3));
+          const r = monthRange(y, m); from = r.from; to = r.to;
+          if (Array.isArray(j.years) && j.years.length > 0) {
+            const ys = (j.years as string[]).map(Number).filter((n) => !isNaN(n)).sort((a, b) => b - a);
+            if (ys.length) setAvailableYears(ys);
           }
+          setMode('month');
         }
       }
-      if (didInit) return;
-      if (Array.isArray(j.years) && j.years.length > 0) {
-        const ys = (j.years as string[]).map(Number).filter((n) => !isNaN(n)).sort((a, b) => b - a);
-        if (ys.length) setAvailableYears(ys);
+      if (!from) {
+        const y = new Date().getFullYear(), m = new Date().getMonth() + 1;
+        const r = monthRange(y, m); from = r.from; to = r.to;
       }
-      const y = new Date().getFullYear(), m = new Date().getMonth() + 1;
-      const { from, to } = monthRange(y, m);
-      setFromDate(from); setToDate(to);
-      setInitializing(false);
-      runQuery({ from, to });
     } catch {
       const y = new Date().getFullYear(), m = new Date().getMonth() + 1;
-      const { from, to } = monthRange(y, m);
-      setFromDate(from); setToDate(to);
-      setInitializing(false);
-      runQuery({ from, to });
+      const r = monthRange(y, m); from = r.from; to = r.to;
     }
+    setFromDate(from); setToDate(to);
+    try { await runQuery({ from, to }); } finally { setInitializing(false); }
   }
 
   useEffect(() => { fetchMeta(); }, []);
