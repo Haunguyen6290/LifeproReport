@@ -1,47 +1,35 @@
 'use client';
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { supabase } from '@/lib/supabase/client';
+import { useEffect, useRef, useState, useMemo } from 'react';
 import { RequireAuth } from '@/components/RequireAuth';
 import { AppSidebar } from '@/components/AppSidebar';
-import { fmtDateVN } from '@/lib/time';
 import { Chart, registerables } from 'chart.js';
 Chart.register(...registerables);
 
-type Row = {
-  id: string; ngay: string; sale_month: string; ma_vt: string; ten_vt: string;
-  ma_kh: string; ten_kh: string; kinh_doanh: string; kinh_doanh_raw: string;
-  so_luong: number | null; don_gia: number | null; thanh_tien: number;
-  vung: string; hang_sx: string; nhom_hang: string; ma_nv: string;
-};
+// ── helpers ──
+function fmtMoney(n: number) { return new Intl.NumberFormat('vi-VN').format(Math.round(n)) + ' đ'; }
+function daysInMonth(y: number, m: number) { return new Date(y, m, 0).getDate(); } // m 1-12
+function monthRange(y: number, m: number) { return { from: `${String(y)}-${String(m).padStart(2, '0')}-01` as string, to: `${String(y)}-${String(m).padStart(2, '0')}-${String(daysInMonth(y, m)).padStart(2, '0')}` as string }; }
+function quarterRange(y: number, q: number) { const m1 = (q - 1) * 3 + 1, m2 = q * 3; return { from: `${String(y)}-${String(m1).padStart(2, '0')}-01`, to: `${String(y)}-${String(m2).padStart(2, '0')}-${String(daysInMonth(y, m2)).padStart(2, '0')}` }; }
+function yearRange(y: number) { return { from: `${String(y)}-01-01`, to: `${String(y)}-12-31` }; }
+
+function inferPeriod(from: string, to: string): { mode: PeriodMode; y?: number; m?: number; q?: number } {
+  if (!from || !to) return { mode: 'custom' };
+  const parse = (d: string) => { const [yy, mm, dd] = d.split('-').map(Number); return { y: yy, m: mm, d: dd }; };
+  const a = parse(from), b = parse(to);
+  if (isNaN(a.y) || isNaN(b.y)) return { mode: 'custom' };
+  // full year?
+  if (a.m === 1 && a.d === 1 && b.m === 12 && b.d === 31 && a.y === b.y) return { mode: 'year', y: a.y };
+  // full quarter?
+  if (a.m % 3 === 1 && a.d === 1 && b.d === daysInMonth(b.y, b.m) && a.y === b.y) {
+    const qA = Math.ceil(a.m / 3), qB = Math.ceil(b.m / 3);
+    if (qA === qB) return { mode: 'quarter', y: a.y, q: qA };
+  }
+  // full month?
+  if (a.y === b.y && a.m === b.m && a.d === 1 && b.d === daysInMonth(b.y, b.m)) return { mode: 'month', y: a.y, m: a.m };
+  return { mode: 'custom' };
+}
 
 type PeriodMode = 'month' | 'quarter' | 'year' | 'custom';
-
-function fmtMoney(n: number) {
-  return new Intl.NumberFormat('vi-VN').format(Math.round(n)) + ' đ';
-}
-
-function getMonthOptions(rows: Row[]) {
-  const set = new Set(rows.map((r) => r.sale_month).filter(Boolean));
-  return [...set].sort().reverse();
-}
-
-function getQuarters(from: string, to: string) {
-  // from/to are YYYY-MM-DD
-  const s = new Date(from), e = new Date(to);
-  const out: { label: string; from: string; to: string }[] = [];
-  let cur = new Date(s.getFullYear(), Math.floor(s.getMonth() / 3) * 3, 1);
-  while (cur <= e) {
-    const q = Math.floor(cur.getMonth() / 3) + 1;
-    const qStart = new Date(cur.getFullYear(), (q - 1) * 3, 1);
-    const qEnd = new Date(cur.getFullYear(), q * 3, 0);
-    const fromStr = qStart.toISOString().slice(0, 10);
-    const toStr = qEnd.toISOString().slice(0, 10);
-    // only include if overlaps with [from,to]
-    if (toStr >= from && fromStr <= to) out.push({ label: `Q${q} ${cur.getFullYear()}`, from: fromStr, to: toStr });
-    cur = new Date(cur.getFullYear(), cur.getMonth() + 3, 1);
-  }
-  return out;
-}
 
 function BarChart({ labels, data, title }: { labels: string[]; data: number[]; title: string }) {
   const ref = useRef<HTMLCanvasElement>(null);
@@ -52,23 +40,10 @@ function BarChart({ labels, data, title }: { labels: string[]; data: number[]; t
     if (labels.length === 0) return;
     chartRef.current = new Chart(ref.current, {
       type: 'bar',
-      data: {
-        labels,
-        datasets: [{
-          label: title,
-          data,
-          backgroundColor: '#0d6efd',
-          borderRadius: 6 as any,
-          barThickness: labels.length > 10 ? 18 : 28,
-        }],
-      },
+      data: { labels, datasets: [{ label: title, data, backgroundColor: '#0d6efd', borderRadius: 6 as any, barThickness: labels.length > 10 ? 18 : 28 }] },
       options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: { display: false },
-          tooltip: { callbacks: { label: (ctx: any) => ` ${fmtMoney(ctx.parsed.y)}` } },
-        },
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false }, tooltip: { callbacks: { label: (ctx: any) => ` ${fmtMoney(ctx.parsed.y)}` } } },
         scales: {
           y: { beginAtZero: true, ticks: { callback: (v: any) => new Intl.NumberFormat('vi-VN', { notation: 'compact' }).format(Number(v)) } },
           x: { ticks: { maxRotation: 30 } },
@@ -122,163 +97,207 @@ function FilterDropdown({ label, options, selected, onChange, searchable }: { la
   );
 }
 
+type QueryResult = {
+  total: number; count: number;
+  byKd: { label: string; value: number }[];
+  byVung: { label: string; value: number }[];
+  byNhom: { label: string; value: number }[];
+  byKh: { label: string; value: number }[];
+  topSp: { label: string; total: number; count: number }[];
+  options: { kd: string[]; vung: string[]; nhom: string[]; kh: string[] };
+  meta: { scanned: number; filtered: number };
+};
+
 function DashboardInner() {
-  const [rows, setRows] = useState<Row[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [err, setErr] = useState('');
-
-  // Period
+  // period — dòng trên (tabs) + dòng dưới (từ → đến)
   const [mode, setMode] = useState<PeriodMode>('month');
-  const now = useMemo(() => new Date(), []);
-  const defaultMonth = useMemo(() => `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`, [now]);
-  const [pickMonth, setPickMonth] = useState(defaultMonth);
-  const [pickQuarter, setPickQuarter] = useState('');
-  const [pickYear, setPickYear] = useState(String(now.getFullYear()));
-  const [customFrom, setCustomFrom] = useState('');
-  const [customTo, setCustomTo] = useState('');
+  const [selYear, setSelYear] = useState<number>(() => new Date().getFullYear());
+  const [selMonth, setSelMonth] = useState<number>(() => new Date().getMonth() + 1);
+  const [selQuarter, setSelQuarter] = useState<number>(() => Math.ceil((new Date().getMonth() + 1) / 3));
+  const nowRef = useRef(new Date());
 
-  // Multi filters
+  const [fromDate, setFromDate] = useState('');
+  const [toDate, setToDate] = useState('');
+
+  // derive years available from meta, fallback to current year ±5
+  const [availableYears, setAvailableYears] = useState<number[]>(() => {
+    const y = nowRef.current.getFullYear();
+    return [y + 1, y, y - 1, y - 2, y - 3, y - 4].filter((v) => v >= 2020);
+  });
+  const [availableMonths, setAvailableMonths] = useState<string[]>([]);
+
+  // filters
   const [selKd, setSelKd] = useState<string[]>([]);
   const [selVung, setSelVung] = useState<string[]>([]);
   const [selNhom, setSelNhom] = useState<string[]>([]);
   const [selKh, setSelKh] = useState<string[]>([]);
+  const [filterOpts, setFilterOpts] = useState<{ kd: string[]; vung: string[]; nhom: string[]; kh: string[] }>({ kd: [], vung: [], nhom: [], kh: [] });
 
-  // Fetch all rows (paginated, but for now limit 10000)
-  async function load() {
-    setLoading(true); setErr('');
-    const { data, error } = await supabase.from('sales_rows').select('*').order('ngay', { ascending: false }).limit(10000);
-    if (error) {
-      if (String(error.message).includes('not find') || String((error as any).code) === 'PGRST205') {
-        setErr('Bảng sales_rows chưa tồn tại — vui lòng chạy migration 0019_sales_rows.sql trong Supabase Dashboard > SQL Editor.');
-      } else setErr(error.message);
-      setRows([]);
-    } else {
-      const list = (data ?? []) as Row[];
-      setRows(list);
-      // Tự chọn tháng mới nhất có dữ liệu nếu tháng hiện tại chưa có
-      if (list.length > 0) {
-        const months = [...new Set(list.map((r) => r.sale_month).filter(Boolean))].sort().reverse();
-        const curDefault = `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}`;
-        // pickMonth hiện tại được khởi tạo = curDefault; nếu curDefault không có dữ liệu thì nhảy về tháng mới nhất có dữ liệu
-        if (months.length > 0 && !months.includes(curDefault)) {
-          setPickMonth(months[0]);
+  // result
+  const [result, setResult] = useState<QueryResult | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [initializing, setInitializing] = useState(true);
+  const [err, setErr] = useState('');
+  const [hasRun, setHasRun] = useState(false);
+
+  async function fetchMeta() {
+    try {
+      const res = await fetch('/api/sales/meta');
+      const j = await res.json();
+      if (j.months && Array.isArray(j.months) && j.months.length > 0) {
+        setAvailableMonths(j.months);
+        const inf = j.months[0] as string; // YYYY-MM latest
+        if (inf && /^\d{4}-\d{2}$/.test(inf)) {
+          const [yStr, mStr] = inf.split('-');
+          const y = Number(yStr), m = Number(mStr);
+          if (!isNaN(y) && !isNaN(m)) {
+            setSelYear(y); setSelMonth(m); selQuarter; // keep quarter consistent
+            const q = Math.ceil(m / 3);
+            setSelQuarter(q);
+            const { from, to } = monthRange(y, m);
+            setFromDate(from); setToDate(to);
+            // also set years from meta
+            if (Array.isArray(j.years) && j.years.length > 0) {
+              const ys = (j.years as string[]).map(Number).filter((n) => !isNaN(n)).sort((a, b) => b - a);
+              if (ys.length) setAvailableYears(ys);
+            }
+            setMode('month');
+            setInitializing(false);
+            // auto-run once with latest month
+            runQuery({ from, to, kd: [], vung: [], nhom: [], kh: [] });
+            return;
+          }
         }
       }
+      if (Array.isArray(j.years) && j.years.length > 0) {
+        const ys = (j.years as string[]).map(Number).filter((n) => !isNaN(n)).sort((a, b) => b - a);
+        if (ys.length) setAvailableYears(ys);
+      }
+      if (Array.isArray(j.kd)) setFilterOpts((p) => ({ ...p, kd: j.kd }));
+      if (Array.isArray(j.vung)) setFilterOpts((p) => ({ ...p, vung: j.vung }));
+      if (Array.isArray(j.nhom)) setFilterOpts((p) => ({ ...p, nhom: j.nhom }));
+      if (Array.isArray(j.kh)) setFilterOpts((p) => ({ ...p, kh: j.kh }));
+      // fallback: current month
+      const y = nowRef.current.getFullYear(), m = nowRef.current.getMonth() + 1;
+      const { from, to } = monthRange(y, m);
+      setFromDate(from); setToDate(to);
+      setInitializing(false);
+      runQuery({ from, to, kd: [], vung: [], nhom: [], kh: [] });
+    } catch {
+      const y = nowRef.current.getFullYear(), m = nowRef.current.getMonth() + 1;
+      const { from, to } = monthRange(y, m);
+      setFromDate(from); setToDate(to);
+      setInitializing(false);
+      runQuery({ from, to, kd: [], vung: [], nhom: [], kh: [] });
     }
-    setLoading(false);
   }
-  useEffect(() => { load(); }, []);
 
-  // Derive available filter options from rows
-  const allKd = useMemo(() => [...new Set(rows.map((r) => r.kinh_doanh).filter(Boolean))].sort(), [rows]);
-  const allVung = useMemo(() => [...new Set(rows.map((r) => r.vung).filter(Boolean))].sort(), [rows]);
-  const allNhom = useMemo(() => [...new Set(rows.map((r) => r.nhom_hang).filter(Boolean))].sort(), [rows]);
-  const allKh = useMemo(() => {
-    const m = new Map<string, string>();
-    for (const r of rows) if (r.ten_kh) m.set(r.ten_kh, r.ten_kh);
-    return [...m.keys()].sort();
-  }, [rows]);
+  useEffect(() => { fetchMeta(); }, []);
 
-  // Compute date range from period mode
-  const range = useMemo(() => {
-    if (mode === 'month') {
-      const [y, m] = pickMonth.split('-').map(Number);
-      const from = `${pickMonth}-01`;
-      const to = new Date(y, m, 0).toISOString().slice(0, 10);
-      return { from, to };
+  async function runQuery(opts?: { from: string; to: string; kd: string[]; vung: string[]; nhom: string[]; kh: string[] }) {
+    const f = opts?.from ?? fromDate;
+    const t = opts?.to ?? toDate;
+    if (!f || !t) { setErr('Vui lòng chọn Từ ngày và Đến ngày'); return; }
+    if (f > t) { setErr('Từ ngày phải ≤ Đến ngày'); return; }
+    setErr(''); setLoading(true);
+    try {
+      const body: any = { from: f, to: t };
+      const kd = opts ? opts.kd : selKd;
+      const vg = opts ? opts.vung : selVung;
+      const nh = opts ? opts.nhom : selNhom;
+      const khf = opts ? opts.kh : selKh;
+      if (kd.length) body.kd = kd;
+      if (vg.length) body.vung = vg;
+      if (nh.length) body.nhom = nh;
+      if (khf.length) body.kh = khf;
+      const res = await fetch('/api/sales/query', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+      const j = await res.json();
+      if (!res.ok) throw new Error(j?.error ?? 'Lỗi query');
+      setResult(j);
+      setFilterOpts({ kd: j.options?.kd ?? [], vung: j.options?.vung ?? [], nhom: j.options?.nhom ?? [], kh: j.options?.kh ?? [] });
+      // update derived years from meta if needed (keep availableYears for picker)
+      if (Array.isArray(j.meta?.months) && j.meta.months.length === 0 && (j.options?.kd?.length ?? 0) === 0) {
+        // empty — keep previous
+      }
+      setHasRun(true);
+    } catch (e: any) { setErr(e?.message ?? String(e)); }
+    finally { setLoading(false); }
+  }
+
+  // Khi đổi mode tab — điền từ/đến theo năm/tháng/quý hiện chọn; không tự chạy
+  function onPickMode(next: PeriodMode) {
+    setMode(next);
+    if (next === 'month') {
+      const { from, to } = monthRange(selYear, selMonth);
+      setFromDate(from); setToDate(to);
+    } else if (next === 'quarter') {
+      const { from, to } = quarterRange(selYear, selQuarter);
+      setFromDate(from); setToDate(to);
+    } else if (next === 'year') {
+      const { from, to } = yearRange(selYear);
+      setFromDate(from); setToDate(to);
     }
-    if (mode === 'quarter' && pickQuarter) {
-      const [qStr, yStr] = pickQuarter.split(' ');
-      const q = Number(qStr.replace('Q', ''));
-      const y = Number(yStr);
-      const from = new Date(y, (q - 1) * 3, 1).toISOString().slice(0, 10);
-      const to = new Date(y, q * 3, 0).toISOString().slice(0, 10);
-      return { from, to };
+    // custom: giữ from/to hiện tại
+  }
+
+  function onChangeMonth(m: number) {
+    setSelMonth(m);
+    setSelQuarter(Math.ceil(m / 3));
+    const { from, to } = monthRange(selYear, m);
+    setFromDate(from); setToDate(to);
+  }
+  function onChangeQuarter(q: number) {
+    setSelQuarter(q);
+    const { from, to } = quarterRange(selYear, q);
+    setFromDate(from); setToDate(to);
+  }
+  function onChangeYear(y: number) {
+    setSelYear(y);
+    if (mode === 'month') { const { from, to } = monthRange(y, selMonth); setFromDate(from); setToDate(to); }
+    else if (mode === 'quarter') { const { from, to } = quarterRange(y, selQuarter); setFromDate(from); setToDate(to); }
+    else if (mode === 'year') { const { from, to } = yearRange(y); setFromDate(from); setToDate(to); }
+  }
+
+  // Khi gõ tay từ/đến — tự suy ra mode + năm/tháng/quý tương ứng
+  function onChangeFrom(v: string) {
+    setFromDate(v);
+    if (v && toDate) {
+      const inf = inferPeriod(v, toDate);
+      if (inf.mode !== 'custom') {
+        setMode(inf.mode);
+        if (inf.y != null) setSelYear(inf.y);
+        if (inf.m != null) { setSelMonth(inf.m); setSelQuarter(Math.ceil(inf.m / 3)); }
+        if (inf.q != null) setSelQuarter(inf.q);
+      } else {
+        // keep mode? show derived hint instead of switching to custom immediately — but spec says auto-jump
+        // We'll keep mode as 'custom' only if user clearly types a non-aligned range
+        // To avoid jumpy, only switch when truly custom
+        setMode('custom');
+      }
     }
-    if (mode === 'year') {
-      return { from: `${pickYear}-01-01`, to: `${pickYear}-12-31` };
+  }
+  function onChangeTo(v: string) {
+    setToDate(v);
+    if (fromDate && v) {
+      const inf = inferPeriod(fromDate, v);
+      if (inf.mode !== 'custom') {
+        setMode(inf.mode);
+        if (inf.y != null) setSelYear(inf.y);
+        if (inf.m != null) { setSelMonth(inf.m); setSelQuarter(Math.ceil(inf.m / 3)); }
+        if (inf.q != null) setSelQuarter(inf.q);
+      } else {
+        setMode('custom');
+      }
     }
-    if (mode === 'custom' && customFrom && customTo) {
-      return { from: customFrom, to: customTo };
-    }
-    // fallback: current month
-    const [y, m] = defaultMonth.split('-').map(Number);
-    return { from: `${defaultMonth}-01`, to: new Date(y, m, 0).toISOString().slice(0, 10) };
-  }, [mode, pickMonth, pickQuarter, pickYear, customFrom, customTo, defaultMonth]);
-
-  const monthOptions = useMemo(() => getMonthOptions(rows), [rows]);
-  const quarterOptions = useMemo(() => {
-    if (rows.length === 0) return [];
-    const minDate = rows.reduce((a, r) => (r.ngay < a ? r.ngay : a), rows[0].ngay);
-    const maxDate = rows.reduce((a, r) => (r.ngay > a ? r.ngay : a), rows[0].ngay);
-    return getQuarters(minDate, maxDate);
-  }, [rows]);
-  const yearOptions = useMemo(() => {
-    const set = new Set(rows.map((r) => r.ngay.slice(0, 4)));
-    return [...set].sort().reverse();
-  }, [rows]);
-
-  // Filtered rows
-  const filtered = useMemo(() => {
-    return rows.filter((r) => {
-      if (r.ngay < range.from || r.ngay > range.to) return false;
-      if (selKd.length > 0 && !selKd.includes(r.kinh_doanh)) return false;
-      if (selVung.length > 0 && !selVung.includes(r.vung)) return false;
-      if (selNhom.length > 0 && !selNhom.includes(r.nhom_hang)) return false;
-      if (selKh.length > 0 && !selKh.includes(r.ten_kh)) return false;
-      return true;
-    });
-  }, [rows, range, selKd, selVung, selNhom, selKh]);
-
-  // Aggregations
-  const total = useMemo(() => filtered.reduce((s, r) => s + Number(r.thanh_tien ?? 0), 0), [filtered]);
-  const totalRows = filtered.length;
-
-  const byKd = useMemo(() => {
-    const m = new Map<string, number>();
-    for (const r of filtered) m.set(r.kinh_doanh, (m.get(r.kinh_doanh) ?? 0) + Number(r.thanh_tien ?? 0));
-    const arr = [...m.entries()].sort((a, b) => b[1] - a[1]);
-    return { labels: arr.map(([k]) => k || '(trống)'), data: arr.map(([, v]) => v) };
-  }, [filtered]);
-
-  const byVung = useMemo(() => {
-    const m = new Map<string, number>();
-    for (const r of filtered) m.set(r.vung || '(không rõ)', (m.get(r.vung || '(không rõ)') ?? 0) + Number(r.thanh_tien ?? 0));
-    const arr = [...m.entries()].sort((a, b) => b[1] - a[1]);
-    return { labels: arr.map(([k]) => k), data: arr.map(([, v]) => v) };
-  }, [filtered]);
-
-  const byNhom = useMemo(() => {
-    const m = new Map<string, number>();
-    for (const r of filtered) m.set(r.nhom_hang || '(không rõ)', (m.get(r.nhom_hang || '(không rõ)') ?? 0) + Number(r.thanh_tien ?? 0));
-    const arr = [...m.entries()].sort((a, b) => b[1] - a[1]);
-    return { labels: arr.map(([k]) => k), data: arr.map(([, v]) => v) };
-  }, [filtered]);
-
-  const topSp = useMemo(() => {
-    const m = new Map<string, { ten: string; total: number; count: number }>();
-    for (const r of filtered) {
-      const k = r.ten_vt || r.ma_vt || '(không rõ)';
-      const cur = m.get(k) ?? { ten: k, total: 0, count: 0 };
-      cur.total += Number(r.thanh_tien ?? 0);
-      cur.count += 1;
-      m.set(k, cur);
-    }
-    return [...m.values()].sort((a, b) => b.total - a.total).slice(0, 10);
-  }, [filtered]);
-
-  const byKh = useMemo(() => {
-    const m = new Map<string, number>();
-    for (const r of filtered) m.set(r.ten_kh || r.ma_kh || '(không rõ)', (m.get(r.ten_kh || r.ma_kh || '(không rõ)') ?? 0) + Number(r.thanh_tien ?? 0));
-    const arr = [...m.entries()].sort((a, b) => b[1] - a[1]).slice(0, 10);
-    return { labels: arr.map(([k]) => k), data: arr.map(([, v]) => v) };
-  }, [filtered]);
-
-  if (loading) return <AppSidebar><main className="px-6 py-10 text-slate-600">Đang tải dữ liệu bán hàng...</main></AppSidebar>;
-  if (err) return <AppSidebar><main className="px-6 py-10"><p className="rounded-lg bg-amber-50 p-4 text-sm text-amber-800">{err}</p><p className="mt-2 text-xs text-slate-600">File: <code>supabase/migrations/0019_sales_rows.sql</code> — copy toàn bộ vào Supabase Dashboard &gt; SQL Editor và bấm Run.</p></main></AppSidebar>;
+  }
 
   const card = 'rounded-xl border border-slate-200 bg-white p-4 shadow-[0_1px_3px_rgba(15,23,42,0.06)] sm:p-5';
   const sel = 'rounded-md border border-slate-200 bg-white px-3 py-1.5 text-sm outline-none focus:border-[#1e3a8a]';
+
+  // Derive hint text for current from/to
+  const inferred = useMemo(() => inferPeriod(fromDate, toDate), [fromDate, toDate]);
+
+  if (initializing) return <AppSidebar><main className="px-6 py-10 text-slate-600">Đang tải...</main></AppSidebar>;
 
   return (
     <AppSidebar>
@@ -288,116 +307,140 @@ function DashboardInner() {
           <a href="/bao-cao-ban-hang/import" className="rounded-lg bg-[#0f2a4a] px-4 py-2 text-sm font-semibold text-white hover:bg-[#1e40af]">Import Excel</a>
         </div>
 
-        {/* Period */}
+        {/* Kỳ — dòng trên: Tháng/Quý/Năm/Tùy chọn + pickers */}
         <div className={`${card} mb-4`}>
           <div className="flex flex-wrap items-center gap-2">
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-600">Kỳ báo cáo:</span>
+            <span className="text-xs font-bold uppercase tracking-wider text-slate-600">Kỳ:</span>
             {(['month', 'quarter', 'year', 'custom'] as PeriodMode[]).map((m) => (
-              <button key={m} onClick={() => setMode(m)} className={`rounded-full px-3 py-1 text-xs font-semibold ${mode === m ? 'bg-[#0f2a4a] text-white' : 'bg-white ring-1 ring-slate-200 text-slate-700 hover:bg-slate-50'}`}>
+              <button key={m} onClick={() => onPickMode(m)} className={`rounded-full px-3 py-1 text-xs font-semibold ${mode === m ? 'bg-[#0f2a4a] text-white' : 'bg-white ring-1 ring-slate-200 text-slate-700 hover:bg-slate-50'}`}>
                 {m === 'month' ? 'Tháng' : m === 'quarter' ? 'Quý' : m === 'year' ? 'Năm' : 'Tùy chọn'}
               </button>
             ))}
           </div>
+
+          {/* Pickers theo mode */}
           <div className="mt-3 flex flex-wrap items-center gap-2">
             {mode === 'month' && (
-              <select value={pickMonth} onChange={(e) => setPickMonth(e.target.value)} className={sel}>
-                {monthOptions.length === 0 ? <option value={defaultMonth}>{defaultMonth}</option> : monthOptions.map((o) => <option key={o} value={o}>{o}</option>)}
-              </select>
+              <>
+                <select value={selMonth} onChange={(e) => onChangeMonth(Number(e.target.value))} className={sel}>
+                  {Array.from({ length: 12 }, (_, i) => i + 1).map((m) => <option key={m} value={m}>Tháng {m}</option>)}
+                </select>
+                <select value={selYear} onChange={(e) => onChangeYear(Number(e.target.value))} className={sel}>
+                  {availableYears.map((y) => <option key={y} value={y}>{y}</option>)}
+                </select>
+              </>
             )}
             {mode === 'quarter' && (
-              <select value={pickQuarter} onChange={(e) => setPickQuarter(e.target.value)} className={sel}>
-                <option value="">Chọn quý</option>
-                {quarterOptions.map((o) => <option key={o.label} value={o.label}>{o.label}</option>)}
-              </select>
+              <>
+                <select value={selQuarter} onChange={(e) => onChangeQuarter(Number(e.target.value))} className={sel}>
+                  {[1, 2, 3, 4].map((q) => <option key={q} value={q}>Q{q}</option>)}
+                </select>
+                <select value={selYear} onChange={(e) => onChangeYear(Number(e.target.value))} className={sel}>
+                  {availableYears.map((y) => <option key={y} value={y}>{y}</option>)}
+                </select>
+              </>
             )}
             {mode === 'year' && (
-              <select value={pickYear} onChange={(e) => setPickYear(e.target.value)} className={sel}>
-                {yearOptions.length === 0 ? <option value={pickYear}>{pickYear}</option> : yearOptions.map((o) => <option key={o} value={o}>{o}</option>)}
+              <select value={selYear} onChange={(e) => onChangeYear(Number(e.target.value))} className={sel}>
+                {availableYears.map((y) => <option key={y} value={y}>{y}</option>)}
               </select>
             )}
             {mode === 'custom' && (
-              <>
-                <input type="date" value={customFrom} onChange={(e) => setCustomFrom(e.target.value)} className={sel} />
-                <span className="text-slate-500">→</span>
-                <input type="date" value={customTo} onChange={(e) => setCustomTo(e.target.value)} className={sel} />
-              </>
+              <span className="text-xs text-slate-500">Chọn khoảng ngày bên dưới</span>
             )}
-            <span className="text-xs text-slate-500">{range.from} → {range.to} · {filtered.length} dòng</span>
+            {inferred.mode !== 'custom' && inferred.mode !== mode && (
+              <span className="text-xs text-amber-600">→ Đang khớp: {inferred.mode === 'month' ? `Tháng ${inferred.m}/${inferred.y}` : inferred.mode === 'quarter' ? `Q${inferred.q} ${inferred.y}` : `${inferred.y}`}</span>
+            )}
           </div>
+
+          {/* Dòng dưới: Từ ngày → Đến ngày (luôn hiện) */}
+          <div className="mt-3 flex flex-wrap items-center gap-2">
+            <label className="text-xs font-semibold text-slate-600">Từ ngày</label>
+            <input type="date" value={fromDate} onChange={(e) => onChangeFrom(e.target.value)} className={sel} />
+            <span className="text-slate-500">→</span>
+            <label className="text-xs font-semibold text-slate-600">Đến ngày</label>
+            <input type="date" value={toDate} onChange={(e) => onChangeTo(e.target.value)} className={sel} />
+            <button
+              onClick={() => runQuery()}
+              disabled={loading || !fromDate || !toDate}
+              className="ml-2 rounded-lg bg-[#0d6efd] px-5 py-1.5 text-sm font-semibold text-white hover:bg-[#0f2a4a] disabled:opacity-60"
+            >
+              {loading ? 'Đang chạy…' : 'Chạy báo cáo'}
+            </button>
+          </div>
+          {err && <p className="mt-2 text-sm text-red-600">{err}</p>}
         </div>
 
         {/* Filters — dropdowns */}
         <div className={`${card} mb-4 flex flex-wrap gap-2`}>
-          <FilterDropdown label="Nhân viên" options={allKd} selected={selKd} onChange={setSelKd} />
-          <FilterDropdown label="Tỉnh" options={allVung} selected={selVung} onChange={setSelVung} />
-          <FilterDropdown label="Nhóm hàng" options={allNhom} selected={selNhom} onChange={setSelNhom} />
-          <FilterDropdown label="Khách hàng" options={allKh} selected={selKh} onChange={setSelKh} searchable />
+          <FilterDropdown label="Nhân viên" options={filterOpts.kd} selected={selKd} onChange={setSelKd} />
+          <FilterDropdown label="Tỉnh" options={filterOpts.vung} selected={selVung} onChange={setSelVung} />
+          <FilterDropdown label="Nhóm hàng" options={filterOpts.nhom} selected={selNhom} onChange={setSelNhom} />
+          <FilterDropdown label="Khách hàng" options={filterOpts.kh} selected={selKh} onChange={setSelKh} searchable />
         </div>
 
-        {/* KPI */}
-        <div className="mb-4 grid gap-4 sm:grid-cols-2">
-          <div className={`${card} bg-gradient-to-br from-[#0f2a4a] to-[#1e40af] text-white border-0`}>
-            <p className="text-xs font-semibold uppercase tracking-wider text-blue-200">Tổng doanh số</p>
-            <p className="mt-1 text-2xl font-black">{fmtMoney(total)}</p>
-            <p className="mt-1 text-xs text-blue-200">{range.from} → {range.to}</p>
-          </div>
-          <div className={card}>
-            <p className="text-xs font-semibold uppercase tracking-wider text-slate-600">Tổng số dòng</p>
-            <p className="mt-1 text-2xl font-black text-[#0f2a4a]">{totalRows}</p>
-            <p className="mt-1 text-xs text-slate-500">Đã lọc từ {rows.length} dòng đã import</p>
-          </div>
-        </div>
-
-        {/* Charts */}
-        <div className="grid gap-4 lg:grid-cols-2">
-          <div className={card}>
-            <h2 className="mb-2 text-sm font-bold text-[#1e3a8a]">Doanh số theo nhân viên</h2>
-            <BarChart labels={byKd.labels} data={byKd.data} title="Doanh số" />
-          </div>
-          <div className={card}>
-            <h2 className="mb-2 text-sm font-bold text-[#1e3a8a]">Doanh số theo tỉnh</h2>
-            <BarChart labels={byVung.labels} data={byVung.data} title="Doanh số" />
-          </div>
-          <div className={card}>
-            <h2 className="mb-2 text-sm font-bold text-[#1e3a8a]">Doanh số theo nhóm hàng</h2>
-            <BarChart labels={byNhom.labels} data={byNhom.data} title="Doanh số" />
-          </div>
-          <div className={card}>
-            <h2 className="mb-2 text-sm font-bold text-[#1e3a8a]">Top khách hàng (theo doanh số)</h2>
-            <BarChart labels={byKh.labels} data={byKh.data} title="Doanh số" />
-          </div>
-        </div>
-
-        {/* Top products */}
-        <div className={`${card} mt-4`}>
-          <h2 className="mb-3 text-sm font-bold text-[#1e3a8a]">Top sản phẩm bán chạy</h2>
-          {topSp.length === 0 ? <p className="py-4 text-center text-sm text-slate-500">Chưa có dữ liệu</p> : (
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead><tr className="border-b border-slate-200 text-left text-xs font-bold text-slate-600"><th className="py-2">#</th><th className="py-2">Sản phẩm</th><th className="py-2 text-right">Số dòng</th><th className="py-2 text-right">Doanh số</th></tr></thead>
-                <tbody>
-                  {topSp.map((r, i) => (
-                    <tr key={r.ten} className="border-t border-slate-100">
-                      <td className="py-2 text-slate-500">{i + 1}</td>
-                      <td className="py-2 font-medium text-slate-900 line-clamp-1">{r.ten}</td>
-                      <td className="py-2 text-right">{r.count}</td>
-                      <td className="py-2 text-right font-semibold">{fmtMoney(r.total)}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+        {/* KPI — chỉ hiện sau khi Chạy */}
+        {result ? (
+          <>
+            <div className="mb-4 grid gap-4 sm:grid-cols-2">
+              <div className={`${card} bg-gradient-to-br from-[#0f2a4a] to-[#1e40af] text-white border-0`}>
+                <p className="text-xs font-semibold uppercase tracking-wider text-blue-200">Tổng doanh số</p>
+                <p className="mt-1 text-2xl font-black">{fmtMoney(result.total)}</p>
+                <p className="mt-1 text-xs text-blue-200">{fromDate} → {toDate} · {result.meta.filtered} dòng / {result.meta.scanned} dòng quét</p>
+              </div>
+              <div className={card}>
+                <p className="text-xs font-semibold uppercase tracking-wider text-slate-600">Tổng số dòng</p>
+                <p className="mt-1 text-2xl font-black text-[#0f2a4a]">{result.count}</p>
+                <p className="mt-1 text-xs text-slate-500">Đã lọc từ {result.meta.scanned} dòng</p>
+              </div>
             </div>
-          )}
-        </div>
 
-        {filtered.length === 0 && rows.length > 0 && (
-          <p className="mt-4 rounded-lg bg-amber-50 p-4 text-center text-sm text-amber-800">Không có dữ liệu trong kỳ/bộ lọc này — thử đổi kỳ hoặc bỏ bớt bộ lọc.</p>
-        )}
-        {rows.length === 0 && !err && (
-          <div className="mt-4 rounded-xl border border-dashed border-slate-300 bg-white p-8 text-center">
-            <p className="text-sm text-slate-600">Chưa có dữ liệu bán hàng. Hãy import file Excel Odoo.</p>
-            <a href="/bao-cao-ban-hang/import" className="mt-3 inline-block rounded-lg bg-[#0f2a4a] px-4 py-2 text-sm font-semibold text-white">Đi tới Import →</a>
-          </div>
+            <div className="grid gap-4 lg:grid-cols-2">
+              <div className={card}>
+                <h2 className="mb-2 text-sm font-bold text-[#1e3a8a]">Doanh số theo nhân viên</h2>
+                <BarChart labels={result.byKd.map((x) => x.label)} data={result.byKd.map((x) => x.value)} title="Doanh số" />
+              </div>
+              <div className={card}>
+                <h2 className="mb-2 text-sm font-bold text-[#1e3a8a]">Doanh số theo tỉnh</h2>
+                <BarChart labels={result.byVung.map((x) => x.label)} data={result.byVung.map((x) => x.value)} title="Doanh số" />
+              </div>
+              <div className={card}>
+                <h2 className="mb-2 text-sm font-bold text-[#1e3a8a]">Doanh số theo nhóm hàng</h2>
+                <BarChart labels={result.byNhom.map((x) => x.label)} data={result.byNhom.map((x) => x.value)} title="Doanh số" />
+              </div>
+              <div className={card}>
+                <h2 className="mb-2 text-sm font-bold text-[#1e3a8a]">Top khách hàng (theo doanh số)</h2>
+                <BarChart labels={result.byKh.map((x) => x.label)} data={result.byKh.map((x) => x.value)} title="Doanh số" />
+              </div>
+            </div>
+
+            <div className={`${card} mt-4`}>
+              <h2 className="mb-3 text-sm font-bold text-[#1e3a8a]">Top sản phẩm bán chạy</h2>
+              {result.topSp.length === 0 ? <p className="py-4 text-center text-sm text-slate-500">Chưa có dữ liệu</p> : (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead><tr className="border-b border-slate-200 text-left text-xs font-bold text-slate-600"><th className="py-2">#</th><th className="py-2">Sản phẩm</th><th className="py-2 text-right">Số dòng</th><th className="py-2 text-right">Doanh số</th></tr></thead>
+                    <tbody>
+                      {result.topSp.map((r, i) => (
+                        <tr key={r.label} className="border-t border-slate-100">
+                          <td className="py-2 text-slate-500">{i + 1}</td>
+                          <td className="py-2 font-medium text-slate-900 line-clamp-1">{r.label}</td>
+                          <td className="py-2 text-right">{r.count}</td>
+                          <td className="py-2 text-right font-semibold">{fmtMoney(r.total)}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
+
+            {result.count === 0 && (
+              <p className="mt-4 rounded-lg bg-amber-50 p-4 text-center text-sm text-amber-800">Không có dữ liệu trong kỳ/bộ lọc này — thử đổi kỳ hoặc bỏ bớt bộ lọc, rồi bấm Chạy báo cáo.</p>
+            )}
+          </>
+        ) : (
+          hasRun ? <p className="py-6 text-center text-sm text-slate-500">Không có dữ liệu trong kỳ/bộ lọc này.</p> : <p className="py-6 text-center text-sm text-slate-500">Chọn kỳ và bấm Chạy báo cáo để xem dữ liệu.</p>
         )}
       </main>
     </AppSidebar>
