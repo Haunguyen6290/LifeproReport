@@ -6,7 +6,7 @@ import { AppSidebar } from '@/components/AppSidebar';
 function Inner() {
   const [file, setFile] = useState<File | null>(null);
   const [busy, setBusy] = useState(false);
-  const [result, setResult] = useState<{ imported: number; skipped: number; months: string[]; newCustomers: { ma_kh: string; ten_kh: string }[]; message?: string } | null>(null);
+  const [result, setResult] = useState<{ imported: number; skipped: number; months: string[]; newCustomers: { ma_kh: string; ten_kh: string }[]; createdCustomers?: number; message?: string } | null>(null);
   const [err, setErr] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -48,7 +48,11 @@ function Inner() {
               {result.message && <p className="mt-1 text-xs text-slate-600">{result.message}</p>}
               {result.newCustomers.length > 0 && (
                 <div className="mt-3">
-                  <p className="text-xs font-bold text-amber-800">Cảnh báo: {result.newCustomers.length} khách chưa có trong hệ thống</p>
+                  <p className="text-xs font-bold text-amber-800">
+                    {result.createdCustomers != null && result.createdCustomers > 0
+                      ? `Đã tự tạo ${result.createdCustomers}/${result.newCustomers.length} khách mới vào danh sách (Mã, Tên, KD phụ trách, Tỉnh) — ông vào Khách hàng để sửa bổ sung.`
+                      : `Cảnh báo: ${result.newCustomers.length} khách chưa có trong hệ thống`}
+                  </p>
                   <div className="mt-2 max-h-[200px] overflow-auto rounded border border-amber-200 bg-white">
                     <table className="w-full text-xs">
                       <thead><tr className="bg-amber-50 text-left"><th className="px-2 py-1">Mã KH</th><th className="px-2 py-1">Tên KH</th></tr></thead>
@@ -59,7 +63,7 @@ function Inner() {
                       </tbody>
                     </table>
                   </div>
-                  <p className="mt-1 text-xs text-slate-600">Hãy thêm các khách này vào danh sách khách hàng.</p>
+                  <p className="mt-1 text-xs text-slate-600">{result.createdCustomers != null && result.createdCustomers > 0 ? 'Danh sách bên dưới là các khách vừa tạo / còn thiếu.' : 'Hãy thêm các khách này vào danh sách khách hàng.'}</p>
                 </div>
               )}
               <a href="/bao-cao-ban-hang" className="mt-3 inline-block rounded-lg bg-[#0f2a4a] px-4 py-2 text-sm font-semibold text-white hover:bg-[#1e40af]">Xem Dashboard →</a>

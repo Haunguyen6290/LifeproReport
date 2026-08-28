@@ -48,7 +48,7 @@ export async function POST(req: NextRequest) {
     let skipped = 0;
     const toInsert: Record<string, unknown>[] = [];
     const seenMonths = new Set<string>();
-    const khInFile = new Map<string, { ma_kh: string; ten_kh: string }>(); // dedup by ma_kh
+    const khInFile = new Map<string, { ma_kh: string; ten_kh: string; kinh_doanh: string; vung: string }>(); // dedup by ma_kh
 
     for (const r of dataRows) {
       const get = (k: string) => String(r[col[k]] ?? '').trim();
@@ -96,7 +96,7 @@ export async function POST(req: NextRequest) {
       toInsert.push(rec);
       seenMonths.add(saleMonth);
       const maKh = rec.ma_kh;
-      if (maKh && !khInFile.has(maKh)) khInFile.set(maKh, { ma_kh: maKh, ten_kh: rec.ten_kh });
+      if (maKh && !khInFile.has(maKh)) khInFile.set(maKh, { ma_kh: maKh, ten_kh: rec.ten_kh, kinh_doanh: kinhDoanh, vung: rec.vung });
       imported++;
     }
 
@@ -130,17 +130,41 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // New customers warning: those ma_kh not in customers table
+    // New customers warning + auto-create: those ma_kh not in customers table
     let newCustomers: { ma_kh: string; ten_kh: string }[] = [];
+    let createdCustomers = 0;
     try {
       const { data: existing } = await admin.from('customers').select('ma_kh').limit(10000);
       const existingSet = new Set((existing ?? []).map((r: any) => String(r.ma_kh ?? '').trim()));
+      const toCreate: { ma_kh: string; ten_kh: string; kinh_doanh: string; vung: string }[] = [];
       for (const [maKh, info] of khInFile) {
-        if (!existingSet.has(maKh)) newCustomers.push(info);
+        if (!existingSet.has(maKh)) {
+          newCustomers.push({ ma_kh: info.ma_kh, ten_kh: info.ten_kh });
+          toCreate.push(info);
+        }
+      }
+      // Auto-create missing customers: Mã, Tên, Kinh doanh QL (assigned_to), Tỉnh (vung)
+      if (toCreate.length > 0) {
+        const { data: profiles } = await admin.from('profiles').select('id, full_name');
+        const nameToId = new Map<string, string>();
+        for (const p of (profiles ?? []) as { id: string; full_name: string }[]) {
+          nameToId.set(p.full_name.trim().toLowerCase(), p.id);
+        }
+        for (const c of toCreate) {
+          const pid = nameToId.get(c.kinh_doanh.trim().toLowerCase());
+          if (!pid) continue; // skip if no matching profile (rare)
+          const { error: insErr } = await admin.from('customers').insert({
+            ma_kh: c.ma_kh,
+            ten_kh: c.ten_kh,
+            assigned_to: pid,
+            tinh_thanh: c.vung || '',
+          } as any);
+          if (!insErr) createdCustomers++;
+        }
       }
     } catch {}
 
-    return NextResponse.json({ imported, skipped, months, newCustomers });
+    return NextResponse.json({ imported, skipped, months, newCustomers, createdCustomers });
   } catch (e: any) {
     return NextResponse.json({ error: e?.message ?? 'Lỗi import' }, { status: 500 });
   }
