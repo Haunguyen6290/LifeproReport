@@ -10,18 +10,16 @@ export type OkrTemplate = {
   objective?: string;
 };
 
-/** Map tên vai trò của user -> các role template được phép thấy. 'ALL' = thấy hết (quản lý). */
-const ROLE_TO_TEMPLATE_ROLES: Record<string, string[] | 'ALL'> = {
-  'KINH_DOANH': ['KINH_DOANH'],
-  'SALES': ['KINH_DOANH'],
-  'KHO': ['KHO'],
-  'KẾ_TOÁN': ['KẾ_TOÁN'],
-  'ADMIN': 'ALL',
-  'GIÁM_ĐỐC': 'ALL',
-};
-
+/**
+ * Map tên vai trò của user -> các role template được phép thấy.
+ * - ADMIN / GIÁM_ĐỐC: thấy hết ('ALL').
+ * - Các vai trò khác: khớp 1-1 theo đúng tên vai trò (mỗi phòng ban chỉ thấy mẫu của mình).
+ *   (extra.role của template phải trùng tên role trong bảng `roles`.)
+ */
 export function templateRolesFor(roleName: string): string[] | 'ALL' {
-  return ROLE_TO_TEMPLATE_ROLES[roleName] ?? 'ALL';
+  if (!roleName) return 'ALL';
+  if (roleName === 'ADMIN' || roleName === 'GIÁM_ĐỐC') return 'ALL';
+  return [roleName];
 }
 
 /** Load O hoặc KR mẫu, lọc theo vai trò của user. */
