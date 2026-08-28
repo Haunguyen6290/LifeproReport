@@ -4,6 +4,7 @@ import { supabase } from '@/lib/supabase/client';
 import { useAuth } from '@/components/RequireAuth';
 import { Dialog } from '@/components/Dialog';
 import { GrowArea } from '@/components/GrowArea';
+import { SingleCombobox } from '@/components/SingleCombobox';
 import { categoryItems, type CategoryItem } from '@/lib/categories';
 import { fmtDateVN, fmtCommentTimeVN } from '@/lib/time';
 
@@ -277,26 +278,22 @@ export function WarehouseDialog({
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
             <label className={LABEL}>Nhóm sản phẩm</label>
-            <select value={productGroupId} onChange={(e) => setProductGroupId(e.target.value)} className={sel}>
-              <option value="">— Không chọn —</option>
-              {sanPhamItems.map((it) => (
-                <option key={it.id} value={it.id}>
-                  {it.name}
-                </option>
-              ))}
-            </select>
-            <p className="mt-1 text-xs text-slate-500">Để trống vẫn lưu được.</p>
+            <SingleCombobox
+              options={sanPhamItems.map((it) => ({ id: it.id, label: it.name }))}
+              value={productGroupId}
+              onChange={setProductGroupId}
+              placeholder="Nhập tên nhóm để tìm…"
+            />
+            <p className="mt-1 text-xs text-slate-500">Nhập rồi mới hiện danh sách.</p>
           </div>
           <div>
             <label className={LABEL}>Nhóm vấn đề</label>
-            <select value={nhomVanDeId} onChange={(e) => setNhomVanDeId(e.target.value)} className={sel}>
-              <option value="">— Chọn nhóm vấn đề —</option>
-              {vanDeItems.map((it) => (
-                <option key={it.id} value={it.id}>
-                  {it.name}
-                </option>
-              ))}
-            </select>
+            <SingleCombobox
+              options={vanDeItems.map((it) => ({ id: it.id, label: it.name }))}
+              value={nhomVanDeId}
+              onChange={setNhomVanDeId}
+              placeholder="Nhập tên vấn đề để tìm…"
+            />
           </div>
         </div>
 
