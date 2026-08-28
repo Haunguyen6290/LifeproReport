@@ -34,6 +34,7 @@ export async function POST(req: NextRequest) {
     const selVung: string[] = Array.isArray(body.vung) ? body.vung : [];
     const selNhom: string[] = Array.isArray(body.nhom) ? body.nhom : [];
     const selKh: string[] = Array.isArray(body.kh) ? body.kh : [];
+    const selSp: string[] = Array.isArray(body.sp) ? body.sp : [];
 
     const admin = createClient(URL, SRV, { auth: { autoRefreshToken: false, persistSession: false } });
     const rows = await fetchAllRows(admin, from, to);
@@ -58,13 +59,16 @@ export async function POST(req: NextRequest) {
       if (selVung.length && !selVung.includes(r.vung)) return false;
       if (selNhom.length && !selNhom.includes(r.nhom_hang)) return false;
       if (selKh.length && !selKh.includes(r.ten_kh)) return false;
+      if (selSp.length && !selSp.includes(r.ten_vt)) return false;
       return true;
     });
 
-    const kdOpts = [...new Set(filtered.map((r) => r.kinh_doanh).filter(Boolean))].sort();
-    const vungOpts = [...new Set(filtered.map((r) => r.vung).filter(Boolean))].sort();
-    const nhomOpts = [...new Set(filtered.map((r) => r.nhom_hang).filter(Boolean))].sort();
-    const khOpts = [...new Set(filtered.map((r) => r.ten_kh).filter(Boolean))].sort();
+    // Options từ filtered theo kỳ (dùng cho dropdown filter) — sp cũng từ filtered để đồng bộ
+    const kdOpts = [...new Set(rows.map((r) => r.kinh_doanh).filter(Boolean))].sort();
+    const vungOpts = [...new Set(rows.map((r) => r.vung).filter(Boolean))].sort();
+    const nhomOpts = [...new Set(rows.map((r) => r.nhom_hang).filter(Boolean))].sort();
+    const khOpts = [...new Set(rows.map((r) => r.ten_kh).filter(Boolean))].sort();
+    const spOpts = [...new Set(rows.map((r) => r.ten_vt).filter(Boolean))].sort();
 
     const total = filtered.reduce((s, r) => s + Number(r.thanh_tien ?? 0), 0);
     const totalQty = filtered.reduce((s, r) => s + Number(r.so_luong ?? 0), 0);
@@ -121,7 +125,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({
       total, totalQty, count, soHoaDon, soKhachHang, avgValue,
       byKd, byVung, byNhom, byHang, byKh, byMonth, topSp, topSpQty,
-      options: { kd: kdOpts, vung: vungOpts, nhom: nhomOpts, kh: khOpts },
+      options: { kd: kdOpts, vung: vungOpts, nhom: nhomOpts, kh: khOpts, sp: spOpts },
       meta: { scanned: rows.length, filtered: filtered.length },
     });
   } catch (e: any) {

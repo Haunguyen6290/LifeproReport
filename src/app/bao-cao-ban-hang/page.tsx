@@ -53,8 +53,13 @@ type QueryResult = {
   byMonth: { m: string; dt: number; hd: number }[];
   topSp: { label: string; total: number; qty: number; count: number }[];
   topSpQty: { label: string; total: number; qty: number; count: number }[];
-  options: { kd: string[]; vung: string[]; nhom: string[]; kh: string[] };
+  options: { kd: string[]; vung: string[]; nhom: string[]; kh: string[]; sp: string[] };
   meta: { scanned: number; filtered: number };
+};
+
+type DetailRow = {
+  ngay: string; so_ct: string; ma_vt: string; ten_vt: string; ma_kh: string; ten_kh: string;
+  kinh_doanh: string; so_luong: number | null; thanh_tien: number; vung: string; nhom_hang: string; hang_sx: string;
 };
 
 function useChart(ref: React.RefObject<HTMLDivElement | null>, option: echarts.EChartsOption | null) {
@@ -127,8 +132,17 @@ function DashboardInner() {
   const [selVung, setSelVung] = useState<string[]>([]);
   const [selNhom, setSelNhom] = useState<string[]>([]);
   const [selKh, setSelKh] = useState<string[]>([]);
-  const [filterOpts, setFilterOpts] = useState<{ kd: string[]; vung: string[]; nhom: string[]; kh: string[] }>({ kd: [], vung: [], nhom: [], kh: [] });
+  const [selSp, setSelSp] = useState<string[]>([]);
+  const [filterOpts, setFilterOpts] = useState<{ kd: string[]; vung: string[]; nhom: string[]; kh: string[]; sp: string[] }>({ kd: [], vung: [], nhom: [], kh: [], sp: [] });
   const [result, setResult] = useState<QueryResult | null>(null);
+  const [tab, setTab] = useState<'tongquan' | 'chitiet'>('tongquan');
+  // detail state
+  const [detailRows, setDetailRows] = useState<DetailRow[]>([]);
+  const [detailTotal, setDetailTotal] = useState(0);
+  const [detailPage, setDetailPage] = useState(1);
+  const [detailHasMore, setDetailHasMore] = useState(false);
+  const [detailLoading, setDetailLoading] = useState(false);
+  const [detailSearch, setDetailSearch] = useState('');
   const [loading, setLoading] = useState(false);
   const [initializing, setInitializing] = useState(true);
   const [err, setErr] = useState('');
@@ -246,7 +260,7 @@ function DashboardInner() {
             }
             setMode('month');
             setInitializing(false);
-            runQuery({ from, to, kd: [], vung: [], nhom: [], kh: [] });
+            runQuery({ from, to });
             didInit = true;
           }
         }
@@ -260,40 +274,66 @@ function DashboardInner() {
       const { from, to } = monthRange(y, m);
       setFromDate(from); setToDate(to);
       setInitializing(false);
-      runQuery({ from, to, kd: [], vung: [], nhom: [], kh: [] });
+      runQuery({ from, to });
     } catch {
       const y = new Date().getFullYear(), m = new Date().getMonth() + 1;
       const { from, to } = monthRange(y, m);
       setFromDate(from); setToDate(to);
       setInitializing(false);
-      runQuery({ from, to, kd: [], vung: [], nhom: [], kh: [] });
+      runQuery({ from, to });
     }
   }
 
   useEffect(() => { fetchMeta(); }, []);
 
-  async function runQuery(opts?: { from: string; to: string; kd: string[]; vung: string[]; nhom: string[]; kh: string[] }) {
+  function buildFilters() {
+    const body: any = { from: fromDate, to: toDate };
+    if (selKd.length) body.kd = selKd;
+    if (selVung.length) body.vung = selVung;
+    if (selNhom.length) body.nhom = selNhom;
+    if (selKh.length) body.kh = selKh;
+    if (selSp.length) body.sp = selSp;
+    return body;
+  }
+
+  async function runQuery(opts?: { from: string; to: string }) {
     const f = opts?.from ?? fromDate;
     const t = opts?.to ?? toDate;
     if (!f || !t) { setErr('Vui lòng chọn Từ ngày và Đến ngày'); return; }
     if (f > t) { setErr('Từ ngày phải ≤ Đến ngày'); return; }
     setErr(''); setLoading(true);
     try {
-      const body: any = { from: f, to: t };
-      const kd = opts ? opts.kd : selKd;
-      const vg = opts ? opts.vung : selVung;
-      const nh = opts ? opts.nhom : selNhom;
-      const khf = opts ? opts.kh : selKh;
-      if (kd.length) body.kd = kd;
-      if (vg.length) body.vung = vg;
-      if (nh.length) body.nhom = nh;
-      if (khf.length) body.kh = khf;
+      const body = buildFilters();
+      body.from = f; body.to = t;
       const res = await fetch('/api/sales/query', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
       const j = await res.json();
       if (!res.ok) throw new Error(j?.error ?? 'Lỗi query');
       setResult(j);
+      setFilterOpts({ kd: j.options?.kd ?? [], vung: j.options?.vung ?? [], nhom: j.options?.nhom ?? [], kh: j.options?.kh ?? [], sp: j.options?.sp ?? [] });
+      // reset detail & load page 1
+      setDetailPage(1); setDetailSearch('');
+      await loadDetail(1, '');
     } catch (e: any) { setErr(e?.message ?? String(e)); }
     finally { setLoading(false); }
+  }
+
+  async function loadDetail(page: number, search: string, append = false) {
+    if (!fromDate || !toDate) return;
+    setDetailLoading(true);
+    try {
+      const body = buildFilters();
+      body.page = page; body.limit = 20;
+      if (search.trim()) body.search = search.trim();
+      const res = await fetch('/api/sales/detail', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+      const j = await res.json();
+      if (!res.ok) throw new Error(j?.error ?? 'Lỗi chi tiết');
+      const rows: DetailRow[] = j.rows ?? [];
+      setDetailRows((prev) => (append ? [...prev, ...rows] : rows));
+      setDetailTotal(j.total ?? 0);
+      setDetailPage(page);
+      setDetailHasMore(!!j.hasMore);
+    } catch { /* ignore — detail is secondary */ }
+    finally { setDetailLoading(false); }
   }
 
   function onPickMode(next: PeriodMode) {
@@ -396,12 +436,20 @@ function DashboardInner() {
           <FilterDropdown label="NV" options={result?.options?.kd ?? filterOpts.kd} selected={selKd} onChange={setSelKd} />
           <FilterDropdown label="Tỉnh" options={result?.options?.vung ?? filterOpts.vung} selected={selVung} onChange={setSelVung} />
           <FilterDropdown label="Nhóm hàng" options={result?.options?.nhom ?? filterOpts.nhom} selected={selNhom} onChange={setSelNhom} />
+          <FilterDropdown label="Sản phẩm" options={result?.options?.sp ?? filterOpts.sp} selected={selSp} onChange={setSelSp} searchable />
           <FilterDropdown label="Khách hàng" options={result?.options?.kh ?? filterOpts.kh} selected={selKh} onChange={setSelKh} searchable />
+        </div>
+
+        {/* Tabs: Tổng quan | Chi tiết */}
+        <div className="mb-3 flex gap-1 rounded-xl border border-[#e2e8f0] bg-white px-2 py-1.5 shadow-[0_1px_3px_rgba(15,23,42,0.06)]">
+          {([['tongquan', 'Tổng quan'], ['chitiet', 'Chi tiết']] as const).map(([id, lbl]) => (
+            <button key={id} onClick={() => setTab(id)} className={`rounded-lg px-4 py-1.5 text-sm font-semibold transition ${tab === id ? 'bg-[#16A97B] text-white' : 'text-[#334155] hover:bg-[#f0f4f8]'}`}>{lbl}</button>
+          ))}
         </div>
 
         {!result ? (
           <p className="py-10 text-center text-sm text-[#64748b]">Chọn kỳ và bấm Chạy báo cáo để xem dữ liệu.</p>
-        ) : (
+        ) : tab === 'tongquan' ? (
           <>
             {/* Insights */}
             {(() => {
@@ -476,6 +524,66 @@ function DashboardInner() {
             </div>
             {result.count === 0 && <p className="mt-4 rounded-lg bg-amber-50 p-4 text-center text-sm text-amber-800">Không có dữ liệu trong kỳ/bộ lọc này.</p>}
           </>
+        ) : (
+          <div className="rounded-xl bg-white p-4 shadow-[0_1px_4px_rgba(0,0,0,0.07),0_4px_16px_rgba(0,0,0,0.04)]">
+            <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
+              <div className="flex items-center gap-2 text-sm font-semibold text-[#1e293b]"><span className="h-2 w-2 rounded-full" style={{ background: PRIMARY }} />Chi tiết giao dịch</div>
+              <div className="flex items-center gap-2">
+                <input
+                  value={detailSearch}
+                  onChange={(e) => setDetailSearch(e.target.value)}
+                  onKeyDown={(e) => { if (e.key === 'Enter') { setDetailPage(1); loadDetail(1, detailSearch); } }}
+                  placeholder="Tìm trong bảng (Tên SP, KH, Số CT)…"
+                  className="rounded-md border border-[#e2e8f0] bg-white px-3 py-1.5 text-sm outline-none focus:border-[#16A97B] focus:ring-1 focus:ring-[#16A97B]/20"
+                />
+                <button onClick={() => { setDetailPage(1); loadDetail(1, detailSearch); }} className="rounded-md bg-[#16A97B] px-3 py-1.5 text-sm font-semibold text-white hover:bg-[#0d7a59]">Tìm</button>
+              </div>
+            </div>
+            <p className="mb-2 text-xs text-[#64748b]">{detailTotal.toLocaleString('vi-VN')} dòng khớp bộ lọc {fromDate} → {toDate}</p>
+            {detailRows.length === 0 ? (
+              <p className="py-8 text-center text-sm text-[#64748b]">Không có dòng chi tiết nào trong kỳ/bộ lọc này.</p>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="border-b border-[#e2e8f0] text-left text-xs font-bold text-[#64748b]">
+                      <th className="py-2">Ngày</th>
+                      <th className="py-2">Số CT</th>
+                      <th className="py-2">Tên vật tư</th>
+                      <th className="py-2">Mã KH</th>
+                      <th className="py-2">Tên KH</th>
+                      <th className="py-2">Kinh doanh</th>
+                      <th className="py-2">Tỉnh</th>
+                      <th className="py-2 text-right">SL</th>
+                      <th className="py-2 text-right">Thành tiền</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {detailRows.map((r, i) => (
+                      <tr key={`${r.so_ct}-${r.ma_vt}-${i}`} className="border-t border-[#f1f5f9] hover:bg-[#f8fafc]">
+                        <td className="py-2 text-[#64748b]">{r.ngay}</td>
+                        <td className="py-2 font-mono text-xs text-[#334155]">{r.so_ct}</td>
+                        <td className="py-2 text-[#1e293b] line-clamp-1" title={r.ten_vt}>{r.ten_vt}</td>
+                        <td className="py-2 font-mono text-xs text-[#334155]">{r.ma_kh}</td>
+                        <td className="py-2 text-[#1e293b] line-clamp-1" title={r.ten_kh}>{r.ten_kh}</td>
+                        <td className="py-2 text-[#334155]">{r.kinh_doanh}</td>
+                        <td className="py-2 text-[#334155]">{r.vung || '–'}</td>
+                        <td className="py-2 text-right">{(r.so_luong ?? 0).toLocaleString('vi-VN')}</td>
+                        <td className="py-2 text-right font-semibold text-[#0d7a59]">{fmtFull(r.thanh_tien)}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+            {detailHasMore && (
+              <div className="mt-3 flex justify-center">
+                <button onClick={() => loadDetail(detailPage + 1, detailSearch, true)} disabled={detailLoading} className="rounded-lg border border-[#e2e8f0] px-5 py-2 text-sm font-semibold text-[#334155] hover:border-[#16A97B] hover:text-[#16A97B] disabled:opacity-60">
+                  {detailLoading ? 'Đang tải…' : `Xem thêm (${detailRows.length}/${detailTotal.toLocaleString('vi-VN')})`}
+                </button>
+              </div>
+            )}
+          </div>
         )}
       </main>
     </AppSidebar>

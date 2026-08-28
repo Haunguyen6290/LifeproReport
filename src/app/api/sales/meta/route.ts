@@ -15,16 +15,17 @@ export async function GET() {
     const vung = new Set<string>();
     const nhom = new Set<string>();
     const kh = new Set<string>();
+    const sp = new Set<string>();
     let scanned = 0;
     while (true) {
-      const { data, error } = await (admin.from('sales_rows').select('sale_month,ngay,kinh_doanh,vung,nhom_hang,ten_kh') as any).range(offset, offset + step - 1);
+      const { data, error } = await (admin.from('sales_rows').select('sale_month,ngay,kinh_doanh,vung,nhom_hang,ten_kh,ten_vt') as any).range(offset, offset + step - 1);
       if (error) {
         if (String(error.message).includes('not find') || String((error as any).code) === 'PGRST205') {
-          return NextResponse.json({ months: [], years: [], kd: [], vung: [], nhom: [], kh: [] });
+          return NextResponse.json({ months: [], years: [], kd: [], vung: [], nhom: [], kh: [], sp: [] });
         }
         throw error;
       }
-      const chunk = (data ?? []) as { sale_month: string; ngay: string; kinh_doanh: string; vung: string; nhom_hang: string; ten_kh: string }[];
+      const chunk = (data ?? []) as { sale_month: string; ngay: string; kinh_doanh: string; vung: string; nhom_hang: string; ten_kh: string; ten_vt: string }[];
       if (chunk.length === 0) break;
       scanned += chunk.length;
       for (const r of chunk) {
@@ -34,6 +35,7 @@ export async function GET() {
         if (r.vung) vung.add(r.vung);
         if (r.nhom_hang) nhom.add(r.nhom_hang);
         if (r.ten_kh) kh.add(r.ten_kh);
+        if (r.ten_vt) sp.add(r.ten_vt);
       }
       if (chunk.length < step) break;
       offset += step;
@@ -46,6 +48,7 @@ export async function GET() {
       vung: [...vung].sort(),
       nhom: [...nhom].sort(),
       kh: [...kh].sort(),
+      sp: [...sp].sort(),
     });
   } catch (e: any) {
     return NextResponse.json({ error: e?.message ?? 'Lỗi meta' }, { status: 500 });
