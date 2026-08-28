@@ -4,7 +4,9 @@ import { supabase } from '@/lib/supabase/client';
 import { useAuth } from '@/components/RequireAuth';
 import { Dialog } from '@/components/Dialog';
 import { GrowArea } from '@/components/GrowArea';
+import { SingleCombobox } from '@/components/SingleCombobox';
 import { validateKRs, warnObjective, periodLabel } from '@/lib/okr';
+import { loadOkrTemplates, type OkrTemplate } from '@/lib/okr-templates';
 
 export type Period = { tu?: string; den?: string; tu_ngay?: string; den_ngay?: string };
 
@@ -49,6 +51,7 @@ export function OkrDialog({
 }) {
   const authAny: any = useAuth();
   const authUserId: string = (authAny?.userId ?? '') as string;
+  const authRole: string = (authAny?.role ?? '') as string;
 
   const { tu: initTu, den: initDen } = normalizePeriod(period);
   const [tu, setTu] = useState(initTu);
@@ -58,6 +61,11 @@ export function OkrDialog({
   const [krs, setKrs] = useState<string[]>(['', '']);
   const [parentOkrId, setParentOkrId] = useState('');
   const [companyOkrs, setCompanyOkrs] = useState<{ id: string; objective: string }[]>([]);
+  const [oTemplates, setOTemplates] = useState<OkrTemplate[]>([]);
+  const [krTemplates, setKrTemplates] = useState<OkrTemplate[]>([]);
+  const [pickOId, setPickOId] = useState('');
+  const [pickKrId, setPickKrId] = useState('');
+  const [krPickerIdx, setKrPickerIdx] = useState<number | null>(null);
   const [loadingKr, setLoadingKr] = useState(false);
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState('');
@@ -69,6 +77,12 @@ export function OkrDialog({
     setMsg('');
     const p = normalizePeriod(period);
     setTu(p.tu); setDen(p.den);
+    setPickOId('');
+    // Load O/KR templates theo vai trò
+    if (authRole) {
+      loadOkrTemplates('okr_o_template', authRole).then(setOTemplates).catch(() => {});
+      loadOkrTemplates('okr_kr_template', authRole).then(setKrTemplates).catch(() => {});
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
@@ -298,6 +312,22 @@ export function OkrDialog({
 
         <div>
           <label className={LABEL}>Objective (mục tiêu) *</label>
+          {oTemplates.length > 0 && (
+            <div className="mb-2 flex items-center gap-2">
+              <span className="text-xs text-slate-500">Chọn O mẫu (theo vai trò của bạn):</span>
+              <div className="min-w-[220px] flex-1">
+                <SingleCombobox
+                  options={oTemplates.map((o) => ({ id: o.id, label: o.name, sub: o.groupLabel }))}
+                  value={pickOId}
+                  onChange={(id) => {
+                    setPickOId(id);
+                    if (id) { const t = oTemplates.find((o) => o.id === id); if (t) setObjective(t.name); }
+                  }}
+                  placeholder="Nhập để tìm O mẫu…"
+                />
+              </div>
+            </div>
+          )}
           <GrowArea
             value={objective}
             onChange={(e) => setObjective(e.target.value)}
@@ -315,22 +345,42 @@ export function OkrDialog({
           </div>
           <div className="grid gap-2">
             {krs.map((kr, idx) => (
-              <div key={idx} className="flex gap-2">
-                <input
-                  value={kr}
-                  onChange={(e) => updateKr(idx, e.target.value)}
-                  placeholder={`KR ${idx + 1} — VD: Chốt 5 khách mới / Tăng 20%`}
-                  className={sel}
-                />
-                {krs.length > 2 && (
-                  <button
-                    type="button"
-                    onClick={() => removeKr(idx)}
-                    aria-label={`Xóa KR ${idx + 1}`}
-                    className="shrink-0 rounded-md border border-slate-200 px-2 text-sm hover:bg-slate-50"
-                  >
-                    ×
-                  </button>
+              <div key={idx} className="flex flex-col gap-1">
+                <div className="flex gap-2">
+                  <input
+                    value={kr}
+                    onChange={(e) => updateKr(idx, e.target.value)}
+                    placeholder={`KR ${idx + 1} — VD: Chốt 5 khách mới / Tăng 20%`}
+                    className={sel}
+                  />
+                  {krs.length > 2 && (
+                    <button
+                      type="button"
+                      onClick={() => removeKr(idx)}
+                      aria-label={`Xóa KR ${idx + 1}`}
+                      className="shrink-0 rounded-md border border-slate-200 px-2 text-sm hover:bg-slate-50"
+                    >
+                      ×
+                    </button>
+                  )}
+                </div>
+                {krTemplates.length > 0 && (
+                  krPickerIdx === idx ? (
+                    <SingleCombobox
+                      options={krTemplates.map((k) => ({ id: k.id, label: k.name, sub: k.groupLabel }))}
+                      value={pickKrId}
+                      onChange={(id) => {
+                        setPickKrId(id);
+                        if (id) { const t = krTemplates.find((k) => k.id === id); if (t) updateKr(idx, t.name); }
+                        setKrPickerIdx(null);
+                      }}
+                      placeholder={`Nhập để tìm KR mẫu cho KR ${idx + 1}…`}
+                    />
+                  ) : (
+                    <button type="button" onClick={() => { setKrPickerIdx(idx); setPickKrId(''); }} className="self-start text-[11px] font-semibold text-[#1e3a8a] hover:underline">
+                      + Chọn KR mẫu
+                    </button>
+                  )
                 )}
               </div>
             ))}
