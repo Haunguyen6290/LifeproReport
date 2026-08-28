@@ -38,6 +38,21 @@ export async function POST(req: NextRequest) {
     const admin = createClient(URL, SRV, { auth: { autoRefreshToken: false, persistSession: false } });
     const rows = await fetchAllRows(admin, from, to);
 
+    // Tỉnh: ưu tiên lấy từ hệ thống theo Mã KH (Odoo hay nhảy loạn cột Vùng)
+    try {
+      const { data: custs } = await admin.from('customers').select('ma_kh, tinh_thanh').limit(20000);
+      const custTinh = new Map<string, string>();
+      for (const c of (custs ?? []) as { ma_kh: string; tinh_thanh: string | null }[]) {
+        const ma = String(c.ma_kh ?? '').trim();
+        const tinh = String(c.tinh_thanh ?? '').trim();
+        if (ma && tinh) custTinh.set(ma, tinh);
+      }
+      for (const r of rows) {
+        const ma = String(r.ma_kh ?? '').trim();
+        if (ma && custTinh.has(ma)) r.vung = custTinh.get(ma)!;
+      }
+    } catch {}
+
     const filtered = rows.filter((r) => {
       if (selKd.length && !selKd.includes(r.kinh_doanh)) return false;
       if (selVung.length && !selVung.includes(r.vung)) return false;

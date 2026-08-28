@@ -3,7 +3,7 @@ import { useState, useRef } from 'react';
 import { RequireAuth } from '@/components/RequireAuth';
 import { AppSidebar } from '@/components/AppSidebar';
 
-type NewCust = { ma_kh: string; ten_kh: string; dupNote?: string };
+type NewCust = { ma_kh: string; ten_kh: string; dupNote?: string; mergeTo?: string };
 type Preview = {
   imported: number;
   skipped: number;
@@ -26,11 +26,12 @@ function Inner() {
   const [confirming, setConfirming] = useState(false);
   const [preview, setPreview] = useState<Preview | null>(null);
   const [excluded, setExcluded] = useState<Set<string>>(new Set());
+  const [merged, setMerged] = useState<Map<string, string>>(new Map());
   const [done, setDone] = useState<Done | null>(null);
   const [err, setErr] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
 
-  function reset() { setPreview(null); setDone(null); setErr(''); setExcluded(new Set()); }
+  function reset() { setPreview(null); setDone(null); setErr(''); setExcluded(new Set()); setMerged(new Map()); }
 
   async function doPreview() {
     if (!file) { setErr('Chưa chọn file'); return; }
@@ -56,11 +57,13 @@ function Inner() {
       fd.append('file', file);
       fd.append('mode', 'commit');
       fd.append('exclude', JSON.stringify([...excluded]));
+      if (merged.size > 0) fd.append('merge', JSON.stringify(Object.fromEntries(merged)));
       const res = await fetch('/api/sales/import', { method: 'POST', body: fd });
       const body = await res.json();
       if (!res.ok) throw new Error(body?.error ?? 'Import thất bại');
       setPreview(null);
       setExcluded(new Set());
+      setMerged(new Map());
       setDone(body);
     } catch (e: any) {
       setErr(e?.message ?? String(e));
@@ -107,25 +110,35 @@ function Inner() {
                   <p className="text-xs font-bold text-slate-800">Sẽ tạo thêm {preview.newCustomers.length} khách mới (Mã, Tên, KD phụ trách, Tỉnh) — bấm X để loại khách trùng:</p>
                   <div className="mt-2 max-h-[260px] overflow-auto rounded border border-sky-200 bg-white">
                     <table className="w-full text-xs">
-                      <thead><tr className="bg-sky-100 text-left text-slate-700"><th className="px-2 py-1">Mã KH</th><th className="px-2 py-1">Tên KH</th><th className="px-2 py-1"></th><th className="w-8 px-1 py-1"></th></tr></thead>
+                      <thead><tr className="bg-sky-100 text-left text-slate-700"><th className="px-2 py-1">Mã KH</th><th className="px-2 py-1">Tên KH</th><th className="px-2 py-1">Xử lý</th><th className="w-20 px-1 py-1"></th></tr></thead>
                       <tbody>
                         {preview.newCustomers.map((c) => {
                           const isExcluded = excluded.has(c.ma_kh);
+                          const isMerged = merged.has(c.ma_kh);
                           const dup = !!c.dupNote;
+                          const mergeTarget = (c as any).mergeTo as string | undefined;
                           return (
-                            <tr key={c.ma_kh} className={`border-t border-slate-100 ${isExcluded ? 'bg-slate-100 opacity-60' : dup ? 'bg-amber-50' : ''}`}>
+                            <tr key={c.ma_kh} className={`border-t border-slate-100 ${isExcluded ? 'bg-slate-100 opacity-60' : isMerged ? 'bg-emerald-50' : dup ? 'bg-amber-50' : ''}`}>
                               <td className="px-2 py-1 font-mono">{c.ma_kh}</td>
                               <td className="px-2 py-1">
                                 <span>{c.ten_kh}</span>
-                                {dup && <span className="ml-2 rounded bg-amber-100 px-1.5 py-0.5 text-[10px] font-semibold text-amber-800">{c.dupNote}</span>}
+                                {isMerged && <span className="ml-2 rounded bg-emerald-100 px-1.5 py-0.5 text-[10px] font-semibold text-emerald-800">Sẽ gộp → {merged.get(c.ma_kh)}</span>}
+                                {!isMerged && dup && <span className="ml-2 rounded bg-amber-100 px-1.5 py-0.5 text-[10px] font-semibold text-amber-800">{c.dupNote}</span>}
                                 {isExcluded && <span className="ml-2 text-[10px] text-slate-500">(sẽ bỏ qua)</span>}
                               </td>
-                              <td className="px-2 py-1">{dup ? <span className="text-amber-700">Trùng tên</span> : ''}</td>
+                              <td className="px-2 py-1 text-xs">
+                                {isMerged ? <span className="text-emerald-700">Đã chọn gộp</span> : isExcluded ? '' : dup && mergeTarget ? <span className="text-amber-700">{c.dupNote}</span> : dup ? <span className="text-amber-700">Trùng tên</span> : ''}
+                              </td>
                               <td className="px-1 py-1 text-center">
                                 {isExcluded ? (
                                   <button onClick={() => setExcluded((prev) => { const n = new Set(prev); n.delete(c.ma_kh); return n; })} className="text-xs text-emerald-700 hover:underline" title="Khôi phục">↩</button>
+                                ) : isMerged ? (
+                                  <button onClick={() => setMerged((prev) => { const n = new Map(prev); n.delete(c.ma_kh); return n; })} className="text-xs text-slate-600 hover:underline" title="Hủy gộp">↩ Gộp</button>
                                 ) : (
-                                  <button onClick={() => setExcluded((prev) => new Set(prev).add(c.ma_kh))} className="rounded px-1.5 py-0.5 text-slate-500 hover:bg-red-100 hover:text-red-600" title="Loại khỏi tạo mới">✕</button>
+                                  <span className="flex items-center justify-center gap-1">
+                                    {mergeTarget && <button onClick={() => setMerged((prev) => new Map(prev).set(c.ma_kh, mergeTarget))} className="rounded bg-emerald-100 px-1.5 py-0.5 text-[10px] font-semibold text-emerald-700 hover:bg-emerald-200" title={`Gộp vào ${mergeTarget} — dùng Mã/Khách đã có, tránh tạo mới`}>Gộp</button>}
+                                    <button onClick={() => setExcluded((prev) => new Set(prev).add(c.ma_kh))} className="rounded px-1.5 py-0.5 text-slate-500 hover:bg-red-100 hover:text-red-600" title="Loại khỏi tạo mới">✕</button>
+                                  </span>
                                 )}
                               </td>
                             </tr>
@@ -134,11 +147,12 @@ function Inner() {
                       </tbody>
                     </table>
                   </div>
-                  {excluded.size > 0 && <p className="mt-1 text-xs text-slate-600">Đã loại {excluded.size} khách — sẽ chỉ tạo {preview.newCustomers.length - excluded.size} khách khi xác nhận.</p>}
+                  {excluded.size > 0 && <p className="mt-1 text-xs text-slate-600">Đã loại {excluded.size} khách — sẽ chỉ tạo {preview.newCustomers.length - excluded.size - merged.size} khách mới + gộp {merged.size} khách vào mã đã có.</p>}
+                  {merged.size > 0 && excluded.size === 0 && <p className="mt-1 text-xs text-emerald-700">Sẽ gộp {merged.size} khách vào mã đã có (dùng Mã KH cũ, không tạo mới) — doanh số vẫn tính đủ.</p>}
                 </div>
               )}
               <div className="mt-4 flex gap-2">
-                <button onClick={doCommit} disabled={confirming || preview.imported === 0} className="rounded-lg bg-emerald-600 px-6 py-2 text-sm font-semibold text-white hover:bg-emerald-700 disabled:opacity-60">{confirming ? 'Đang lưu…' : `Xác nhận lưu (${preview.newCustomers.length - excluded.size} khách mới)`}</button>
+                <button onClick={doCommit} disabled={confirming || preview.imported === 0} className="rounded-lg bg-emerald-600 px-6 py-2 text-sm font-semibold text-white hover:bg-emerald-700 disabled:opacity-60">{confirming ? 'Đang lưu…' : `Xác nhận lưu (${preview.newCustomers.length - excluded.size - merged.size} khách mới${merged.size ? ` + gộp ${merged.size}` : ''})`}</button>
                 <button onClick={() => setPreview(null)} disabled={confirming} className="rounded-lg border border-slate-200 px-4 py-2 text-sm">Hủy</button>
               </div>
             </div>

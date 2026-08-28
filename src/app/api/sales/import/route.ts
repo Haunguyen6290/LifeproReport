@@ -19,7 +19,7 @@ function parseSettings(settings: { key: string; value: string }[]) {
 }
 
 type SalesRec = Record<string, unknown> & { sale_month: string };
-type NewCust = { ma_kh: string; ten_kh: string; kinh_doanh: string; vung: string; dupNote: string };
+type NewCust = { ma_kh: string; ten_kh: string; kinh_doanh: string; vung: string; dupNote: string; mergeTo?: string };
 
 const normName = (s: string) => s.trim().toLowerCase().replace(/\s+/g, ' ');
 
@@ -137,9 +137,10 @@ export async function POST(req: NextRequest) {
       for (const c of candidates) {
         const nn = normName(c.ten_kh);
         let dupNote = '';
-        if (existingByName.has(nn)) dupNote = `Trùng tên khách đã có (${existingByName.get(nn)})`;
+        let mergeTo: string | undefined;
+        if (existingByName.has(nn)) { dupNote = `Trùng tên khách đã có (${existingByName.get(nn)})`; mergeTo = existingByName.get(nn)!; }
         else if ((nameCount.get(nn) ?? 0) > 1) dupNote = 'Trùng tên với khách khác trong file';
-        const row: NewCust = { ma_kh: c.ma_kh, ten_kh: c.ten_kh, kinh_doanh: c.kinh_doanh, vung: c.vung, dupNote };
+        const row: NewCust = { ma_kh: c.ma_kh, ten_kh: c.ten_kh, kinh_doanh: c.kinh_doanh, vung: c.vung, dupNote, mergeTo };
         newCustomers.push(row);
         toCreateCustomersAll.push(row);
       }
@@ -181,13 +182,28 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // Auto-create missing customers (respect exclude list from UI preview)
+    // Auto-create missing customers (respect exclude + merge choices from UI)
     let createdCustomers = 0;
+    let mergedCustomers = 0;
     try {
       const excludeRaw = String(form.get('exclude') ?? '[]');
       let excludeMa = new Set<string>();
       try { const arr = JSON.parse(excludeRaw); if (Array.isArray(arr)) excludeMa = new Set(arr.map((v: unknown) => String(v))); } catch {}
-      const toCreateFiltered = toCreateCustomersAll.filter((c) => !excludeMa.has(c.ma_kh));
+      // merge choices: { ma_kh -> mergeTo ma_kh } — nếu có thì không tạo mới mà gộp vào khách cũ
+      const mergeRaw = String(form.get('merge') ?? '{}');
+      let mergeMap = new Map<string, string>();
+      try { const obj = JSON.parse(mergeRaw); if (obj && typeof obj === 'object' && !Array.isArray(obj)) mergeMap = new Map(Object.entries(obj).map(([k, v]) => [String(k), String(v)])); } catch {}
+      const toCreateFiltered = toCreateCustomersAll.filter((c) => !excludeMa.has(c.ma_kh) && !mergeMap.has(c.ma_kh));
+      // Cập nhật sales_rows: những dòng có ma_kh thuộc mergeMap thì đổi về mã đã có (để Tỉnh/danh sách khách khớp)
+      if (mergeMap.size > 0) {
+        for (const rec of toInsert) {
+          const mk = String((rec as any).ma_kh ?? '');
+          if (mergeMap.has(mk)) {
+            (rec as any).ma_kh = mergeMap.get(mk)!;
+            mergedCustomers++;
+          }
+        }
+      }
       if (toCreateFiltered.length > 0) {
         const { data: profiles } = await admin.from('profiles').select('id, full_name');
         const nameToId = new Map<string, string>();
@@ -206,9 +222,10 @@ export async function POST(req: NextRequest) {
           if (!insErr) createdCustomers++;
         }
       }
+      // Lưu ý: mergedCustomers là số dòng sales_rows đã gộp mã; không cần tạo khách mới cho chúng
     } catch {}
 
-    return NextResponse.json({ imported: toInsert.length, skipped, months, newCustomers, createdCustomers });
+    return NextResponse.json({ imported: toInsert.length, skipped, months, newCustomers, createdCustomers, mergedCustomers });
   } catch (e: any) {
     return NextResponse.json({ error: e?.message ?? 'Lỗi import' }, { status: 500 });
   }
