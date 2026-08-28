@@ -38,21 +38,37 @@ function Screen() {
   const [logoPreview, setLogoPreview] = useState<string | null>(null);
   const [logoBusy, setLogoBusy] = useState(false);
   const logoRef = useRef<HTMLInputElement>(null);
+  const [allowedNames, setAllowedNames] = useState<string[]>([]);
+  const [nameMap, setNameMap] = useState<{ from: string; to: string }[]>([]);
+  const [newAllowed, setNewAllowed] = useState('');
+  const [newMapFrom, setNewMapFrom] = useState('');
+  const [newMapTo, setNewMapTo] = useState('');
 
   async function load() {
     const { data } = await supabase.from('settings').select('key, value');
     const v: Record<string, string> = {};
     for (const r of (data ?? []) as { key: string; value: string }[]) v[r.key] = r.value;
     setVals(v);
+    try { const a = JSON.parse(v.SALES_ALLOWED_NAMES ?? '[]'); if (Array.isArray(a)) setAllowedNames(a); } catch {}
+    try {
+      const m = JSON.parse(v.SALES_NAME_MAP ?? '{}');
+      if (m && typeof m === 'object' && !Array.isArray(m)) setNameMap(Object.entries(m).map(([from, to]) => ({ from, to: String(to) })));
+    } catch {}
   }
   useEffect(() => { load(); }, []);
 
   async function save() {
     setBusy(true); setMsg('');
-    for (const k of Object.keys(vals)) {
-      await supabase.from('settings').upsert({ key: k, value: vals[k], updated_by: userId }, { onConflict: 'key' });
+    const valsToSave = { ...vals };
+    valsToSave.SALES_ALLOWED_NAMES = JSON.stringify(allowedNames);
+    const mapObj: Record<string, string> = {};
+    for (const r of nameMap) if (r.from.trim() && r.to.trim()) mapObj[r.from.trim()] = r.to.trim();
+    valsToSave.SALES_NAME_MAP = JSON.stringify(mapObj);
+    for (const k of Object.keys(valsToSave)) {
+      await supabase.from('settings').upsert({ key: k, value: valsToSave[k], updated_by: userId }, { onConflict: 'key' });
     }
-    try { const { data: me2 } = await supabase.from('profiles').select('full_name').eq('id', userId).single(); await supabase.from('audit_logs').insert({ actor_id: userId, action: 'Lưu cài đặt', entity_type: 'settings', entity_id: null, details: { keys: Object.keys(vals), full_name: me2?.full_name ?? '' } }); } catch {}
+    setVals(valsToSave);
+    try { const { data: me2 } = await supabase.from('profiles').select('full_name').eq('id', userId).single(); await supabase.from('audit_logs').insert({ actor_id: userId, action: 'Lưu cài đặt', entity_type: 'settings', entity_id: null, details: { keys: Object.keys(valsToSave), full_name: me2?.full_name ?? '' } }); } catch {}
     setBusy(false); setMsg('Đã lưu.');
   }
 
@@ -173,6 +189,42 @@ function Screen() {
             <input ref={logoRef} id="logo-file" type="file" accept="image/png,image/jpeg,image/webp" className="hidden" onChange={onPickLogo} />
             <button onClick={uploadLogo} disabled={logoBusy} className="rounded-md bg-[var(--color-primary)] px-3 py-2 text-sm font-semibold text-white hover:bg-[var(--color-primary-hover)] disabled:opacity-60">{logoBusy ? 'Đang upload…' : 'Upload'}</button>
             {vals.LOGO_URL && <button onClick={removeLogo} disabled={logoBusy} className="rounded-md border border-[var(--color-muted)] px-3 py-2 text-sm hover:border-red-300 hover:text-red-600">Gỡ logo</button>}
+          </div>
+        </div>
+
+        <div className={`${card} mt-4`}>
+          <h2 className="mb-2 text-sm font-bold text-[#1e3a8a]">Nhân viên được tính vào báo cáo bán hàng</h2>
+          <p className="mb-2 text-xs text-slate-600">Chỉ những dòng có <em>Kinh doanh QL</em> khớp tên trong danh sách này mới được tính. Ô trống / tên khác sẽ bị bỏ qua.</p>
+          <ul className="mb-2 space-y-1">
+            {allowedNames.map((n, i) => (
+              <li key={i} className="flex items-center gap-2 text-sm"><span className="flex-1 rounded bg-slate-50 px-2 py-1">{n}</span><button onClick={() => setAllowedNames((prev) => prev.filter((_, j) => j !== i))} className="text-xs text-red-600 hover:underline">Xóa</button></li>
+            ))}
+            {allowedNames.length === 0 && <li className="text-xs italic text-slate-500">Chưa có ai — hãy thêm 5 người ban đầu.</li>}
+          </ul>
+          <div className="flex gap-2">
+            <input value={newAllowed} onChange={(e) => setNewAllowed(e.target.value)} placeholder="Tên nhân viên (vd Nguyễn Trung Chính SG)" className={`${sel} flex-1`} onKeyDown={(e) => { if (e.key === 'Enter' && newAllowed.trim()) { setAllowedNames((prev) => [...prev, newAllowed.trim()]); setNewAllowed(''); } }} />
+            <button onClick={() => { if (newAllowed.trim()) { setAllowedNames((prev) => [...prev, newAllowed.trim()]); setNewAllowed(''); } }} className="rounded-md border border-[var(--color-muted)] px-3 py-2 text-sm hover:border-[var(--color-primary)]">Thêm</button>
+          </div>
+        </div>
+
+        <div className={`${card} mt-4`}>
+          <h2 className="mb-2 text-sm font-bold text-[#1e3a8a]">Ánh xạ tên nhân viên</h2>
+          <p className="mb-2 text-xs text-slate-600">Gộp các tên khác nhau về một người, ví dụ <code>Nguyễn Trung Chính SG → Nguyễn Trung Chính</code>. Doanh số sẽ được cộng dồn theo tên đích.</p>
+          {nameMap.length > 0 && (
+            <table className="mb-2 w-full text-sm">
+              <thead><tr className="text-left text-xs text-slate-500"><th className="pb-1">Tên gốc</th><th className="pb-1">Tên gộp</th><th></th></tr></thead>
+              <tbody>
+                {nameMap.map((r, i) => (
+                  <tr key={i}><td className="py-1 pr-2"><input value={r.from} onChange={(e) => setNameMap((prev) => prev.map((x, j) => j === i ? { ...x, from: e.target.value } : x))} className={`${sel} w-full py-1`} /></td><td className="py-1 pr-2"><input value={r.to} onChange={(e) => setNameMap((prev) => prev.map((x, j) => j === i ? { ...x, to: e.target.value } : x))} className={`${sel} w-full py-1`} /></td><td className="py-1"><button onClick={() => setNameMap((prev) => prev.filter((_, j) => j !== i))} className="text-xs text-red-600 hover:underline">Xóa</button></td></tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+          <div className="flex flex-wrap gap-2">
+            <input value={newMapFrom} onChange={(e) => setNewMapFrom(e.target.value)} placeholder="Tên gốc (vd Đỗ Thành Công)" className={`${sel} flex-1 min-w-[140px]`} />
+            <span className="self-center text-slate-500">→</span>
+            <input value={newMapTo} onChange={(e) => setNewMapTo(e.target.value)} placeholder="Tên gộp (vd Nguyễn Trung Chính)" className={`${sel} flex-1 min-w-[140px]`} />
+            <button onClick={() => { if (newMapFrom.trim() && newMapTo.trim()) { setNameMap((prev) => [...prev, { from: newMapFrom.trim(), to: newMapTo.trim() }]); setNewMapFrom(''); setNewMapTo(''); } }} className="rounded-md border border-[var(--color-muted)] px-3 py-2 text-sm hover:border-[var(--color-primary)]">Thêm ánh xạ</button>
           </div>
         </div>
 

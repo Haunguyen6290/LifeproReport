@@ -21,6 +21,7 @@ export const LINKS: { href: string; label: string; icon: React.ReactNode; needs?
   { href: '/okr', label: 'OKR', icon: ICON.target, needs: ['quan_ly_okr', 'xem_okr'] },
   { href: '/bao-cao-tuan', label: 'Báo cáo tuần', icon: ICON.chart, needs: ['bao_cao_tuan', 'quan_ly_okr'] },
   { href: '/bao-cao-kho', label: 'Báo cáo kho', icon: ICON.package, needs: ['bao_cao_kho', 'quan_ly_okr'] },
+  { href: '/bao-cao-ban-hang', label: 'Báo cáo bán hàng', icon: ICON.chart },
   { href: '/khach-hang', label: 'Khách hàng', icon: ICON.users },
   { href: '/thi-truong', label: 'Báo cáo Tổng hợp KD', icon: ICON.chart },
   { href: '/chien-dich', label: 'Chiến dịch', icon: ICON.target },
