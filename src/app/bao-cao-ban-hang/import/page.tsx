@@ -3,12 +3,13 @@ import { useState, useRef } from 'react';
 import { RequireAuth } from '@/components/RequireAuth';
 import { AppSidebar } from '@/components/AppSidebar';
 
+type NewCust = { ma_kh: string; ten_kh: string; dupNote?: string };
 type Preview = {
   imported: number;
   skipped: number;
   months: string[];
   byMonth: Record<string, number>;
-  newCustomers: { ma_kh: string; ten_kh: string }[];
+  newCustomers: NewCust[];
 };
 
 type Done = {
@@ -24,11 +25,12 @@ function Inner() {
   const [busy, setBusy] = useState(false);
   const [confirming, setConfirming] = useState(false);
   const [preview, setPreview] = useState<Preview | null>(null);
+  const [excluded, setExcluded] = useState<Set<string>>(new Set());
   const [done, setDone] = useState<Done | null>(null);
   const [err, setErr] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
 
-  function reset() { setPreview(null); setDone(null); setErr(''); }
+  function reset() { setPreview(null); setDone(null); setErr(''); setExcluded(new Set()); }
 
   async function doPreview() {
     if (!file) { setErr('Chưa chọn file'); return; }
@@ -53,10 +55,12 @@ function Inner() {
       const fd = new FormData();
       fd.append('file', file);
       fd.append('mode', 'commit');
+      fd.append('exclude', JSON.stringify([...excluded]));
       const res = await fetch('/api/sales/import', { method: 'POST', body: fd });
       const body = await res.json();
       if (!res.ok) throw new Error(body?.error ?? 'Import thất bại');
       setPreview(null);
+      setExcluded(new Set());
       setDone(body);
     } catch (e: any) {
       setErr(e?.message ?? String(e));
@@ -69,7 +73,7 @@ function Inner() {
     <AppSidebar>
       <main className="w-full px-4 py-6 sm:px-6">
         <h1 className="mb-4 text-2xl font-bold tracking-tight text-[#0f2a4a]">Import sổ bán hàng (Odoo)</h1>
-        <p className="mb-4 text-sm text-slate-600">Chọn file <code className="rounded bg-slate-100 px-1">.xls / .xlsx</code> xuất từ Odoo (ACC.15 - Sổ chi tiết bán hàng). Bấm <strong>Kiểm tra</strong> để xem trước, nếu đúng mới bấm <strong>Xác nhận lưu</strong>.</p>
+        <p className="mb-4 text-sm text-slate-600">Chọn file <code className="rounded bg-slate-100 px-1">.xls / .xlsx</code> xuất từ Odoo (ACC.15 - Sổ chi tiết bán hàng). Bấm <strong>Kiểm tra</strong> để xem trước — bấm <strong>X</strong> để loại khách trùng trước khi <strong>Xác nhận lưu</strong>.</p>
 
         <div className={card}>
           <div className="flex flex-wrap items-center gap-3">
@@ -99,10 +103,42 @@ function Inner() {
                 </div>
               )}
               {preview.newCustomers.length > 0 && (
-                <p className="mt-2 text-xs text-amber-800">Sẽ tự tạo thêm <strong>{preview.newCustomers.length}</strong> khách hàng mới vào danh sách (Mã, Tên, KD phụ trách, Tỉnh).</p>
+                <div className="mt-3">
+                  <p className="text-xs font-bold text-slate-800">Sẽ tạo thêm {preview.newCustomers.length} khách mới (Mã, Tên, KD phụ trách, Tỉnh) — bấm X để loại khách trùng:</p>
+                  <div className="mt-2 max-h-[260px] overflow-auto rounded border border-sky-200 bg-white">
+                    <table className="w-full text-xs">
+                      <thead><tr className="bg-sky-100 text-left text-slate-700"><th className="px-2 py-1">Mã KH</th><th className="px-2 py-1">Tên KH</th><th className="px-2 py-1"></th><th className="w-8 px-1 py-1"></th></tr></thead>
+                      <tbody>
+                        {preview.newCustomers.map((c) => {
+                          const isExcluded = excluded.has(c.ma_kh);
+                          const dup = !!c.dupNote;
+                          return (
+                            <tr key={c.ma_kh} className={`border-t border-slate-100 ${isExcluded ? 'bg-slate-100 opacity-60' : dup ? 'bg-amber-50' : ''}`}>
+                              <td className="px-2 py-1 font-mono">{c.ma_kh}</td>
+                              <td className="px-2 py-1">
+                                <span>{c.ten_kh}</span>
+                                {dup && <span className="ml-2 rounded bg-amber-100 px-1.5 py-0.5 text-[10px] font-semibold text-amber-800">{c.dupNote}</span>}
+                                {isExcluded && <span className="ml-2 text-[10px] text-slate-500">(sẽ bỏ qua)</span>}
+                              </td>
+                              <td className="px-2 py-1">{dup ? <span className="text-amber-700">Trùng tên</span> : ''}</td>
+                              <td className="px-1 py-1 text-center">
+                                {isExcluded ? (
+                                  <button onClick={() => setExcluded((prev) => { const n = new Set(prev); n.delete(c.ma_kh); return n; })} className="text-xs text-emerald-700 hover:underline" title="Khôi phục">↩</button>
+                                ) : (
+                                  <button onClick={() => setExcluded((prev) => new Set(prev).add(c.ma_kh))} className="rounded px-1.5 py-0.5 text-slate-500 hover:bg-red-100 hover:text-red-600" title="Loại khỏi tạo mới">✕</button>
+                                )}
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                  {excluded.size > 0 && <p className="mt-1 text-xs text-slate-600">Đã loại {excluded.size} khách — sẽ chỉ tạo {preview.newCustomers.length - excluded.size} khách khi xác nhận.</p>}
+                </div>
               )}
               <div className="mt-4 flex gap-2">
-                <button onClick={doCommit} disabled={confirming || preview.imported === 0} className="rounded-lg bg-emerald-600 px-6 py-2 text-sm font-semibold text-white hover:bg-emerald-700 disabled:opacity-60">{confirming ? 'Đang lưu…' : 'Xác nhận lưu vào hệ thống'}</button>
+                <button onClick={doCommit} disabled={confirming || preview.imported === 0} className="rounded-lg bg-emerald-600 px-6 py-2 text-sm font-semibold text-white hover:bg-emerald-700 disabled:opacity-60">{confirming ? 'Đang lưu…' : `Xác nhận lưu (${preview.newCustomers.length - excluded.size} khách mới)`}</button>
                 <button onClick={() => setPreview(null)} disabled={confirming} className="rounded-lg border border-slate-200 px-4 py-2 text-sm">Hủy</button>
               </div>
             </div>
@@ -124,7 +160,7 @@ function Inner() {
         <div className="mt-4 rounded-lg bg-slate-50 p-4 text-xs text-slate-600">
           <p className="font-semibold">Lưu ý:</p>
           <ul className="mt-1 list-disc pl-5 space-y-1">
-            <li>Bấm <strong>Kiểm tra</strong> trước để xem sẽ lưu/giữ gì, đúng rồi mới <strong>Xác nhận lưu</strong>.</li>
+            <li>Bấm <strong>Kiểm tra</strong> trước để xem sẽ lưu/giữ gì, bấm <strong>X</strong> để loại khách trùng, đúng rồi mới <strong>Xác nhận lưu</strong>.</li>
             <li>Mỗi tháng có thể import nhiều lần — lần sau sẽ ghi đè tháng đó.</li>
             <li>Chỉ tính các dòng có <em>Kinh doanh QL</em> nằm trong danh sách cho phép (Cài đặt chung).</li>
             <li>Tên như <code>Nguyễn Trung Chính SG</code> / <code>Đỗ Thành Công</code> sẽ tự gộp về <code>Nguyễn Trung Chính</code> theo ánh xạ.</li>

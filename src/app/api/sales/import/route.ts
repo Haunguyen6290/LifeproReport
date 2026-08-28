@@ -19,6 +19,9 @@ function parseSettings(settings: { key: string; value: string }[]) {
 }
 
 type SalesRec = Record<string, unknown> & { sale_month: string };
+type NewCust = { ma_kh: string; ten_kh: string; kinh_doanh: string; vung: string; dupNote: string };
+
+const normName = (s: string) => s.trim().toLowerCase().replace(/\s+/g, ' ');
 
 async function parseFile(file: File) {
   const buf = Buffer.from(await file.arrayBuffer());
@@ -110,17 +113,35 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ preview: true, imported: 0, skipped, months: [], newCustomers: [], message: 'Không có dòng nào hợp lệ (đã lọc theo danh sách nhân viên)' });
     }
 
-    // Compute new customers (needed in both preview and commit)
-    let newCustomers: { ma_kh: string; ten_kh: string }[] = [];
-    let toCreateCustomers: { ma_kh: string; ten_kh: string; kinh_doanh: string; vung: string }[] = [];
+    // Compute new customers + duplicate-by-name warning (needed in both preview and commit)
+    let newCustomers: NewCust[] = [];
+    let toCreateCustomersAll: NewCust[] = [];
     try {
-      const { data: existing } = await admin.from('customers').select('ma_kh').limit(10000);
+      const { data: existing } = await admin.from('customers').select('ma_kh, ten_kh').limit(10000);
       const existingSet = new Set((existing ?? []).map((r: any) => String(r.ma_kh ?? '').trim()));
+      const existingByName = new Map<string, string>(); // norm ten_kh -> ma_kh
+      for (const r of (existing ?? []) as { ma_kh: string; ten_kh: string }[]) {
+        const nn = normName(String(r.ten_kh ?? ''));
+        if (nn && !existingByName.has(nn)) existingByName.set(nn, r.ma_kh);
+      }
+      // Count normalized names among new customers (in-file duplicates)
+      const nameCount = new Map<string, number>();
+      const candidates: { ma_kh: string; ten_kh: string; kinh_doanh: string; vung: string }[] = [];
       for (const [maKh, info] of khInFile) {
         if (!existingSet.has(maKh)) {
-          newCustomers.push({ ma_kh: info.ma_kh, ten_kh: info.ten_kh });
-          toCreateCustomers.push(info);
+          candidates.push(info);
+          const nn = normName(info.ten_kh);
+          nameCount.set(nn, (nameCount.get(nn) ?? 0) + 1);
         }
+      }
+      for (const c of candidates) {
+        const nn = normName(c.ten_kh);
+        let dupNote = '';
+        if (existingByName.has(nn)) dupNote = `Trùng tên khách đã có (${existingByName.get(nn)})`;
+        else if ((nameCount.get(nn) ?? 0) > 1) dupNote = 'Trùng tên với khách khác trong file';
+        const row: NewCust = { ma_kh: c.ma_kh, ten_kh: c.ten_kh, kinh_doanh: c.kinh_doanh, vung: c.vung, dupNote };
+        newCustomers.push(row);
+        toCreateCustomersAll.push(row);
       }
     } catch {}
 
@@ -160,16 +181,20 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // Auto-create missing customers
+    // Auto-create missing customers (respect exclude list from UI preview)
     let createdCustomers = 0;
     try {
-      if (toCreateCustomers.length > 0) {
+      const excludeRaw = String(form.get('exclude') ?? '[]');
+      let excludeMa = new Set<string>();
+      try { const arr = JSON.parse(excludeRaw); if (Array.isArray(arr)) excludeMa = new Set(arr.map((v: unknown) => String(v))); } catch {}
+      const toCreateFiltered = toCreateCustomersAll.filter((c) => !excludeMa.has(c.ma_kh));
+      if (toCreateFiltered.length > 0) {
         const { data: profiles } = await admin.from('profiles').select('id, full_name');
         const nameToId = new Map<string, string>();
         for (const p of (profiles ?? []) as { id: string; full_name: string }[]) {
           nameToId.set(p.full_name.trim().toLowerCase(), p.id);
         }
-        for (const c of toCreateCustomers) {
+        for (const c of toCreateFiltered) {
           const pid = nameToId.get(c.kinh_doanh.trim().toLowerCase());
           if (!pid) continue;
           const { error: insErr } = await admin.from('customers').insert({
