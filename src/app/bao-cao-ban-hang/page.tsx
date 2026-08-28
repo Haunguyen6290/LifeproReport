@@ -81,26 +81,43 @@ function BarChart({ labels, data, title }: { labels: string[]; data: number[]; t
   return <div className="h-[280px]"><canvas ref={ref} /></div>;
 }
 
-function ChipFilter({ label, options, selected, onToggle }: { label: string; options: string[]; selected: string[]; onToggle: (v: string) => void }) {
+function FilterDropdown({ label, options, selected, onChange, searchable }: { label: string; options: string[]; selected: string[]; onChange: (v: string[]) => void; searchable?: boolean }) {
+  const [open, setOpen] = useState(false);
+  const [q, setQ] = useState('');
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!open) return;
+    const h = (e: MouseEvent) => { if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false); };
+    document.addEventListener('mousedown', h);
+    return () => document.removeEventListener('mousedown', h);
+  }, [open]);
   if (options.length === 0) return null;
+  const filtered = searchable && q.trim() ? options.filter((o) => o.toLowerCase().includes(q.trim().toLowerCase())).slice(0, 40) : options.slice(0, searchable ? 50 : 200);
+  const labelText = selected.length === 0 ? 'Tất cả' : selected.length === 1 ? selected[0] : `${selected.length} mục`;
+  const toggle = (o: string) => onChange(selected.includes(o) ? selected.filter((x) => x !== o) : [...selected, o]);
   return (
-    <div className="flex flex-wrap items-center gap-1.5">
-      <span className="text-xs font-semibold text-slate-600">{label}:</span>
-      <button
-        onClick={() => onToggle('__all__')}
-        className={`rounded-full px-3 py-1 text-xs font-semibold ${selected.length === 0 ? 'bg-[#0f2a4a] text-white' : 'bg-white ring-1 ring-slate-200 text-slate-700 hover:bg-slate-50'}`}
-      >
-        Tất cả
+    <div className="relative" ref={ref}>
+      <button onClick={() => setOpen((o) => !o)} className="flex items-center gap-2 rounded-md border border-slate-200 bg-white px-3 py-1.5 text-sm hover:border-[#1e3a8a]">
+        <span className="text-xs font-semibold text-slate-600">{label}:</span>
+        <span className="max-w-[160px] truncate font-medium text-slate-900">{labelText}</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={`shrink-0 text-slate-400 transition ${open ? 'rotate-180' : ''}`} aria-hidden><path d="M6 9l6 6 6-6" /></svg>
       </button>
-      {options.map((o) => (
-        <button
-          key={o}
-          onClick={() => onToggle(o)}
-          className={`rounded-full px-3 py-1 text-xs font-semibold ${selected.includes(o) ? 'bg-[#0d6efd] text-white' : 'bg-white ring-1 ring-slate-200 text-slate-700 hover:bg-slate-50'}`}
-        >
-          {o}
-        </button>
-      ))}
+      {open && (
+        <div className="absolute left-0 z-20 mt-1 max-h-64 w-64 overflow-auto rounded-lg border border-slate-200 bg-white p-2 shadow-lg">
+          {searchable && <input autoFocus value={q} onChange={(e) => setQ(e.target.value)} placeholder="Tìm..." className="mb-2 w-full rounded border border-slate-200 px-2 py-1.5 text-sm outline-none focus:border-[#1e3a8a]" />}
+          <label className="flex cursor-pointer items-center gap-2 rounded px-2 py-1.5 text-sm hover:bg-slate-50">
+            <input type="checkbox" checked={selected.length === 0} onChange={() => onChange([])} />
+            Tất cả
+          </label>
+          {filtered.map((o) => (
+            <label key={o} className="flex cursor-pointer items-center gap-2 rounded px-2 py-1.5 text-sm hover:bg-slate-50">
+              <input type="checkbox" checked={selected.includes(o)} onChange={() => toggle(o)} />
+              <span className="min-w-0 flex-1 truncate">{o}</span>
+            </label>
+          ))}
+          {filtered.length === 0 && <p className="px-2 py-1 text-xs text-slate-500">Không tìm thấy</p>}
+        </div>
+      )}
     </div>
   );
 }
@@ -125,7 +142,6 @@ function DashboardInner() {
   const [selVung, setSelVung] = useState<string[]>([]);
   const [selNhom, setSelNhom] = useState<string[]>([]);
   const [selKh, setSelKh] = useState<string[]>([]);
-  const [khSearch, setKhSearch] = useState('');
 
   // Fetch all rows (paginated, but for now limit 10000)
   async function load() {
@@ -136,7 +152,19 @@ function DashboardInner() {
         setErr('Bảng sales_rows chưa tồn tại — vui lòng chạy migration 0019_sales_rows.sql trong Supabase Dashboard > SQL Editor.');
       } else setErr(error.message);
       setRows([]);
-    } else setRows((data ?? []) as Row[]);
+    } else {
+      const list = (data ?? []) as Row[];
+      setRows(list);
+      // Tự chọn tháng mới nhất có dữ liệu nếu tháng hiện tại chưa có
+      if (list.length > 0) {
+        const months = [...new Set(list.map((r) => r.sale_month).filter(Boolean))].sort().reverse();
+        const curDefault = `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}`;
+        // pickMonth hiện tại được khởi tạo = curDefault; nếu curDefault không có dữ liệu thì nhảy về tháng mới nhất có dữ liệu
+        if (months.length > 0 && !months.includes(curDefault)) {
+          setPickMonth(months[0]);
+        }
+      }
+    }
     setLoading(false);
   }
   useEffect(() => { load(); }, []);
@@ -150,11 +178,6 @@ function DashboardInner() {
     for (const r of rows) if (r.ten_kh) m.set(r.ten_kh, r.ten_kh);
     return [...m.keys()].sort();
   }, [rows]);
-  const filteredKhOptions = useMemo(() => {
-    if (!khSearch.trim()) return allKh.slice(0, 30);
-    const q = khSearch.trim().toLowerCase();
-    return allKh.filter((k) => k.toLowerCase().includes(q)).slice(0, 30);
-  }, [allKh, khSearch]);
 
   // Compute date range from period mode
   const range = useMemo(() => {
@@ -206,11 +229,6 @@ function DashboardInner() {
       return true;
     });
   }, [rows, range, selKd, selVung, selNhom, selKh]);
-
-  const toggle = ( Setter: React.Dispatch<React.SetStateAction<string[]>>, v: string) => {
-    if (v === '__all__') Setter([]);
-    else Setter((prev) => prev.includes(v) ? prev.filter((x) => x !== v) : [...prev, v]);
-  };
 
   // Aggregations
   const total = useMemo(() => filtered.reduce((s, r) => s + Number(r.thanh_tien ?? 0), 0), [filtered]);
@@ -308,26 +326,12 @@ function DashboardInner() {
           </div>
         </div>
 
-        {/* Filters */}
-        <div className={`${card} mb-4 space-y-3`}>
-          <ChipFilter label="Nhân viên" options={allKd} selected={selKd} onToggle={(v) => toggle(setSelKd, v)} />
-          <ChipFilter label="Tỉnh" options={allVung} selected={selVung} onToggle={(v) => toggle(setSelVung, v)} />
-          <ChipFilter label="Nhóm hàng" options={allNhom} selected={selNhom} onToggle={(v) => toggle(setSelNhom, v)} />
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="text-xs font-semibold text-slate-600">Khách hàng:</span>
-            <input value={khSearch} onChange={(e) => setKhSearch(e.target.value)} placeholder="Tìm khách hàng..." className={`${sel} w-[200px]`} />
-            {selKh.length > 0 && <button onClick={() => setSelKh([])} className="text-xs text-[#0d6efd] hover:underline">Bỏ lọc ({selKh.length})</button>}
-          </div>
-          {(khSearch.trim() || selKh.length > 0) && (
-            <div className="flex flex-wrap gap-1.5">
-              {(selKh.length > 0 ? selKh : filteredKhOptions).map((k) => (
-                <button key={k} onClick={() => toggle(setSelKh, k)} className={`rounded-full px-3 py-1 text-xs ${selKh.includes(k) ? 'bg-[#0d6efd] text-white' : 'bg-white ring-1 ring-slate-200 text-slate-700 hover:bg-slate-50'}`}>
-                  {k}
-                </button>
-              ))}
-            </div>
-          )}
-          {filteredKhOptions.length === 0 && khSearch.trim() && <p className="text-xs text-slate-500">Không tìm thấy khách hàng</p>}
+        {/* Filters — dropdowns */}
+        <div className={`${card} mb-4 flex flex-wrap gap-2`}>
+          <FilterDropdown label="Nhân viên" options={allKd} selected={selKd} onChange={setSelKd} />
+          <FilterDropdown label="Tỉnh" options={allVung} selected={selVung} onChange={setSelVung} />
+          <FilterDropdown label="Nhóm hàng" options={allNhom} selected={selNhom} onChange={setSelNhom} />
+          <FilterDropdown label="Khách hàng" options={allKh} selected={selKh} onChange={setSelKh} searchable />
         </div>
 
         {/* KPI */}
