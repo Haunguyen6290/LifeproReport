@@ -47,12 +47,11 @@ export function Combobox({ options, value, onChange, placeholder, disabled }: {
         role="combobox" aria-expanded={open} aria-controls="cb-list" aria-autocomplete="list"
         value={q} disabled={disabled}
         onChange={(e) => { setQ(e.target.value); setOpen(true); setHi(0); }}
-        onFocus={() => setOpen(true)}
         onKeyDown={onKey}
-        placeholder={placeholder ?? 'Nhập để tìm…'}
+        placeholder={placeholder ?? 'Nhập tên để tìm…'}
         className="w-full rounded-md border-[1.5px] border-[var(--color-muted)] bg-white px-3 py-2 text-sm outline-none focus:border-[var(--color-ring)]"
       />
-      {open && !disabled && (
+      {open && !disabled && q.trim() && (
         <ul id="cb-list" role="listbox" className="absolute z-20 mt-1 max-h-56 w-full overflow-auto rounded-md border border-slate-200 bg-white shadow-lg">
           {shown.length === 0 && <li className="px-3 py-2 text-sm text-slate-600">Không có kết quả.</li>}
           {shown.map((o, i) => (
