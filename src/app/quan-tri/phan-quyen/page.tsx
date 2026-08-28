@@ -21,6 +21,7 @@ export const PERMS: { key: string; label: string }[] = [
   { key: 'xem_okr', label: 'Xem OKR' },
   { key: 'bao_cao_tuan', label: 'Báo cáo tuần' },
   { key: 'bao_cao_kho', label: 'Báo cáo kho' },
+  { key: 'bao_cao_ban_hang', label: 'Báo cáo bán hàng (doanh số)' },
 ];
 
 type Role = { id: string; name: string; description: string; permissions: string[]; is_system: boolean };
