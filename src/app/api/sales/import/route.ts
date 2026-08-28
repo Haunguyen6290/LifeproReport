@@ -18,106 +18,136 @@ function parseSettings(settings: { key: string; value: string }[]) {
   return { allowed, nameMap };
 }
 
+type SalesRec = Record<string, unknown> & { sale_month: string };
+
+async function parseFile(file: File) {
+  const buf = Buffer.from(await file.arrayBuffer());
+  const wb = XLSX.read(buf, { type: 'buffer' });
+  const sheetName = wb.SheetNames[0];
+  if (!sheetName) throw new Error('File không có sheet');
+  const ws = wb.Sheets[sheetName];
+  const rows = XLSX.utils.sheet_to_json(ws, { header: 1, defval: '', blankrows: false }) as string[][];
+  if (rows.length < 2) throw new Error('File trống');
+  const header = parseSalesSheet(rows as any);
+  return { header, rows };
+}
+
+function prepareInsert(header: { col: Record<string, number>; dataStart: number }, rows: string[][], allowed: string[], nameMap: Record<string, string>) {
+  const col = header.col;
+  const dataRows = rows.slice(header.dataStart);
+  let skipped = 0;
+  const toInsert: SalesRec[] = [];
+  const seenMonths = new Set<string>();
+  const khInFile = new Map<string, { ma_kh: string; ten_kh: string; kinh_doanh: string; vung: string }>();
+
+  for (const r of dataRows) {
+    const get = (k: string) => String(r[col[k]] ?? '').trim();
+    const soCt = get('so_ct');
+    const ngayRaw = get('ngay');
+    if (!soCt && !ngayRaw) { skipped++; continue; }
+    let ngayStr = ngayRaw;
+    const ngayCell = r[col['ngay']];
+    if (typeof ngayCell === 'number' && ngayCell > 30000) {
+      const d = new Date(Math.round((ngayCell - 25569) * 86400 * 1000));
+      ngayStr = d.toISOString().slice(0, 10);
+    }
+    const d = new Date(ngayStr);
+    if (isNaN(d.getTime())) { skipped++; continue; }
+    const ngay = d.toISOString().slice(0, 10);
+
+    const rawKd = col['kinh_doanh'] != null ? String(r[col['kinh_doanh']] ?? '').trim() : '';
+    if (!isAllowedName(rawKd, allowed)) { skipped++; continue; }
+    const kinhDoanh = mapSalesName(rawKd, nameMap);
+    const saleMonth = saleMonthFromDate(ngay);
+    if (!saleMonth) { skipped++; continue; }
+
+    const rec: SalesRec = {
+      so_ct: soCt,
+      ngay,
+      sale_month: saleMonth,
+      ma_vt: get('ma_vt'),
+      ten_vt: get('ten_vt'),
+      ma_kh: get('ma_kh'),
+      ten_kh: get('ten_kh'),
+      kinh_doanh_raw: rawKd,
+      kinh_doanh: kinhDoanh,
+      so_luong: col['so_luong'] != null ? parseNumber(r[col['so_luong']]) : null,
+      don_gia: col['don_gia'] != null ? parseNumber(r[col['don_gia']]) : null,
+      thanh_tien: col['thanh_tien'] != null ? parseNumber(r[col['thanh_tien']]) : 0,
+      vung: get('vung'),
+      hang_sx: get('hang_sx'),
+      nhom_hang: get('nhom_hang'),
+      ma_nv: get('ma_nv'),
+    };
+    toInsert.push(rec);
+    seenMonths.add(saleMonth);
+    const maKh = String(rec.ma_kh ?? '');
+    if (maKh && !khInFile.has(maKh)) khInFile.set(maKh, { ma_kh: maKh, ten_kh: String(rec.ten_kh ?? ''), kinh_doanh: kinhDoanh, vung: String(rec.vung ?? '') });
+  }
+
+  return { toInsert, skipped, months: [...seenMonths].sort(), khInFile };
+}
+
 export async function POST(req: NextRequest) {
   try {
     const form = await req.formData();
+    const mode = String(form.get('mode') ?? 'preview'); // 'preview' | 'commit'
     const file = form.get('file') as File | null;
     if (!file) return NextResponse.json({ error: 'Chưa có file' }, { status: 400 });
     if (file.size > 5 * 1024 * 1024) return NextResponse.json({ error: 'File quá lớn (tối đa 5MB)' }, { status: 400 });
 
-    const buf = Buffer.from(await file.arrayBuffer());
-    let wb: XLSX.WorkBook;
-    try { wb = XLSX.read(buf, { type: 'buffer' }); } catch { return NextResponse.json({ error: 'Không đọc được file Excel' }, { status: 400 }); }
-    const sheetName = wb.SheetNames[0];
-    if (!sheetName) return NextResponse.json({ error: 'File không có sheet' }, { status: 400 });
-    const ws = wb.Sheets[sheetName];
-    const rows: string[][] = XLSX.utils.sheet_to_json(ws, { header: 1, defval: '', blankrows: false }) as string[][];
-    if (rows.length < 2) return NextResponse.json({ error: 'File trống' }, { status: 400 });
-
-    let header: { headerRow: number; col: Record<string, number>; dataStart: number };
-    try { header = parseSalesSheet(rows as any); } catch (e: any) { return NextResponse.json({ error: e?.message ?? 'Không tìm thấy tiêu đề' }, { status: 400 }); }
+    let parsed;
+    try { parsed = await parseFile(file); } catch (e: any) { return NextResponse.json({ error: e?.message ?? 'Không đọc được file' }, { status: 400 }); }
 
     const admin = createClient(URL, SRV, { auth: { autoRefreshToken: false, persistSession: false } });
     const { data: settingsRows } = await admin.from('settings').select('key, value').in('key', ['SALES_ALLOWED_NAMES', 'SALES_NAME_MAP']);
     const { allowed, nameMap } = parseSettings((settingsRows ?? []) as any);
     if (allowed.length === 0) return NextResponse.json({ error: 'Chưa cấu hình danh sách nhân viên được tính (SALES_ALLOWED_NAMES)' }, { status: 400 });
 
-    const col = header.col;
-    const dataRows = rows.slice(header.dataStart);
-    let imported = 0;
-    let skipped = 0;
-    const toInsert: Record<string, unknown>[] = [];
-    const seenMonths = new Set<string>();
-    const khInFile = new Map<string, { ma_kh: string; ten_kh: string; kinh_doanh: string; vung: string }>(); // dedup by ma_kh
-
-    for (const r of dataRows) {
-      const get = (k: string) => String(r[col[k]] ?? '').trim();
-      const soCt = get('so_ct');
-      const ngayRaw = get('ngay');
-      // Skip empty rows (no so_ct and no ngay)
-      if (!soCt && !ngayRaw) { skipped++; continue; }
-      // Parse ngay: Excel may store as number (serial) or string
-      let ngayStr = ngayRaw;
-      const ngayCell = r[col['ngay']];
-      if (typeof ngayCell === 'number' && ngayCell > 30000) {
-        // Excel serial date
-        const d = new Date(Math.round((ngayCell - 25569) * 86400 * 1000));
-        ngayStr = d.toISOString().slice(0, 10);
-      }
-      // Validate date
-      const d = new Date(ngayStr);
-      if (isNaN(d.getTime())) { skipped++; continue; }
-      const ngay = d.toISOString().slice(0, 10);
-
-      const rawKd = col['kinh_doanh'] != null ? String(r[col['kinh_doanh']] ?? '').trim() : '';
-      if (!isAllowedName(rawKd, allowed)) { skipped++; continue; }
-      const kinhDoanh = mapSalesName(rawKd, nameMap);
-      const saleMonth = saleMonthFromDate(ngay);
-      if (!saleMonth) { skipped++; continue; }
-
-      const rec = {
-        so_ct: soCt,
-        ngay,
-        sale_month: saleMonth,
-        ma_vt: get('ma_vt'),
-        ten_vt: get('ten_vt'),
-        ma_kh: get('ma_kh'),
-        ten_kh: get('ten_kh'),
-        kinh_doanh_raw: rawKd,
-        kinh_doanh: kinhDoanh,
-        so_luong: col['so_luong'] != null ? parseNumber(r[col['so_luong']]) : null,
-        don_gia: col['don_gia'] != null ? parseNumber(r[col['don_gia']]) : null,
-        thanh_tien: col['thanh_tien'] != null ? parseNumber(r[col['thanh_tien']]) : 0,
-        vung: get('vung'),
-        hang_sx: get('hang_sx'),
-        nhom_hang: get('nhom_hang'),
-        ma_nv: get('ma_nv'),
-      };
-      toInsert.push(rec);
-      seenMonths.add(saleMonth);
-      const maKh = rec.ma_kh;
-      if (maKh && !khInFile.has(maKh)) khInFile.set(maKh, { ma_kh: maKh, ten_kh: rec.ten_kh, kinh_doanh: kinhDoanh, vung: rec.vung });
-      imported++;
-    }
+    const { toInsert, skipped, months, khInFile } = prepareInsert(parsed.header, parsed.rows, allowed, nameMap);
 
     if (toInsert.length === 0) {
-      return NextResponse.json({ imported: 0, skipped, months: [], newCustomers: [], message: 'Không có dòng nào hợp lệ (đã lọc theo danh sách nhân viên)' });
+      return NextResponse.json({ preview: true, imported: 0, skipped, months: [], newCustomers: [], message: 'Không có dòng nào hợp lệ (đã lọc theo danh sách nhân viên)' });
     }
 
-    const months = [...seenMonths].sort();
+    // Compute new customers (needed in both preview and commit)
+    let newCustomers: { ma_kh: string; ten_kh: string }[] = [];
+    let toCreateCustomers: { ma_kh: string; ten_kh: string; kinh_doanh: string; vung: string }[] = [];
+    try {
+      const { data: existing } = await admin.from('customers').select('ma_kh').limit(10000);
+      const existingSet = new Set((existing ?? []).map((r: any) => String(r.ma_kh ?? '').trim()));
+      for (const [maKh, info] of khInFile) {
+        if (!existingSet.has(maKh)) {
+          newCustomers.push({ ma_kh: info.ma_kh, ten_kh: info.ten_kh });
+          toCreateCustomers.push(info);
+        }
+      }
+    } catch {}
 
-    // Delete old rows for those months, then insert
+    // PREVIEW: return summary without writing anything
+    if (mode !== 'commit') {
+      const byMonth: Record<string, number> = {};
+      for (const r of toInsert) byMonth[r.sale_month] = (byMonth[r.sale_month] ?? 0) + 1;
+      return NextResponse.json({
+        preview: true,
+        imported: toInsert.length,
+        skipped,
+        months,
+        byMonth,
+        newCustomers,
+      });
+    }
+
+    // COMMIT: delete old rows for months, then insert
     for (const m of months) {
       const { error } = await admin.from('sales_rows').delete().eq('sale_month', m);
-      if (error && !String(error.message).includes('not find')) {
-        // If table doesn't exist, return clear error
+      if (error) {
         if (String(error.message).includes('not find') || String(error.code) === 'PGRST205') {
           return NextResponse.json({ error: 'Bảng sales_rows chưa tồn tại — vui lòng chạy migration 0019_sales_rows.sql trong Supabase SQL Editor.' }, { status: 500 });
         }
       }
     }
 
-    // Bulk insert in chunks
     const chunk = 500;
     for (let i = 0; i < toInsert.length; i += chunk) {
       const part = toInsert.slice(i, i + chunk);
@@ -130,29 +160,18 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // New customers warning + auto-create: those ma_kh not in customers table
-    let newCustomers: { ma_kh: string; ten_kh: string }[] = [];
+    // Auto-create missing customers
     let createdCustomers = 0;
     try {
-      const { data: existing } = await admin.from('customers').select('ma_kh').limit(10000);
-      const existingSet = new Set((existing ?? []).map((r: any) => String(r.ma_kh ?? '').trim()));
-      const toCreate: { ma_kh: string; ten_kh: string; kinh_doanh: string; vung: string }[] = [];
-      for (const [maKh, info] of khInFile) {
-        if (!existingSet.has(maKh)) {
-          newCustomers.push({ ma_kh: info.ma_kh, ten_kh: info.ten_kh });
-          toCreate.push(info);
-        }
-      }
-      // Auto-create missing customers: Mã, Tên, Kinh doanh QL (assigned_to), Tỉnh (vung)
-      if (toCreate.length > 0) {
+      if (toCreateCustomers.length > 0) {
         const { data: profiles } = await admin.from('profiles').select('id, full_name');
         const nameToId = new Map<string, string>();
         for (const p of (profiles ?? []) as { id: string; full_name: string }[]) {
           nameToId.set(p.full_name.trim().toLowerCase(), p.id);
         }
-        for (const c of toCreate) {
+        for (const c of toCreateCustomers) {
           const pid = nameToId.get(c.kinh_doanh.trim().toLowerCase());
-          if (!pid) continue; // skip if no matching profile (rare)
+          if (!pid) continue;
           const { error: insErr } = await admin.from('customers').insert({
             ma_kh: c.ma_kh,
             ten_kh: c.ten_kh,
@@ -164,7 +183,7 @@ export async function POST(req: NextRequest) {
       }
     } catch {}
 
-    return NextResponse.json({ imported, skipped, months, newCustomers, createdCustomers });
+    return NextResponse.json({ imported: toInsert.length, skipped, months, newCustomers, createdCustomers });
   } catch (e: any) {
     return NextResponse.json({ error: e?.message ?? 'Lỗi import' }, { status: 500 });
   }
