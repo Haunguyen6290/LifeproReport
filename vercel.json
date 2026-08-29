@@ -1,0 +1,5 @@
+{
+  "crons": [
+    { "path": "/api/bot/weekly-check", "schedule": "30 8 * * 1" }
+  ]
+}

@@ -29,6 +29,16 @@ const TOGGLES = [
   { key: 'TB_BAO_CAO_TUAN', label: 'Báo cáo tuần' },
   { key: 'TB_BAO_CAO_KHO', label: 'Báo cáo kho' },
 ];
+// Bot 8h30 thứ 2 — việc nào tích thì bot sẽ kiểm tra + đăng cảnh báo lên Bảng tin
+const BOT_CHECKS = [
+  { key: 'BOT_CHECK_OKR', label: 'Chưa tạo OKR cá nhân kỳ hiện tại' },
+  { key: 'BOT_CHECK_KE_HOACH_TUAN', label: 'Chưa nộp Kế hoạch tuần' },
+  { key: 'BOT_CHECK_BAO_CAO_TUAN', label: 'Chưa nộp Báo cáo tuần (tuần trước)' },
+  { key: 'BOT_CHECK_BAO_CAO_KHO', label: 'Chưa có Báo cáo kho trong 7 ngày' },
+  { key: 'BOT_CHECK_DANG_NHAP', label: 'Không đăng nhập quá 7 ngày' },
+  { key: 'BOT_CHECK_TIN_THI_TRUONG', label: 'Tuần rồi không có Tin thị trường mới' },
+  { key: 'BOT_CHECK_CHIEN_DICH', label: 'Tuần rồi không có Cập nhật Chiến dịch' },
+];
 
 function Screen() {
   const { userId, can } = useAuth();
@@ -225,6 +235,19 @@ function Screen() {
             <span className="self-center text-slate-500">→</span>
             <input value={newMapTo} onChange={(e) => setNewMapTo(e.target.value)} placeholder="Tên gộp (vd Nguyễn Trung Chính)" className={`${sel} flex-1 min-w-[140px]`} />
             <button onClick={() => { if (newMapFrom.trim() && newMapTo.trim()) { setNameMap((prev) => [...prev, { from: newMapFrom.trim(), to: newMapTo.trim() }]); setNewMapFrom(''); setNewMapTo(''); } }} className="rounded-md border border-[var(--color-muted)] px-3 py-2 text-sm hover:border-[var(--color-primary)]">Thêm ánh xạ</button>
+          </div>
+        </div>
+
+        <div className={`${card} mt-4`}>
+          <h2 className="mb-2 text-sm font-bold text-[#1e3a8a]">Bot nhắc việc — 8h30 thứ 2 hàng tuần</h2>
+          <p className="mb-3 text-xs text-slate-600">Tích việc nào bot sẽ kiểm tra và đăng cảnh báo lên Bảng tin. Bỏ tích thì bỏ qua. Bot chạy 8h30 thứ 2 (Vercel Cron) + Admin có thể bấm “Chạy tay” để test.</p>
+          <div className="grid gap-2 sm:grid-cols-2">
+            {BOT_CHECKS.map((t) => (
+              <label key={t.key} className="flex items-center gap-2 text-sm"><input type="checkbox" checked={String(vals[t.key] ?? 'TRUE').toUpperCase() === 'TRUE'} onChange={(e) => setVals({ ...vals, [t.key]: e.target.checked ? 'TRUE' : 'FALSE' })} /> {t.label}</label>
+            ))}
+          </div>
+          <div className="mt-3">
+            <button onClick={async () => { setMsg('Bot đang kiểm tra…'); try { const r = await fetch('/api/bot/weekly-check', { method: 'POST' }); const j = await r.json(); if (!r.ok) setMsg('Lỗi: ' + (j?.error ?? r.statusText)); else setMsg(j.message ?? 'Bot đã chạy — vào Bảng tin để xem.'); } catch (e: any) { setMsg('Lỗi: ' + (e?.message ?? String(e))); } }} className="rounded-md border border-amber-300 bg-amber-50 px-3 py-2 text-sm font-semibold text-amber-800 hover:bg-amber-100">Chạy bot ngay (test)</button>
           </div>
         </div>
 
