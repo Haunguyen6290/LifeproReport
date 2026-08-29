@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { supabase } from '@/lib/supabase/client';
 import { RequireAuth, useAuth } from '@/components/RequireAuth';
 import { AppSidebar } from '@/components/AppSidebar';
+import { BangTinFeed } from '@/components/BangTinFeed';
 import { OkrTree } from '@/components/OkrTree';
 import { fmtCommentTimeVN, fmtDateVN } from '@/lib/time';
 import { visibleTabIds, type DashboardTabId } from '@/lib/dashboard';
@@ -233,7 +234,7 @@ function KhoTab({ tu, den }: { tu: string; den: string }) {
   );
 }
 
-function ScreenInner() {
+function TongQuanContent() {
   const { permissions, can } = useAuth();
   // Default period: current quarter-ish — keep simple: last 90 days
   const defaults = useMemo(() => {
@@ -294,9 +295,8 @@ function ScreenInner() {
   const tabLabels: Record<DashboardTabId, string> = { okr: 'OKR', tonghop: 'Báo cáo Tổng hợp KD', kho: 'Kho' };
 
   return (
-    <AppSidebar>
-      <main className="w-full px-4 py-6 sm:px-6">
-        <h1 className="mb-4 text-2xl font-bold tracking-tight text-[#0f2a4a]">Tổng quan</h1>
+    <div>
+      <h1 className="mb-4 text-2xl font-bold tracking-tight text-[#0f2a4a]">Tổng quan</h1>
 
         {/* Từ ngày → Đến ngày filter — shared across tabs; each tab query uses gte tu / lte den */}
         <div className="mb-4 rounded-xl border border-slate-200 bg-white p-4">
@@ -352,9 +352,28 @@ function ScreenInner() {
             </div>
           </>
         )}
+    </div>
+  );
+}
+
+/** Trang chủ: 2 tab — Bảng tin (mặc định) | Tổng quan. Vào phần mềm là thấy Bảng tin. */
+function HomeInner() {
+  const { can } = useAuth();
+  const canSeeTongQuan = can('quan_ly_okr') || can('xem_okr') || can('bao_cao_tuan') || can('bao_cao_kho') || can('bao_cao_ban_hang') || can('xem_khach_hang') || can('quan_ly_chien_dich');
+  const [tab, setTab] = useState<'bangtin' | 'tongquan'>('bangtin');
+  return (
+    <AppSidebar>
+      <main className="w-full px-4 py-6 sm:px-6">
+        <div className="mx-auto max-w-[900px]">
+          <div className="mb-4 flex gap-2 border-b border-slate-200">
+            <button onClick={() => setTab('bangtin')} className={`-mb-px border-b-2 px-4 py-2 text-sm font-semibold transition ${tab === 'bangtin' ? 'border-[#16A97B] text-[#16A97B]' : 'border-transparent text-slate-500 hover:text-slate-800'}`}>Bảng tin</button>
+            {canSeeTongQuan && <button onClick={() => setTab('tongquan')} className={`-mb-px border-b-2 px-4 py-2 text-sm font-semibold transition ${tab === 'tongquan' ? 'border-[#16A97B] text-[#16A97B]' : 'border-transparent text-slate-500 hover:text-slate-800'}`}>Tổng quan</button>}
+          </div>
+          {tab === 'bangtin' ? <BangTinFeed /> : <TongQuanContent />}
+        </div>
       </main>
     </AppSidebar>
   );
 }
 
-export default function Page() { return <RequireAuth><ScreenInner /></RequireAuth>; }
+export default function Page() { return <RequireAuth><HomeInner /></RequireAuth>; }

@@ -17,8 +17,7 @@ const ICON = {
 };
 
 export const LINKS: { href: string; label: string; icon: React.ReactNode; needs?: string[]; badgeKey?: 'bulletin' | 'campaign' }[] = [
-  { href: '/', label: 'Tổng quan', icon: ICON.dashboard, needs: ['quan_ly_okr', 'xem_okr', 'bao_cao_tuan', 'bao_cao_kho', 'bao_cao_ban_hang', 'xem_khach_hang', 'quan_ly_chien_dich'] },
-  { href: '/bang-tin', label: 'Bảng tin', icon: ICON.chart, badgeKey: 'bulletin' },
+  { href: '/', label: 'Bảng tin', icon: ICON.dashboard, badgeKey: 'bulletin' },
   { href: '/okr', label: 'OKR', icon: ICON.target, needs: ['quan_ly_okr', 'xem_okr'] },
   { href: '/bao-cao-tuan', label: 'Báo cáo tuần', icon: ICON.chart, needs: ['bao_cao_tuan', 'quan_ly_okr'] },
   { href: '/bao-cao-kho', label: 'Báo cáo kho', icon: ICON.package, needs: ['bao_cao_kho', 'quan_ly_okr'] },
@@ -86,9 +85,9 @@ export function AppSidebar({ children }: { children: React.ReactNode }) {
     })();
     return () => { cancelled = true; };
   }, [path]);
-  // Khi vào trang Bảng tin / Chiến dịch → đánh dấu đã xem (xóa badge)
+  // Khi vào trang Bảng tin (/) / Chiến dịch → đánh dấu đã xem (xóa badge)
   useEffect(() => {
-    const kind = path === '/bang-tin' || path.startsWith('/bang-tin/') ? 'bulletin' : path === '/chien-dich' || path.startsWith('/chien-dich/') ? 'campaign' : null;
+    const kind = path === '/' ? 'bulletin' : path === '/chien-dich' || path.startsWith('/chien-dich/') ? 'campaign' : null;
     if (!kind) return;
     (async () => {
       try {
