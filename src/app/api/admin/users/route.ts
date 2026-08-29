@@ -55,6 +55,19 @@ export async function POST(req: NextRequest) {
       await admin.from('profiles').update({ must_change_password: true }).eq('id', id);
       return NextResponse.json({ ok: true });
     }
+    if (body.action === 'delete') {
+      const { id } = body as { id: string };
+      if (!id) return NextResponse.json({ error: 'Thiếu id' }, { status: 400 });
+      const { userId: actorId } = await requireAdmin(req);
+      if (id === actorId) return NextResponse.json({ error: 'Không thể tự xóa chính mình' }, { status: 400 });
+      // Lấy thông tin để audit trước khi xóa
+      const { data: prof } = await admin.from('profiles').select('username, full_name').eq('id', id).single();
+      // Xóa auth user -> cascade xóa profile (profiles.id references auth.users on delete cascade)
+      const { error } = await admin.auth.admin.deleteUser(id);
+      if (error) return NextResponse.json({ error: error.message }, { status: 400 });
+      try { await admin.from('audit_logs').insert({ actor_id: actorId, action: 'Xóa tài khoản', entity_type: 'user', entity_id: id, details: { username: (prof as any)?.username ?? '', full_name: (prof as any)?.full_name ?? '' } }); } catch {}
+      return NextResponse.json({ ok: true });
+    }
     return NextResponse.json({ error: 'action không hợp lệ' }, { status: 400 });
   } catch (e: any) {
     return NextResponse.json({ error: e.message }, { status: 403 });

@@ -16,32 +16,36 @@ const ICON = {
   settings: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 0 0-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 0 0-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 0 0-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 0 0-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 0 0 1.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/></svg>,
 };
 
-export const LINKS: { href: string; label: string; icon: React.ReactNode; needs?: string[] }[] = [
+export const LINKS: { href: string; label: string; icon: React.ReactNode; needs?: string[]; badgeKey?: 'bulletin' | 'campaign' }[] = [
   { href: '/', label: 'Tổng quan', icon: ICON.dashboard, needs: ['quan_ly_okr', 'xem_okr', 'bao_cao_tuan', 'bao_cao_kho', 'bao_cao_ban_hang', 'xem_khach_hang', 'quan_ly_chien_dich'] },
-  { href: '/bang-tin', label: 'Bảng tin', icon: ICON.chart },
+  { href: '/bang-tin', label: 'Bảng tin', icon: ICON.chart, badgeKey: 'bulletin' },
   { href: '/okr', label: 'OKR', icon: ICON.target, needs: ['quan_ly_okr', 'xem_okr'] },
   { href: '/bao-cao-tuan', label: 'Báo cáo tuần', icon: ICON.chart, needs: ['bao_cao_tuan', 'quan_ly_okr'] },
   { href: '/bao-cao-kho', label: 'Báo cáo kho', icon: ICON.package, needs: ['bao_cao_kho', 'quan_ly_okr'] },
   { href: '/bao-cao-ban-hang', label: 'Báo cáo bán hàng', icon: ICON.chart, needs: ['bao_cao_ban_hang', 'quan_ly_okr'] },
   { href: '/khach-hang', label: 'Khách hàng', icon: ICON.users, needs: ['xem_khach_hang', 'sua_khach_hang', 'import_khach'] },
   { href: '/thi-truong', label: 'Báo cáo Tổng hợp KD', icon: ICON.chart, needs: ['ket_luan', 'quan_ly_chien_dich'] },
-  { href: '/chien-dich', label: 'Chiến dịch', icon: ICON.target, needs: ['quan_ly_chien_dich'] },
+  { href: '/chien-dich', label: 'Chiến dịch', icon: ICON.target, needs: ['quan_ly_chien_dich'], badgeKey: 'campaign' },
   { href: '/quan-tri', label: 'Cài đặt chung', icon: ICON.settings, needs: ['quan_ly_nguoi_dung', 'quan_ly_danh_muc', 'quan_ly_cai_dat', 'xem_log'] },
 ];
 
-function NavList({ current, onNav, collapsed }: { current: string; onNav?: () => void; collapsed?: boolean }) {
+function NavList({ current, onNav, collapsed, badges }: { current: string; onNav?: () => void; collapsed?: boolean; badges?: Record<string, number> }) {
   const { can } = useAuth();
   const visible = LINKS.filter((l) => !l.needs || l.needs.some((p) => can(p)));
   return (
     <nav aria-label="Điều hướng chính" className="flex flex-col gap-1">
       {visible.map((l) => {
         const active = l.href === '/' ? current === '/' : current.startsWith(l.href);
+        const count = l.badgeKey ? (badges?.[l.badgeKey] ?? 0) : 0;
         return (
           <Link key={l.href} href={l.href} onClick={onNav} title={collapsed ? l.label : undefined}
             aria-current={active ? 'page' : undefined} aria-label={collapsed ? l.label : undefined}
-            className={`flex items-center rounded-lg text-[13px] font-medium transition-all duration-200 ${collapsed ? 'justify-center p-2.5' : 'gap-3 px-3 py-2.5'} ${active ? 'bg-[#0d6efd] text-white shadow-[0_1px_4px_rgba(13,110,253,0.35)]' : 'text-slate-400 hover:bg-white/10 hover:text-white'} focus-visible:outline-2 focus-visible:outline-white`}>
+            className={`relative flex items-center rounded-lg text-[13px] font-medium transition-all duration-200 ${collapsed ? 'justify-center p-2.5' : 'gap-3 px-3 py-2.5'} ${active ? 'bg-[#0d6efd] text-white shadow-[0_1px_4px_rgba(13,110,253,0.35)]' : 'text-slate-400 hover:bg-white/10 hover:text-white'} focus-visible:outline-2 focus-visible:outline-white`}>
             {l.icon}
             {!collapsed && l.label}
+            {count > 0 && (
+              <span className={`${collapsed ? 'absolute right-1 top-1' : 'ml-auto'} grid h-5 min-w-[20px] place-items-center rounded-full bg-red-500 px-1 text-[10px] font-bold text-white`}>{count > 99 ? '99+' : count}</span>
+            )}
           </Link>
         );
       })}
@@ -57,6 +61,7 @@ export function AppSidebar({ children }: { children: React.ReactNode }) {
   const [collapsed, setCollapsed] = useState(false);
   const [avatarOpen, setAvatarOpen] = useState(false);
   const [appName, setAppName] = useState('Lifepro - Quản lý Mục tiêu, Báo cáo');
+  const [badges, setBadges] = useState<Record<string, number>>({});
   useEffect(() => {
     let cancelled = false;
     (async () => {
@@ -65,6 +70,36 @@ export function AppSidebar({ children }: { children: React.ReactNode }) {
     })();
     return () => { cancelled = true; };
   }, []);
+  // Badge: đếm bài mới ở Bảng tin + Chiến dịch (giống Facebook). Re-fetch khi đổi trang.
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const { data: s } = await supabase.auth.getSession();
+        const tok = s.session?.access_token ?? '';
+        if (!tok) return;
+        const res = await fetch('/api/badge', { headers: { Authorization: `Bearer ${tok}` } });
+        if (!res.ok) return;
+        const j = await res.json();
+        if (!cancelled) setBadges({ bulletin: j.bulletin ?? 0, campaign: j.campaign ?? 0 });
+      } catch {}
+    })();
+    return () => { cancelled = true; };
+  }, [path]);
+  // Khi vào trang Bảng tin / Chiến dịch → đánh dấu đã xem (xóa badge)
+  useEffect(() => {
+    const kind = path === '/bang-tin' || path.startsWith('/bang-tin/') ? 'bulletin' : path === '/chien-dich' || path.startsWith('/chien-dich/') ? 'campaign' : null;
+    if (!kind) return;
+    (async () => {
+      try {
+        const { data: s } = await supabase.auth.getSession();
+        const tok = s.session?.access_token ?? '';
+        if (!tok) return;
+        await fetch('/api/badge', { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${tok}` }, body: JSON.stringify({ kind }) });
+        setBadges((b) => ({ ...b, [kind]: 0 }));
+      } catch {}
+    })();
+  }, [path]);
   const appParts = appName.trim().split(/\s+/);
   const appMain = appParts[0] ?? appName;
   const appSub = appParts.slice(1).join(' ');
@@ -82,7 +117,7 @@ export function AppSidebar({ children }: { children: React.ReactNode }) {
           </button>
         </div>
         <div className="flex flex-1 flex-col gap-4 overflow-y-auto p-3">
-          <NavList current={path} collapsed={collapsed} />
+          <NavList current={path} collapsed={collapsed} badges={badges} />
         </div>
         <div className="border-t border-white/10 bg-[#162c6b]/50 p-3">
           {!collapsed ? (
@@ -130,7 +165,7 @@ export function AppSidebar({ children }: { children: React.ReactNode }) {
               <span className="text-sm font-bold tracking-tight text-white">Menu</span>
               <button onClick={() => setOpen(false)} aria-label="Đóng" className="grid h-8 w-8 place-items-center rounded-md text-blue-200 hover:bg-white/10 hover:text-white"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg></button>
             </div>
-            <div className="flex-1 p-3"><NavList current={path} onNav={() => setOpen(false)} /></div>
+            <div className="flex-1 p-3"><NavList current={path} onNav={() => setOpen(false)} badges={badges} /></div>
             <div className="flex items-center justify-between gap-2 border-t border-white/10 bg-[#162c6b]/50 p-3">
               <button onClick={() => setAvatarOpen(true)} className="flex min-w-0 items-center gap-2 text-left"><Avatar name={fullName || '?'} src={avatarUrl} size={28} /><span className="min-w-0"><span className="block truncate text-sm font-semibold text-white">{fullName}</span><span className="block truncate text-xs text-blue-200">{role}</span></span></button>
               <button onClick={() => signOut()} className="shrink-0 rounded-md bg-white/10 px-2.5 py-1.5 text-xs font-semibold text-white hover:bg-white hover:text-[#1e3a8a]">Thoát</button>
