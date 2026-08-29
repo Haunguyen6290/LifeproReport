@@ -39,6 +39,16 @@ const BOT_CHECKS = [
   { key: 'BOT_CHECK_TIN_THI_TRUONG', label: 'Tuần rồi không có Tin thị trường mới' },
   { key: 'BOT_CHECK_CHIEN_DICH', label: 'Tuần rồi không có Cập nhật Chiến dịch' },
 ];
+// Mặc định mỗi việc -> vai trò nào bị bot soi (tag)
+const DEFAULT_BOT_ROLE_MAP: Record<string, string[]> = {
+  BOT_CHECK_OKR: ['KINH_DOANH', 'MARKETING', 'KHO', 'TỔNG_HỢP_KHO', 'BẢO_HÀNH', 'KẾ_TOÁN', 'LÁI_XE'],
+  BOT_CHECK_KE_HOACH_TUAN: ['KINH_DOANH', 'MARKETING'],
+  BOT_CHECK_BAO_CAO_TUAN: ['KINH_DOANH', 'MARKETING'],
+  BOT_CHECK_BAO_CAO_KHO: ['KHO', 'TỔNG_HỢP_KHO', 'BẢO_HÀNH', 'LÁI_XE'],
+  BOT_CHECK_DANG_NHAP: ['KINH_DOANH', 'MARKETING', 'KHO', 'TỔNG_HỢP_KHO', 'BẢO_HÀNH', 'KẾ_TOÁN', 'LÁI_XE'],
+  BOT_CHECK_TIN_THI_TRUONG: ['KINH_DOANH', 'MARKETING'],
+  BOT_CHECK_CHIEN_DICH: ['KINH_DOANH', 'MARKETING'],
+};
 
 function Screen() {
   const { userId, can } = useAuth();
@@ -53,6 +63,8 @@ function Screen() {
   const [newAllowed, setNewAllowed] = useState('');
   const [newMapFrom, setNewMapFrom] = useState('');
   const [newMapTo, setNewMapTo] = useState('');
+  const [roles, setRoles] = useState<{ id: string; name: string }[]>([]);
+  const [botRoleMap, setBotRoleMap] = useState<Record<string, string[]>>({});
 
   async function load() {
     const { data } = await supabase.from('settings').select('key, value');
@@ -64,6 +76,15 @@ function Screen() {
       const m = JSON.parse(v.SALES_NAME_MAP ?? '{}');
       if (m && typeof m === 'object' && !Array.isArray(m)) setNameMap(Object.entries(m).map(([from, to]) => ({ from, to: String(to) })));
     } catch {}
+    // Bot role map
+    try {
+      const b = JSON.parse(v.BOT_ROLE_MAP ?? '{}');
+      if (b && typeof b === 'object' && !Array.isArray(b)) setBotRoleMap(b);
+      else setBotRoleMap(DEFAULT_BOT_ROLE_MAP);
+    } catch { setBotRoleMap(DEFAULT_BOT_ROLE_MAP); }
+    if (!v.BOT_ROLE_MAP) setBotRoleMap((prev) => Object.keys(prev).length ? prev : DEFAULT_BOT_ROLE_MAP);
+    const { data: rs } = await supabase.from('roles').select('id, name').order('name');
+    setRoles(((rs ?? []) as { id: string; name: string }[]));
   }
   useEffect(() => { load(); }, []);
 
@@ -74,6 +95,7 @@ function Screen() {
     const mapObj: Record<string, string> = {};
     for (const r of nameMap) if (r.from.trim() && r.to.trim()) mapObj[r.from.trim()] = r.to.trim();
     valsToSave.SALES_NAME_MAP = JSON.stringify(mapObj);
+    valsToSave.BOT_ROLE_MAP = JSON.stringify(botRoleMap);
     for (const k of Object.keys(valsToSave)) {
       await supabase.from('settings').upsert({ key: k, value: valsToSave[k], updated_by: userId }, { onConflict: 'key' });
     }
@@ -240,12 +262,36 @@ function Screen() {
 
         <div className={`${card} mt-4`}>
           <h2 className="mb-2 text-sm font-bold text-[#1e3a8a]">Bot nhắc việc — 8h30 thứ 2 hàng tuần</h2>
-          <p className="mb-3 text-xs text-slate-600">Tích việc nào bot sẽ kiểm tra và đăng cảnh báo lên Bảng tin. Bỏ tích thì bỏ qua. Bot chạy 8h30 thứ 2 (Vercel Cron) + Admin có thể bấm “Chạy tay” để test.</p>
-          <div className="grid gap-2 sm:grid-cols-2">
-            {BOT_CHECKS.map((t) => (
-              <label key={t.key} className="flex items-center gap-2 text-sm"><input type="checkbox" checked={String(vals[t.key] ?? 'TRUE').toUpperCase() === 'TRUE'} onChange={(e) => setVals({ ...vals, [t.key]: e.target.checked ? 'TRUE' : 'FALSE' })} /> {t.label}</label>
-            ))}
-          </div>
+          <p className="mb-3 text-xs text-slate-600">Tích việc nào bot sẽ kiểm tra cho vai trò nào rồi đăng cảnh báo lên Bảng tin. Thêm vai trò mới tự có cột. Bỏ trống cả hàng = tắt việc đó.</p>
+          {roles.length === 0 ? (
+            <p className="text-xs text-slate-500">Đang tải vai trò…</p>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead><tr className="text-left text-xs font-semibold text-[#0f2a4a]"><th className="py-2 pr-2 bg-[#eff6ff]">Việc bot soi</th>{roles.map((r) => <th key={r.id} className="px-2 py-2 text-center bg-[#eff6ff] border-l border-white" title={r.name}><span className="inline-block max-w-[80px] truncate">{r.name}</span></th>)}</tr></thead>
+                <tbody>{BOT_CHECKS.map((t) => (
+                  <tr key={t.key} className="border-t border-slate-200">
+                    <td className="py-1 pr-2 text-xs font-medium">{t.label}</td>
+                    {roles.map((r) => {
+                      const checked = (botRoleMap[t.key] ?? []).includes(r.name);
+                      return (
+                        <td key={r.id} className="px-1 py-1 text-center">
+                          <input type="checkbox" checked={checked} onChange={() => {
+                            setBotRoleMap((prev) => {
+                              const cur = prev[t.key] ?? [];
+                              const next = checked ? cur.filter((x) => x !== r.name) : [...cur, r.name];
+                              return { ...prev, [t.key]: next };
+                            });
+                          }} className="h-4 w-4 accent-[var(--color-primary)]" aria-label={`${t.label} — ${r.name}`} />
+                        </td>
+                      );
+                    })}
+                  </tr>
+                ))}</tbody>
+              </table>
+            </div>
+          )}
+          <p className="mt-2 text-xs text-slate-500">Mẹo: Báo cáo kho → tích KHO / TỔNG_HỢP_KHO / BẢO_HÀNH; Tin thị trường / Kế hoạch tuần / Báo cáo tuần → tích KINH_DOANH / MARKETING; Không đăng nhập → tích cả công ty. Bấm Lưu cài đặt để lưu.</p>
           <div className="mt-3">
             <button onClick={async () => { setMsg('Bot đang kiểm tra…'); try { const { data: sess } = await supabase.auth.getSession(); const tok = sess?.session?.access_token ?? ''; const r = await fetch('/api/bot/weekly-check', { method: 'POST', headers: { Authorization: `Bearer ${tok}` } }); const j = await r.json(); if (!r.ok) setMsg('Lỗi: ' + (j?.error ?? r.statusText)); else setMsg(j.message ?? 'Bot đã chạy — vào Bảng tin để xem.'); } catch (e: any) { setMsg('Lỗi: ' + (e?.message ?? String(e))); } }} className="rounded-md border border-amber-300 bg-amber-50 px-3 py-2 text-sm font-semibold text-amber-800 hover:bg-amber-100">Chạy bot ngay (test)</button>
           </div>
