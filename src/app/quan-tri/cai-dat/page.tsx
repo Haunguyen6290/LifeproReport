@@ -247,7 +247,7 @@ function Screen() {
             ))}
           </div>
           <div className="mt-3">
-            <button onClick={async () => { setMsg('Bot đang kiểm tra…'); try { const r = await fetch('/api/bot/weekly-check', { method: 'POST' }); const j = await r.json(); if (!r.ok) setMsg('Lỗi: ' + (j?.error ?? r.statusText)); else setMsg(j.message ?? 'Bot đã chạy — vào Bảng tin để xem.'); } catch (e: any) { setMsg('Lỗi: ' + (e?.message ?? String(e))); } }} className="rounded-md border border-amber-300 bg-amber-50 px-3 py-2 text-sm font-semibold text-amber-800 hover:bg-amber-100">Chạy bot ngay (test)</button>
+            <button onClick={async () => { setMsg('Bot đang kiểm tra…'); try { const { data: sess } = await supabase.auth.getSession(); const tok = sess?.session?.access_token ?? ''; const r = await fetch('/api/bot/weekly-check', { method: 'POST', headers: { Authorization: `Bearer ${tok}` } }); const j = await r.json(); if (!r.ok) setMsg('Lỗi: ' + (j?.error ?? r.statusText)); else setMsg(j.message ?? 'Bot đã chạy — vào Bảng tin để xem.'); } catch (e: any) { setMsg('Lỗi: ' + (e?.message ?? String(e))); } }} className="rounded-md border border-amber-300 bg-amber-50 px-3 py-2 text-sm font-semibold text-amber-800 hover:bg-amber-100">Chạy bot ngay (test)</button>
           </div>
         </div>
 
