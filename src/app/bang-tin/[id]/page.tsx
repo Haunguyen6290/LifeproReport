@@ -52,8 +52,12 @@ function DetailInner() {
           {post.is_bot && <span className="rounded bg-amber-100 px-2 py-0.5 text-xs font-bold text-amber-800">BOT 8h30 T2</span>}
           {post.title && <h1 className="mt-2 text-lg font-bold text-[#0f2a4a]">{post.title}</h1>}
           <p className="mt-1 text-xs text-slate-500">{(post as any).author?.full_name ?? ''} · {fmtCommentTimeVN(post.created_at)}</p>
-          <p className="mt-3 whitespace-pre-wrap text-sm text-slate-900">{renderContent(post.content)}</p>
-          {images.length > 0 && <div className="mt-3 flex flex-wrap gap-2">{images.map((im, i) => <img key={i} src={im.public_url} alt="" className="h-20 w-20 rounded object-cover" />)}</div>}
+          <p className="mt-3 whitespace-pre-wrap text-[15px] leading-relaxed text-slate-900">{renderContent(post.content)}</p>
+          {images.length > 0 && (
+            <div className={`mt-3 gap-1 overflow-hidden rounded-lg ${images.length === 1 ? 'grid grid-cols-1' : images.length === 2 ? 'grid grid-cols-2' : 'grid grid-cols-3'}`}>
+              {images.map((im, i) => <img key={i} src={im.public_url} alt="" className={`${images.length === 1 ? 'max-h-[520px]' : 'h-[220px]'} w-full object-cover`} />)}
+            </div>
+          )}
         </div>
 
         <div className="mt-4">
