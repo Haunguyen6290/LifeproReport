@@ -135,7 +135,7 @@ export function OkrTree({ tu, den, readOnly, showArchived }: { tu: string; den: 
             <h3 className="text-sm font-bold text-slate-900">OKR cá nhân (chưa gắn OKR công ty)</h3>
             <ul className="mt-3 space-y-3">{personalOkrs.map((o) => (
               <li key={o.id}><button onClick={() => setDetail(o)} className="w-full rounded-lg border border-slate-200 bg-slate-50 p-3 text-left hover:bg-slate-100">
-                <div className="flex items-center justify-between gap-2"><span className="text-sm font-semibold text-slate-900">🎯 {o.objective}</span><span className={`shrink-0 rounded-full px-2 py-0.5 text-xs font-semibold ${statusBadge[o.trang_thai] ?? 'bg-slate-100'}`}>{o.trang_thai}</span></div>
+                <div className="flex items-start justify-between gap-2"><span className="line-clamp-2 text-sm font-semibold text-slate-900">🎯 {o.objective}</span><span className={`shrink-0 rounded-full px-2 py-0.5 text-xs font-semibold ${statusBadge[o.trang_thai] ?? 'bg-slate-100'}`}>{o.trang_thai}</span></div>
                 <div className="mt-1 flex items-center gap-2 text-xs text-slate-600"><span>{profiles.get(o.user_id) ?? ''}</span><span>·</span><span>{checkinCount.get(o.id) ?? 0} check-in</span></div>
                 <div className="mt-2 flex items-center gap-2">{bar(o.tien_do, 'personal')}<span className="text-xs text-slate-500">{o.tien_do}%</span></div>
               </button></li>
@@ -155,14 +155,14 @@ export function OkrTree({ tu, den, readOnly, showArchived }: { tu: string; den: 
     <div className="space-y-4">
       <div className="flex flex-wrap gap-2 border-b border-slate-200 pb-2">
         {companyOkrs.map((co) => (
-          <button key={co.id} onClick={() => setSelectedCoId(co.id)} className={`rounded-full px-4 py-2 text-sm font-semibold transition ${selectedCoId === co.id ? 'bg-[#1e3a8a] text-white' : 'bg-white text-slate-700 ring-1 ring-slate-200 hover:bg-slate-50'}`}>
-            🎯 {co.objective.slice(0, 40)}
+          <button key={co.id} onClick={() => setSelectedCoId(co.id)} className={`max-w-[360px] rounded-full px-4 py-2 text-left text-sm font-semibold transition ${selectedCoId === co.id ? 'bg-[#1e3a8a] text-white' : 'bg-white text-slate-700 ring-1 ring-slate-200 hover:bg-slate-50'}`}>
+            <span className="line-clamp-2">🎯 {co.objective}</span>
           </button>
         ))}
       </div>
 
       {/* Card công ty — co 65% cho cân đối, trên là Công ty, dưới là O+KR */}
-      <div onClick={() => setDetail(activeCo)} className="mx-auto block w-full max-w-[65%] cursor-pointer rounded-xl border border-slate-200 bg-white text-left shadow-[0_1px_3px_rgba(15,23,42,0.06)] hover:shadow-md">
+      <div onClick={() => setDetail(activeCo)} className="mx-auto block w-full cursor-pointer rounded-xl border border-slate-200 bg-white text-left shadow-[0_1px_3px_rgba(15,23,42,0.06)] hover:shadow-md">
         {(activeCo.is_archived) && (
           <div className="flex items-center gap-2 px-4 pt-3">
             <span className="rounded-full bg-amber-100 px-2 py-0.5 text-xs font-semibold text-amber-800">Lưu trữ</span>
@@ -176,7 +176,7 @@ export function OkrTree({ tu, den, readOnly, showArchived }: { tu: string; den: 
                 <span className="rounded-full bg-[#0f2a4a] px-2 py-0.5 text-xs font-bold text-white">CÔNG TY</span>
                 <span className={`rounded-full px-2 py-0.5 text-xs font-semibold ${statusBadge[activeCo.trang_thai] ?? 'bg-slate-100'}`}>{activeCo.trang_thai}</span>
               </div>
-              <p className="mt-1 text-sm font-bold text-[#0f2a4a]">🎯 {activeCo.objective}</p>
+              <p className="mt-1 break-words text-sm font-bold leading-snug text-[#0f2a4a]">🎯 {activeCo.objective}</p>
               <p className="mt-1 text-xs text-slate-600">{periodLabel(activeCo.tu_ngay, activeCo.den_ngay)} {activeCo.loai_ky_goi_y ? `· ${activeCo.loai_ky_goi_y}` : ''}</p>
             </div>
             <div className="flex shrink-0 flex-col items-end gap-1">
@@ -199,7 +199,7 @@ export function OkrTree({ tu, den, readOnly, showArchived }: { tu: string; den: 
       {linkedPersonal.length === 0 ? (
         <p className="text-sm text-slate-500">Chưa có OKR cá nhân gắn OKR công ty này.</p>
       ) : (
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-3 sm:grid-cols-2">
           {linkedPersonal.map((po) => {
             const poKrs = krsByOkr.get(po.id) ?? [];
             const job = jobs.get(po.user_id) ?? '';
@@ -208,8 +208,8 @@ export function OkrTree({ tu, den, readOnly, showArchived }: { tu: string; den: 
                 <div className="text-xs font-semibold text-slate-700">
                   {profiles.get(po.user_id) ?? ''}{job ? ` — ${job}` : ''}
                 </div>
-                <div className="mt-1 flex items-center justify-between gap-1">
-                  <span className="text-sm font-semibold text-slate-900 line-clamp-1">🎯 {po.objective}</span>
+                <div className="mt-1 flex items-start justify-between gap-2">
+                  <span className="line-clamp-2 text-sm font-semibold text-slate-900">🎯 {po.objective}</span>
                   <span className={`shrink-0 rounded-full px-1.5 py-0.5 text-[10px] font-semibold ${statusBadge[po.trang_thai] ?? 'bg-slate-100'}`}>{po.trang_thai}</span>
                 </div>
                 {poKrs.length > 0 && (
@@ -230,7 +230,7 @@ export function OkrTree({ tu, den, readOnly, showArchived }: { tu: string; den: 
           <h3 className="text-sm font-bold text-amber-900">OKR cá nhân chưa gắn OKR công ty</h3>
           <ul className="mt-2 space-y-2">{personalOkrs.filter((o) => !o.parent_okr_id).map((o) => (
             <li key={o.id}><button onClick={() => setDetail(o)} className="w-full rounded-lg border border-amber-200 bg-white p-3 text-left hover:bg-amber-50">
-              <p className="text-sm font-semibold text-slate-900">🎯 {o.objective}</p>
+              <p className="break-words text-sm font-semibold leading-snug text-slate-900">🎯 {o.objective}</p>
               <p className="text-xs text-slate-600">{profiles.get(o.user_id) ?? ''} · {periodLabel(o.tu_ngay, o.den_ngay)}</p>
             </button></li>
           ))}</ul>
