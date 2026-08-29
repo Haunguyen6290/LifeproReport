@@ -60,7 +60,7 @@ export function OkrDialog({
   const [loaiKy, setLoaiKy] = useState('');
   const [krs, setKrs] = useState<string[]>(['', '']);
   const [parentOkrId, setParentOkrId] = useState('');
-  const [companyOkrs, setCompanyOkrs] = useState<{ id: string; objective: string }[]>([]);
+  const [companyOkrs, setCompanyOkrs] = useState<{ id: string; objective: string; tu_ngay?: string; den_ngay?: string }[]>([]);
   const [oTemplates, setOTemplates] = useState<OkrTemplate[]>([]);
   const [krTemplates, setKrTemplates] = useState<OkrTemplate[]>([]);
   const [pickOId, setPickOId] = useState('');
@@ -105,17 +105,18 @@ export function OkrDialog({
       try {
         const { data: compOkrs, error: e1 } = await supabase
           .from('okrs')
-          .select('id, objective')
+          .select('id, objective, tu_ngay, den_ngay')
           .eq('is_company', true)
           .eq('is_archived', false)
-          .eq('tu_ngay', tu)
-          .eq('den_ngay', den);
+          .lte('tu_ngay', tu)
+          .gte('den_ngay', tu)
+          .order('tu_ngay', { ascending: false });
         if (cancelled) return;
         if (e1 || !compOkrs || compOkrs.length === 0) {
           setCompanyOkrs([]);
           return;
         }
-        setCompanyOkrs((compOkrs as any[]).map((o) => ({ id: o.id as string, objective: o.objective as string })));
+        setCompanyOkrs((compOkrs as any[]).map((o) => ({ id: o.id as string, objective: o.objective as string, tu_ngay: o.tu_ngay as string, den_ngay: o.den_ngay as string })));
       } catch {
         if (!cancelled) setCompanyOkrs([]);
       } finally {
@@ -300,7 +301,7 @@ export function OkrDialog({
               <option value="">{loadingKr ? 'Đang tải OKR công ty…' : '— Chọn 1 OKR công ty —'}</option>
               {companyOkrs.map((o) => (
                 <option key={o.id} value={o.id}>
-                  {o.objective}
+                  {o.objective} · {o.tu_ngay && o.den_ngay ? periodLabel(o.tu_ngay, o.den_ngay) : ''}
                 </option>
               ))}
             </select>
