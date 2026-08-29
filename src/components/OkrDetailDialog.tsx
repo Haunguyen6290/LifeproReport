@@ -28,6 +28,8 @@ export function OkrDetailDialog({ okr, onClose, onDone, canManage, readOnly }: {
   const [editing, setEditing] = useState(false);
   const [editObjective, setEditObjective] = useState('');
   const [editKrs, setEditKrs] = useState<string[]>([]);
+  const [editTu, setEditTu] = useState('');
+  const [editDen, setEditDen] = useState('');
   const [editMsg, setEditMsg] = useState('');
   const [tkDanhGia, setTkDanhGia] = useState('');
   const [tkPhanHoi, setTkPhanHoi] = useState('');
@@ -57,18 +59,22 @@ export function OkrDetailDialog({ okr, onClose, onDone, canManage, readOnly }: {
   function startEditOkr() {
     setEditObjective(okr.objective);
     setEditKrs(krs.map((k) => k.noi_dung));
+    setEditTu(okr.tu_ngay ?? '');
+    setEditDen(okr.den_ngay ?? '');
     setEditMsg('');
     setEditing(true);
   }
   async function saveEditOkr() {
     const t = editObjective.trim();
     if (!t) { setEditMsg('Objective không được trống'); return; }
+    if (!editTu || !editDen) { setEditMsg('Phải có Từ ngày và Đến ngày'); return; }
+    if (editTu > editDen) { setEditMsg('Từ ngày phải ≤ Đến ngày'); return; }
     const list = cleanKrList(editKrs);
     const vr = validateKRs(list, 1);
     if (!vr.ok) { setEditMsg(vr.msg); return; }
     setBusy(true); setEditMsg('');
     try {
-      const { error: e1 } = await supabase.from('okrs').update({ objective: t }).eq('id', okr.id);
+      const { error: e1 } = await supabase.from('okrs').update({ objective: t, tu_ngay: editTu, den_ngay: editDen }).eq('id', okr.id);
       if (e1) throw new Error(e1.message);
       const { data: existing } = await supabase.from('okr_key_results').select('id').eq('okr_id', okr.id).order('sort_order');
       const exIds = (existing ?? []).map((x: any) => x.id);
@@ -120,6 +126,16 @@ export function OkrDetailDialog({ okr, onClose, onDone, canManage, readOnly }: {
             <div>
               <label className="mb-1 block text-xs font-semibold uppercase tracking-wider text-slate-700">Mục tiêu</label>
               <GrowArea value={editObjective} onChange={(e) => setEditObjective(e.target.value)} placeholder="Mục tiêu…" className="w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-[#1e3a8a] focus:ring-1 focus:ring-[#1e3a8a]" rows={2} />
+              <div className="mt-2 grid gap-2 sm:grid-cols-2">
+                <div>
+                  <label className="mb-1 block text-xs font-semibold uppercase tracking-wider text-slate-700">Từ ngày *</label>
+                  <input type="date" value={editTu} onChange={(e) => setEditTu(e.target.value)} className="w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-[#1e3a8a] focus:ring-1 focus:ring-[#1e3a8a]" />
+                </div>
+                <div>
+                  <label className="mb-1 block text-xs font-semibold uppercase tracking-wider text-slate-700">Đến ngày *</label>
+                  <input type="date" value={editDen} onChange={(e) => setEditDen(e.target.value)} className="w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-[#1e3a8a] focus:ring-1 focus:ring-[#1e3a8a]" />
+                </div>
+              </div>
               {editMsg && <p className="mt-1 text-xs text-red-600">{editMsg}</p>}
               <div className="mt-2">
                 <label className="mb-1 block text-xs font-semibold uppercase tracking-wider text-slate-700">Kết quả then chốt (2-5 KR, mỗi KR phải có số)</label>
