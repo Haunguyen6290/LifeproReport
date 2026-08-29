@@ -30,7 +30,7 @@ function PostImages({ imgs }: { imgs: { public_url: string }[] }) {
 }
 
 /** Một bình luận (gốc hoặc trả lời) + ô trả lời inline. */
-function CommentItem({ c, depth, onReply }: { c: Cmt; depth: number; onReply: (parentId: string, text: string, mentions: string[]) => Promise<void> }) {
+function CommentItem({ c, depth, onReply, autoFocus }: { c: Cmt; depth: number; onReply: (parentId: string, text: string, mentions: string[]) => Promise<void>; autoFocus?: boolean }) {
   const [replying, setReplying] = useState(false);
   const [txt, setTxt] = useState('');
   const [mentions, setMentions] = useState<string[]>([]);
@@ -50,7 +50,7 @@ function CommentItem({ c, depth, onReply }: { c: Cmt; depth: number; onReply: (p
           </div>
           {replying && (
             <div className="mt-1">
-              <MentionInput value={txt} onChange={(v, m) => { setTxt(v); setMentions(m); }} placeholder="Viết trả lời…" rows={1} />
+              <MentionInput autoFocus={autoFocus} value={txt} onChange={(v, m) => { setTxt(v); setMentions(m); }} placeholder="Viết trả lời…" rows={1} />
               <div className="mt-1 flex justify-end gap-2">
                 <button onClick={() => { setReplying(false); setTxt(''); }} className="text-xs text-slate-500 hover:underline">Hủy</button>
                 <button disabled={busy || !txt.trim()} onClick={async () => { setBusy(true); await onReply(c.id, txt.trim(), mentions); setTxt(''); setMentions([]); setReplying(false); setBusy(false); }} className="rounded bg-[#1e3a8a] px-3 py-1 text-xs font-semibold text-white disabled:opacity-60">{busy ? '…' : 'Gửi'}</button>
@@ -64,7 +64,7 @@ function CommentItem({ c, depth, onReply }: { c: Cmt; depth: number; onReply: (p
 }
 
 export function BulletinPostCard({ post, imgs, reactions, comments, userId, onChanged, canDelete, onDelete }: {
-  post: Post; imgs: { public_url: string }[]; reactions: Reaction[]; comments: Cmt[]; userId: string; onChanged: () => void; canDelete?: boolean; onDelete?: () => void;
+  post: Post; imgs: { public_url: string }[]; reactions: Reaction[]; comments: Cmt[]; userId: string; onChanged: (silent?: boolean) => void; canDelete?: boolean; onDelete?: () => void;
 }) {
   const [pickerOpen, setPickerOpen] = useState(false);
   const [visibleTop, setVisibleTop] = useState(5);
@@ -72,6 +72,7 @@ export function BulletinPostCard({ post, imgs, reactions, comments, userId, onCh
   const [newCmt, setNewCmt] = useState('');
   const [newMentions, setNewMentions] = useState<string[]>([]);
   const [busy, setBusy] = useState(false);
+  const [focusCommentInput, setFocusCommentInput] = useState<'none' | 'new'>('none');
 
   const mine = reactions.find((r) => r.user_id === userId);
   const counts = useMemo(() => {
@@ -151,7 +152,7 @@ export function BulletinPostCard({ post, imgs, reactions, comments, userId, onCh
             <span className="text-base">{mine ? REACTIONS.find((r) => r.kind === mine.kind)?.emoji : '👍'}</span>
             {mine ? REACTIONS.find((r) => r.kind === mine.kind)?.label : 'Thích'}
           </button>
-          <button onClick={() => setFullOpen(true)} className="flex flex-1 items-center justify-center gap-1.5 rounded-lg py-2 text-sm font-semibold text-slate-600 hover:bg-slate-50">
+          <button onClick={() => { setFocusCommentInput('new'); setTimeout(() => setFocusCommentInput('none'), 0); }} className="flex flex-1 items-center justify-center gap-1.5 rounded-lg py-2 text-sm font-semibold text-slate-600 hover:bg-slate-50">
             <span className="text-base">💬</span> Bình luận
           </button>
           {pickerOpen && (
@@ -168,8 +169,8 @@ export function BulletinPostCard({ post, imgs, reactions, comments, userId, onCh
       <div className="space-y-2 border-t border-slate-100 px-4 py-3">
         {topLevel.slice(0, visibleTop).map((c) => (
           <div key={c.id} className="space-y-1.5">
-            <CommentItem c={c} depth={0} onReply={(pid, t, m) => addComment(pid, t, m)} />
-            {repliesOf(c.id).map((r) => <CommentItem key={r.id} c={r} depth={1} onReply={(pid, t, m) => addComment(pid, t, m)} />)}
+            <CommentItem c={c} depth={0} onReply={(pid, t, m) => addComment(pid, t, m)} autoFocus />
+            {repliesOf(c.id).map((r) => <CommentItem key={r.id} c={r} depth={1} onReply={(pid, t, m) => addComment(pid, t, m)} autoFocus />)}
           </div>
         ))}
         {topLevel.length > visibleTop && (
@@ -178,11 +179,11 @@ export function BulletinPostCard({ post, imgs, reactions, comments, userId, onCh
         {comments.length > 0 && (
           <button onClick={() => setFullOpen(true)} className="text-sm font-semibold text-[#1e3a8a] hover:underline">Xem full ({comments.length})</button>
         )}
-        {/* Ô bình luận mới */}
+        {/* Ô bình luận mới — autoFocus khi bấm Bình luận */}
         <div className="flex items-start gap-2 pt-1">
           <Avatar name="Tôi" src={null} size={32} />
           <div className="min-w-0 flex-1">
-            <MentionInput value={newCmt} onChange={(v, m) => { setNewCmt(v); setNewMentions(m); }} placeholder="Viết bình luận — gõ @Tên để tag…" rows={1} />
+            <MentionInput autoFocus={focusCommentInput === 'new'} value={newCmt} onChange={(v, m) => { setNewCmt(v); setNewMentions(m); }} placeholder="Viết bình luận — gõ @Tên để tag…" rows={1} />
             <div className="mt-1 flex justify-end"><button disabled={busy || !newCmt.trim()} onClick={async () => { await addComment(null, newCmt, newMentions); setNewCmt(''); setNewMentions([]); }} className="rounded bg-[#1e3a8a] px-3 py-1 text-xs font-semibold text-white disabled:opacity-60">{busy ? '…' : 'Gửi'}</button></div>
           </div>
         </div>
@@ -190,11 +191,11 @@ export function BulletinPostCard({ post, imgs, reactions, comments, userId, onCh
 
       {/* Dialog Xem full */}
       <Dialog open={fullOpen} onClose={() => setFullOpen(false)} title={`Bình luận (${comments.length})`}>
-        <div className="max-h-[60vh] space-y-3 overflow-auto pr-1">
+        <div className="nice-scroll max-h-[60vh] space-y-3 overflow-auto pr-2">
           {comments.length === 0 ? <p className="text-sm text-slate-500">Chưa có bình luận.</p> : topLevel.map((c) => (
             <div key={c.id} className="space-y-1.5">
-              <CommentItem c={c} depth={0} onReply={(pid, t, m) => addComment(pid, t, m)} />
-              {repliesOf(c.id).map((r) => <CommentItem key={r.id} c={r} depth={1} onReply={(pid, t, m) => addComment(pid, t, m)} />)}
+              <CommentItem c={c} depth={0} onReply={(pid, t, m) => addComment(pid, t, m)} autoFocus />
+              {repliesOf(c.id).map((r) => <CommentItem key={r.id} c={r} depth={1} onReply={(pid, t, m) => addComment(pid, t, m)} autoFocus />)}
             </div>
           ))}
         </div>

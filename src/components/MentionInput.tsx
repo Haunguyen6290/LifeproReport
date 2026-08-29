@@ -2,8 +2,8 @@
 import { useState, useRef, useEffect } from 'react';
 import { GrowArea } from '@/components/GrowArea';
 
-export function MentionInput({ value, onChange, placeholder, rows = 3 }: {
-  value: string; onChange: (v: string, mentions: string[]) => void; placeholder?: string; rows?: number;
+export function MentionInput({ value, onChange, placeholder, rows = 3, autoFocus }: {
+  value: string; onChange: (v: string, mentions: string[]) => void; placeholder?: string; rows?: number; autoFocus?: boolean;
 }) {
   const [users, setUsers] = useState<{ id: string; full_name: string }[]>([]);
   const [q, setQ] = useState('');
@@ -72,7 +72,7 @@ export function MentionInput({ value, onChange, placeholder, rows = 3 }: {
 
   return (
     <div ref={ref} className="relative">
-      <GrowArea value={value} onChange={(e) => onInput(e.target.value)} onKeyDown={onKey} placeholder={placeholder ?? 'Nhập @Tên để tag...'} rows={rows} className="w-full rounded-md border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-[#1e3a8a] focus:ring-1 focus:ring-[#1e3a8a]" />
+      <GrowArea autoFocus={autoFocus} value={value} onChange={(e) => onInput(e.target.value)} onKeyDown={onKey} placeholder={placeholder ?? 'Nhập @Tên để tag...'} rows={rows} className="w-full rounded-md border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-[#1e3a8a] focus:ring-1 focus:ring-[#1e3a8a]" />
       {show && candidates.length > 0 && (
         <ul className="absolute z-20 mt-1 max-h-40 w-full overflow-auto rounded-md border border-slate-200 bg-white shadow-lg">
           {candidates.map((u, i) => (

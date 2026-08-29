@@ -27,8 +27,8 @@ function BangTinInner() {
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState('');
 
-  async function load() {
-    setLoading(true);
+  async function load(silent = false) {
+    if (!silent) setLoading(true);
     const { data } = await supabase.from('bulletin_posts').select('id, author_id, title, content, mentioned_user_ids, is_bot, created_at, author:profiles!bulletin_posts_author_id_fkey(full_name, avatar_url)').order('created_at', { ascending: false }).limit(50);
     const list = (data as any ?? []) as Post[];
     setPosts(list);
@@ -105,7 +105,7 @@ function BangTinInner() {
           ) : (
             <div className="space-y-4">
               {posts.map((p) => (
-                <BulletinPostCard key={p.id} post={p} imgs={imgMap[p.id] ?? []} reactions={reactMap[p.id] ?? []} comments={cmtMap[p.id] ?? []} userId={userId} onChanged={load} canDelete={canPost} onDelete={() => delPost(p)} />
+                <BulletinPostCard key={p.id} post={p} imgs={imgMap[p.id] ?? []} reactions={reactMap[p.id] ?? []} comments={cmtMap[p.id] ?? []} userId={userId} onChanged={() => load(true)} canDelete={canPost} onDelete={() => delPost(p)} />
               ))}
             </div>
           )}
