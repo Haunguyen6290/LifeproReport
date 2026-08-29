@@ -133,7 +133,7 @@ CẢNH BÁO: Nếu nhân viên vừa đổi mật khẩu, thao tác này sẽ gh
               <tr key={u.id} className="border-t border-slate-200">
                 <td className="py-1">
                   <label className="inline-flex cursor-pointer items-center gap-1" title={`Đổi ảnh cho ${u.full_name}`}>
-                    <Avatar name={u.full_name} src={u.avatar_url ?? null} size={32} />
+                    <Avatar name={u.full_name} src={u.avatar_url ?? null} size={32} viewable />
                     <span className="text-[10px] text-[#1e3a8a] hover:underline">Đổi</span>
                     <input type="file" accept="image/*" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) { uploadAvatar(u, f); (e.target as HTMLInputElement).value = ''; } }} />
                   </label>

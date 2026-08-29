@@ -1,4 +1,6 @@
 'use client';
+import { useState } from 'react';
+import { Dialog } from './Dialog';
 
 function initials(name: string) {
   const parts = name.trim().split(/\s+/).filter(Boolean);
@@ -23,11 +25,13 @@ function colorFor(name: string) {
   return palette[h % palette.length];
 }
 
-export function Avatar({ name, src, size = 32 }: { name: string; src?: string | null; size?: number }) {
-  if (src) {
-    return <img src={src} alt={name} width={size} height={size} className="shrink-0 rounded-full object-cover" style={{ width: size, height: size }} />;
-  }
-  return (
+export function Avatar({ name, src, size = 32, viewable = false }: { name: string; src?: string | null; size?: number; viewable?: boolean }) {
+  const [open, setOpen] = useState(false);
+  const clickable = viewable && !!src;
+
+  const inner = src ? (
+    <img src={src} alt={name} width={size} height={size} className="shrink-0 rounded-full object-cover" style={{ width: size, height: size }} />
+  ) : (
     <span
       aria-hidden
       className={`grid shrink-0 place-items-center rounded-full font-bold ${colorFor(name || '?')}`}
@@ -36,5 +40,21 @@ export function Avatar({ name, src, size = 32 }: { name: string; src?: string | 
     >
       {initials(name || '?')}
     </span>
+  );
+
+  if (!clickable) return inner;
+
+  return (
+    <>
+      <button type="button" onClick={() => setOpen(true)} aria-label={`Xem ảnh ${name}`} className="shrink-0 cursor-pointer rounded-full transition hover:opacity-90 hover:ring-2 hover:ring-[#1e3a8a]/40 focus-visible:outline-2 focus-visible:outline-[#1e3a8a]">
+        {inner}
+      </button>
+      <Dialog open={open} onClose={() => setOpen(false)} title={name || 'Ảnh đại diện'}>
+        <div className="flex flex-col items-center gap-3">
+          <img src={src!} alt={name} className="max-h-[60vh] w-auto max-w-full rounded-xl object-contain" />
+          <p className="text-sm font-semibold text-slate-900">{name}</p>
+        </div>
+      </Dialog>
+    </>
   );
 }

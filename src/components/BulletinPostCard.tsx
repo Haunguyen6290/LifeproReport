@@ -38,7 +38,7 @@ function CommentItem({ c, depth, onReply, autoFocus }: { c: Cmt; depth: number; 
   return (
     <div className={depth > 0 ? 'ml-10' : ''}>
       <div className="flex items-start gap-2">
-        <Avatar name={c.author?.full_name ?? '?'} src={c.author?.avatar_url ?? null} size={32} />
+        <Avatar name={c.author?.full_name ?? '?'} src={c.author?.avatar_url ?? null} size={32} viewable />
         <div className="min-w-0 flex-1">
           <div className="inline-block rounded-2xl bg-slate-100 px-3 py-2">
             <div className="text-[13px] font-semibold text-slate-900">{c.author?.full_name ?? ''}</div>
@@ -111,7 +111,7 @@ export function BulletinPostCard({ post, imgs, reactions, comments, userId, onCh
     <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-[0_1px_3px_rgba(15,23,42,0.06)]">
       {/* Header */}
       <div className="flex items-center gap-2 px-4 pt-3">
-        <Avatar name={post.author?.full_name ?? '?'} src={post.author?.avatar_url ?? null} size={40} />
+        <Avatar name={post.author?.full_name ?? '?'} src={post.author?.avatar_url ?? null} size={40} viewable />
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2">
             <span className="truncate text-sm font-semibold text-slate-900">{post.author?.full_name ?? ''}</span>
