@@ -162,7 +162,7 @@ export function OkrTree({ tu, den, readOnly, showArchived }: { tu: string; den: 
       </div>
 
       {/* Card công ty — co 65% cho cân đối, trên là Công ty, dưới là O+KR */}
-      <div onClick={() => setDetail(activeCo)} className="mx-auto block w-full cursor-pointer rounded-xl border border-slate-200 bg-white text-left shadow-[0_1px_3px_rgba(15,23,42,0.06)] hover:shadow-md">
+      <div onClick={() => setDetail(activeCo)} className="mx-auto block w-full max-w-[65%] cursor-pointer rounded-xl border border-slate-200 bg-white text-left shadow-[0_1px_3px_rgba(15,23,42,0.06)] hover:shadow-md">
         {(activeCo.is_archived) && (
           <div className="flex items-center gap-2 px-4 pt-3">
             <span className="rounded-full bg-amber-100 px-2 py-0.5 text-xs font-semibold text-amber-800">Lưu trữ</span>
@@ -199,17 +199,17 @@ export function OkrTree({ tu, den, readOnly, showArchived }: { tu: string; den: 
       {linkedPersonal.length === 0 ? (
         <p className="text-sm text-slate-500">Chưa có OKR cá nhân gắn OKR công ty này.</p>
       ) : (
-        <div className="grid gap-3 sm:grid-cols-2">
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {linkedPersonal.map((po) => {
             const poKrs = krsByOkr.get(po.id) ?? [];
             const job = jobs.get(po.user_id) ?? '';
             return (
               <button key={po.id} onClick={() => setDetail(po)} className="rounded-xl border border-slate-200 bg-white p-3 text-left shadow-sm hover:shadow-md">
-                <div className="text-xs font-semibold text-slate-700">
+                <div className="text-[11px] font-semibold text-slate-700">
                   {profiles.get(po.user_id) ?? ''}{job ? ` — ${job}` : ''}
                 </div>
                 <div className="mt-1 flex items-start justify-between gap-2">
-                  <span className="line-clamp-2 text-sm font-semibold text-slate-900">🎯 {po.objective}</span>
+                  <span className="line-clamp-2 break-words text-xs font-semibold leading-snug text-slate-900">🎯 {po.objective}</span>
                   <span className={`shrink-0 rounded-full px-1.5 py-0.5 text-[10px] font-semibold ${statusBadge[po.trang_thai] ?? 'bg-slate-100'}`}>{po.trang_thai}</span>
                 </div>
                 {poKrs.length > 0 && (
