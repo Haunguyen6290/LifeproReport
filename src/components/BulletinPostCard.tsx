@@ -1,10 +1,11 @@
 'use client';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { supabase } from '@/lib/supabase/client';
 import { Avatar } from '@/components/Avatar';
 import { Dialog } from '@/components/Dialog';
 import { MentionInput } from '@/components/MentionInput';
 import { fmtCommentTimeVN } from '@/lib/time';
+import { renderContent, type MentionProfile } from '@/components/MentionContent';
 
 type Post = { id: string; author_id: string; title: string; content: string; is_bot: boolean; created_at: string; author?: { full_name: string; avatar_url?: string | null } | null };
 type Reaction = { user_id: string; kind: 'like' | 'love' | 'haha' | 'angry' };
@@ -17,11 +18,6 @@ const REACTIONS: { kind: Reaction['kind']; emoji: string; label: string }[] = [
   { kind: 'angry', emoji: '😠', label: 'Phẫn nộ' },
 ];
 
-function renderContent(content: string) {
-  const parts = content.split(/(@[^\s@]+(?:\s+[^\s@]+)?)/g);
-  return parts.map((p, i) => (p.startsWith('@') ? <span key={i} className="font-semibold text-[#1e3a8a]">{p}</span> : <span key={i}>{p}</span>));
-}
-
 function PostImages({ imgs }: { imgs: { public_url: string }[] }) {
   if (imgs.length === 0) return null;
   if (imgs.length === 1) return <img src={imgs[0].public_url} alt="" className="mt-3 max-h-[520px] w-full rounded-lg object-cover" />;
@@ -30,7 +26,7 @@ function PostImages({ imgs }: { imgs: { public_url: string }[] }) {
 }
 
 /** Một bình luận (gốc hoặc trả lời) + ô trả lời inline. */
-function CommentItem({ c, depth, onReply, autoFocus }: { c: Cmt; depth: number; onReply: (parentId: string, text: string, mentions: string[]) => Promise<void>; autoFocus?: boolean }) {
+function CommentItem({ c, depth, onReply, autoFocus, profiles }: { c: Cmt; depth: number; onReply: (parentId: string, text: string, mentions: string[]) => Promise<void>; autoFocus?: boolean; profiles?: MentionProfile[] }) {
   const [replying, setReplying] = useState(false);
   const [txt, setTxt] = useState('');
   const [mentions, setMentions] = useState<string[]>([]);
@@ -42,7 +38,7 @@ function CommentItem({ c, depth, onReply, autoFocus }: { c: Cmt; depth: number; 
         <div className="min-w-0 flex-1">
           <div className="inline-block rounded-2xl bg-slate-100 px-3 py-2">
             <div className="text-[13px] font-semibold text-slate-900">{c.author?.full_name ?? ''}</div>
-            <p className="whitespace-pre-wrap text-[14px] text-slate-900">{renderContent(c.content)}</p>
+            <p className="whitespace-pre-wrap text-[14px] text-slate-900">{renderContent(c.content, profiles)}</p>
           </div>
           <div className="mt-0.5 flex items-center gap-3 px-2 text-xs text-slate-500">
             <span>{fmtCommentTimeVN(c.created_at)}</span>
@@ -63,8 +59,8 @@ function CommentItem({ c, depth, onReply, autoFocus }: { c: Cmt; depth: number; 
   );
 }
 
-export function BulletinPostCard({ post, imgs, reactions, comments, userId, onChanged, canDelete, onDelete }: {
-  post: Post; imgs: { public_url: string }[]; reactions: Reaction[]; comments: Cmt[]; userId: string; onChanged: (silent?: boolean) => void; canDelete?: boolean; onDelete?: () => void;
+export function BulletinPostCard({ post, imgs, reactions, comments, userId, onChanged, canDelete, onDelete, profiles }: {
+  post: Post; imgs: { public_url: string }[]; reactions: Reaction[]; comments: Cmt[]; userId: string; onChanged: (silent?: boolean) => void; canDelete?: boolean; onDelete?: () => void; profiles?: MentionProfile[];
 }) {
   const [pickerOpen, setPickerOpen] = useState(false);
   const [visibleTop, setVisibleTop] = useState(5);
@@ -129,7 +125,7 @@ export function BulletinPostCard({ post, imgs, reactions, comments, userId, onCh
       {/* Nội dung */}
       <div className="px-4 pt-2">
         {post.title && <h3 className="text-[17px] font-bold leading-snug text-[#0f2a4a]">{post.title}</h3>}
-        <p className="mt-1 whitespace-pre-wrap text-[15px] leading-relaxed text-slate-900">{renderContent(post.content)}</p>
+        <p className="mt-1 whitespace-pre-wrap text-[15px] leading-relaxed text-slate-900">{renderContent(post.content, profiles)}</p>
       </div>
 
       <PostImages imgs={imgs} />
@@ -169,8 +165,8 @@ export function BulletinPostCard({ post, imgs, reactions, comments, userId, onCh
       <div className="space-y-2 border-t border-slate-100 px-4 py-3">
         {topLevel.slice(0, visibleTop).map((c) => (
           <div key={c.id} className="space-y-1.5">
-            <CommentItem c={c} depth={0} onReply={(pid, t, m) => addComment(pid, t, m)} autoFocus />
-            {repliesOf(c.id).map((r) => <CommentItem key={r.id} c={r} depth={1} onReply={(pid, t, m) => addComment(pid, t, m)} autoFocus />)}
+            <CommentItem c={c} depth={0} onReply={(pid, t, m) => addComment(pid, t, m)} autoFocus profiles={profiles} />
+            {repliesOf(c.id).map((r) => <CommentItem key={r.id} c={r} depth={1} onReply={(pid, t, m) => addComment(pid, t, m)} autoFocus profiles={profiles} />)}
           </div>
         ))}
         {topLevel.length > visibleTop && (
@@ -194,8 +190,8 @@ export function BulletinPostCard({ post, imgs, reactions, comments, userId, onCh
         <div className="nice-scroll max-h-[60vh] space-y-3 overflow-auto pr-2">
           {comments.length === 0 ? <p className="text-sm text-slate-500">Chưa có bình luận.</p> : topLevel.map((c) => (
             <div key={c.id} className="space-y-1.5">
-              <CommentItem c={c} depth={0} onReply={(pid, t, m) => addComment(pid, t, m)} autoFocus />
-              {repliesOf(c.id).map((r) => <CommentItem key={r.id} c={r} depth={1} onReply={(pid, t, m) => addComment(pid, t, m)} autoFocus />)}
+              <CommentItem c={c} depth={0} onReply={(pid, t, m) => addComment(pid, t, m)} autoFocus profiles={profiles} />
+              {repliesOf(c.id).map((r) => <CommentItem key={r.id} c={r} depth={1} onReply={(pid, t, m) => addComment(pid, t, m)} autoFocus profiles={profiles} />)}
             </div>
           ))}
         </div>

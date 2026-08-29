@@ -26,6 +26,7 @@ function BangTinInner() {
   const [imgs, setImgs] = useState<{ storage_path: string; public_url: string }[]>([]);
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState('');
+  const [profiles, setProfiles] = useState<{ id: string; full_name: string; avatar_url?: string | null }[]>([]);
 
   async function load(silent = false) {
     if (!silent) setLoading(true);
@@ -51,6 +52,8 @@ function BangTinInner() {
     setLoading(false);
   }
   useEffect(() => { load(); }, []);
+  // Load profiles for mention rendering (toàn bộ tên 3-4 chữ)
+  useEffect(() => { (async () => { const { data } = await supabase.from('profiles').select('id, full_name, avatar_url'); setProfiles((data ?? []) as any); })(); }, []);
 
   async function doPost() {
     if (!title.trim() && !content.trim()) { setMsg('Nhập tiêu đề hoặc nội dung'); return; }
@@ -105,7 +108,7 @@ function BangTinInner() {
           ) : (
             <div className="space-y-4">
               {posts.map((p) => (
-                <BulletinPostCard key={p.id} post={p} imgs={imgMap[p.id] ?? []} reactions={reactMap[p.id] ?? []} comments={cmtMap[p.id] ?? []} userId={userId} onChanged={() => load(true)} canDelete={canPost} onDelete={() => delPost(p)} />
+                <BulletinPostCard key={p.id} post={p} imgs={imgMap[p.id] ?? []} reactions={reactMap[p.id] ?? []} comments={cmtMap[p.id] ?? []} userId={userId} onChanged={() => load(true)} canDelete={canPost} onDelete={() => delPost(p)} profiles={profiles} />
               ))}
             </div>
           )}
