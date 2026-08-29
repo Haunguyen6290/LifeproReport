@@ -22,7 +22,7 @@ export const LINKS: { href: string; label: string; icon: React.ReactNode; needs?
   { href: '/bao-cao-tuan', label: 'Báo cáo tuần', icon: ICON.chart, needs: ['bao_cao_tuan', 'quan_ly_okr'] },
   { href: '/bao-cao-kho', label: 'Báo cáo kho', icon: ICON.package, needs: ['bao_cao_kho', 'quan_ly_okr'] },
   { href: '/bao-cao-ban-hang', label: 'Báo cáo bán hàng', icon: ICON.chart, needs: ['bao_cao_ban_hang', 'quan_ly_okr'] },
-  { href: '/khach-hang', label: 'Khách hàng', icon: ICON.users, needs: ['xem_khach_hang', 'sua_khach_hang', 'import_khach'] },
+  { href: '/khach-hang', label: 'Khách hàng', icon: ICON.users, needs: ['xem_khach_hang', 'sua_khach_bat_ky', 'import_khach'] },
   { href: '/thi-truong', label: 'Báo cáo Tổng hợp KD', icon: ICON.chart, needs: ['ket_luan', 'quan_ly_chien_dich'] },
   { href: '/chien-dich', label: 'Chiến dịch', icon: ICON.target, needs: ['quan_ly_chien_dich'], badgeKey: 'campaign' },
   { href: '/quan-tri', label: 'Cài đặt chung', icon: ICON.settings, needs: ['quan_ly_nguoi_dung', 'quan_ly_danh_muc', 'quan_ly_cai_dat', 'xem_log'] },

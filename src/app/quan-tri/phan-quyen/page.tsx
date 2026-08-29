@@ -7,7 +7,7 @@ import { AdminTabs } from '@/components/AdminTabs';
 
 export const PERMS: { key: string; label: string }[] = [
   { key: 'xem_khach_hang', label: 'Xem khách hàng' },
-  { key: 'sua_khach_hang', label: 'Sửa khách hàng (không phụ trách)' },
+  { key: 'sua_khach_bat_ky', label: 'Sửa khách hàng (không phụ trách)' },
   { key: 'chuyen_khach_hang_loat', label: 'Chuyển khách hàng hàng loạt' },
   { key: 'xoa_khach', label: 'Xóa vĩnh viễn khách hàng' },
   { key: 'import_khach', label: 'Import Excel' },
