@@ -14,6 +14,8 @@ type RankedQA = QA & { score?: number };
 type Msg =
   | { id: number; role: 'user'; text: string }
   | { id: number; role: 'bot-qa'; qa: RankedQA }
+  | { id: number; role: 'bot-ai'; text: string }
+  | { id: number; role: 'bot-limit' }
   | { id: number; role: 'bot-miss'; q: string };
 
 /* ------------------------------------------------------------------ */
@@ -37,6 +39,7 @@ export function ChatbotWidget() {
   const [chips, setChips] = useState<string[]>([]);
   const [isMobile, setIsMobile] = useState(false);
   const [loggedMiss, setLoggedMiss] = useState(false);
+  const [aiUsed, setAiUsed] = useState(0);
 
   const dialogRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -61,6 +64,7 @@ export function ChatbotWidget() {
     setInput('');
     setChips([]);
     setLoggedMiss(false);
+    setAiUsed(0);
     msgRefs.current.clear();
   }, [pathname]);
 
@@ -123,29 +127,43 @@ export function ChatbotWidget() {
     const q = raw.trim();
     if (!q || busy) return;
     setBusy(true);
-    setMessages((m) => [...m, { id: nextId(), role: 'user', text: q }]);
+    const userMsg: Msg = { id: nextId(), role: 'user', text: q };
+    // Lịch sử gửi lên Haiku: 6 tin gần nhất + câu hỏi hiện tại
+    const prevHistory = messages.map((m) => ({
+      role: (m.role === 'user' ? 'user' : 'assistant') as 'user' | 'assistant',
+      content: m.role === 'user' ? m.text : m.role === 'bot-qa' ? m.qa.tra_loi_chuan : m.role === 'bot-ai' ? m.text : '',
+    })).filter((m) => m.content);
+    const history = [...prevHistory, { role: 'user' as const, content: q }].slice(-7);
+    setMessages((m) => [...m, userMsg]);
     setInput('');
     try {
-      const res = await fetch(`/api/chatbot?q=${encodeURIComponent(q)}&context=${encodeURIComponent(pathname)}&limit=1`);
+      const res = await fetch('/api/chatbot', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ q, context: pathname, messages: history, aiUsed }),
+      });
       if (!res.ok) {
         setMessages((m) => [...m, { id: nextId(), role: 'bot-miss', q }]);
         setBusy(false);
         return;
       }
       const j = await res.json();
-      const matches: RankedQA[] = j.matches ?? [];
-      if (matches.length === 0) {
-        setMessages((m) => [...m, { id: nextId(), role: 'bot-miss', q }]);
+      if (j.kind === 'qa' && j.qa) {
+        setMessages((m) => [...m, { id: nextId(), role: 'bot-qa', qa: j.qa as RankedQA }]);
+      } else if (j.kind === 'ai' && j.text) {
+        setAiUsed((n) => n + 1);
+        setMessages((m) => [...m, { id: nextId(), role: 'bot-ai', text: String(j.text) }]);
+      } else if (j.kind === 'limit') {
+        setMessages((m) => [...m, { id: nextId(), role: 'bot-limit' }]);
       } else {
-        // Chỉ trả đúng 1 câu khớp nhất — không suy diễn, không gợi ý ngoài câu chính
-        setMessages((m) => [...m, { id: nextId(), role: 'bot-qa', qa: matches[0] }]);
+        setMessages((m) => [...m, { id: nextId(), role: 'bot-miss', q }]);
       }
     } catch {
       setMessages((m) => [...m, { id: nextId(), role: 'bot-miss', q }]);
     } finally {
       setBusy(false);
     }
-  }, [busy, pathname]);
+  }, [busy, pathname, messages, aiUsed]);
 
   const logMiss = useCallback(async (q: string) => {
     if (loggedMiss) return;
@@ -174,6 +192,20 @@ export function ChatbotWidget() {
         </p>
       )}
       <div className="mt-1.5 text-right text-[10px] text-slate-300">{qa.id}</div>
+    </div>
+  );
+
+  const renderAI = (text: string) => (
+    <div className="rounded-xl border border-violet-200 bg-[#f5f0ff] p-3 text-[13px] leading-relaxed">
+      <p className="text-slate-800">{text}</p>
+      <p className="mt-1.5 text-[11px] italic text-violet-600">Gợi ý từ AI — không phải quy chuẩn công ty</p>
+    </div>
+  );
+
+  const renderLimit = () => (
+    <div className="rounded-xl border border-amber-200 bg-amber-50 p-3 text-[13px] leading-relaxed">
+      <p className="font-medium text-amber-800">Đã hết lượt hỗ trợ nâng cao trong phiên này.</p>
+      <p className="mt-1 text-amber-700">Mời hỏi theo câu chuẩn hoặc mở phiên mới (đóng/mở lại widget) để tiếp tục.</p>
     </div>
   );
 
@@ -229,7 +261,10 @@ export function ChatbotWidget() {
             >
               {m.role === 'user'
                 ? <div className="max-w-[85%] rounded-2xl rounded-br-md bg-[#0d6efd] px-3 py-2 text-[13px] text-white">{m.text}</div>
-                : m.role === 'bot-qa' ? renderQA(m.qa) : renderMiss(m)}
+                : m.role === 'bot-qa' ? renderQA(m.qa)
+                : m.role === 'bot-ai' ? renderAI(m.text)
+                : m.role === 'bot-limit' ? renderLimit()
+                : renderMiss(m)}
             </div>
           ))}
           {busy && <div className="text-[12px] text-slate-400">Đang tìm câu trả lời…</div>}

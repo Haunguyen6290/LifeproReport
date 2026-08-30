@@ -309,6 +309,42 @@ function Screen() {
           <p className="mt-2 text-xs text-slate-500">Mẹo: Add @TonKHoNovaX_bot vào group, gửi "hello" trong group, bấm Lấy Group ID, rồi Lưu cài đặt. Nếu không thấy, tắt Group Privacy cho bot qua @BotFather.</p>
         </div>
 
+        <div className={`${card} mt-4`}>
+          <h2 className="mb-2 text-sm font-bold text-[#1e3a8a]">Trợ lý AI (Haiku)</h2>
+          <p className="mb-3 text-xs text-slate-600">
+            Dùng AI (Haiku) để trả lời các câu hỏi nâng cao / tự nhiên hơn.
+            <strong> Tắt</strong> → chatbot chạy 100% theo câu chuẩn (rankQA), không tốn phí.
+            API key không hiển thị ra ngoài và chỉ admin mới đọc được.
+          </p>
+          <div className="space-y-3">
+            <label className="flex items-center gap-2 text-sm font-semibold">
+              <input type="checkbox" checked={String(vals.AI_ENABLED ?? '').toUpperCase() === 'TRUE'}
+                onChange={(e) => setVals({ ...vals, AI_ENABLED: e.target.checked ? 'TRUE' : 'FALSE' })} />
+              Bật Trợ lý AI (Haiku)
+            </label>
+            <div className="grid gap-2 sm:grid-cols-[220px_1fr] sm:items-center">
+              <label className="text-sm font-semibold">API Key</label>
+              <input value={vals.AI_KEY ?? ''} onChange={(e) => setVals({ ...vals, AI_KEY: e.target.value })} type="password" placeholder="sk-ant-…" className={sel} />
+            </div>
+            <div className="grid gap-2 sm:grid-cols-[220px_1fr] sm:items-center">
+              <label className="text-sm font-semibold">Endpoint (tuỳ chọn)</label>
+              <input value={vals.AI_ENDPOINT ?? ''} onChange={(e) => setVals({ ...vals, AI_ENDPOINT: e.target.value })} placeholder="https://api.anthropic.com" className={sel} />
+            </div>
+            <div className="grid gap-2 sm:grid-cols-[220px_1fr] sm:items-center">
+              <label className="text-sm font-semibold">Model</label>
+              <input value={vals.AI_MODEL ?? ''} onChange={(e) => setVals({ ...vals, AI_MODEL: e.target.value })} placeholder="claude-haiku-4-5" className={sel} />
+            </div>
+            <div className="grid gap-2 sm:grid-cols-[220px_1fr] sm:items-center">
+              <label className="text-sm font-semibold">Giới hạn tin AI tự do / phiên</label>
+              <select value={vals.AI_FREE_MSG_LIMIT ?? '5'} onChange={(e) => setVals({ ...vals, AI_FREE_MSG_LIMIT: e.target.value })} className={sel}>
+                <option value="5">5 tin</option>
+                <option value="10">10 tin</option>
+              </select>
+            </div>
+          </div>
+          <p className="mt-2 text-xs text-slate-500">Mẹo: dán API key rồi bấm Lưu cài đặt. Tắt công tắc để chatbot chỉ dùng câu chuẩn (miễn phí). Khi Haiku không khả dụng (lỗi/mạng/key), tự rơi về chế độ câu chuẩn.</p>
+        </div>
+
         <div className="mt-4 flex justify-end gap-2">
           {msg && <span className="self-center text-sm text-[#1e3a8a]">{msg}</span>}
           <button onClick={save} disabled={busy} className="rounded-md bg-[var(--color-primary)] px-5 py-2 text-sm font-semibold text-white hover:bg-[var(--color-primary-hover)] disabled:opacity-60">{busy ? 'Đang lưu…' : 'Lưu cài đặt'}</button>
