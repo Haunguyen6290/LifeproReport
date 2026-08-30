@@ -35,10 +35,11 @@ const SYSTEM = [
   'Bạn là trợ lý công việc nội bộ công ty, trả lời 100% tiếng Việt, câu ngắn, dễ hiểu.',
   'Người dùng hỏi về quy trình/phương pháp làm việc. Bạn được cung cấp danh sách câu hỏi chuẩn (id + câu hỏi).',
   'Nhiệm vụ: chọn ĐÚNG 1 câu hỏi chuẩn khớp nhất với Ý của người dùng (không cần trùng chữ).',
-  '- Nếu có câu khớp: trả về đúng JSON {"type":"qa","id":"QA-XXXX"}',
-  '- Nếu KHÔNG có câu nào đúng ý (người dùng hỏi sâu hơn, hỏi tiếp, hoặc ngoài danh sách): trả {"type":"ai","text":"<trả lời bằng kiến thức chung, tối đa 4 câu, KHÔNG bịa số liệu, không suy diễn về công ty>"}',
-  '- Nếu người dùng hỏi câu nhạy cảm/vượt phạm vi: trả {"type":"ai","text":"Việc này cần hỏi trực tiếp quản lý bộ phận."}',
-  'Chỉ trả duy nhất một khối JSON, không giải thích thêm, không markdown.',
+  'QUY TẮC ĐẦU RA — BẮT BUỘC: câu trả lời của bạn PHẢI BẮT ĐẦU bằng ký tự { và là một khối JSON hợp lệ duy nhất, không thêm bất kỳ chữ nào khác:',
+  '- Có câu chuẩn khớp: {"type":"qa","id":"QA-0021"}',
+  '- Không câu nào đúng ý (hỏi sâu hơn/hỏi tiếp/ngoài danh sách): {"type":"ai","text":"<trả lời ≤ 4 câu, KHÔNG bịa số liệu riêng của công ty>"}',
+  '- Câu nhạy cảm/vượt phạm vi: {"type":"ai","text":"Việc này cần hỏi trực tiếp quản lý bộ phận."}',
+  'KHÔNG viết markdown, KHÔNG giải thích ngoài JSON, KHÔNG mở đầu bằng "#".',
 ].join('\n');
 
 /** Gọi Haiku chọn QA / trả lời nâng cao. Lỗi bất kỳ → null (fallback rankQA). */
@@ -57,7 +58,7 @@ export async function askAI(
     const client = new Anthropic({
       apiKey: cfg.key,
       ...(cfg.endpoint ? { baseURL: cfg.endpoint.replace(/\/+$/, '').replace(/\/v1\/messages$/i, '') } : {}),
-      timeout: 5_000,
+      timeout: 30_000,
       maxRetries: 0,
     });
     const list = candidates.map((c) => `${c.id}: ${c.cau_hoi}`).join('\n');
@@ -68,18 +69,28 @@ export async function askAI(
       : `${question}\n\n(DANH SÁCH CHUẨN)\n${list}`;
     const res = await client.messages.create({
       model: cfg.model,
-      max_tokens: 400,
+      max_tokens: 1000,
       temperature: 0.2,
       system: SYSTEM,
       messages: [...capped, { role: 'user', content: userMsg }],
     });
     const text = res.content.find((b) => b.type === 'text')?.text ?? '';
+
+    // 1) Ưu tiên: model trả đúng JSON → chọn QA chuẩn hoặc chế độ ai/limit
     const m = text.match(/\{[\s\S]*\}/);
-    if (!m) return null;
-    const parsed = JSON.parse(m[0]) as { type?: string; id?: string; text?: string };
-    if (parsed.type === 'qa' && parsed.id && candidates.some((c) => c.id === parsed.id)) return { type: 'qa', id: parsed.id };
-    if (parsed.type === 'ai' && parsed.text && !overLimit) return { type: 'ai', text: String(parsed.text).slice(0, 700) };
-    if (parsed.type === 'limit' || overLimit) return { type: 'limit' };
+    if (m) {
+      try {
+        const parsed = JSON.parse(m[0]) as { type?: string; id?: string; text?: string };
+        if (parsed.type === 'qa' && parsed.id && candidates.some((c) => c.id === parsed.id)) return { type: 'qa', id: parsed.id };
+        if (parsed.type === 'ai' && parsed.text && !overLimit) return { type: 'ai', text: String(parsed.text).slice(0, 900) };
+        if (parsed.type === 'limit' || overLimit) return { type: 'limit' };
+      } catch { /* JSON không hợp lệ → xuống nhánh 2 */ }
+    }
+
+    // 2) Model trả lời tự do (không phải JSON) → lấy nguyên văn bản làm câu trả lời AI
+    if (overLimit) return { type: 'limit' };
+    const clean = text.trim();
+    if (clean) return { type: 'ai', text: clean.slice(0, 900) };
     return null;
   } catch {
     return null;
