@@ -101,7 +101,7 @@ function NavList({ current, onNav, collapsed, badges, troLyShow }: { current: st
 
 /** Sidebar trái (desktop) + drawer (mobile) — đổi từ AppNav. */
 export function AppSidebar({ children }: { children: React.ReactNode }) {
-  const { fullName, role, avatarUrl, signOut, can } = useAuth();
+  const { fullName, role, avatarUrl, signOut } = useAuth();
   const path = usePathname();
   const [open, setOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
@@ -225,7 +225,7 @@ export function AppSidebar({ children }: { children: React.ReactNode }) {
         </div>
       )}
       <AvatarDialog open={avatarOpen} onClose={() => setAvatarOpen(false)} />
-      {(troLyShow || can('quan_ly_cai_dat')) && <ChatbotWidget />}
+      <ChatbotWidget />
     </div>
   );
 }
