@@ -18,37 +18,76 @@ const ICON = {
   chat: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>,
 };
 
-export const LINKS: { href: string; label: string; icon: React.ReactNode; needs?: string[]; badgeKey?: 'bulletin' | 'campaign' }[] = [
-  { href: '/', label: 'Bảng tin', icon: ICON.dashboard, badgeKey: 'bulletin' },
-  { href: '/okr', label: 'OKR', icon: ICON.target, needs: ['quan_ly_okr', 'xem_okr'] },
-  { href: '/bao-cao-tuan', label: 'Báo cáo tuần', icon: ICON.chart, needs: ['bao_cao_tuan', 'quan_ly_okr'] },
-  { href: '/bao-cao-kho', label: 'Báo cáo kho', icon: ICON.package, needs: ['bao_cao_kho', 'quan_ly_okr'] },
-  { href: '/bao-cao-ban-hang', label: 'Báo cáo bán hàng', icon: ICON.chart, needs: ['bao_cao_ban_hang', 'quan_ly_okr'] },
-  { href: '/khach-hang', label: 'Khách hàng', icon: ICON.users, needs: ['xem_khach_hang', 'sua_khach_bat_ky', 'import_khach'] },
-  { href: '/thi-truong', label: 'Báo cáo Tổng hợp KD', icon: ICON.chart, needs: ['ket_luan', 'quan_ly_chien_dich'] },
-  { href: '/chien-dich', label: 'Chiến dịch', icon: ICON.target, needs: ['quan_ly_chien_dich'], badgeKey: 'campaign' },
-  { href: '/tro-ly', label: 'Trợ lý', icon: ICON.chat },
-  { href: '/quan-tri', label: 'Cài đặt chung', icon: ICON.settings, needs: ['quan_ly_nguoi_dung', 'quan_ly_danh_muc', 'quan_ly_cai_dat', 'xem_log'] },
+export type LinkDef = { href: string; label: string; icon: React.ReactNode; needs?: string[]; badgeKey?: 'bulletin' | 'campaign' };
+
+export const GROUPS: { title: string; items: LinkDef[] }[] = [
+  {
+    title: 'Tổng hợp',
+    items: [
+      { href: '/', label: 'Bảng tin', icon: ICON.dashboard, badgeKey: 'bulletin' },
+      { href: '/okr', label: 'OKR', icon: ICON.target, needs: ['quan_ly_okr', 'xem_okr'] },
+      { href: '/tro-ly', label: 'Trợ lý', icon: ICON.chat },
+    ],
+  },
+  {
+    title: 'Kinh doanh',
+    items: [
+      { href: '/chien-dich', label: 'Chiến dịch', icon: ICON.target, needs: ['quan_ly_chien_dich'], badgeKey: 'campaign' },
+      { href: '/bao-cao-tuan', label: 'Báo cáo tuần', icon: ICON.chart, needs: ['bao_cao_tuan', 'quan_ly_okr'] },
+      { href: '/thi-truong', label: 'Báo cáo Tổng hợp KD', icon: ICON.chart, needs: ['ket_luan', 'quan_ly_chien_dich'] },
+      { href: '/khach-hang', label: 'Khách hàng', icon: ICON.users, needs: ['xem_khach_hang', 'sua_khach_bat_ky', 'import_khach'] },
+      { href: '/bao-cao-ban-hang', label: 'Báo cáo bán hàng', icon: ICON.chart, needs: ['bao_cao_ban_hang', 'quan_ly_okr'] },
+    ],
+  },
+  {
+    title: 'Kho',
+    items: [
+      { href: '/bao-cao-kho', label: 'Báo cáo kho', icon: ICON.package, needs: ['bao_cao_kho', 'quan_ly_okr'] },
+    ],
+  },
+  {
+    title: 'Quản trị',
+    items: [
+      { href: '/quan-tri', label: 'Cài đặt chung', icon: ICON.settings, needs: ['quan_ly_nguoi_dung', 'quan_ly_danh_muc', 'quan_ly_cai_dat', 'xem_log'] },
+    ],
+  },
 ];
+
+/** Danh sách phẳng (để dùng lại ở chỗ khác nếu cần). */
+export const LINKS: LinkDef[] = GROUPS.flatMap((g) => g.items);
+
+function NavLink({ l, current, onNav, collapsed, badges }: { l: LinkDef; current: string; onNav?: () => void; collapsed?: boolean; badges?: Record<string, number> }) {
+  const active = l.href === '/' ? current === '/' : current.startsWith(l.href);
+  const count = l.badgeKey ? (badges?.[l.badgeKey] ?? 0) : 0;
+  return (
+    <Link href={l.href} onClick={onNav} title={collapsed ? l.label : undefined}
+      aria-current={active ? 'page' : undefined} aria-label={collapsed ? l.label : undefined}
+      className={`relative flex items-center rounded-lg text-[13px] font-medium transition-all duration-200 ${collapsed ? 'justify-center p-2.5' : 'gap-3 px-3 py-2.5'} ${active ? 'bg-[#0d6efd] text-white shadow-[0_1px_4px_rgba(13,110,253,0.35)]' : 'text-slate-400 hover:bg-white/10 hover:text-white'} focus-visible:outline-2 focus-visible:outline-white`}>
+      {l.icon}
+      {!collapsed && l.label}
+      {count > 0 && (
+        <span className={`${collapsed ? 'absolute right-1 top-1' : 'ml-auto'} grid h-5 min-w-[20px] place-items-center rounded-full bg-red-500 px-1 text-[10px] font-bold text-white`}>{count > 99 ? '99+' : count}</span>
+      )}
+    </Link>
+  );
+}
 
 function NavList({ current, onNav, collapsed, badges }: { current: string; onNav?: () => void; collapsed?: boolean; badges?: Record<string, number> }) {
   const { can } = useAuth();
-  const visible = LINKS.filter((l) => !l.needs || l.needs.some((p) => can(p)));
   return (
     <nav aria-label="Điều hướng chính" className="flex flex-col gap-1">
-      {visible.map((l) => {
-        const active = l.href === '/' ? current === '/' : current.startsWith(l.href);
-        const count = l.badgeKey ? (badges?.[l.badgeKey] ?? 0) : 0;
+      {GROUPS.map((g, gi) => {
+        const visible = g.items.filter((l) => !l.needs || l.needs.some((p) => can(p)));
+        if (!visible.length) return null;
         return (
-          <Link key={l.href} href={l.href} onClick={onNav} title={collapsed ? l.label : undefined}
-            aria-current={active ? 'page' : undefined} aria-label={collapsed ? l.label : undefined}
-            className={`relative flex items-center rounded-lg text-[13px] font-medium transition-all duration-200 ${collapsed ? 'justify-center p-2.5' : 'gap-3 px-3 py-2.5'} ${active ? 'bg-[#0d6efd] text-white shadow-[0_1px_4px_rgba(13,110,253,0.35)]' : 'text-slate-400 hover:bg-white/10 hover:text-white'} focus-visible:outline-2 focus-visible:outline-white`}>
-            {l.icon}
-            {!collapsed && l.label}
-            {count > 0 && (
-              <span className={`${collapsed ? 'absolute right-1 top-1' : 'ml-auto'} grid h-5 min-w-[20px] place-items-center rounded-full bg-red-500 px-1 text-[10px] font-bold text-white`}>{count > 99 ? '99+' : count}</span>
-            )}
-          </Link>
+          <div key={g.title} className="flex flex-col gap-1">
+            {collapsed
+              ? (gi > 0 && <div className="mx-2 my-1.5 border-t border-white/10" aria-hidden />)
+              : <div className={`px-3 pb-1 pt-2 text-[10px] font-semibold uppercase tracking-wider text-blue-300/60 ${gi === 0 ? 'pt-0' : ''}`}>{g.title}</div>}
+            {visible.map((l) => (
+              <NavLink key={l.href} l={l} current={current} onNav={onNav} collapsed={collapsed} badges={badges} />
+            ))}
+          </div>
         );
       })}
     </nav>
