@@ -161,8 +161,8 @@ export function OkrTree({ tu, den, readOnly, showArchived }: { tu: string; den: 
         ))}
       </div>
 
-      {/* Card công ty — co 65% cho cân đối, trên là Công ty, dưới là O+KR */}
-      <div onClick={() => setDetail(activeCo)} className="mx-auto block w-full max-w-[65%] cursor-pointer rounded-xl border border-slate-200 bg-white text-left shadow-[0_1px_3px_rgba(15,23,42,0.06)] hover:shadow-md">
+      {/* Card công ty — desktop 65% cho cân đối; mobile full-width. Trên là Công ty, dưới là O+KR */}
+      <div onClick={() => setDetail(activeCo)} className="mx-auto block w-full max-w-full cursor-pointer rounded-xl border border-slate-200 bg-white text-left shadow-[0_1px_3px_rgba(15,23,42,0.06)] hover:shadow-md sm:max-w-[65%]">
         {(activeCo.is_archived) && (
           <div className="flex items-center gap-2 px-4 pt-3">
             <span className="rounded-full bg-amber-100 px-2 py-0.5 text-xs font-semibold text-amber-800">Lưu trữ</span>
@@ -170,7 +170,8 @@ export function OkrTree({ tu, den, readOnly, showArchived }: { tu: string; den: 
           </div>
         )}
         <div className="border-b border-slate-100 bg-gradient-to-r from-[#eff6ff] to-white px-4 py-4">
-          <div className="flex flex-wrap items-center justify-between gap-3">
+          {/* Mobile: xếp dọc, % + KR + check-in thành 1 hàng dưới cùng. Desktop: 2 cột như cũ */}
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
             <div className="min-w-0 flex-1">
               <div className="flex items-center gap-2">
                 <span className="rounded-full bg-[#0f2a4a] px-2 py-0.5 text-xs font-bold text-white">CÔNG TY</span>
@@ -179,7 +180,7 @@ export function OkrTree({ tu, den, readOnly, showArchived }: { tu: string; den: 
               <p className="mt-1 break-words text-sm font-bold leading-snug text-[#0f2a4a]">🎯 {activeCo.objective}</p>
               <p className="mt-1 text-xs text-slate-600">{periodLabel(activeCo.tu_ngay, activeCo.den_ngay)} {activeCo.loai_ky_goi_y ? `· ${activeCo.loai_ky_goi_y}` : ''}</p>
             </div>
-            <div className="flex shrink-0 flex-col items-end gap-1">
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 sm:shrink-0 sm:flex-col sm:items-end sm:gap-1">
               <div className="flex items-center gap-2">{bar(activeCo.tien_do)}<span className="text-xs font-semibold text-slate-700">{activeCo.tien_do}%</span></div>
               <span className="text-xs text-slate-500">KR {activeKrs.length} · {checkinCount.get(activeCo.id) ?? 0} check-in</span>
             </div>
