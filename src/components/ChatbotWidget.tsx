@@ -53,6 +53,17 @@ export function ChatbotWidget() {
     return () => mq.removeEventListener('change', onChange);
   }, []);
 
+  // Khi chuyển chức năng (đổi route): tự đóng widget và làm mới theo phân hệ mới.
+  // (Bấm link menu khi widget đang mở → vẫn chuyển trang bình thường, widget load lại.)
+  useEffect(() => {
+    setOpen(false);
+    setMessages([]);
+    setInput('');
+    setChips([]);
+    setLoggedMiss(false);
+    msgRefs.current.clear();
+  }, [pathname]);
+
   // Lấy 4 câu hỏi gợi ý theo phân hệ hiện tại (RLS: authenticated được đọc chatbot_qa)
   useEffect(() => {
     if (!open) return;
@@ -182,16 +193,16 @@ export function ChatbotWidget() {
   /* ---------------- Shell ---------------- */
 
   const sheet = open && (
-    <div role="presentation" className="fixed inset-0 z-50">
-      {/* Backdrop (mobile) */}
-      {isMobile && <button aria-label="Đóng trợ lý" onClick={() => { setOpen(false); triggerRef.current?.focus(); }} className="absolute inset-0 bg-black/35" />}
+    <div role="presentation" className="fixed inset-0 z-50 pointer-events-none">
+      {/* Backdrop (mobile) — đóng khi bấm ngoài sheet */}
+      {isMobile && <button aria-label="Đóng trợ lý" onClick={() => { setOpen(false); triggerRef.current?.focus(); }} className="pointer-events-auto absolute inset-0 bg-black/35" />}
       <div
         ref={dialogRef}
         role="dialog" aria-modal="true" aria-label="Trợ lý công việc"
         className={
           isMobile
-            ? 'absolute bottom-0 left-0 right-0 flex flex-col bg-white shadow-2xl rounded-t-2xl'
-            : 'absolute right-5 bottom-20 flex flex-col bg-white shadow-2xl rounded-2xl border border-slate-200'
+            ? 'pointer-events-auto absolute bottom-0 left-0 right-0 flex flex-col bg-white shadow-2xl rounded-t-2xl'
+            : 'pointer-events-auto absolute right-5 bottom-20 flex flex-col bg-white shadow-2xl rounded-2xl border border-slate-200'
         }
         style={isMobile ? { height: '92dvh' } : { width: 380, height: 'min(560px, 80dvh)' }}
       >
