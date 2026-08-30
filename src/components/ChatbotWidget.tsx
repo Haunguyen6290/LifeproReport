@@ -2,7 +2,6 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
-import Link from 'next/link';
 import { supabase } from '@/lib/supabase/client';
 import type { QA } from '@/lib/chatbot/search';
 
@@ -15,7 +14,7 @@ type RankedQA = QA & { score?: number };
 type Msg =
   | { id: number; role: 'user'; text: string }
   | { id: number; role: 'bot-qa'; qa: RankedQA }
-  | { id: number; role: 'bot-miss'; q: string; suggestions: string[]; related: string[] };
+  | { id: number; role: 'bot-miss'; q: string };
 
 /* ------------------------------------------------------------------ */
 /* Helpers                                                             */
@@ -23,27 +22,6 @@ type Msg =
 
 let msgId = 0;
 const nextId = () => ++msgId;
-
-/** Tên phân hệ trong QA → route trong app (cho link dẫn khi không khớp). */
-const PHAN_HE_TO_ROUTE: Record<string, string> = {
-  'OKRs': '/okr',
-  'Kế hoạch': '/bao-cao-tuan',
-  'Báo cáo tuần': '/bao-cao-tuan',
-  'Báo cáo kho': '/bao-cao-kho',
-  'Tổng hợp kho': '/bao-cao-kho',
-  'Bán hàng': '/bao-cao-ban-hang',
-  'Kinh doanh': '/bao-cao-ban-hang',
-  'Khách hàng': '/khach-hang',
-  'Thị trường kinh doanh': '/thi-truong',
-  'Thị trường': '/thi-truong',
-  'Chiến dịch': '/chien-dich',
-  'Báo cáo vấn đề': '/bao-cao-tuan',
-  'Check-in hàng tuần': '/okr',
-};
-
-function routeForPhanHe(name: string): string | null {
-  return PHAN_HE_TO_ROUTE[name] ?? null;
-}
 
 /* ------------------------------------------------------------------ */
 /* Component                                                           */
@@ -63,7 +41,8 @@ export function ChatbotWidget() {
   const dialogRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
-  const touchStartY = useRef<number | null>(null);
+  // ref từng tin nhắn để cuộn đúng vị trí câu hỏi
+  const msgRefs = useRef(new Map<number, HTMLDivElement>());
 
   // Theo dõi mobile/desktop
   useEffect(() => {
@@ -90,10 +69,16 @@ export function ChatbotWidget() {
     return () => { cancelled = true; };
   }, [open, pathname]);
 
-  // Auto-scroll xuống cuối khi có tin mới
+  // Đưa cặp câu hỏi–trả lời vào tầm nhìn: cuộn tới câu hỏi gần nhất để
+  // dữ liệu hiển thị ngay dưới câu hỏi, thanh cuộn giữ ở đó (không cuộn xuống đáy).
   useEffect(() => {
-    if (bodyRef.current) bodyRef.current.scrollTop = bodyRef.current.scrollHeight;
-  }, [messages, chips, busy]);
+    const lastUser = [...messages].reverse().find((m) => m.role === 'user');
+    if (lastUser) {
+      const el = msgRefs.current.get(lastUser.id);
+      if (el) { el.scrollIntoView({ block: 'start', behavior: 'smooth' }); return; }
+    }
+    if (busy && bodyRef.current) bodyRef.current.scrollTop = bodyRef.current.scrollHeight;
+  }, [messages, busy]);
 
   // Esc đóng, focus trap đơn giản
   useEffect(() => {
@@ -130,25 +115,22 @@ export function ChatbotWidget() {
     setMessages((m) => [...m, { id: nextId(), role: 'user', text: q }]);
     setInput('');
     try {
-      const res = await fetch(`/api/chatbot?q=${encodeURIComponent(q)}&context=${encodeURIComponent(pathname)}&limit=3`);
+      const res = await fetch(`/api/chatbot?q=${encodeURIComponent(q)}&context=${encodeURIComponent(pathname)}&limit=1`);
       if (!res.ok) {
-        setMessages((m) => [...m, { id: nextId(), role: 'bot-miss', q, suggestions: [], related: [] }]);
+        setMessages((m) => [...m, { id: nextId(), role: 'bot-miss', q }]);
         setBusy(false);
         return;
       }
       const j = await res.json();
       const matches: RankedQA[] = j.matches ?? [];
       if (matches.length === 0) {
-        setMessages((m) => [...m, {
-          id: nextId(), role: 'bot-miss', q,
-          suggestions: j.suggestions ?? [],
-          related: [],
-        }]);
+        setMessages((m) => [...m, { id: nextId(), role: 'bot-miss', q }]);
       } else {
-        setMessages((m) => [...m, ...matches.map((qa) => ({ id: nextId(), role: 'bot-qa' as const, qa }))]);
+        // Chỉ trả đúng 1 câu khớp nhất — không suy diễn, không gợi ý ngoài câu chính
+        setMessages((m) => [...m, { id: nextId(), role: 'bot-qa', qa: matches[0] }]);
       }
     } catch {
-      setMessages((m) => [...m, { id: nextId(), role: 'bot-miss', q, suggestions: [], related: [] }]);
+      setMessages((m) => [...m, { id: nextId(), role: 'bot-miss', q }]);
     } finally {
       setBusy(false);
     }
@@ -180,17 +162,6 @@ export function ChatbotWidget() {
           <span className="font-semibold">Ví dụ: </span>{qa.vi_du}
         </p>
       )}
-      {qa.hanh_dong && (
-        <p className="mt-1.5 text-slate-500"><span className="font-semibold text-slate-600">Hành động: </span>{qa.hanh_dong}</p>
-      )}
-      {qa.cau_hoi_tiep_theo && (
-        <button
-          onClick={() => send(qa.cau_hoi_tiep_theo)}
-          className="mt-2 rounded-full border border-[#0d6efd]/40 bg-[#0d6efd]/5 px-3 py-1 text-[12px] text-[#0d6efd] hover:bg-[#0d6efd]/10"
-        >
-          {qa.cau_hoi_tiep_theo}
-        </button>
-      )}
       <div className="mt-1.5 text-right text-[10px] text-slate-300">{qa.id}</div>
     </div>
   );
@@ -198,15 +169,6 @@ export function ChatbotWidget() {
   const renderMiss = (m: Extract<Msg, { role: 'bot-miss' }>) => (
     <div className="rounded-xl border border-amber-200 bg-amber-50 p-3 text-[13px] leading-relaxed">
       <p className="font-medium text-amber-800">Chưa có dữ liệu để trả lời — mình không tự đoán.</p>
-      {m.suggestions.length > 0 && (
-        <div className="mt-2 flex flex-wrap gap-1.5">
-          {m.suggestions.map((s) => (
-            <button key={s} onClick={() => send(s)} className="rounded-full border border-amber-300 bg-white px-2.5 py-1 text-[12px] text-amber-700 hover:bg-amber-100">
-              {s}
-            </button>
-          ))}
-        </div>
-      )}
       <button
         onClick={() => logMiss(m.q)}
         disabled={loggedMiss}
@@ -248,19 +210,17 @@ export function ChatbotWidget() {
               Xin chào! Mình là trợ lý công việc. Chọn một câu hỏi gợi ý bên dưới hoặc gõ câu hỏi của bạn.
             </div>
           )}
-          {messages.map((m) => {
-            if (m.role === 'user') {
-              return (
-                <div key={m.id} className="flex justify-end">
-                  <div className="max-w-[85%] rounded-2xl rounded-br-md bg-[#0d6efd] px-3 py-2 text-[13px] text-white">{m.text}</div>
-                </div>
-              );
-            }
-            if (m.role === 'bot-qa') {
-              return <div key={m.id} className="flex justify-start">{renderQA(m.qa)}</div>;
-            }
-            return <div key={m.id} className="flex justify-start">{renderMiss(m)}</div>;
-          })}
+          {messages.map((m) => (
+            <div
+              key={m.id}
+              ref={(el) => { if (el) msgRefs.current.set(m.id, el); }}
+              className={m.role === 'user' ? 'flex justify-end' : 'flex justify-start'}
+            >
+              {m.role === 'user'
+                ? <div className="max-w-[85%] rounded-2xl rounded-br-md bg-[#0d6efd] px-3 py-2 text-[13px] text-white">{m.text}</div>
+                : m.role === 'bot-qa' ? renderQA(m.qa) : renderMiss(m)}
+            </div>
+          ))}
           {busy && <div className="text-[12px] text-slate-400">Đang tìm câu trả lời…</div>}
           {chips.length > 0 && messages.length === 0 && (
             <div className="flex flex-wrap gap-1.5 pt-1">
