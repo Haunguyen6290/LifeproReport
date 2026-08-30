@@ -322,6 +322,11 @@ function Screen() {
                 onChange={(e) => setVals({ ...vals, AI_ENABLED: e.target.checked ? 'TRUE' : 'FALSE' })} />
               Bật Trợ lý AI (Haiku)
             </label>
+            <label className="flex items-center gap-2 text-sm">
+              <input type="checkbox" checked={String(vals.TRO_LY_SHOW ?? '').toUpperCase() === 'TRUE'}
+                onChange={(e) => setVals({ ...vals, TRO_LY_SHOW: e.target.checked ? 'TRUE' : 'FALSE' })} />
+              Hiển thị Trợ lý cho toàn công ty (mục menu + ô chat nổi)
+            </label>
             <div className="grid gap-2 sm:grid-cols-[220px_1fr] sm:items-center">
               <label className="text-sm font-semibold">API Key</label>
               <input value={vals.AI_KEY ?? ''} onChange={(e) => setVals({ ...vals, AI_KEY: e.target.value })} type="password" placeholder="sk-<token>:<key-nha-cung-cap> (dinh dang BYOK)" className={sel} />

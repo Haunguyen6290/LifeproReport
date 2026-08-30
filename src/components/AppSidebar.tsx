@@ -26,7 +26,6 @@ export const GROUPS: { title: string; items: LinkDef[] }[] = [
     items: [
       { href: '/', label: 'Bảng tin', icon: ICON.dashboard, badgeKey: 'bulletin' },
       { href: '/okr', label: 'OKR', icon: ICON.target, needs: ['quan_ly_okr', 'xem_okr'] },
-      { href: '/tro-ly', label: 'Trợ lý', icon: ICON.chat },
     ],
   },
   {
@@ -48,6 +47,8 @@ export const GROUPS: { title: string; items: LinkDef[] }[] = [
   {
     title: 'Quản trị',
     items: [
+      // Trợ lý: tạm ẩn cho số đông — chỉ admin thấy + phải bật trong Cài đặt (TRO_LY_SHOW)
+      { href: '/tro-ly', label: 'Trợ lý', icon: ICON.chat, needs: ['quan_ly_cai_dat'] },
       { href: '/quan-tri', label: 'Cài đặt chung', icon: ICON.settings, needs: ['quan_ly_nguoi_dung', 'quan_ly_danh_muc', 'quan_ly_cai_dat', 'xem_log'] },
     ],
   },
@@ -72,12 +73,16 @@ function NavLink({ l, current, onNav, collapsed, badges }: { l: LinkDef; current
   );
 }
 
-function NavList({ current, onNav, collapsed, badges }: { current: string; onNav?: () => void; collapsed?: boolean; badges?: Record<string, number> }) {
+function NavList({ current, onNav, collapsed, badges, troLyShow }: { current: string; onNav?: () => void; collapsed?: boolean; badges?: Record<string, number>; troLyShow?: boolean }) {
   const { can } = useAuth();
   return (
     <nav aria-label="Điều hướng chính" className="flex flex-col gap-1">
       {GROUPS.map((g, gi) => {
-        const visible = g.items.filter((l) => !l.needs || l.needs.some((p) => can(p)));
+        const visible = g.items.filter((l) => {
+          // Trợ lý: admin luôn thấy; người dùng thường chỉ thấy khi bật TRO_LY_SHOW
+          if (l.href === '/tro-ly') return can('quan_ly_cai_dat') || !!troLyShow;
+          return !l.needs || l.needs.some((p) => can(p));
+        });
         if (!visible.length) return null;
         return (
           <div key={g.title} className="flex flex-col gap-1">
@@ -96,18 +101,23 @@ function NavList({ current, onNav, collapsed, badges }: { current: string; onNav
 
 /** Sidebar trái (desktop) + drawer (mobile) — đổi từ AppNav. */
 export function AppSidebar({ children }: { children: React.ReactNode }) {
-  const { fullName, role, avatarUrl, signOut } = useAuth();
+  const { fullName, role, avatarUrl, signOut, can } = useAuth();
   const path = usePathname();
   const [open, setOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
   const [avatarOpen, setAvatarOpen] = useState(false);
   const [appName, setAppName] = useState('Lifepro - Quản lý Mục tiêu, Báo cáo');
   const [badges, setBadges] = useState<Record<string, number>>({});
+  const [troLyShow, setTroLyShow] = useState(false);
   useEffect(() => {
     let cancelled = false;
     (async () => {
       const { data } = await supabase.from('settings').select('value').eq('key', 'APP_NAME').single();
       if (!cancelled && (data as any)?.value) setAppName(String((data as any).value));
+    })();
+    (async () => {
+      const { data } = await supabase.from('settings').select('value').eq('key', 'TRO_LY_SHOW').single();
+      if (!cancelled) setTroLyShow(String((data as any)?.value ?? '').toUpperCase() === 'TRUE');
     })();
     return () => { cancelled = true; };
   }, []);
@@ -158,7 +168,7 @@ export function AppSidebar({ children }: { children: React.ReactNode }) {
           </button>
         </div>
         <div className="flex flex-1 flex-col gap-4 overflow-y-auto p-3">
-          <NavList current={path} collapsed={collapsed} badges={badges} />
+          <NavList current={path} collapsed={collapsed} badges={badges} troLyShow={troLyShow} />
         </div>
         <div className="border-t border-white/10 bg-[#162c6b]/50 p-3">
           {!collapsed ? (
@@ -206,7 +216,7 @@ export function AppSidebar({ children }: { children: React.ReactNode }) {
               <span className="text-sm font-bold tracking-tight text-white">Menu</span>
               <button onClick={() => setOpen(false)} aria-label="Đóng" className="grid h-8 w-8 place-items-center rounded-md text-blue-200 hover:bg-white/10 hover:text-white"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg></button>
             </div>
-            <div className="flex-1 p-3"><NavList current={path} onNav={() => setOpen(false)} badges={badges} /></div>
+            <div className="flex-1 p-3"><NavList current={path} onNav={() => setOpen(false)} badges={badges} troLyShow={troLyShow} /></div>
             <div className="flex items-center justify-between gap-2 border-t border-white/10 bg-[#162c6b]/50 p-3">
               <button onClick={() => setAvatarOpen(true)} className="flex min-w-0 items-center gap-2 text-left"><Avatar name={fullName || '?'} src={avatarUrl} size={28} /><span className="min-w-0"><span className="block truncate text-sm font-semibold text-white">{fullName}</span><span className="block truncate text-xs text-blue-200">{role}</span></span></button>
               <button onClick={() => signOut()} className="shrink-0 rounded-md bg-white/10 px-2.5 py-1.5 text-xs font-semibold text-white hover:bg-white hover:text-[#1e3a8a]">Thoát</button>
@@ -215,7 +225,7 @@ export function AppSidebar({ children }: { children: React.ReactNode }) {
         </div>
       )}
       <AvatarDialog open={avatarOpen} onClose={() => setAvatarOpen(false)} />
-      <ChatbotWidget />
+      {(troLyShow || can('quan_ly_cai_dat')) && <ChatbotWidget />}
     </div>
   );
 }
