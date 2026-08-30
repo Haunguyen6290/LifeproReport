@@ -185,6 +185,7 @@ export function ChatbotWidget() {
   const renderQA = (qa: RankedQA) => (
     <div className="rounded-xl border border-slate-200 bg-white p-3 text-[13px] leading-relaxed shadow-sm">
       <div className="mb-1 text-[11px] font-semibold uppercase tracking-wide text-slate-400">{qa.phan_he} · {qa.nhom_chu_de}</div>
+      <div className="mb-1.5 rounded-lg bg-[#0d6efd]/5 px-2.5 py-1.5 text-[13px] font-semibold text-[#0d6efd]">{qa.cau_hoi}</div>
       <p className="font-medium text-slate-800">{qa.tra_loi_chuan}</p>
       {qa.vi_du && (
         <p className="mt-2 rounded-md border-l-2 border-slate-200 bg-slate-50 px-2 py-1.5 text-slate-600">

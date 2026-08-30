@@ -324,7 +324,7 @@ function Screen() {
             </label>
             <div className="grid gap-2 sm:grid-cols-[220px_1fr] sm:items-center">
               <label className="text-sm font-semibold">API Key</label>
-              <input value={vals.AI_KEY ?? ''} onChange={(e) => setVals({ ...vals, AI_KEY: e.target.value })} type="password" placeholder="sk-ant-…" className={sel} />
+              <input value={vals.AI_KEY ?? ''} onChange={(e) => setVals({ ...vals, AI_KEY: e.target.value })} type="password" placeholder="sk-<token>:<key-nha-cung-cap> (dinh dang BYOK)" className={sel} />
             </div>
             <div className="grid gap-2 sm:grid-cols-[220px_1fr] sm:items-center">
               <label className="text-sm font-semibold">Endpoint (tuỳ chọn)</label>

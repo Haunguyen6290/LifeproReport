@@ -55,7 +55,7 @@ function extractKeywords(raw: string): string[] {
   return out;
 }
 
-/** Khớp từ khóa: exact, tiền tố 2 chiều (min 3 ký tự, để 'okr' khớp 'okrs'), hoặc cụm 2 từ. */
+/** Khớp từ khóa: exact, số nhiều 's' 2 chiều (okr ↔ okrs), hoặc cụm 2 từ. (Không prefix tự do: 'kho' từng khớp nhầm 'khong'.) */
 function matchKeyword(t: string, hayTokens: string[], hayStr: string): boolean {
   if (t.includes('_')) {
     const phrase = t.replace(/_/g, ' ');
@@ -64,16 +64,16 @@ function matchKeyword(t: string, hayTokens: string[], hayStr: string): boolean {
     return parts.every((p) => hayTokens.includes(p));
   }
   if (hayTokens.includes(t)) return true;
-  if (t.length >= 3) {
-    for (const h of hayTokens) {
-      if (h.length >= 3 && (h.startsWith(t) || t.startsWith(h))) return true;
-    }
+  for (const h of hayTokens) {
+    if (h.length >= 3 && (h === t + 's' || t === h + 's')) return true;
   }
   return false;
 }
 
 /**
- * Chấm điểm QA theo query: token-overlap trên từ khóa đã lọc stopword + context boost (+0.15).
+ * Chấm điểm QA theo query, có trọng số IDF (từ hiếm được tính điểm cao hơn từ phổ biến).
+ * + context boost (+0.2). Ví dụ "báo cáo kho": "kho" (hiếm) thắng "báo cáo" (phổ biến),
+ * nên không bị rơi vào QA Báo cáo tuần.
  * Trả matches (score >= SCORE_THRESHOLD, top limit) + suggestions (3 câu gần nhất để gợi ý).
  * Pure function, không đụng DB — GĐ2 có thể bọc thêm AI phía sau mà không đổi chữ ký.
  */
@@ -82,13 +82,27 @@ export function rankQA(rows: QA[], q: string, context: string | null, limit = 3)
   if (!qKeywords.length) {
     return { matches: [], suggestions: rows.slice(0, limit).map((r) => r.cau_hoi) };
   }
-  const scored: RankedQA[] = rows.map((r) => {
-    const hayStr = normalizeQuery(`${r.cau_hoi} ${r.tra_loi_chuan} ${r.nhom_chu_de}`);
-    const hay = hayStr.split(' ').filter(Boolean);
-    let hit = 0;
-    for (const t of qKeywords) if (matchKeyword(t, hay, hayStr)) hit++;
-    let score = hit / qKeywords.length;
-    if (context && r.phan_he === context) score += 0.15;
+  // Tiền xử lý haystack mỗi dòng 1 lần
+  const hayStrs = rows.map((r) => normalizeQuery(`${r.cau_hoi} ${r.tra_loi_chuan} ${r.nhom_chu_de}`));
+  const hayTok = hayStrs.map((s) => s.split(' ').filter(Boolean));
+  const N = rows.length || 1;
+
+  // Document frequency của từng từ khóa trong query → trọng số IDF
+  const weight: Record<string, number> = {};
+  let totalW = 0;
+  for (const t of qKeywords) {
+    let df = 0;
+    for (let i = 0; i < rows.length; i++) if (matchKeyword(t, hayTok[i], hayStrs[i])) df++;
+    const w = Math.log((N + 1) / (df + 1)) + 1; // luôn > 0, từ càng hiếm càng lớn
+    weight[t] = w;
+    totalW += w;
+  }
+
+  const scored: RankedQA[] = rows.map((r, i) => {
+    let hitW = 0;
+    for (const t of qKeywords) if (matchKeyword(t, hayTok[i], hayStrs[i])) hitW += weight[t];
+    let score = totalW ? hitW / totalW : 0;
+    if (context && r.phan_he === context) score += 0.2;
     return { qa: r, score };
   });
   scored.sort((a, b) => b.score - a.score);
