@@ -85,9 +85,6 @@ export function OkrDialog({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
-  const iso = (d: Date) => d.toISOString().slice(0, 10);
-  void iso;
-
   useEffect(() => {
     if (!open || isCompany) return;
     let cancelled = false;
