@@ -507,6 +507,27 @@ function DashboardInner() {
                 </div>
               )}
             </div>
+            {/* Top KH */}
+            <div className="mt-4 rounded-xl bg-white p-4 shadow-[0_1px_4px_rgba(0,0,0,0.07),0_4px_16px_rgba(0,0,0,0.04)]">
+              <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-[#1e293b]"><span className="h-2 w-2 rounded-full" style={{ background: '#3B82F6' }} />Top 15 khách hàng — doanh thu</div>
+              {result.byKh.length === 0 ? <p className="py-4 text-center text-sm text-[#64748b]">Chưa có dữ liệu</p> : (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead><tr className="border-b border-[#e2e8f0] text-left text-xs font-bold text-[#64748b]"><th className="py-2">#</th><th className="py-2">Khách hàng</th><th className="py-2 text-right">Doanh số</th><th className="py-2 text-right">% tổng</th></tr></thead>
+                    <tbody>
+                      {result.byKh.slice(0, 15).map((r, i) => (
+                        <tr key={r.label} className="border-t border-[#f1f5f9]">
+                          <td className="py-2 text-[#64748b]">{i + 1}</td>
+                          <td className="py-2 font-medium text-[#1e293b] line-clamp-1">{r.label}</td>
+                          <td className="py-2 text-right font-semibold text-[#0d7a59]">{fmtFull(r.value)}</td>
+                          <td className="py-2 text-right text-[#334155]">{result.total > 0 ? ((r.value / result.total) * 100).toFixed(1) : '0'}%</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
             {result.count === 0 && <p className="mt-4 rounded-lg bg-amber-50 p-4 text-center text-sm text-amber-800">Không có dữ liệu trong kỳ/bộ lọc này.</p>}
           </>
         ) : (
