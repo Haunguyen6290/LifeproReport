@@ -57,7 +57,6 @@ export function OkrDialog({
   const [tu, setTu] = useState(initTu);
   const [den, setDen] = useState(initDen);
   const [objective, setObjective] = useState('');
-  const [loaiKy, setLoaiKy] = useState('');
   const [krs, setKrs] = useState<string[]>(['', '']);
   const [parentOkrId, setParentOkrId] = useState('');
   const [companyOkrs, setCompanyOkrs] = useState<{ id: string; objective: string; tu_ngay?: string; den_ngay?: string }[]>([]);
@@ -87,18 +86,10 @@ export function OkrDialog({
   }, [open]);
 
   const iso = (d: Date) => d.toISOString().slice(0, 10);
-  function applyKy(kind: string) {
-    const now = new Date();
-    const y = now.getFullYear();
-    if (kind === 'thang') { setTu(iso(new Date(Date.UTC(y, now.getMonth(), 1)))); setDen(iso(new Date(Date.UTC(y, now.getMonth() + 1, 0)))); setLoaiKy('Tháng'); }
-    else if (kind === 'quy') { const q = Math.floor(now.getMonth() / 3); setTu(iso(new Date(Date.UTC(y, q * 3, 1)))); setDen(iso(new Date(Date.UTC(y, q * 3 + 3, 0)))); setLoaiKy('Quý'); }
-    else if (kind === '6t') { setTu(iso(new Date(Date.UTC(y, now.getMonth(), 1)))); setDen(iso(new Date(Date.UTC(y, now.getMonth() + 6, 0)))); setLoaiKy('6 tháng'); }
-    else if (kind === 'nam') { setTu(`${y}-01-01`); setDen(`${y}-12-31`); setLoaiKy('Năm'); }
-  }
+  void iso;
 
   useEffect(() => {
     if (!open || isCompany) return;
-    if (!tu || !den) return;
     let cancelled = false;
     setLoadingKr(true);
     (async () => {
@@ -108,8 +99,6 @@ export function OkrDialog({
           .select('id, objective, tu_ngay, den_ngay')
           .eq('is_company', true)
           .eq('is_archived', false)
-          .lte('tu_ngay', tu)
-          .gte('den_ngay', tu)
           .order('tu_ngay', { ascending: false });
         if (cancelled) return;
         if (e1 || !compOkrs || compOkrs.length === 0) {
@@ -126,7 +115,7 @@ export function OkrDialog({
     return () => {
       cancelled = true;
     };
-  }, [open, isCompany, tu, den]);
+  }, [open, isCompany]);
 
   function updateKr(idx: number, val: string) {
     setKrs((prev) => {
@@ -211,7 +200,7 @@ export function OkrDialog({
         user_id: uid,
         tu_ngay: tu,
         den_ngay: den,
-        loai_ky_goi_y: loaiKy || '',
+        loai_ky_goi_y: '',
         objective: objective.trim(),
         is_company: !!isCompany,
         parent_okr_id: !isCompany ? parentOkrId || null : null,
@@ -260,7 +249,6 @@ export function OkrDialog({
       setObjective('');
       setKrs(['', '']);
       setParentOkrId('');
-      setLoaiKy('');
       setBusy(false);
       onDone?.();
       onClose();
@@ -277,16 +265,12 @@ export function OkrDialog({
   return (
     <Dialog open={open} onClose={onClose} title={isCompany ? 'Tạo OKR công ty' : 'Tạo OKR cá nhân'}>
       <div className="grid gap-4">
-        <div className="grid gap-2 sm:grid-cols-3">
-          <div><label className={LABEL}>Loại kỳ gợi ý</label>
-            <select value={loaiKy} onChange={(e) => { setLoaiKy(e.target.value); if (e.target.value === 'Tháng') applyKy('thang'); else if (e.target.value === 'Quý') applyKy('quy'); else if (e.target.value === '6 tháng') applyKy('6t'); else if (e.target.value === 'Năm') applyKy('nam'); }} className={sel}>
-              <option value="">—</option><option value="Tháng">Tháng</option><option value="Quý">Quý</option><option value="6 tháng">6 tháng</option><option value="Năm">Năm</option>
-            </select></div>
+        <div className="grid gap-2 sm:grid-cols-2">
           <div><label className={LABEL}>Từ ngày *</label><input type="date" value={tu} onChange={(e) => setTu(e.target.value)} className={sel} /></div>
           <div><label className={LABEL}>Đến ngày *</label><input type="date" value={den} onChange={(e) => setDen(e.target.value)} className={sel} /></div>
         </div>
         <div className="rounded-lg bg-slate-50 px-3 py-2 text-xs text-slate-600">
-          Kỳ: {tu && den ? periodLabel(tu, den) : '—'} {loaiKy ? `· ${loaiKy}` : ''}
+          Kỳ: {tu && den ? periodLabel(tu, den) : '—'}
         </div>
 
         {!isCompany && (

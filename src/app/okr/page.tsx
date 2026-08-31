@@ -32,26 +32,6 @@ function Screen() {
     setRefreshKey((k) => k + 1);
   }
 
-  const iso = (d: Date) => d.toISOString().slice(0, 10);
-  function applyKy(kind: string) {
-    const now = new Date();
-    const y = now.getFullYear();
-    if (kind === 'thang') {
-      const tu = new Date(Date.UTC(y, now.getMonth(), 1));
-      const den = new Date(Date.UTC(y, now.getMonth() + 1, 0));
-      setTu(iso(tu)); setDen(iso(den));
-    } else if (kind === 'quy') {
-      const q = quarterBounds(now);
-      setTu(q.tu); setDen(q.den);
-    } else if (kind === '6t') {
-      const tu = new Date(Date.UTC(y, now.getMonth(), 1));
-      const den = new Date(Date.UTC(y, now.getMonth() + 6, 0));
-      setTu(iso(tu)); setDen(iso(den));
-    } else if (kind === 'nam') {
-      setTu(`${y}-01-01`); setDen(`${y}-12-31`);
-    }
-  }
-
   const canManage = can('quan_ly_okr');
 
   return (
@@ -97,20 +77,6 @@ function Screen() {
                 className="rounded-md border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-[#1e3a8a] focus:ring-1 focus:ring-[#1e3a8a]"
               />
             </div>
-            <div>
-              <label className="mb-1 block text-xs font-semibold uppercase tracking-wider text-slate-700">Kỳ gợi ý</label>
-              <select
-                value=""
-                onChange={(e) => applyKy(e.target.value)}
-                className="rounded-md border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-[#1e3a8a] focus:ring-1 focus:ring-[#1e3a8a]"
-              >
-                <option value="">— Chọn kỳ —</option>
-                <option value="thang">Tháng này</option>
-                <option value="quy">Quý này</option>
-                <option value="6t">6 tháng</option>
-                <option value="nam">Năm nay</option>
-              </select>
-            </div>
             <div className="pb-2 text-xs text-slate-500">
               {tu && den ? periodLabel(tu, den) : '—'}
             </div>
@@ -122,7 +88,7 @@ function Screen() {
             )}
           </div>
           <p className="mt-2 text-xs text-slate-500">
-            Chọn kỳ gợi ý hoặc tự đặt Từ ngày → Đến ngày (phát sinh không tròn tháng/quý). Cây hiển thị: O công ty → KR → O cá nhân → KR.
+            Tự đặt Từ ngày → Đến ngày. Cây hiển thị: O công ty → KR → O cá nhân → KR.
           </p>
         </div>
 
