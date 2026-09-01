@@ -14,8 +14,12 @@ export function AddCustomerDialog({ open, onClose, onDone }: { open: boolean; on
   const [provinces, setProvinces] = useState<{ id: string; name: string }[]>([]);
   const [codes, setCodes] = useState<Set<string>>(new Set());
   const [tab, setTab] = useState<'chung' | 'vanhanh' | 'khaithac'>('chung');
+  const [saved, setSaved] = useState(false);
+  const [formKey, setFormKey] = useState(0);
   useEffect(() => {
     if (!open) return;
+    setSaved(false);
+    setFormKey((k) => k + 1);
     (async () => {
       const [mh, tier, st, qm, seg, u, c, p, prov] = await Promise.all([
         categoryItems('mo_hinh_kd'), categoryItems('phan_hang_kh'), categoryItems('trang_thai_kh'),
@@ -53,7 +57,10 @@ export function AddCustomerDialog({ open, onClose, onDone }: { open: boolean; on
     const { error } = await supabase.from('customers').insert(payload).select('id').single();
     if (error) return error.message.includes('duplicate') ? 'Mã khách hàng này đã tồn tại.' : error.message;
     onDone();
-    onClose();
+    setSaved(true);
+    setCodes((prev) => new Set(prev).add(payload.ma_kh));
+    setFormKey((k) => k + 1);
+    setTab('chung');
     return null;
   }
   return (
@@ -67,7 +74,8 @@ export function AddCustomerDialog({ open, onClose, onDone }: { open: boolean; on
               </button>
             ))}
           </div>
-          <CustomerForm mode="new" cats={cats} provinces={provinces} products={products} users={users} canPickAssignee={can('sua_khach_bat_ky')} existingCodes={codes} onSubmit={onSubmit} submitLabel="Lưu khách hàng" activeTab={tab} />
+          {saved && <div role="status" className="mb-3 rounded-md border border-emerald-200 bg-emerald-50 px-4 py-2 text-sm text-emerald-700">Đã lưu khách hàng. Form đã sẵn sàng để nhập khách tiếp theo — bấm X để đóng hộp.</div>}
+          <CustomerForm key={formKey} mode="new" cats={cats} provinces={provinces} products={products} users={users} canPickAssignee={can('sua_khach_bat_ky')} existingCodes={codes} onSubmit={onSubmit} submitLabel="Lưu khách hàng" activeTab={tab} />
         </>
       ) : (
         <div className="py-10 text-center text-slate-600">Đang tải…</div>

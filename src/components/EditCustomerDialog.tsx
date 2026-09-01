@@ -23,11 +23,20 @@ export function EditCustomerDialog({ open, id, onClose, onDone }: { open: boolea
   const [tab, setTab] = useState<Tab>('chung');
   const [history, setHistory] = useState<Hist[]>([]);
   const [statusName, setStatusName] = useState('');
+  const [saved, setSaved] = useState(false);
+
+  async function loadHistory() {
+    const { data: logs } = await supabase.from('audit_logs')
+      .select('id, action, details, created_at, actor:profiles!audit_logs_actor_id_fkey(full_name)')
+      .eq('entity_type', 'customer').eq('entity_id', id).order('created_at', { ascending: false }).limit(50);
+    setHistory(((logs ?? []) as any[]).map((l) => ({ id: l.id, action: l.action, nguoi: l.actor?.full_name ?? '', thoi_gian: l.created_at, details: l.details })));
+  }
 
   useEffect(() => {
     if (!open) return;
     (async () => {
       setReady(false);
+      setSaved(false);
       const [khRes, mh, tier, st, qm, seg, u, c, p, prov] = await Promise.all([
         supabase.from('customers').select('*').eq('id', id).single(),
         categoryItems('mo_hinh_kd'), categoryItems('phan_hang_kh'), categoryItems('trang_thai_kh'),
@@ -52,10 +61,7 @@ export function EditCustomerDialog({ open, id, onClose, onDone }: { open: boolea
         const { data: stItem } = await supabase.from('category_items').select('name').eq('id', kh.status_id).single();
         setStatusName(stItem?.name ?? '');
       }
-      const { data: logs } = await supabase.from('audit_logs')
-        .select('id, action, details, created_at, actor:profiles!audit_logs_actor_id_fkey(full_name)')
-        .eq('entity_type', 'customer').eq('entity_id', id).order('created_at', { ascending: false }).limit(50);
-      setHistory(((logs ?? []) as any[]).map((l) => ({ id: l.id, action: l.action, nguoi: l.actor?.full_name ?? '', thoi_gian: l.created_at, details: l.details })));
+      await loadHistory();
       setReady(true);
     })();
   }, [open, id, userId, can]);
@@ -76,8 +82,13 @@ export function EditCustomerDialog({ open, id, onClose, onDone }: { open: boolea
     const { error } = await supabase.from('customers').update(patch).eq('id', id);
     if (error) return error.message;
     try { const { data: me2 } = await supabase.from('profiles').select('full_name').eq('id', userId).single(); await supabase.from('audit_logs').insert({ actor_id: userId, action: 'Sửa hồ sơ', entity_type: 'customer', entity_id: id, details: { changes, full_name: (me2 as any)?.full_name ?? '' } }); } catch {}
+    const next: CustomerValues = { ...initial };
+    for (const f of fields) next[f] = f in patch ? String(patch[f] ?? '') : (initial[f] ?? '');
+    setInitial(next);
+    if ('status_id' in patch) setStatusName(cats.statuses.find((c: any) => c.id === patch.status_id)?.name ?? '');
+    setSaved(true);
+    loadHistory();
     onDone();
-    onClose();
     return null;
   }
 
@@ -125,6 +136,8 @@ export function EditCustomerDialog({ open, id, onClose, onDone }: { open: boolea
               </button>
             ))}
           </div>
+
+          {saved && <div role="status" className="mt-3 rounded-md border border-emerald-200 bg-emerald-50 px-4 py-2 text-sm text-emerald-700">Đã lưu. Hộp vẫn mở — bấm X để đóng.</div>}
 
           <div className="mt-4">
             {tab !== 'lichsu' ? (

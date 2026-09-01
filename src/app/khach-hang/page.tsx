@@ -120,7 +120,7 @@ function Screen() {
             )}
             <button onClick={() => setAddOpen(true)} className="rounded-md bg-[var(--color-primary)] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[var(--color-primary-hover)]">+ Thêm khách hàng</button>
             <AddCustomerDialog open={addOpen} onClose={() => setAddOpen(false)} onDone={loadRows} />
-            {editId && <EditCustomerDialog open={!!editId} id={editId} onClose={() => setEditId(null)} onDone={() => { setEditId(null); loadRows(); }} />}
+            {editId && <EditCustomerDialog open={!!editId} id={editId} onClose={() => setEditId(null)} onDone={loadRows} />}
           </div>
         </div>
 
