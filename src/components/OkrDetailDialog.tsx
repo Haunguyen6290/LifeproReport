@@ -4,7 +4,7 @@ import { supabase } from '@/lib/supabase/client';
 import { useAuth } from '@/components/RequireAuth';
 import { Dialog } from '@/components/Dialog';
 import { GrowArea } from '@/components/GrowArea';
-import { fmtDateVN } from '@/lib/time';
+import { fmtDateVN, fmtCommentTimeVN } from '@/lib/time';
 import { periodLabel } from '@/lib/okr';
 import type { OkrRow } from '@/components/OkrTree';
 
@@ -19,7 +19,7 @@ function validateKRs(list: string[], oCount: number): { ok: boolean; msg: string
 
 type CheckIn = { id: string; tuan_tu: string; tien_do: number; tu_tin: string; ket_qua: string; vuong_mac: string; can_ho_tro: string; y_kien_quan_ly: string; created_at: string };
 
-export function OkrDetailDialog({ okr, onClose, onDone, canManage, readOnly }: { okr: OkrRow; onClose: () => void; onDone: () => void; canManage: boolean; readOnly?: boolean }) {
+export function OkrDetailDialog({ okr, onClose, onDone, onRefresh, canManage, readOnly }: { okr: OkrRow; onClose: () => void; onDone: () => void; onRefresh?: () => void; canManage: boolean; readOnly?: boolean }) {
   const { userId } = useAuth();
   const canEdit = !readOnly && (canManage || okr.user_id === userId);
   const [krs, setKrs] = useState<{ id: string; noi_dung: string }[]>([]);
@@ -35,6 +35,8 @@ export function OkrDetailDialog({ okr, onClose, onDone, canManage, readOnly }: {
   const [tkPhanHoi, setTkPhanHoi] = useState('');
   const [savedTk, setSavedTk] = useState({ dg: '', ph: '' });
   const [tab, setTab] = useState<'checkin' | 'tongket'>('checkin');
+  const [showAllCi, setShowAllCi] = useState(false);
+  const [tienDoHienTai, setTienDoHienTai] = useState(okr.tien_do);
   const [tkEditing, setTkEditing] = useState(false);
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState('');
@@ -42,11 +44,12 @@ export function OkrDetailDialog({ okr, onClose, onDone, canManage, readOnly }: {
   async function load() {
     const [a, b, okrFull] = await Promise.all([
       supabase.from('okr_key_results').select('id, noi_dung').eq('okr_id', okr.id).order('sort_order', { ascending: true }),
-      supabase.from('okr_check_ins').select('id, tuan_tu, tien_do, tu_tin, ket_qua, vuong_mac, can_ho_tro, y_kien_quan_ly, created_at').eq('okr_id', okr.id).order('tuan_tu', { ascending: false }),
-      supabase.from('okrs').select('tongket_tudanhgia, tongket_phanhoi').eq('id', okr.id).single(),
+      supabase.from('okr_check_ins').select('id, tuan_tu, tien_do, tu_tin, ket_qua, vuong_mac, can_ho_tro, y_kien_quan_ly, created_at').eq('okr_id', okr.id).order('created_at', { ascending: false }),
+      supabase.from('okrs').select('tien_do, tongket_tudanhgia, tongket_phanhoi').eq('id', okr.id).single(),
     ]);
     setKrs((a.data ?? []) as any);
     setCheckins((b.data ?? []) as any);
+    setTienDoHienTai((okrFull.data as any)?.tien_do ?? okr.tien_do);
     const dg = (okrFull.data as any)?.tongket_tudanhgia ?? '';
     const ph = (okrFull.data as any)?.tongket_phanhoi ?? '';
     setSavedTk({ dg, ph });
@@ -164,8 +167,8 @@ export function OkrDetailDialog({ okr, onClose, onDone, canManage, readOnly }: {
               <div className="mt-1 text-xs text-slate-500">{periodLabel(okr.tu_ngay, okr.den_ngay)} · {checkins.length} check-in</div>
               {krs.length > 0 && <ul className="mt-2 space-y-1 text-sm text-slate-800">{krs.map((k, i) => <li key={k.id}>KR{i + 1}: {k.noi_dung}</li>)}</ul>}
               <div className="mt-2 flex items-center gap-2">
-                <div className="h-2.5 w-full max-w-[200px] overflow-hidden rounded-full bg-slate-200"><div className="h-full rounded-full bg-emerald-500" style={{ width: `${okr.tien_do}%` }} /></div>
-                <span className="text-xs font-semibold text-slate-700">{okr.tien_do}%</span>
+                <div className="h-2.5 w-full max-w-[200px] overflow-hidden rounded-full bg-slate-200"><div className="h-full rounded-full bg-emerald-500" style={{ width: `${tienDoHienTai}%` }} /></div>
+                <span className="text-xs font-semibold text-slate-700">{tienDoHienTai}%</span>
               </div>
               <div className="mt-3 flex flex-wrap gap-2">
                 {!readOnly && <button onClick={() => setOpenCheckin(true)} className="rounded-lg bg-[var(--color-primary)] px-4 py-2 text-sm font-semibold text-white hover:bg-[var(--color-primary-hover)]">+ Check-in</button>}
@@ -184,14 +187,23 @@ export function OkrDetailDialog({ okr, onClose, onDone, canManage, readOnly }: {
           <div className="p-4">
             {tab === 'checkin' ? (
               <div>
-                <h3 className="mb-2 text-sm font-bold text-[#1e3a8a]">Lịch sử check-in</h3>
+                <div className="mb-2 flex items-center justify-between">
+                  <h3 className="text-sm font-bold text-[#1e3a8a]">Lịch sử check-in <span className="font-normal text-slate-500">({checkins.length})</span></h3>
+                  {checkins.length > 3 && (
+                    <button type="button" onClick={() => setShowAllCi((v) => !v)} className="rounded-md border border-slate-200 px-2.5 py-1 text-xs font-semibold text-slate-700 hover:border-[#1e3a8a] hover:text-[#1e3a8a]">
+                      {showAllCi ? 'Thu gọn' : `Xem tất cả (${checkins.length})`}
+                    </button>
+                  )}
+                </div>
                 {checkins.length === 0 ? <p className="text-sm text-slate-600">Chưa có check-in.</p> : (
-                  <ul className="space-y-3">{checkins.map((c) => (
+                  <ul className={showAllCi ? 'max-h-[420px] space-y-3 overflow-y-auto pr-1' : 'space-y-3'}>
+                    {(showAllCi ? checkins : checkins.slice(0, 3)).map((c) => (
                     <li key={c.id} className="rounded-lg border border-slate-200 bg-slate-50 p-3">
                       <div className="flex flex-wrap items-center gap-2 text-xs text-slate-600">
                         <span className="font-semibold text-slate-900">Tuần {fmtDateVN(c.tuan_tu)}</span>
                         <span className="font-semibold text-slate-900">{c.tien_do}%</span>
                         <span className="rounded-full bg-amber-50 px-2 py-0.5 font-semibold text-amber-700">{c.tu_tin}</span>
+                        <span className="text-slate-500">lúc {fmtCommentTimeVN(c.created_at)}</span>
                       </div>
                       {c.ket_qua && <p className="mt-1 text-sm text-slate-800">Kết quả: {c.ket_qua}</p>}
                       {c.vuong_mac && <p className="mt-1 text-sm text-slate-800">Trở ngại: {c.vuong_mac}</p>}
@@ -204,6 +216,7 @@ export function OkrDetailDialog({ okr, onClose, onDone, canManage, readOnly }: {
                     </li>
                   ))}</ul>
                 )}
+                {!showAllCi && checkins.length > 3 && <p className="mt-2 text-xs text-slate-500">Đang hiển thị 3 lần check-in gần nhất.</p>}
               </div>
             ) : (
               <div>
@@ -230,7 +243,7 @@ export function OkrDetailDialog({ okr, onClose, onDone, canManage, readOnly }: {
         </div>
       </div>
 
-      {openCheckin && <CheckInDialog okr={okr} onClose={() => setOpenCheckin(false)} onDone={() => { setOpenCheckin(false); load(); onDone(); }} />}
+      {openCheckin && <CheckInDialog okr={okr} onClose={() => setOpenCheckin(false)} onDone={() => { setOpenCheckin(false); load(); setShowAllCi(false); setTab('checkin'); onRefresh?.(); }} />}
     </Dialog>
   );
 }
@@ -259,7 +272,7 @@ function CheckInDialog({ okr, onClose, onDone }: { okr: OkrRow; onClose: () => v
 
   async function save() {
     setBusy(true); setMsg('');
-    const { error } = await supabase.from('okr_check_ins').upsert({ okr_id: okr.id, user_id: userId, tuan_tu: week, tien_do: tienDo, tu_tin: tuTin, ket_qua: ketQua.trim(), vuong_mac: vuongMac, can_ho_tro: canHoTro }, { onConflict: 'okr_id,tuan_tu' });
+    const { error } = await supabase.from('okr_check_ins').insert({ okr_id: okr.id, user_id: userId, tuan_tu: week, tien_do: tienDo, tu_tin: tuTin, ket_qua: ketQua.trim(), vuong_mac: vuongMac, can_ho_tro: canHoTro });
     if (error) { setMsg(error.message); setBusy(false); return; }
     await supabase.from('okrs').update({ tien_do: tienDo }).eq('id', okr.id);
     setBusy(false); onDone();
@@ -269,7 +282,7 @@ function CheckInDialog({ okr, onClose, onDone }: { okr: OkrRow; onClose: () => v
     <Dialog open onClose={onClose} title="Check-in tuần">
       <div className="grid gap-2">
         <div><label className="mb-1 block text-xs font-semibold">Mức độ tự tin hoàn thành</label>
-          <select value={tuTin} onChange={(e) => setTuTinT(e.target.value)} className={sel}><option value="Tốt">T tốt</option><option value="Ổn">Ổn</option><option value="Không ổn">Không</option></select>
+          <select value={tuTin} onChange={(e) => setTuTinT(e.target.value)} className={sel}><option value="Tốt">Tốt</option><option value="Ổn">Ổn</option><option value="Không ổn">Không ổn</option></select>
         </div>
         <div><label className="mb-1 block text-xs font-semibold">Tiến độ, kết quả công việc (%)</label>
           <div className="flex items-center gap-2"><input type="range" min={0} max={100} value={tienDo} onChange={(e) => setTienDo(Number(Number(e.target.value)))} className="flex-1" /><span className="w-10 text-right text-sm font-semibold">{tienDo}%</span></div>

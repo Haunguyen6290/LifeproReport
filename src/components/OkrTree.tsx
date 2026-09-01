@@ -142,7 +142,7 @@ export function OkrTree({ tu, den, readOnly, showArchived }: { tu: string; den: 
             ))}</ul>
           </div>
         )}
-        {detail && <OkrDetailDialog okr={detail} onClose={() => setDetail(null)} onDone={() => { setDetail(null); }} canManage={can('quan_ly_okr')} readOnly={readOnly} />}
+        {detail && <OkrDetailDialog okr={detail} onClose={() => setDetail(null)} onDone={() => { setDetail(null); }} onRefresh={() => setRefresh((r) => r + 1)} canManage={can('quan_ly_okr')} readOnly={readOnly} />}
       </div>
     );
   }
@@ -238,7 +238,7 @@ export function OkrTree({ tu, den, readOnly, showArchived }: { tu: string; den: 
         </div>
       )}
 
-      {detail && <OkrDetailDialog okr={detail} onClose={() => setDetail(null)} onDone={() => setDetail(null)} canManage={can('quan_ly_okr')} />}
+      {detail && <OkrDetailDialog okr={detail} onClose={() => setDetail(null)} onDone={() => setDetail(null)} onRefresh={() => setRefresh((r) => r + 1)} canManage={can('quan_ly_okr')} />}
     </div>
   );
 }
