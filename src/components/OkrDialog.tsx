@@ -152,10 +152,14 @@ export function OkrDialog({
     try {
       const uidForCount = authUserId || (await supabase.auth.getUser()).data.user?.id || '';
       if (uidForCount && tu && den) {
+        // Chỉ đếm OKR CÁ NHÂN đang hoạt động cùng kỳ của chính người này.
+        // Không tính OKR công ty (dù do họ tạo) và OKR đã lưu trữ.
         const { count, error } = await supabase
           .from('okrs')
           .select('id', { count: 'exact', head: true })
           .eq('user_id', uidForCount)
+          .eq('is_company', false)
+          .eq('is_archived', false)
           .eq('tu_ngay', tu)
           .eq('den_ngay', den);
         if (!error && typeof count === 'number') oCount = (count ?? 0) + 1;
