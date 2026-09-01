@@ -4,6 +4,7 @@ import { supabase } from '@/lib/supabase/client';
 import { RequireAuth, useAuth } from '@/components/RequireAuth';
 import { AppSidebar } from '@/components/AppSidebar';
 import { AdminTabs } from '@/components/AdminTabs';
+import { FinanceSettingsPanel } from '@/components/FinanceSettingsPanel';
 
 const KEYS = [
   { key: 'APP_NAME', label: 'Tên ứng dụng (hiện ở sidebar)' },
@@ -348,6 +349,11 @@ function Screen() {
             </div>
           </div>
           <p className="mt-2 text-xs text-slate-500">Mẹo: dán API key rồi bấm Lưu cài đặt. Tắt công tắc để chatbot chỉ dùng câu chuẩn (miễn phí). Khi Haiku không khả dụng (lỗi/mạng/key), tự rơi về chế độ câu chuẩn.</p>
+        </div>
+
+        <div className="mt-6">
+          <h2 className="mb-3 text-base font-bold text-[#0f2a4a]">Công nợ &amp; Tài chính</h2>
+          <FinanceSettingsPanel />
         </div>
 
         <div className="mt-4 flex justify-end gap-2">
