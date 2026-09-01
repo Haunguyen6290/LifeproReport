@@ -145,19 +145,31 @@ function CollectionsTable({ rows, plan, thang }: { rows: CollRow[]; plan: PlanRo
   const miens = useMemo(() => [...new Set(planThang.map((p) => p.mien).filter(Boolean))], [planThang]);
 
   const byNvkd = useMemo(() => new Map(rows.map((r) => [r.nvkd, r])), [rows]);
-  const totalDS = rows.reduce((a, r) => a + r.doanh_so, 0);
-  const totalThu = rows.reduce((a, r) => a + r.thu_tien, 0);
 
   // gộp NVKD trong rows nhưng không có plan của tháng này → cột "Khác"
   const knownNames = new Set(planThang.map((p) => p.ten));
   const others = rows.filter((r) => !knownNames.has(r.nvkd));
+  const [otherDetail, setOtherDetail] = useState(false);
+  const [tinhKhac, setTinhKhac] = useState<boolean>(() => {
+    try { return localStorage.getItem('fin_tinh_khac') !== '0'; } catch { return true; }
+  });
+  function onTinhKhac(e: React.ChangeEvent<HTMLInputElement>) {
+    const v = e.target.checked;
+    setTinhKhac(v);
+    try { localStorage.setItem('fin_tinh_khac', v ? '1' : '0'); } catch {}
+  }
+  const rowsTinh = tinhKhac ? rows : rows.filter((r) => knownNames.has(r.nvkd));
+  const totalDS = rowsTinh.reduce((a, r) => a + r.doanh_so, 0);
+  const totalThu = rowsTinh.reduce((a, r) => a + r.thu_tien, 0);
+  const dsKhac = others.reduce((a, r) => a + r.doanh_so, 0);
+  const thuKhac = others.reduce((a, r) => a + r.thu_tien, 0);
 
   // Một khối chỉ tiêu (Doanh số bán hàng / Doanh thu thu tiền):
   // cột tên khối gộp dọc 3 dòng + cột chỉ tiêu con (Kế hoạch / Thực hiện / % thực hiện) — đúng mẫu Excel
   function renderBlock(title: string, key: 'doanh_so' | 'thu_tien') {
     const khField: 'kh_doanh_so' | 'kh_thu_tien' = key === 'doanh_so' ? 'kh_doanh_so' : 'kh_thu_tien';
     const sumKh = (list: PlanRow[]) => list.reduce((a, p) => a + p[khField], 0);
-    const thucToanCty = rows.reduce((a, r) => a + r[key], 0);
+    const thucToanCty = rowsTinh.reduce((a, r) => a + r[key], 0);
     const NV = 'border-l border-slate-100 px-3 py-2 text-right text-xs tabular-nums';
     const NV_BOLD = `${NV} font-semibold text-[#0f2a4a]`;
     const TOT = 'px-3 py-2 text-right text-xs font-semibold tabular-nums';
@@ -277,7 +289,37 @@ function CollectionsTable({ rows, plan, thang }: { rows: CollRow[]; plan: PlanRo
         </table>
       </div>
       {others.length > 0 && (
-        <p className="text-xs text-slate-500">Cột "Khác": doanh số/thu tiền của kinh doanh chưa có kế hoạch tháng này — {others.map((r) => r.nvkd).join(', ')}.</p>
+        <div className="rounded-lg border border-slate-200 bg-white">
+          <div className="flex flex-wrap items-center justify-between gap-2 px-3 py-2.5">
+            <button onClick={() => setOtherDetail((o) => !o)} className="flex items-center gap-1.5 text-xs font-semibold text-[#1e3a8a]">
+              <span className="grid h-5 w-5 place-items-center rounded bg-[#eff6ff] text-[11px]">{others.length}</span>
+              Khác — {others.map((r) => r.nvkd).join(', ')}<span className="ml-1 text-slate-400">{otherDetail ? '▲' : '▼'}</span>
+            </button>
+            <label className="flex items-center gap-1.5 text-xs text-slate-700">
+              <input type="checkbox" checked={tinhKhac} onChange={onTinhKhac} className="h-3.5 w-3.5 rounded border-slate-300" />
+              Tính “Khác” vào <span className="font-semibold">Tổng công ty</span>
+            </label>
+          </div>
+          <p className="border-t border-slate-100 px-3 py-1 text-[11px] text-slate-500">Hàng “Khác” = {tinhKhac ? `đã tính vào Tổng (${fmt(dsKhac)}/${fmt(thuKhac)})` : 'chưa tính vào Tổng — tích ô bên phải để cộng vào'}.</p>
+          {otherDetail && (
+            <div className="border-t border-slate-100 overflow-x-auto">
+              <table className="w-full text-xs">
+                <thead><tr className="bg-[#eff6ff] text-left text-[#1e3a8a]"><th className="px-3 py-1.5">Kinh doanh</th><th className="px-3 py-1.5 text-right">Doanh số</th><th className="px-3 py-1.5 text-right">Thu tiền</th><th className="px-3 py-1.5 text-right">Còn phải thu</th></tr></thead>
+                <tbody className="divide-y divide-slate-100">
+                  {others.map((r) => (
+                    <tr key={r.nvkd} className="hover:bg-slate-50">
+                      <td className="px-3 py-1.5 font-medium">{r.nvkd}</td>
+                      <td className="px-3 py-1.5 text-right tabular-nums">{fmt(r.doanh_so)}</td>
+                      <td className="px-3 py-1.5 text-right tabular-nums">{fmt(r.thu_tien)}</td>
+                      <td className="px-3 py-1.5 text-right font-semibold tabular-nums">{fmt(Math.max(r.doanh_so - r.thu_tien, 0))}</td>
+                    </tr>
+                  ))}
+                </tbody>
+                <tfoot><tr className="bg-slate-50 font-bold"><td className="px-3 py-1.5 text-right">Tổng Khác</td><td className="px-3 py-1.5 text-right tabular-nums">{fmt(dsKhac)}</td><td className="px-3 py-1.5 text-right tabular-nums">{fmt(thuKhac)}</td><td className="px-3 py-1.5 text-right tabular-nums">{fmt(Math.max(dsKhac - thuKhac, 0))}</td></tr></tfoot>
+              </table>
+            </div>
+          )}
+        </div>
       )}
     </div>
   );
