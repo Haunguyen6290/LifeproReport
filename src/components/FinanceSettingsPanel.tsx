@@ -29,6 +29,9 @@ export function FinanceSettingsPanel() {
   const [plans, setPlans] = useState<PlanRow[]>([]);
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState('');
+  const [rebaseDate, setRebaseDate] = useState('');
+  const [rebaseMsg, setRebaseMsg] = useState('');
+  const [purgeConfirm, setPurgeConfirm] = useState('');
 
   const sel = 'rounded-md border-[1.5px] border-[var(--color-muted)] bg-white px-3 py-2 text-sm outline-none focus:border-[var(--color-ring)]';
   const card = 'rounded-xl border border-slate-200 bg-white p-4 backdrop-blur sm:p-5';
@@ -49,6 +52,37 @@ export function FinanceSettingsPanel() {
     } catch { setPlans([]); }
   }
   useEffect(() => { load(); }, []);
+
+  async function authHeaders(): Promise<Record<string, string>> {
+    const { data } = await supabase.auth.getSession();
+    const tok = data.session?.access_token ?? '';
+    return { 'Content-Type': 'application/json', Authorization: `Bearer ${tok}` };
+  }
+
+  async function doRebase() {
+    if (!rebaseDate) return;
+    setBusy(true); setRebaseMsg('');
+    try {
+      const r = await fetch('/api/finance/rebase', { method: 'POST', headers: await authHeaders(), body: JSON.stringify({ ngayMoc: rebaseDate }) });
+      const j = await r.json();
+      if (j.error) setRebaseMsg('Lỗi: ' + j.error);
+      else { setRebaseMsg(`Đã dồn mốc sang ${rebaseDate} — ${j.soKhach} khách được cập nhật số dư gốc.`); load(); }
+    } catch (e: any) { setRebaseMsg('Lỗi: ' + (e?.message ?? e)); }
+    finally { setBusy(false); }
+  }
+
+  async function doPurge() {
+    if (purgeConfirm !== 'XOA CHUNG TU CU') return;
+    if (!confirm('Xóa toàn bộ chứng từ TK131 trước ngày làm gốc? Không thể hoàn tác.')) return;
+    setBusy(true); setRebaseMsg('');
+    try {
+      const r = await fetch('/api/finance/purge', { method: 'POST', headers: await authHeaders(), body: JSON.stringify({ confirm: purgeConfirm }) });
+      const j = await r.json();
+      if (j.error) setRebaseMsg('Lỗi: ' + j.error);
+      else { setRebaseMsg(`Đã xóa ${j.daXoa?.toLocaleString('vi-VN')} chứng từ trước ${j.baseDate}.`); setPurgeConfirm(''); }
+    } catch (e: any) { setRebaseMsg('Lỗi: ' + (e?.message ?? e)); }
+    finally { setBusy(false); }
+  }
 
   async function save() {
     if (!editable) return;
@@ -129,6 +163,30 @@ export function FinanceSettingsPanel() {
           </tbody>
         </table>
         <button onClick={() => setPlans((prev) => [...prev, { thang: new Date().toISOString().slice(0, 7), ten: '', mien: 'Hà Nội', kh_doanh_so: 0, kh_thu_tien: 0 }])} className="rounded-md border border-[var(--color-muted)] px-3 py-2 text-sm hover:border-[var(--color-primary)]">+ Thêm NVKD</button>
+      </div>
+
+      <div className={card}>
+        <h2 className="mb-2 text-sm font-bold text-[#1e3a8a]">Số dư gốc &amp; dữ liệu lịch sử</h2>
+        <p className="mb-2 text-xs text-slate-600">
+          Dồn mốc gộp toàn bộ chứng từ cũ thành số dư gốc tại một ngày, để báo cáo chạy nhẹ khi dữ liệu nhiều năm.
+          Xóa chứng từ chỉ nên làm <strong>sau khi đã dồn mốc</strong> và bạn chắc chắn không cần tra lại bút toán cũ.
+        </p>
+        <div className="flex flex-wrap items-end gap-2">
+          <div>
+            <label className="mb-1 block text-xs font-semibold text-slate-600">Ngày mốc mới</label>
+            <input type="date" value={rebaseDate} onChange={(e) => setRebaseDate(e.target.value)} className={sel} />
+          </div>
+          <button onClick={doRebase} disabled={busy || !rebaseDate} className="rounded-md bg-[var(--color-primary)] px-4 py-2 text-sm font-semibold text-white hover:bg-[var(--color-primary-hover)] disabled:opacity-60">
+            {busy ? 'Đang xử lý…' : 'Dồn mốc số dư gốc'}
+          </button>
+        </div>
+        {rebaseMsg && <p className="mt-2 text-sm text-[#1e3a8a]">{rebaseMsg}</p>}
+        <div className="mt-4 border-t border-slate-100 pt-3">
+          <button onClick={doPurge} disabled={busy || purgeConfirm !== 'XOA CHUNG TU CU'} className="rounded-md border border-red-300 bg-red-50 px-4 py-2 text-sm font-semibold text-red-700 hover:bg-red-100 disabled:opacity-60">
+            Xóa toàn bộ chứng từ trước mốc
+          </button>
+          <input value={purgeConfirm} onChange={(e) => setPurgeConfirm(e.target.value)} placeholder='Gõ "XOA CHUNG TU CU" để mở khóa nút trên' className={`${sel} mt-2 w-full max-w-xs`} />
+        </div>
       </div>
 
       <div className="flex justify-end gap-2">
