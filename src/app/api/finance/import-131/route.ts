@@ -7,7 +7,11 @@ const URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const SRV = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 const admin = () => createClient(URL, SRV, { auth: { autoRefreshToken: false, persistSession: false } });
 
-function findSheet(names: string[]): string | null {
+function findSheet(wb: XLSX.WorkBook): string | null {
+  const names = wb.SheetNames;
+  // File Odoo xuất "Sổ chi tiết 1 tài khoản" chỉ có 1 sheet tên "Sheet1" — dùng luôn,
+  // bộ parse chỉ lấy dòng có cột Tài khoản = 131 nên file sai loại sẽ trả 0 dòng (báo lỗi rõ ràng).
+  if (names.length === 1) return names[0];
   const cands = names.filter((n) => /131|tai_khoan/i.test(n) && !/helper/i.test(n));
   if (cands.length === 1) return cands[0];
   if (cands.length > 1) return cands.sort((a, b) => b.length - a.length)[0]; // ưu tiên "Tai_khoan_131" hơn "131"
@@ -35,7 +39,7 @@ export async function POST(req: NextRequest) {
     if (!file) return NextResponse.json({ error: 'Chưa có file' }, { status: 400 });
 
     const wb = XLSX.read(Buffer.from(await file.arrayBuffer()), { type: 'buffer' });
-    const sheetName = findSheet(wb.SheetNames);
+    const sheetName = findSheet(wb);
     if (!sheetName) return NextResponse.json({ error: `Không tìm thấy sheet TK131 trong file (có: ${wb.SheetNames.join(', ')})` }, { status: 400 });
     const raw = XLSX.utils.sheet_to_json(wb.Sheets[sheetName], { header: 1, defval: null }) as unknown[][];
     const { header, rows } = parseTk131Sheet(raw);
