@@ -158,40 +158,46 @@ function CollectionsTable({ rows, plan, thang }: { rows: CollRow[]; plan: PlanRo
     const khField: 'kh_doanh_so' | 'kh_thu_tien' = key === 'doanh_so' ? 'kh_doanh_so' : 'kh_thu_tien';
     const sumKh = (list: PlanRow[]) => list.reduce((a, p) => a + p[khField], 0);
     const thucToanCty = rows.reduce((a, r) => a + r[key], 0);
+    const NV = 'border-l border-slate-100 px-3 py-2 text-right text-xs tabular-nums';
+    const NV_BOLD = `${NV} font-semibold text-[#0f2a4a]`;
+    const TOT = 'px-3 py-2 text-right text-xs font-semibold tabular-nums';
+    const TOT_BOLD = `${TOT} font-semibold text-[#0f2a4a]`;
+    const GCT = 'border-l border-slate-100 px-3 py-2 text-right text-xs font-bold tabular-nums';
+    const GCT_BOLD = `${GCT} font-bold text-[#0f2a4a]`;
     return [
       <tr key={`${key}-kh`}>
         <td rowSpan={3} className="whitespace-nowrap border-r border-slate-100 px-3 py-2 align-middle font-bold text-[#0f2a4a]">{title}</td>
-        <td className="whitespace-nowrap px-3 py-2 text-slate-600">Kế hoạch</td>
+        <td className="whitespace-nowrap px-3 py-2 font-semibold text-[#0f2a4a]">Kế hoạch</td>
         {miens.map((m) => (
           <Fragment key={m}>
-            {planThang.filter((p) => p.mien === m).map((p) => <td key={p.ten} className="border-l border-slate-100 px-3 py-2 text-right tabular-nums">{fmt(p[khField])}</td>)}
-            <td className="px-3 py-2 text-right font-semibold tabular-nums">{fmt(sumKh(planThang.filter((p) => p.mien === m)))}</td>
+            {planThang.filter((p) => p.mien === m).map((p) => <td key={p.ten} className={NV_BOLD}>{fmt(p[khField])}</td>)}
+            <td className={TOT_BOLD}>{fmt(sumKh(planThang.filter((p) => p.mien === m)))}</td>
           </Fragment>
         ))}
-        {others.length > 0 && <td className="border-l border-slate-100 px-3 py-2 text-right tabular-nums">—</td>}
-        <td className="border-l border-slate-100 px-3 py-2 text-right font-bold tabular-nums">{fmt(sumKh(planThang))}</td>
+        {others.length > 0 && <td className={NV_BOLD}>—</td>}
+        <td className={GCT_BOLD}>{fmt(sumKh(planThang))}</td>
       </tr>,
       <tr key={`${key}-th`}>
         <td className="whitespace-nowrap px-3 py-2 text-slate-600">Thực hiện</td>
         {miens.map((m) => (
           <Fragment key={m}>
-            {planThang.filter((p) => p.mien === m).map((p) => <td key={p.ten} className="border-l border-slate-100 px-3 py-2 text-right tabular-nums">{fmt(byNvkd.get(p.ten)?.[key] ?? 0)}</td>)}
-            <td className="px-3 py-2 text-right font-semibold tabular-nums">{fmt(planThang.filter((p) => p.mien === m).reduce((a, p) => a + (byNvkd.get(p.ten)?.[key] ?? 0), 0))}</td>
+            {planThang.filter((p) => p.mien === m).map((p) => <td key={p.ten} className={NV}>{fmt(byNvkd.get(p.ten)?.[key] ?? 0)}</td>)}
+            <td className={TOT}>{fmt(planThang.filter((p) => p.mien === m).reduce((a, p) => a + (byNvkd.get(p.ten)?.[key] ?? 0), 0))}</td>
           </Fragment>
         ))}
-        {others.length > 0 && <td className="border-l border-slate-100 px-3 py-2 text-right tabular-nums">{fmt(others.reduce((a, r) => a + r[key], 0))}</td>}
-        <td className="border-l border-slate-100 px-3 py-2 text-right font-bold tabular-nums">{fmt(thucToanCty)}</td>
+        {others.length > 0 && <td className={NV}>{fmt(others.reduce((a, r) => a + r[key], 0))}</td>}
+        <td className={GCT}>{fmt(thucToanCty)}</td>
       </tr>,
       <tr key={`${key}-pct`}>
         <td className="whitespace-nowrap px-3 py-2 text-slate-600">% thực hiện</td>
         {miens.map((m) => (
           <Fragment key={m}>
-            {planThang.filter((p) => p.mien === m).map((p) => <td key={p.ten} className="border-l border-slate-100 px-3 py-2 text-right tabular-nums">{pct(byNvkd.get(p.ten)?.[key] ?? 0, p[khField])}</td>)}
-            {(() => { const ke = sumKh(planThang.filter((p) => p.mien === m)); const th = planThang.filter((p) => p.mien === m).reduce((a, p) => a + (byNvkd.get(p.ten)?.[key] ?? 0), 0); return <td className="px-3 py-2 text-right font-semibold tabular-nums">{pct(th, ke)}</td>; })()}
+            {planThang.filter((p) => p.mien === m).map((p) => <td key={p.ten} className={NV}>{pct(byNvkd.get(p.ten)?.[key] ?? 0, p[khField])}</td>)}
+            {(() => { const ke = sumKh(planThang.filter((p) => p.mien === m)); const th = planThang.filter((p) => p.mien === m).reduce((a, p) => a + (byNvkd.get(p.ten)?.[key] ?? 0), 0); return <td className={TOT}>{pct(th, ke)}</td>; })()}
           </Fragment>
         ))}
-        {others.length > 0 && <td className="border-l border-slate-100 px-3 py-2 text-right tabular-nums">—</td>}
-        <td className="border-l border-slate-100 px-3 py-2 text-right font-bold tabular-nums">{pct(thucToanCty, sumKh(planThang))}</td>
+        {others.length > 0 && <td className={NV}>—</td>}
+        <td className={GCT}>{pct(thucToanCty, sumKh(planThang))}</td>
       </tr>,
     ];
   }
@@ -248,7 +254,7 @@ function CollectionsTable({ rows, plan, thang }: { rows: CollRow[]; plan: PlanRo
         <table className="w-full min-w-[900px] text-sm">
           <thead>
             <tr className="bg-[#eff6ff] text-[#1e3a8a]">
-              <th className="whitespace-nowrap px-3 py-2 text-left font-bold" colSpan={2}>Chỉ tiêu</th>
+              <th className="whitespace-nowrap px-3 py-2 text-left font-bold" colSpan={2} rowSpan={2}>Chỉ tiêu</th>
               {miens.map((m) => (
                 <th key={m} colSpan={planThang.filter((p) => p.mien === m).length + 1} className="whitespace-nowrap border-l border-slate-200 px-3 py-2 text-center font-bold">{m}</th>
               ))}
