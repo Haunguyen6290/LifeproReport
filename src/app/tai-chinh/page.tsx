@@ -276,6 +276,75 @@ function CollectionsTable({ rows, plan, thang }: { rows: CollRow[]; plan: PlanRo
   );
 }
 
+type UnmatchedRow = { ma_so: string; ten_so: string; ma_chuan: string | null; ten_chuan: string | null; doanh_thu: number; tra_lai: number; thu_tien: number; so_dong: number; chua_gan_kd: boolean };
+
+function UnmatchedPanel({ thang, refreshKey }: { thang: string; refreshKey: number }) {
+  const [rows, setRows] = useState<UnmatchedRow[] | null>(null);
+  const [open, setOpen] = useState(false);
+  useEffect(() => {
+    (async () => {
+      try {
+        const r = await fetch(`/api/finance/unmatched?thang=${thang}`);
+        const j = await r.json();
+        setRows(j?.rows ?? []);
+      } catch { setRows([]); }
+    })();
+  }, [thang, refreshKey]);
+  if (!rows) return null;
+  const chuaKhop = rows.filter((r) => !r.ma_chuan);
+  const chuaGan = rows.filter((r) => r.ma_chuan && r.chua_gan_kd);
+  if (!chuaKhop.length && !chuaGan.length) return null;
+  return (
+    <div className="mt-4 rounded-lg border border-amber-200 bg-amber-50">
+      <button onClick={() => setOpen((o) => !o)} className="flex w-full items-center justify-between px-4 py-2.5 text-left text-sm font-semibold text-amber-900">
+        <span>Khách trong sổ 131 chưa khớp danh mục ({rows.length}) — bấm vào để xem &amp; xử lý</span>
+        <span className="text-xs text-amber-700">{open ? 'Thu gọn ▲' : 'Mở ra ▼'}</span>
+      </button>
+      {open && (
+        <div className="border-t border-amber-200 bg-white p-3 text-xs">
+          <p className="mb-2 text-slate-600">
+            Các khách này phát sinh trong sổ công nợ nhưng <b>chưa có trong Danh mục khách hàng</b> (hoặc có rồi nhưng chưa gán kinh doanh phụ trách), nên bị xếp vào cột <b>Khác</b>.
+            Bấm <b>Thêm vào danh mục</b> để tạo khách và gán người phụ trách — sau đó quay lại đây bấm <b>Chạy báo cáo</b> là số sẽ chuyển về đúng kinh doanh.
+          </p>
+          <div className="overflow-x-auto rounded-lg border border-slate-200">
+            <table className="w-full min-w-[760px] text-xs">
+              <thead><tr className="bg-slate-50 text-left text-slate-700">
+                <th className="px-2 py-1.5 font-semibold">Mã trong sổ</th>
+                <th className="px-2 py-1.5 font-semibold">Tên trong sổ</th>
+                <th className="px-2 py-1.5 text-right font-semibold">Doanh số</th>
+                <th className="px-2 py-1.5 text-right font-semibold">Trả lại</th>
+                <th className="px-2 py-1.5 text-right font-semibold">Thu tiền</th>
+                <th className="px-2 py-1.5 font-semibold">Tình trạng</th>
+                <th className="px-2 py-1.5 font-semibold">Xử lý</th>
+              </tr></thead>
+              <tbody>
+                {rows.map((r) => (
+                  <tr key={r.ma_so} className="border-t border-slate-100">
+                    <td className="px-2 py-1.5 font-mono">{r.ma_so}</td>
+                    <td className="px-2 py-1.5">{r.ten_so || '—'}</td>
+                    <td className="px-2 py-1.5 text-right tabular-nums">{fmt(r.doanh_thu)}</td>
+                    <td className="px-2 py-1.5 text-right tabular-nums">{fmt(r.tra_lai)}</td>
+                    <td className="px-2 py-1.5 text-right tabular-nums">{fmt(r.thu_tien)}</td>
+                    <td className="px-2 py-1.5">
+                      {r.ma_chuan ? <span className="rounded bg-sky-100 px-1.5 py-0.5 font-semibold text-sky-800">Có trong DM, chưa gán KD</span>
+                        : <span className="rounded bg-amber-100 px-1.5 py-0.5 font-semibold text-amber-800">Chưa có trong DM</span>}
+                    </td>
+                    <td className="px-2 py-1.5">
+                      {r.ma_chuan
+                        ? <a href={`/khach-hang?q=${encodeURIComponent(r.ma_chuan)}`} className="font-semibold text-[#1e3a8a] hover:underline">Gán kinh doanh</a>
+                        : <a href={`/khach-hang/moi?ma=${encodeURIComponent(r.ma_so)}&ten=${encodeURIComponent(r.ten_so ?? '')}`} className="font-semibold text-[#1e3a8a] hover:underline">Thêm vào danh mục</a>}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function Screen() {
   const { can } = useAuth();
   const [tab, setTab] = useState<'cong-no' | 'thu-tien'>('cong-no');
@@ -386,9 +455,15 @@ function Screen() {
               Mốc kiểm tra: <b>{fmtDateVN(debt.D)}</b> → Ngày lập: <b>{fmtDateVN(debt.E)}</b> · Hạn cho phép: <b>{han} ngày</b>
             </p>
             <DebtTable rows={debt.rows ?? []} han={han} />
+            <UnmatchedPanel thang={thang} refreshKey={refreshKey} />
           </>
         )}
-        {!loading && tab === 'thu-tien' && coll && <CollectionsTable rows={coll.rows ?? []} plan={coll.plan ?? []} thang={thang} />}
+        {!loading && tab === 'thu-tien' && coll && (
+          <>
+            <CollectionsTable rows={coll.rows ?? []} plan={coll.plan ?? []} thang={thang} />
+            <UnmatchedPanel thang={thang} refreshKey={refreshKey} />
+          </>
+        )}
 
         {/* Dialog import */}
         {impOpen && (

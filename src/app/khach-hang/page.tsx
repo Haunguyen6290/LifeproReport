@@ -50,6 +50,7 @@ function Screen() {
     setTiers(t.map((x) => ({ id: x.id, code: x.code, name: x.name })));
   };
   useEffect(() => { loadRows(); }, []);
+  useEffect(() => { const u = new URLSearchParams(window.location.search).get('q'); if (u) setQ(u); }, []);
 
   const provinces = useMemo(() => {
     const base = filterCustomers(rows, { q, assignedTo, tierId, statusId: '' });

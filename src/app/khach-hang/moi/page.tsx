@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { supabase } from '@/lib/supabase/client';
 import { RequireAuth, useAuth } from '@/components/RequireAuth';
 import { AppSidebar } from '@/components/AppSidebar';
@@ -7,6 +8,10 @@ import { categoryItems } from '@/lib/categories';
 import { CustomerForm, type CustomerValues } from '@/components/CustomerForm';
 function Screen() {
   const { userId, username, can } = useAuth();
+  const sp = useSearchParams();
+  const prefill: CustomerValues = {};
+  if (sp.get('ma')) prefill.ma_kh = sp.get('ma')!;
+  if (sp.get('ten')) prefill.ten_kh = sp.get('ten')!;
   const [ready, setReady] = useState(false);
   const [cats, setCats] = useState<{ moHinhKD: any[]; tiers: any[]; statuses: any[]; quyMo: any[]; segments: any[] }>({ moHinhKD: [], tiers: [], statuses: [], quyMo: [], segments: [] });
   const [users, setUsers] = useState<{ id: string; username: string; full_name: string }[]>([]);
@@ -63,7 +68,7 @@ function Screen() {
       <main className="w-full px-4 py-6 sm:px-6">
         <h1 className="mb-5 text-2xl font-bold tracking-tight">Thêm khách hàng mới</h1>
         {ready ? (
-          <CustomerForm mode="new" cats={cats} provinces={provinces} products={products} users={users} canPickAssignee={can('sua_khach_bat_ky')} existingCodes={codes} onSubmit={onSubmit} submitLabel="Lưu khách hàng" />
+          <CustomerForm mode="new" initial={prefill} cats={cats} provinces={provinces} products={products} users={users} canPickAssignee={can('sua_khach_bat_ky')} existingCodes={codes} onSubmit={onSubmit} submitLabel="Lưu khách hàng" />
         ) : <div className="text-slate-600">Đang tải…</div>}
       </main>
     </AppSidebar>
