@@ -163,6 +163,8 @@ function CollectionsTable({ rows, plan, thang }: { rows: CollRow[]; plan: PlanRo
   const totalThu = rowsTinh.reduce((a, r) => a + r.thu_tien, 0);
   const dsKhac = others.reduce((a, r) => a + r.doanh_so, 0);
   const thuKhac = others.reduce((a, r) => a + r.thu_tien, 0);
+  // Cột "Khác" chỉ hiện trên bảng khi bật "Tính Khác vào Tổng"; khi tắt thì ẩn hẳn khỏi báo cáo.
+  const showKhac = others.length > 0 && tinhKhac;
 
   // Một khối chỉ tiêu (Doanh số bán hàng / Doanh thu thu tiền):
   // cột tên khối gộp dọc 3 dòng + cột chỉ tiêu con (Kế hoạch / Thực hiện / % thực hiện) — đúng mẫu Excel
@@ -186,7 +188,7 @@ function CollectionsTable({ rows, plan, thang }: { rows: CollRow[]; plan: PlanRo
             <td className={TOT_BOLD}>{fmt(sumKh(planThang.filter((p) => p.mien === m)))}</td>
           </Fragment>
         ))}
-        {others.length > 0 && <td className={NV_BOLD}>—</td>}
+        {showKhac && <td className={NV_BOLD}>—</td>}
         <td className={GCT_BOLD}>{fmt(sumKh(planThang))}</td>
       </tr>,
       <tr key={`${key}-th`}>
@@ -197,7 +199,7 @@ function CollectionsTable({ rows, plan, thang }: { rows: CollRow[]; plan: PlanRo
             <td className={TOT}>{fmt(planThang.filter((p) => p.mien === m).reduce((a, p) => a + (byNvkd.get(p.ten)?.[key] ?? 0), 0))}</td>
           </Fragment>
         ))}
-        {others.length > 0 && <td className={NV}>{fmt(others.reduce((a, r) => a + r[key], 0))}</td>}
+        {showKhac && <td className={NV}>{fmt(others.reduce((a, r) => a + r[key], 0))}</td>}
         <td className={GCT}>{fmt(thucToanCty)}</td>
       </tr>,
       <tr key={`${key}-pct`}>
@@ -208,7 +210,7 @@ function CollectionsTable({ rows, plan, thang }: { rows: CollRow[]; plan: PlanRo
             {(() => { const ke = sumKh(planThang.filter((p) => p.mien === m)); const th = planThang.filter((p) => p.mien === m).reduce((a, p) => a + (byNvkd.get(p.ten)?.[key] ?? 0), 0); return <td className={TOT}>{pct(th, ke)}</td>; })()}
           </Fragment>
         ))}
-        {others.length > 0 && <td className={NV}>—</td>}
+        {showKhac && <td className={NV}>—</td>}
         <td className={GCT}>{pct(thucToanCty, sumKh(planThang))}</td>
       </tr>,
     ];
@@ -270,7 +272,7 @@ function CollectionsTable({ rows, plan, thang }: { rows: CollRow[]; plan: PlanRo
               {miens.map((m) => (
                 <th key={m} colSpan={planThang.filter((p) => p.mien === m).length + 1} className="whitespace-nowrap border-l border-slate-200 px-3 py-2 text-center font-bold">{m}</th>
               ))}
-              {others.length > 0 && <th className="whitespace-nowrap border-l border-slate-200 px-3 py-2 text-center font-bold" rowSpan={2}>Khác</th>}
+              {showKhac && <th className="whitespace-nowrap border-l border-slate-200 px-3 py-2 text-center font-bold" rowSpan={2}>Khác</th>}
               <th className="whitespace-nowrap border-l border-slate-200 px-3 py-2 text-center font-bold" rowSpan={2}>Tổng công ty</th>
             </tr>
             <tr className="bg-[#f8fafc] text-xs text-slate-600">
@@ -297,10 +299,10 @@ function CollectionsTable({ rows, plan, thang }: { rows: CollRow[]; plan: PlanRo
             </button>
             <label className="flex items-center gap-1.5 text-xs text-slate-700">
               <input type="checkbox" checked={tinhKhac} onChange={onTinhKhac} className="h-3.5 w-3.5 rounded border-slate-300" />
-              Tính “Khác” vào <span className="font-semibold">Tổng công ty</span>
+              Hiện &amp; tính “Khác” vào <span className="font-semibold">Tổng công ty</span>
             </label>
           </div>
-          <p className="border-t border-slate-100 px-3 py-1 text-[11px] text-slate-500">Hàng “Khác” = {tinhKhac ? `đã tính vào Tổng (${fmt(dsKhac)}/${fmt(thuKhac)})` : 'chưa tính vào Tổng — tích ô bên phải để cộng vào'}.</p>
+          <p className="border-t border-slate-100 px-3 py-1 text-[11px] text-slate-500">Hàng “Khác” = {tinhKhac ? `đang hiện cột Khác và tính vào Tổng (${fmt(dsKhac)}/${fmt(thuKhac)})` : 'đang ẩn khỏi bảng và không tính vào Tổng — tích ô bên phải để hiện lại'}.</p>
           {otherDetail && (
             <div className="border-t border-slate-100 overflow-x-auto">
               <table className="w-full text-xs">
