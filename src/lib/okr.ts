@@ -1,4 +1,4 @@
-/** OKR validators — chặn cứng 1-3 O / 2-5 KR, KR phải có số, O cảnh báo nếu có số */
+/** OKR validators — chặn cứng: 1 người tối đa 3 OKR cá nhân gắn với 1 OKR công ty; 2-5 KR, KR phải có số, O cảnh báo nếu có số */
 
 export const hasNumber = (s: string): boolean =>
   /\d/.test(s) || s.includes('%') || /đ\b/i.test(s);
@@ -8,7 +8,7 @@ export function validateKRs(
   oCount: number,
 ): { ok: boolean; msg: string } {
   if (oCount < 1 || oCount > 3)
-    return { ok: false, msg: 'Mỗi người 1-3 mục tiêu' };
+    return { ok: false, msg: 'Một người tối đa 3 OKR cá nhân gắn với 1 OKR công ty' };
   if (list.length < 2 || list.length > 5)
     return { ok: false, msg: 'Mỗi O cần 2-5 KR' };
   for (const k of list)

@@ -151,17 +151,16 @@ export function OkrDialog({
     let oCount = 1;
     try {
       const uidForCount = authUserId || (await supabase.auth.getUser()).data.user?.id || '';
-      if (uidForCount && tu && den) {
-        // Chỉ đếm OKR CÁ NHÂN đang hoạt động cùng kỳ của chính người này.
-        // Không tính OKR công ty (dù do họ tạo) và OKR đã lưu trữ.
+      if (!isCompany && parentOkrId && uidForCount) {
+        // Nguyên tắc: 1 người tối đa 3 OKR cá nhân gắn với 1 OKR công ty.
+        // Chỉ đếm OKR cá nhân chưa lưu trữ của chính người này gắn vào đúng OKR công ty đã chọn.
         const { count, error } = await supabase
           .from('okrs')
           .select('id', { count: 'exact', head: true })
           .eq('user_id', uidForCount)
+          .eq('parent_okr_id', parentOkrId)
           .eq('is_company', false)
-          .eq('is_archived', false)
-          .eq('tu_ngay', tu)
-          .eq('den_ngay', den);
+          .eq('is_archived', false);
         if (!error && typeof count === 'number') oCount = (count ?? 0) + 1;
         else oCount = 1;
       }
