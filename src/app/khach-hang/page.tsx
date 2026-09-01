@@ -10,6 +10,7 @@ import { filterCustomers, sortCustomers, type SortKey, type SortStack } from '@/
 import { tierColor } from '@/components/CustomerForm';
 import { AddCustomerDialog } from '@/components/AddCustomerDialog';
 import { EditCustomerDialog } from '@/components/EditCustomerDialog';
+import { Selectable } from '@/components/Selectable';
 
 type KH = {
   id: string; ma_kh: string; ten_kh: string; sdt: string; tinh_thanh: string;
@@ -181,13 +182,13 @@ function Screen() {
             </thead>
             <tbody>
               {filtered.map((r) => (
-                <tr key={r.id} className="cursor-pointer border-b border-slate-200 transition last:border-0 hover:bg-slate-100"
-                  onClick={() => setEditId(r.id)}>
+                <Selectable key={r.id} as="tr" onOpen={() => setEditId(r.id)} className="cursor-pointer border-b border-slate-200 transition last:border-0 hover:bg-slate-100"
+                  >
                   <td className="px-4 py-3 font-medium text-[#0f2a4a]">{r.ten_kh}</td>
                   <td className="px-4 py-3"><span className={`inline-block min-w-7 rounded px-1.5 py-0.5 text-center text-xs font-bold text-white ${tierColor(r.tier?.code)}`}>{r.tier?.code || '—'}</span></td>
                   <td className="px-4 py-3">{r.assigned?.full_name ?? ''}</td>
                   <td className="px-4 py-3">{r.tinh_thanh || '—'}</td>
-                </tr>
+                </Selectable>
               ))}
               {filtered.length === 0 && (
                 <tr><td colSpan={4} className="px-4 py-10 text-center text-slate-600">Chưa có khách hàng nào. Bấm “Thêm khách hàng” hoặc “Import Excel”.</td></tr>
@@ -199,7 +200,7 @@ function Screen() {
         {/* Thẻ mobile */}
         <div className="flex flex-col gap-3 md:hidden">
           {filtered.map((r) => (
-            <button key={r.id} onClick={() => setEditId(r.id)}
+            <Selectable key={r.id} as="button" onOpen={() => setEditId(r.id)}
               className="rounded-xl border border-slate-200 bg-white p-4 text-left backdrop-blur">
               <div className="flex items-start justify-between gap-2">
                 <span className="font-semibold text-[#0f2a4a]">{r.ten_kh}</span>
@@ -209,7 +210,7 @@ function Screen() {
                 <span className={`inline-block min-w-7 rounded px-1.5 py-0.5 text-center text-xs font-bold text-white ${tierColor(r.tier?.code)}`}>{r.tier?.code || '—'}</span>
                 <span>{r.assigned?.full_name ?? ''}</span>
               </div>
-            </button>
+            </Selectable>
           ))}
           {filtered.length === 0 && <div className="py-10 text-center text-slate-600">Chưa có khách hàng.</div>}
         </div>

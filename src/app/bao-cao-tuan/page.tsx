@@ -7,6 +7,7 @@ import { PlanDialog, type PlanData } from '@/components/PlanDialog';
 import { PlanCard } from '@/components/PlanCard';
 import { ReportDialog, type ReportData } from '@/components/ReportDialog';
 import { ReportCard } from '@/components/ReportCard';
+import { Selectable } from '@/components/Selectable';
 import { weekBounds, deadlineKH, deadlineBC, isLate } from '@/lib/week';
 import { fmtCommentTimeVN, fmtDateVN } from '@/lib/time';
 
@@ -202,14 +203,14 @@ function Screen() {
                       {plans.map((p) => {
                         const late = isLate(p.created_at, deadlineKH(tu));
                         return (
-                          <tr key={p.id} className="cursor-pointer align-top hover:bg-slate-50" onClick={() => setExpandId((v) => (v === p.id ? null : p.id))}>
+                          <Selectable key={p.id} as="tr" onOpen={() => setExpandId((v) => (v === p.id ? null : p.id))} className="cursor-pointer align-top hover:bg-slate-50">
                             <td className="px-3 py-2 font-medium text-slate-900">{profiles.get(p.user_id) ?? p.user_id.slice(0, 8)}</td>
                             <td className="max-w-[280px] px-3 py-2 text-slate-800">{p.muc_tieu_tuan || p.noi_dung}</td>
                             <td className="px-3 py-2 text-slate-700">{p.items.length}</td>
                             <td className="whitespace-nowrap px-3 py-2 text-slate-700">{fmtCommentTimeVN(p.created_at)}</td>
                             <td className="whitespace-nowrap px-3 py-2"><Badge late={late} /></td>
                             <td className="px-3 py-2 text-xs text-[#1e3a8a]">{expandId === p.id ? 'Thu gọn' : 'Xem'}</td>
-                          </tr>
+                          </Selectable>
                         );
                       })}
                     </tbody>
@@ -249,14 +250,14 @@ function Screen() {
                     {reports.map((r) => {
                       const late = isLate(r.created_at, deadlineBC(tu));
                       return (
-                        <tr key={r.id} className="cursor-pointer align-top hover:bg-slate-50" onClick={() => setExpandReportId((v) => (v === r.id ? null : r.id))}>
+                        <Selectable key={r.id} as="tr" onOpen={() => setExpandReportId((v) => (v === r.id ? null : r.id))} className="cursor-pointer align-top hover:bg-slate-50">
                           <td className="px-3 py-2 font-medium text-slate-900">{profiles.get(r.user_id) ?? r.user_id.slice(0, 8)}</td>
                           <td className="px-3 py-2 text-slate-800">{r.tu_danh_gia || '—'}</td>
                           <td className="px-3 py-2 text-slate-700">{r.ty_le_ht != null ? `${r.ty_le_ht}%` : '—'}</td>
                           <td className="whitespace-nowrap px-3 py-2 text-slate-700">{fmtCommentTimeVN(r.created_at)}</td>
                           <td className="whitespace-nowrap px-3 py-2"><Badge late={late} /></td>
                           <td className="px-3 py-2 text-xs text-[#1e3a8a]">{expandReportId === r.id ? 'Thu gọn' : 'Xem'}</td>
-                        </tr>
+                        </Selectable>
                       );
                     })}
                   </tbody>

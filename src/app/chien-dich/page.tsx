@@ -6,6 +6,7 @@ import { AppSidebar } from '@/components/AppSidebar';
 import { AddCampaignDialog } from '@/components/AddCampaignDialog';
 import { CampaignDetail } from '@/components/CampaignDetail';
 import { Dialog } from '@/components/Dialog';
+import { Selectable } from '@/components/Selectable';
 import { fmtDateVN } from '@/lib/time';
 
 type CD = { id: string; name: string; objective: string; start_date: string; end_date: string; type?: { name: string } | null; status?: { name: string } | null };
@@ -38,14 +39,14 @@ function Screen() {
           <ul className="space-y-3">
             {list.map((c) => (
               <li key={c.id}>
-                <button onClick={() => setDetailId(c.id)} className={`${card} ${leftBorder[c.status?.name ?? ''] ?? ''} block w-full text-left`}>
+                <Selectable as="button" onOpen={() => setDetailId(c.id)} className={`${card} ${leftBorder[c.status?.name ?? ''] ?? ''} block w-full text-left`}>
                   <div className="flex flex-wrap items-center justify-between gap-2">
                     <span className="font-semibold text-slate-900">{c.name}</span>
                     <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs font-semibold text-slate-600">{c.status?.name ?? '—'}</span>
                   </div>
                   <div className="mt-1 text-xs text-slate-600">{c.type?.name ?? '—'} · {c.start_date ? fmtDateVN(c.start_date) : '—'} → {c.end_date ? fmtDateVN(c.end_date) : '—'}</div>
                   {c.objective && <p className="mt-1 line-clamp-1 text-sm text-slate-600">🎯 {c.objective}</p>}
-                </button>
+                </Selectable>
               </li>
             ))}
           </ul>

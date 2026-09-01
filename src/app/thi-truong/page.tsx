@@ -6,6 +6,7 @@ import { AppSidebar } from '@/components/AppSidebar';
 import { AddNewsDialog } from '@/components/AddNewsDialog';
 import { MarketNewsDetail } from '@/components/MarketNewsDetail';
 import { Dialog } from '@/components/Dialog';
+import { Selectable } from '@/components/Selectable';
 import { fmtDateVN } from '@/lib/time';
 
 type Tin = {
@@ -50,14 +51,14 @@ function Screen() {
           <ul className="space-y-3">
             {list.map((t) => (
               <li key={t.id}>
-                <button onClick={() => setDetailId(t.id)} className={`${card} ${leftBorder[t.status] ?? ''} block w-full text-left`}>
+                <Selectable as="button" onOpen={() => setDetailId(t.id)} className={`${card} ${leftBorder[t.status] ?? ''} block w-full text-left`}>
                   <div className="flex flex-wrap items-center justify-between gap-2">
                     <div className="flex items-center gap-2"><span className="text-sm font-semibold text-[#1e3a8a]">{t.type?.name ?? '—'}</span><Badge s={t.status} /></div>
                     <span className="text-xs text-slate-600">{fmtDateVN(t.ngay)} · {t.reporter?.full_name ?? ''}</span>
                   </div>
                   {t.importance?.name && <p className="mt-1 text-xs font-semibold text-red-600">{t.importance.name}</p>}
                   <p className="mt-1 line-clamp-2 text-sm text-slate-600">{t.content}</p>
-                </button>
+                </Selectable>
               </li>
             ))}
           </ul>
