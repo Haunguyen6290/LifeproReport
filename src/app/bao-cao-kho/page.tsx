@@ -269,9 +269,9 @@ ${r.thuc_trang.slice(0, 300)}` }) }); } catch {}
                         return (
                           <tr key={r.id} onClick={() => { setDetailId(r.id); setDetailOpen(true); }} className="cursor-pointer align-top hover:bg-slate-50">
                             <td className="truncate px-3 py-2 text-sm text-slate-700" title={ngayGio}>{ngayGio}</td>
-                            <td className="truncate px-3 py-2 text-sm font-medium text-slate-900" title={profiles.get(r.user_id) ?? ''}>{profiles.get(r.user_id) ?? r.user_id.slice(0, 8)}</td>
-                            <td className="truncate px-3 py-2 text-sm text-slate-900" title={spName}>{spName}</td>
-                            <td className="truncate px-3 py-2 text-sm text-slate-700" title={vdName}>{vdName}</td>
+                            <td className="break-words px-3 py-2 text-sm font-medium text-slate-900">{profiles.get(r.user_id) ?? r.user_id.slice(0, 8)}</td>
+                            <td className="break-words px-3 py-2 text-sm text-slate-900">{spName}</td>
+                            <td className="break-words px-3 py-2 text-sm text-slate-700">{vdName}</td>
                             <td className="px-3 py-2"><p className="whitespace-pre-wrap break-words text-sm text-slate-900">{r.thuc_trang}</p></td>
                             <td className="px-3 py-2"><p className="whitespace-pre-wrap break-words text-sm text-slate-700">{r.de_xuat || '—'}</p></td>
                             <td className="px-3 py-2 text-center"><TrangThai v={r.trang_thai} /></td>
