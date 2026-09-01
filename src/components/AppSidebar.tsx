@@ -38,6 +38,7 @@ export const GROUPS: { title: string; items: LinkDef[] }[] = [
       { href: '/khach-hang', label: 'Khách hàng', icon: ICON.users, needs: ['xem_khach_hang', 'sua_khach_bat_ky', 'import_khach'] },
       { href: '/bao-cao-ban-hang', label: 'Báo cáo bán hàng', icon: ICON.chart, needs: ['bao_cao_ban_hang', 'quan_ly_okr'] },
       { href: '/tai-chinh', label: 'Tài chính', icon: ICON.money, needs: ['xem_tai_chinh'] },
+      { href: '/ke-hoach', label: 'Kế hoạch bán hàng', icon: ICON.target, needs: ['xem_tai_chinh'] },
     ],
   },
   {

@@ -4,6 +4,7 @@ import * as XLSX from 'xlsx';
 import { RequireAuth, useAuth } from '@/components/RequireAuth';
 import { AppSidebar } from '@/components/AppSidebar';
 import { fmtDateVN } from '@/lib/time';
+import { KeHoachPanel } from '@/components/KeHoachPanel';
 
 type DebtRow = {
   ma_kh: string; ten_kh: string; nvkd: string; tinh: string;
@@ -200,7 +201,7 @@ function CollectionsTable({ rows, plan, thang }: { rows: CollRow[]; plan: PlanRo
     return (
       <div className="space-y-2">
         <div className="rounded-lg border border-sky-200 bg-sky-50 px-4 py-2 text-xs text-sky-800">
-          Dữ liệu tự lấy từ <b>Sổ chi tiết bán hàng</b> (đã import bên Báo cáo bán hàng) + <b>Sổ TK131</b> (đã import bên Tài chính) — không cần import thêm. Chưa khai báo kế hoạch tháng này nên chỉ hiện <b>Thực hiện</b>; vào <b>Cài đặt chung → Công nợ &amp; Tài chính → Kế hoạch NVKD theo tháng</b> để có dòng Kế hoạch và %.
+          Số liệu lấy từ <b>Sổ TK131</b> đã import — không cần import thêm. Tháng này <b>chưa khai báo kế hoạch</b> nên chỉ hiện <b>Thực hiện</b>; vào <b>Kế hoạch bán hàng</b> (menu bên trái) hoặc bấm “Kế hoạch kỳ này” bên dưới để có dòng Kế hoạch và %.
         </div>
         <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white">
           <table className="w-full min-w-[640px] text-sm">
@@ -240,7 +241,7 @@ function CollectionsTable({ rows, plan, thang }: { rows: CollRow[]; plan: PlanRo
     <div className="space-y-4">
       {planThang.length === 0 && (
         <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
-          Chưa có dữ liệu cho tháng này. Kiểm tra đã import <b>Sổ chi tiết bán hàng</b> (bên Báo cáo bán hàng) và <b>Sổ TK131</b> (bên Tài chính) cho tháng này chưa.
+          Chưa có dữ liệu cho tháng này. Kiểm tra đã import <b>Sổ TK131</b> cho tháng này chưa (nút <b>Import sổ 131</b> phía trên).
         </div>
       )}
       <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white">
@@ -339,6 +340,23 @@ function UnmatchedPanel({ thang, refreshKey }: { thang: string; refreshKey: numb
               </tbody>
             </table>
           </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function KeHoachBox({ thang, onSaved }: { thang: string; onSaved: () => void }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="mb-3 rounded-lg border border-slate-200 bg-white">
+      <button onClick={() => setOpen((o) => !o)} className="flex w-full items-center justify-between px-4 py-2.5 text-left text-sm font-semibold text-[#1e3a8a]">
+        <span>Kế hoạch kỳ này ({thang})</span>
+        <span className="text-xs font-medium text-slate-500">{open ? 'Thu gọn ▲' : 'Sửa / khai báo ▼'}</span>
+      </button>
+      {open && (
+        <div className="border-t border-slate-100 p-4">
+          <KeHoachPanel thang={thang} embed="tab" onSaved={onSaved} />
         </div>
       )}
     </div>
@@ -460,6 +478,7 @@ function Screen() {
         )}
         {!loading && tab === 'thu-tien' && coll && (
           <>
+            <KeHoachBox thang={thang} onSaved={() => setRefreshKey((k) => k + 1)} />
             <CollectionsTable rows={coll.rows ?? []} plan={coll.plan ?? []} thang={thang} />
             <UnmatchedPanel thang={thang} refreshKey={refreshKey} />
           </>

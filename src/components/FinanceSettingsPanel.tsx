@@ -92,7 +92,6 @@ export function FinanceSettingsPanel() {
       const upserts = [
         { key: 'DEBT_GRACE_DAYS', value: String(Number(graceDays) || 90) },
         { key: 'RECEIVABLE_TK_MAP', value: JSON.stringify(tkMap.filter((t) => t.ma.trim())) },
-        { key: 'FINANCE_PLAN', value: JSON.stringify(plans.filter((p) => p.ten.trim())) },
       ];
       for (const u of upserts) {
         const { error } = await supabase.from('settings').upsert({ ...u, updated_by: userId }, { onConflict: 'key' });
@@ -146,23 +145,11 @@ export function FinanceSettingsPanel() {
 
       <div className={card}>
         <h2 className="mb-2 text-sm font-bold text-[#1e3a8a]">Kế hoạch NVKD theo tháng</h2>
-        <p className="mb-2 text-xs text-slate-600">Chọn tháng và khai báo kế hoạch cho từng NVKD. Dùng trong báo cáo Bán hàng thu tiền (tab Thu tiền) — mỗi dòng gồm: tháng, tên, miền, KH doanh số, KH thu tiền.</p>
-        <table className="mb-2 w-full text-sm">
-          <thead><tr className="text-left text-xs text-slate-500"><th className="pb-1">Tháng</th><th className="pb-1">Tên NVKD</th><th className="pb-1">Miền</th><th className="pb-1">KH Doanh số</th><th className="pb-1">KH Thu tiền</th><th></th></tr></thead>
-          <tbody>
-            {plans.map((p, i) => (
-              <tr key={i} className="border-t border-slate-100">
-                <td className="py-1 pr-2"><input type="month" value={p.thang} onChange={(e) => setPlans((prev) => prev.map((x, j) => j === i ? { ...x, thang: e.target.value } : x))} className={`${sel} w-full py-1`} /></td>
-                <td className="py-1 pr-2"><input value={p.ten} onChange={(e) => setPlans((prev) => prev.map((x, j) => j === i ? { ...x, ten: e.target.value } : x))} className={`${sel} w-full py-1`} /></td>
-                <td className="py-1 pr-2"><input value={p.mien} onChange={(e) => setPlans((prev) => prev.map((x, j) => j === i ? { ...x, mien: e.target.value } : x))} className={`${sel} w-full py-1`} placeholder="Hà Nội" /></td>
-                <td className="py-1 pr-2"><input type="number" value={p.kh_doanh_so} onChange={(e) => setPlans((prev) => prev.map((x, j) => j === i ? { ...x, kh_doanh_so: Number(e.target.value) } : x))} className={`${sel} w-full py-1`} /></td>
-                <td className="py-1 pr-2"><input type="number" value={p.kh_thu_tien} onChange={(e) => setPlans((prev) => prev.map((x, j) => j === i ? { ...x, kh_thu_tien: Number(e.target.value) } : x))} className={`${sel} w-full py-1`} /></td>
-                <td className="py-1"><button onClick={() => setPlans((prev) => prev.filter((_, j) => j !== i))} className="text-xs text-red-600 hover:underline">Xóa</button></td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        <button onClick={() => setPlans((prev) => [...prev, { thang: new Date().toISOString().slice(0, 7), ten: '', mien: 'Hà Nội', kh_doanh_so: 0, kh_thu_tien: 0 }])} className="rounded-md border border-[var(--color-muted)] px-3 py-2 text-sm hover:border-[var(--color-primary)]">+ Thêm NVKD</button>
+        <p className="mb-3 text-xs text-slate-600">
+          Nay khai báo ở trang riêng để chọn tháng một lần, gán miền + kinh doanh và theo dõi từng tháng.
+        </p>
+        <a href="/ke-hoach" className="inline-block rounded-md bg-[#1e3a8a] px-4 py-2 text-sm font-semibold text-white hover:bg-[#1e40af]">Mở trang Kế hoạch bán hàng →</a>
+        {plans.length > 0 && <p className="mt-2 text-xs text-slate-500">Đang có {new Set(plans.map((p) => p.thang)).size} tháng với {plans.length} dòng kế hoạch.</p>}
       </div>
 
       <div className={card}>
