@@ -1,6 +1,6 @@
 'use client';
 import { deadlineBC, isLate } from '@/lib/week';
-import { fmtCommentTimeVN } from '@/lib/time';
+import { fmtCommentTimeVN, fmtDateVN } from '@/lib/time';
 import { useAuth } from '@/components/RequireAuth';
 import { ApprovalBox } from '@/components/ApprovalBox';
 import type { ReportData } from '@/components/ReportDialog';
@@ -26,7 +26,7 @@ export function ReportCard({
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div className="flex flex-wrap items-center gap-2">
           <span className="font-semibold text-slate-900">{ownerName}</span>
-          <span className="text-xs text-slate-500">Tuần {report.tuan_tu} → {report.tuan_den}</span>
+          <span className="text-xs text-slate-500">Tuần {fmtDateVN(report.tuan_tu)} → {fmtDateVN(report.tuan_den)}</span>
           {late ? (
             <span className="rounded-full bg-red-50 px-2 py-0.5 text-xs font-semibold text-red-700">Trễ hạn</span>
           ) : (

@@ -37,6 +37,13 @@ function mondayOfThisWeek(d = new Date()): string {
   return mon.toISOString().slice(0, 10);
 }
 
+/** 2026-08-28 → 28/08/2026 (dd/mm/yyyy) — chỉ dùng cho nội dung hiển thị. */
+function fmtDayVN(d: string): string {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(d ?? '')) return d ?? '';
+  const [y, m, day] = d.split('-');
+  return `${day}/${m}/${y}`;
+}
+
 async function loadRoleMap(admin: ReturnType<typeof createAdminClient>): Promise<Record<string, string[]>> {
   const { data } = await admin.from('settings').select('value').eq('key', 'BOT_ROLE_MAP').maybeSingle();
   let map: Record<string, string[]> = {};
@@ -81,7 +88,7 @@ async function buildBotReport(admin: ReturnType<typeof createAdminClient>, roleM
     const den = new Date(y, m, 0).toISOString().slice(0, 10);
     const { data: okrs } = await admin.from('okrs').select('user_id').gte('tu_ngay', tu).lte('den_ngay', den);
     const has = new Set((okrs ?? []).map((r: any) => r.user_id));
-    return { missing: targets.filter((p) => !has.has(p.id)), label: `Chưa tạo OKR cá nhân (kỳ ${tu}→${den})` };
+    return { missing: targets.filter((p) => !has.has(p.id)), label: `Chưa tạo OKR cá nhân (kỳ ${fmtDayVN(tu)}→${fmtDayVN(den)})` };
   });
 
   // 2) Chưa nộp Kế hoạch tuần (tuần này, hạn T7 17h30)
@@ -91,7 +98,7 @@ async function buildBotReport(admin: ReturnType<typeof createAdminClient>, roleM
     const mon = mondayOfThisWeek(new Date());
     const { data: plans } = await admin.from('weekly_plans').select('user_id').eq('tuan_tu', mon);
     const has = new Set((plans ?? []).map((r: any) => r.user_id));
-    return { missing: targets.filter((p) => !has.has(p.id)), label: `Chưa nộp Kế hoạch tuần (tuần ${mon})` };
+    return { missing: targets.filter((p) => !has.has(p.id)), label: `Chưa nộp Kế hoạch tuần (tuần ${fmtDayVN(mon)})` };
   });
 
   // 3) Chưa nộp Báo cáo tuần (tuần trước, hạn T2 17h30) — chạy T3
@@ -101,7 +108,7 @@ async function buildBotReport(admin: ReturnType<typeof createAdminClient>, roleM
     const lastMon = (() => { const d = new Date(); d.setDate(d.getDate() - 7); return mondayOfThisWeek(d); })();
     const { data: reps } = await admin.from('weekly_reports').select('user_id').eq('tuan_tu', lastMon);
     const has = new Set((reps ?? []).map((r: any) => r.user_id));
-    return { missing: targets.filter((p) => !has.has(p.id)), label: `Chưa nộp Báo cáo tuần (tuần ${lastMon})` };
+    return { missing: targets.filter((p) => !has.has(p.id)), label: `Chưa nộp Báo cáo tuần (tuần ${fmtDayVN(lastMon)})` };
   });
 
   // 4) Chưa có Báo cáo kho trong 7 ngày
@@ -167,7 +174,7 @@ async function runBot(authorId: string, group?: string) {
 
   const { lines, mentioned } = await buildBotReport(admin, roleMap, checksToRun, late);
   if (lines.length === 0) return { ok: true, message: `(${label}) Không có cảnh báo — mọi người đã ổn.`, lines };
-  const title = `Nhắc việc ${label} — tuần ${mondayOfThisWeek(new Date())}`;
+  const title = `Nhắc việc ${label} — tuần ${fmtDayVN(mondayOfThisWeek(new Date()))}`;
   const content = `Bot kiểm tra ${label}:\n` + lines.join('\n');
   const { data: post, error } = await admin.from('bulletin_posts').insert({ author_id: authorId, title, content, mentioned_user_ids: mentioned, is_bot: true }).select('id').single();
   if (error) return { error: error.message };

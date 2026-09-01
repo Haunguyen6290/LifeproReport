@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase/client';
 import { useAuth } from '@/components/RequireAuth';
 import { weekBounds } from '@/lib/week';
-import { fmtCommentTimeVN } from '@/lib/time';
+import { fmtCommentTimeVN, fmtDateVN } from '@/lib/time';
 
 type OkrRow = { id: string; user_id: string; objective: string };
 type CheckIn = {
@@ -85,7 +85,7 @@ export function OkrCheckInPanel({ okr, tu, den }: { okr: OkrRow; tu: string; den
         await fetch('/api/telegram', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ eventKey: 'TB_OKR', text: `[Check-in OKR] ${ocrClean(okr.objective)}\nNguoi: ${nm}\nTuan ${week.tu} -> ${week.den} · ${tienDo}% · ${tuTin}` }),
+          body: JSON.stringify({ eventKey: 'TB_OKR', text: `[Check-in OKR] ${ocrClean(okr.objective)}\nNguoi: ${nm}\nTuan ${fmtDateVN(week.tu)} -> ${fmtDateVN(week.den)} · ${tienDo}% · ${tuTin}` }),
         });
       } catch {}
       setVuongMac('');
@@ -111,12 +111,12 @@ export function OkrCheckInPanel({ okr, tu, den }: { okr: OkrRow; tu: string; den
     <div className="mt-3 rounded-lg border border-slate-200 bg-white p-3">
       <div className="flex items-center justify-between gap-2">
         <span className="text-xs font-semibold text-slate-700">Check-in hàng tuần</span>
-        {!hasThisWeek && <span className="rounded-full bg-amber-50 px-2 py-0.5 text-xs font-semibold text-amber-700">Chưa check-in tuần {week.tu}</span>}
+        {!hasThisWeek && <span className="rounded-full bg-amber-50 px-2 py-0.5 text-xs font-semibold text-amber-700">Chưa check-in tuần {fmtDateVN(week.tu)}</span>}
       </div>
 
       {/* Nhập */}
       <div className="mt-2 rounded-lg border border-slate-100 bg-slate-50 p-3">
-        <p className="mb-2 text-xs font-semibold text-slate-600">Tuần {week.tu} → {week.den} · Cập nhật cho: {okr.objective}</p>
+        <p className="mb-2 text-xs font-semibold text-slate-600">Tuần {fmtDateVN(week.tu)} → {fmtDateVN(week.den)} · Cập nhật cho: {okr.objective}</p>
         <div className="flex flex-wrap items-center gap-2">
           <div className="flex-1 min-w-[140px]">
             <label className="mb-1 block text-xs font-semibold text-slate-600">Tiến độ</label>
@@ -171,7 +171,7 @@ function CheckInCard({ c, canComment, onGopY }: { c: any; canComment: boolean; o
   return (
     <div className="rounded-lg border border-slate-200 bg-white p-3">
       <div className="flex flex-wrap items-center gap-2 text-xs text-slate-600">
-        <span className="font-semibold text-slate-900">Tuần {c.tuan_tu}</span>
+        <span className="font-semibold text-slate-900">Tuần {fmtDateVN(c.tuan_tu)}</span>
         <span>·</span>
         <span className="font-semibold text-slate-900">{c.tien_do}%</span>
         <span className={`rounded-full px-2 py-0.5 font-semibold ${badge}`}>{c.tu_tin}</span>

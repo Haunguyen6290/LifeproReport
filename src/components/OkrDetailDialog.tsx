@@ -189,7 +189,7 @@ export function OkrDetailDialog({ okr, onClose, onDone, canManage, readOnly }: {
                   <ul className="space-y-3">{checkins.map((c) => (
                     <li key={c.id} className="rounded-lg border border-slate-200 bg-slate-50 p-3">
                       <div className="flex flex-wrap items-center gap-2 text-xs text-slate-600">
-                        <span className="font-semibold text-slate-900">Tuần {c.tuan_tu}</span>
+                        <span className="font-semibold text-slate-900">Tuần {fmtDateVN(c.tuan_tu)}</span>
                         <span className="font-semibold text-slate-900">{c.tien_do}%</span>
                         <span className="rounded-full bg-amber-50 px-2 py-0.5 font-semibold text-amber-700">{c.tu_tin}</span>
                       </div>

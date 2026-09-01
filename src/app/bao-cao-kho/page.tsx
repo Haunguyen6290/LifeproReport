@@ -32,15 +32,15 @@ function TrangThaiDot({ v }: { v: string }) {
 }
 
 function weekKey(r: Row): string {
-  if (r.tuan_tu && r.tuan_den) return `${r.tuan_tu} → ${r.tuan_den}`;
+  if (r.tuan_tu && r.tuan_den) return `${fmtDateVN(r.tuan_tu)} → ${fmtDateVN(r.tuan_den)}`;
   if (r.ngay) {
     const d = new Date(r.ngay + 'T00:00:00Z');
     if (!isNaN(d.getTime())) {
       const b = weekBounds(d);
-      return `${b.tu} → ${b.den}`;
+      return `${fmtDateVN(b.tu)} → ${fmtDateVN(b.den)}`;
     }
   }
-  return r.tuan_tu ?? '—';
+  return r.tuan_tu ? fmtDateVN(r.tuan_tu) : '—';
 }
 
 function Screen() {
@@ -145,7 +145,7 @@ function Screen() {
         const { data: me2 } = await supabase.from('profiles').select('full_name').eq('id', userId).single();
         await supabase.from('audit_logs').insert({ actor_id: userId, action: 'Xóa báo cáo kho', entity_type: 'warehouse_report', entity_id: r.id, details: { ngay: r.ngay, thuc_trang: r.thuc_trang.slice(0, 200), full_name: (me2 as any)?.full_name ?? '' } });
       } catch {}
-      try { const { data: me3 } = await supabase.from('profiles').select('full_name').eq('id', userId).single(); const nm = (me3 as any)?.full_name ?? ''; await fetch('/api/telegram', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ eventKey: 'TB_BAO_CAO_KHO', text: `[Bao cao kho] Xoa ${r.ngay} · Nguoi xoa: ${nm}
+      try { const { data: me3 } = await supabase.from('profiles').select('full_name').eq('id', userId).single(); const nm = (me3 as any)?.full_name ?? ''; await fetch('/api/telegram', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ eventKey: 'TB_BAO_CAO_KHO', text: `[Bao cao kho] Xoa ${fmtDateVN(r.ngay)} · Nguoi xoa: ${nm}
 ${r.thuc_trang.slice(0, 300)}` }) }); } catch {}
       setRefreshKey((k) => k + 1);
     } catch (e: any) {

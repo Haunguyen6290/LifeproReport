@@ -25,6 +25,8 @@ function fmts(n: number) {
   return String(Math.round(n));
 }
 function daysInMonth(y: number, m: number) { return new Date(y, m, 0).getDate(); }
+/** 2026-08-28 → 28/08/2026 (dd/mm/yyyy) */
+function fmtDayVN(d: string) { if (!/^\d{4}-\d{2}-\d{2}$/.test(d ?? '')) return d ?? ''; const [y, m, day] = d.split('-'); return `${day}/${m}/${y}`; }
 function monthRange(y: number, m: number) { return { from: `${String(y)}-${String(m).padStart(2, '0')}-01`, to: `${String(y)}-${String(m).padStart(2, '0')}-${String(daysInMonth(y, m)).padStart(2, '0')}` }; }
 function quarterRange(y: number, q: number) { const m1 = (q - 1) * 3 + 1, m2 = q * 3; return { from: `${String(y)}-${String(m1).padStart(2, '0')}-01`, to: `${String(y)}-${String(m2).padStart(2, '0')}-${String(daysInMonth(y, m2)).padStart(2, '0')}` }; }
 function yearRange(y: number) { return { from: `${String(y)}-01-01`, to: `${String(y)}-12-31` }; }
@@ -545,7 +547,7 @@ function DashboardInner() {
                 <button onClick={() => { setDetailPage(1); loadDetail(1, detailSearch); }} className="rounded-md bg-[#16A97B] px-3 py-1.5 text-sm font-semibold text-white hover:bg-[#0d7a59]">Tìm</button>
               </div>
             </div>
-            <p className="mb-2 text-xs text-[#64748b]">{detailTotal.toLocaleString('vi-VN')} dòng khớp bộ lọc {fromDate} → {toDate}</p>
+            <p className="mb-2 text-xs text-[#64748b]">{detailTotal.toLocaleString('vi-VN')} dòng khớp bộ lọc {fmtDayVN(fromDate)} → {fmtDayVN(toDate)}</p>
             {detailRows.length === 0 ? (
               <p className="py-8 text-center text-sm text-[#64748b]">Không có dòng chi tiết nào trong kỳ/bộ lọc này.</p>
             ) : (
@@ -578,7 +580,7 @@ function DashboardInner() {
                   <tbody>
                     {detailRows.map((r, i) => (
                       <tr key={`${r.so_ct}-${r.ma_vt}-${i}`} className="border-t border-[#f1f5f9] hover:bg-[#f8fafc]">
-                        <td className="py-1.5 text-[#64748b]">{r.ngay}</td>
+                        <td className="py-1.5 text-[#64748b]">{fmtDayVN(r.ngay)}</td>
                         <td className="py-1.5 font-mono text-[9px] text-[#334155]">{r.so_ct}</td>
                         <td className="py-1.5 text-[#1e293b] line-clamp-1" title={r.ten_vt}>{r.ten_vt}</td>
                         <td className="py-1.5 font-mono text-[9px] text-[#334155]">{r.ma_kh}</td>
