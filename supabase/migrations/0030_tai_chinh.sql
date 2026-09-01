@@ -71,9 +71,11 @@ create or replace function public.fn_tk_nhom(tk text, map jsonb) returns text la
 $$;
 
 -- ===== 7) RPC: báo cáo công nợ quá hạn =====
--- p_thang dạng YYYY-MM. Trả về { D, E, base, rows[] }
+-- p_thang dạng YYYY-MM. p_den: ngày lập/chốt tùy chọn (null = lấy ngày chứng từ mới nhất).
+-- Trả về { D, E, base, rows[] }
+drop function if exists public.finance_debt_report(text, int, date);
 drop function if exists public.finance_debt_report(text, int);
-create or replace function public.finance_debt_report(p_thang text, p_han int default 90)
+create or replace function public.finance_debt_report(p_thang text, p_han int default 90, p_den date default null)
 returns json language plpgsql stable as $$
 declare
   v_base date; v_D date; v_E date; v_map jsonb; v_rows json;
@@ -81,7 +83,11 @@ begin
   select nullif(value,'')::date into v_base from public.settings where key='DEBT_BASE_DATE';
   if v_base is null then v_base := '2026-01-01'; end if;
   v_D := date_trunc('month', ((date_trunc('month', (p_thang || '-01')::date) + interval '1 month' - interval '1 day') - (p_han || ' days')::interval))::date;
-  select coalesce(max(ngay), (date_trunc('month',(p_thang||'-01')::date)+interval '1 month'-interval '1 day')::date) into v_E from public.receivable_rows;
+  if p_den is null then
+    select coalesce(max(ngay), (date_trunc('month',(p_thang||'-01')::date)+interval '1 month'-interval '1 day')::date) into v_E from public.receivable_rows;
+  else
+    v_E := p_den;
+  end if;
   select coalesce(value::jsonb,'[]'::jsonb) into v_map from public.settings where key='RECEIVABLE_TK_MAP';
 
   with base as (
