@@ -88,7 +88,7 @@ function DebtTable({ rows, han }: { rows: DebtRow[]; han: number }) {
       </div>
 
       <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white">
-        <table className="w-full min-w-[1180px] table-fixed text-sm">
+        <table className="w-full min-w-[1180px] table-fixed text-[12.5px]">
           <colgroup>
             <col style={{ width: 44 }} />
             <col style={{ width: 78 }} />
@@ -121,8 +121,8 @@ function DebtTable({ rows, han }: { rows: DebtRow[]; han: number }) {
             {filtered.map((r, i) => (
               <tr key={r.ma_kh} className={r.qua_han ? 'bg-red-50' : 'hover:bg-slate-50'}>
                 <td className="whitespace-nowrap px-3 py-2 text-slate-600">{i + 1}</td>
-                <td className="truncate px-3 py-2 font-mono text-xs" title={r.ma_kh}>{r.ma_kh}</td>
-                <td className="px-3 py-2 break-words">{r.ten_kh}</td>
+                <td className="truncate px-3 py-2 font-semibold" title={r.ma_kh}>{r.ma_kh}</td>
+                <td className="px-3 py-2 break-words font-semibold">{r.ten_kh}</td>
                 <td className="whitespace-nowrap px-3 py-2 text-slate-700">{r.nvkd || '—'}</td>
                 <td className="whitespace-nowrap px-3 py-2 text-right tabular-nums">{fmt(r.cong_no_dau_ky)}</td>
                 <td className="whitespace-nowrap px-3 py-2 text-right tabular-nums">{fmt(r.doanh_thu)}</td>
