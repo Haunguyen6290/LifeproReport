@@ -367,6 +367,10 @@ function YtdTable({ rows, plan, thang, tinhKhac, onTinhKhac }: { rows: CollRow[]
 
   const ratio = (thu: number, ban: number) => (ban ? `${((thu / ban) * 100).toFixed(1)}%` : '—');
 
+  const showKhac = others.length > 0 && tinhKhac;
+  const dsKhac = others.reduce((a, r) => a + r.doanh_so, 0);
+  const thuKhac = others.reduce((a, r) => a + r.thu_tien, 0);
+
   function block(title: string, key: 'doanh_so' | 'thu_tien', khField: 'khDS' | 'khThu') {
     const NV = 'border-l border-slate-100 px-3 py-2 text-right text-xs tabular-nums';
     const NV_B = `${NV} font-semibold text-[#0f2a4a]`;
@@ -422,10 +426,6 @@ function YtdTable({ rows, plan, thang, tinhKhac, onTinhKhac }: { rows: CollRow[]
       </tr>,
     ];
   }
-
-  const showKhac = others.length > 0 && tinhKhac;
-  const dsKhac = others.reduce((a, r) => a + r.doanh_so, 0);
-  const thuKhac = others.reduce((a, r) => a + r.thu_tien, 0);
 
   // Nếu chưa khai báo kế hoạch năm nhưng đã có số liệu → bảng gọn theo kinh doanh
   if (byTen.size === 0 && rows.length > 0) {
@@ -650,6 +650,7 @@ function Screen() {
   const [debt, setDebt] = useState<{ D: string; E: string; rows: DebtRow[] } | null>(null);
   const [coll, setColl] = useState<{ plan: PlanRow[]; rows: CollRow[] } | null>(null);
   const [ytd, setYtd] = useState<{ plan: PlanRow[]; rows: CollRow[] } | null>(null);
+  const [ytdErr, setYtdErr] = useState('');
   const [tinhKhac, setTinhKhac] = useState<boolean>(() => {
     try { return localStorage.getItem('fin_tinh_khac') !== '0'; } catch { return true; }
   });
@@ -689,7 +690,7 @@ function Screen() {
   useEffect(() => {
     if (tab !== 'thu-tien') return;
     (async () => {
-      setLoading(true); setErr('');
+      setLoading(true); setErr(''); setYtdErr('');
       try {
         const [rColl, rYtd] = await Promise.all([
           fetch(`/api/finance/collections?thang=${thang}`),
@@ -698,7 +699,8 @@ function Screen() {
         const j = await rColl.json();
         if (!rColl.ok) throw new Error(j?.error ?? 'Lỗi tải báo cáo');
         setColl(j);
-        if (rYtd.ok) setYtd(await rYtd.json()); else setYtd(null);
+        if (rYtd.ok) { setYtd(await rYtd.json()); setYtdErr(''); }
+        else { setYtd(null); try { const e = await rYtd.json(); setYtdErr(e?.error ?? rYtd.statusText); } catch { setYtdErr('Báo cáo lũy kế năm chưa tải được — hãy chạy migration 0034_collections_ytd trong Supabase trước.'); } }
       } catch (e: any) { setErr(e?.message ?? 'Lỗi'); setColl(null); setYtd(null); }
       finally { setLoading(false); }
     })();
@@ -772,6 +774,11 @@ function Screen() {
             <KeHoachBox thang={thang} onSaved={() => setRefreshKey((k) => k + 1)} />
             <CollectionsTable rows={coll.rows ?? []} plan={coll.plan ?? []} thang={thang} tinhKhac={tinhKhac} onTinhKhac={onTinhKhac} />
             {ytd && <YtdTable rows={ytd.rows ?? []} plan={ytd.plan ?? []} thang={thang} tinhKhac={tinhKhac} onTinhKhac={onTinhKhac} />}
+            {ytdErr && (
+              <div className="mt-4 rounded-md border border-amber-200 bg-amber-50 px-4 py-2 text-sm text-amber-800">
+                Báo cáo lũy kế năm chưa tải được — báo cáo tháng vẫn chạy bình thường. Nếu hệ thống vừa cập nhật, hãy chạy <b>migration 0034_collections_ytd</b> trong Supabase rồi bấm <b>Chạy báo cáo</b>. <span className="text-amber-600">({ytdErr})</span>
+              </div>
+            )}
             <UnmatchedPanel thang={thang} refreshKey={refreshKey} />
           </>
         )}
