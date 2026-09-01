@@ -151,11 +151,52 @@ function CollectionsTable({ rows, plan, thang }: { rows: CollRow[]; plan: PlanRo
   const knownNames = new Set(planThang.map((p) => p.ten));
   const others = rows.filter((r) => !knownNames.has(r.nvkd));
 
+  // Chưa khai báo kế hoạch tháng này nhưng đã có dữ liệu thực hiện → hiện bảng theo NVKD
+  if (planThang.length === 0 && rows.length > 0) {
+    return (
+      <div className="space-y-2">
+        <div className="rounded-lg border border-sky-200 bg-sky-50 px-4 py-2 text-xs text-sky-800">
+          Dữ liệu tự lấy từ <b>Sổ chi tiết bán hàng</b> (đã import bên Báo cáo bán hàng) + <b>Sổ TK131</b> (đã import bên Tài chính) — không cần import thêm. Chưa khai báo kế hoạch tháng này nên chỉ hiện <b>Thực hiện</b>; vào <b>Cài đặt chung → Công nợ &amp; Tài chính → Kế hoạch NVKD theo tháng</b> để có dòng Kế hoạch và %.
+        </div>
+        <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white">
+          <table className="w-full min-w-[640px] text-sm">
+            <thead>
+              <tr className="bg-[#eff6ff] text-[#1e3a8a]">
+                <th className="whitespace-nowrap px-3 py-2 text-left font-bold">Kinh doanh</th>
+                <th className="whitespace-nowrap px-3 py-2 text-right font-bold">Doanh số bán hàng</th>
+                <th className="whitespace-nowrap px-3 py-2 text-right font-bold">Doanh thu thu tiền</th>
+                <th className="whitespace-nowrap px-3 py-2 text-right font-bold">Còn phải thu</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100">
+              {rows.map((r) => (
+                <tr key={r.nvkd} className="hover:bg-slate-50">
+                  <td className="whitespace-nowrap px-3 py-2 font-medium">{r.nvkd}</td>
+                  <td className="whitespace-nowrap px-3 py-2 text-right tabular-nums">{fmt(r.doanh_so)}</td>
+                  <td className="whitespace-nowrap px-3 py-2 text-right tabular-nums">{fmt(r.thu_tien)}</td>
+                  <td className="whitespace-nowrap px-3 py-2 text-right font-semibold tabular-nums">{fmt(Math.max(r.doanh_so - r.thu_tien, 0))}</td>
+                </tr>
+              ))}
+            </tbody>
+            <tfoot>
+              <tr className="border-t-2 border-slate-200 bg-slate-50 font-semibold">
+                <td className="px-3 py-2 text-right">Tổng công ty</td>
+                <td className="whitespace-nowrap px-3 py-2 text-right tabular-nums">{fmt(totalDS)}</td>
+                <td className="whitespace-nowrap px-3 py-2 text-right tabular-nums">{fmt(totalThu)}</td>
+                <td className="whitespace-nowrap px-3 py-2 text-right tabular-nums">{fmt(Math.max(totalDS - totalThu, 0))}</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-4">
       {planThang.length === 0 && (
         <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
-          Chưa có kế hoạch cho tháng này. Vào <b>Cài đặt chung → Công nợ &amp; Tài chính → Kế hoạch NVKD theo tháng</b> để khai báo.
+          Chưa có dữ liệu cho tháng này. Kiểm tra đã import <b>Sổ chi tiết bán hàng</b> (bên Báo cáo bán hàng) và <b>Sổ TK131</b> (bên Tài chính) cho tháng này chưa.
         </div>
       )}
       <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white">
@@ -320,8 +361,10 @@ function Screen() {
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
           <h1 className="text-2xl font-bold tracking-tight text-[#0f2a4a]">Tài chính</h1>
           <div className="flex items-center gap-2">
+            <label className="text-xs font-semibold text-slate-600">Kỳ báo cáo:</label>
             <input type="month" value={thang} onChange={(e) => setThang(e.target.value)} className="rounded-md border border-slate-200 bg-white px-3 py-1.5 text-sm outline-none focus:border-[#1e3a8a]" />
-            {canImport && <button onClick={() => setImpOpen(true)} className="rounded-lg bg-[#1e3a8a] px-4 py-2 text-sm font-semibold text-white hover:bg-[#1e40af]">Import sổ 131</button>}
+            <button onClick={() => setRefreshKey((k) => k + 1)} className="rounded-lg bg-[#1e3a8a] px-4 py-1.5 text-sm font-semibold text-white hover:bg-[#1e40af]">Chạy báo cáo</button>
+            {canImport && <button onClick={() => setImpOpen(true)} className="rounded-lg border border-slate-200 px-4 py-1.5 text-sm font-semibold hover:border-[#1e3a8a]">Import sổ 131</button>}
           </div>
         </div>
 
