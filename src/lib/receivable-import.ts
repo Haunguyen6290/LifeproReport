@@ -89,17 +89,21 @@ export function parseTk131Sheet(rows: unknown[][]): { header: Tk131Header; rows:
 }
 
 /** Chỉ nhận khi có cột dư nợ đầu kỳ (header chứa "Nợ"); bản DataKH không có cột này → []. */
-export function parseDataKHSheet(rows: unknown[][]): { ma: string; ten: string; duNo: number }[] {
+export function parseDataKHSheet(rows: unknown[][]): { ma: string; ten: string; nvkd: string; duNo: number }[] {
   if (!rows.length) return [];
   const h = rows[0].map((c) => s(c).toLowerCase());
-  let colDu = -1;
-  h.forEach((c, i) => { if (/nợ\s*\d{2}|\dnợ$|nợ \d{4}/.test(c)) colDu = i; });
+  let colDu = -1, colNvkd = -1;
+  h.forEach((c, i) => {
+    if (/nợ\s*\d{2}|\dnợ$|nợ \d{4}/.test(c)) colDu = i;
+    if (c.includes('dùng cho báo cáo') || c.includes('dung cho bao cao')) colNvkd = i;
+  });
   if (colDu === -1) return [];
-  const out: { ma: string; ten: string; duNo: number }[] = [];
+  if (colNvkd === -1) colNvkd = 2; // fallback cột "NVKD" thường ở vị trí 3
+  const out: { ma: string; ten: string; nvkd: string; duNo: number }[] = [];
   for (let i = 1; i < rows.length; i++) {
     const ma = s(rows[i][0]);
     if (!ma) continue;
-    out.push({ ma, ten: s(rows[i][1]), duNo: num(rows[i][colDu]) });
+    out.push({ ma, ten: s(rows[i][1]), nvkd: s(rows[i][colNvkd]), duNo: num(rows[i][colDu]) });
   }
   return out;
 }

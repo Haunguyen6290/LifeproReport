@@ -53,7 +53,7 @@ export async function POST(req: NextRequest) {
 
     // K3: nếu file có DataKH kèm dư nợ đầu kỳ → tổng theo khách phải bằng đầu kỳ toàn công ty
     const dkhSheet = wb.SheetNames.find((n) => /datakh|data kh/i.test(n));
-    let baseRows: { ma: string; ten: string; duNo: number }[] = [];
+    let baseRows = [] as { ma: string; ten: string; nvkd: string; duNo: number }[];
     if (dkhSheet) {
       baseRows = parseDataKHSheet(XLSX.utils.sheet_to_json(wb.Sheets[dkhSheet], { header: 1, defval: null }) as unknown[][]);
     }
@@ -68,23 +68,55 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ preview: true, blocked: true, soDong: rows.length, tuNgay: minNgay, denNgay: maxNgay, kiemTra, canhBao });
     }
 
-    // Cảnh báo mềm (preview hiện luôn): mã lạ, tên trùng nhiều mã
+    // ===== Phân tích mã KH lạ + tên trùng nhiều mã (để UI cho ông quyết định Thêm/Gộp/Bỏ qua) =====
     const db = admin();
     const { data: kh } = await db.from('customers').select('ma_kh, ten_kh');
-    const maSet = new Set((kh ?? []).map((r: any) => String(r.ma_kh ?? '').trim()));
-    const laTrongSo = [...new Set(rows.map((r) => r.ma_kh).filter(Boolean))].filter((m) => !maSet.has(m));
-    if (laTrongSo.length) canhBao.push(`${laTrongSo.length} mã KH trong sổ chưa có trong danh mục: ${laTrongSo.slice(0, 10).join(', ')}${laTrongSo.length > 10 ? '…' : ''}`);
+    const dsKh = ((kh ?? []) as any[]).map((r) => ({ ma_kh: String(r.ma_kh ?? '').trim(), ten_kh: String(r.ten_kh ?? '').trim() }));
+    const maSet = new Set(dsKh.map((r) => r.ma_kh));
+    const tenKhCu = new Map<string, string>(); // ten_kh (thường) -> ma_kh đầu tiên
+    for (const r of dsKh) { const k = r.ten_kh.toLowerCase(); if (!tenKhCu.has(k)) tenKhCu.set(k, r.ma_kh); }
+
+    // nvkd từ DataKH (nếu file có) — map ma -> nvkd
+    const nvkdMap = new Map<string, string>();
+    for (const b of baseRows) if (b.nvkd) nvkdMap.set(b.ma, b.nvkd);
+
+    // thống kê theo mã trong sổ
+    const agg = new Map<string, { ten_kh: string; so_dong: number; tong_no: number; tong_co: number; du_cuoi: number | null }>();
+    for (const r of rows) {
+      if (!r.ma_kh) continue;
+      let a = agg.get(r.ma_kh);
+      if (!a) { a = { ten_kh: r.ten_kh, so_dong: 0, tong_no: 0, tong_co: 0, du_cuoi: null }; agg.set(r.ma_kh, a); }
+      a.so_dong++; a.tong_no += r.so_no; a.tong_co += r.so_co; if (r.du_dong != null) a.du_cuoi = r.du_dong;
+      if (r.ten_kh && !a.ten_kh) a.ten_kh = r.ten_kh;
+    }
+    const laTrongSo = [...agg.keys()].filter((m) => !maSet.has(m));
+    const khLa = laTrongSo
+      .map((m) => {
+        const a = agg.get(m)!;
+        const tenLower = a.ten_kh.toLowerCase();
+        const mergeTo = tenKhCu.get(tenLower) ?? '';
+        return { ma_kh: m, ten_kh: a.ten_kh, nvkd: nvkdMap.get(m) ?? '', so_dong: a.so_dong, tong_no: a.tong_no, tong_co: a.tong_co, du_cuoi: a.du_cuoi, mergeTo };
+      })
+      .sort((x, y) => (y.du_cuoi ?? 0) - (x.du_cuoi ?? 0));
+
     const byName = new Map<string, Set<string>>();
     for (const r of rows) { if (!r.ma_kh) continue; const k = r.ten_kh.toLowerCase(); if (!byName.has(k)) byName.set(k, new Set()); byName.get(k)!.add(r.ma_kh); }
     const trungTen = [...byName.values()].filter((x) => x.size > 1).length;
+    if (khLa.length) canhBao.push(`${khLa.length} mã KH trong sổ chưa có trong danh mục — xem bảng bên dưới để Thêm / Gộp / Bỏ qua.`);
     if (trungTen) canhBao.push(`${trungTen} tên KH xuất hiện với nhiều mã khác nhau trong sổ — kiểm tra danh mục`);
 
     if (mode !== 'commit') {
-      return NextResponse.json({ preview: true, soDong: rows.length, tuNgay: minNgay, denNgay: maxNgay, kiemTra, canhBao });
+      return NextResponse.json({ preview: true, soDong: rows.length, tuNgay: minNgay, denNgay: maxNgay, kiemTra, canhBao, khLa, dsKh });
     }
 
     // ===== COMMIT =====
     const batch = new Date().toISOString().slice(0, 19).replace(/[:T]/g, '-');
+
+    // Đọc lựa chọn của ông chủ từ UI: exclude (bỏ qua) + merge (mã lạ -> mã cũ)
+    let excludeMa = new Set<string>();
+    try { const arr = JSON.parse(String(form.get('exclude') ?? '[]')); if (Array.isArray(arr)) excludeMa = new Set(arr.map((v) => String(v))); } catch {}
+    let mergeMap = new Map<string, string>();
+    try { const o = JSON.parse(String(form.get('merge') ?? '{}')); if (o && typeof o === 'object') mergeMap = new Map(Object.entries(o).map(([k, v]) => [String(k), String(v)])); } catch {}
 
     // K2: liền mạch — đầu kỳ của file phải bằng hệ thống tính tại minNgay (chỉ khi đã có dữ liệu cũ TRƯỚC đó)
     const { count: soDongCuoiTruoc } = await db.from('receivable_rows').select('id', { count: 'exact', head: true }).lt('ngay', minNgay);
@@ -105,10 +137,14 @@ export async function POST(req: NextRequest) {
       kiemTra.push({ ten: 'Liền mạch dòng thời gian', ok: true, chiTiet: 'Chưa có dữ liệu trước vùng này — bỏ qua đối chiếu' });
     }
 
-    // Ghi theo vùng [minNgay, maxNgay]: xóa rồi chèn lại
+    // Ghi theo vùng [minNgay, maxNgay]: xóa rồi chèn lại (đổi mã gộp trước khi lưu)
     await db.from('receivable_rows').delete().gte('ngay', minNgay).lte('ngay', maxNgay);
+    let rowsToInsert = rows;
+    if (mergeMap.size > 0) {
+      rowsToInsert = rows.map((r) => (r.ma_kh && mergeMap.has(r.ma_kh) ? { ...r, ma_kh: mergeMap.get(r.ma_kh)! } : r));
+    }
     const CHUNK = 2000;
-    const insertRows = rows.map((r) => ({ ...r, import_batch: batch }));
+    const insertRows = rowsToInsert.map((r) => ({ ...r, import_batch: batch }));
     for (let i = 0; i < insertRows.length; i += CHUNK) {
       const { error } = await db.from('receivable_rows').insert(insertRows.slice(i, i + CHUNK));
       if (error) return NextResponse.json({ error: error.message }, { status: 500 });
@@ -125,16 +161,34 @@ export async function POST(req: NextRequest) {
       }
     }
 
+    // ===== Tạo khách mới cho mã lạ (theo lựa chọn Thêm/Gộp/Bỏ qua của ông chủ) =====
+    let createdCustomers = 0;
+    let mergedCustomers = mergeMap.size;
+    const token = (req.headers.get('authorization') ?? '').replace(/^Bearer /i, '').trim();
+    let uid = '';
+    try { const auth = await db.auth.getUser(token || 'x'); uid = auth.data.user?.id ?? ''; } catch {}
+
+    const toCreate = khLa.filter((c) => !excludeMa.has(c.ma_kh) && !mergeMap.has(c.ma_kh));
+    if (toCreate.length > 0 && uid) {
+      for (const c of toCreate) {
+        const { error: insErr } = await db.from('customers').insert({
+          ma_kh: c.ma_kh,
+          ten_kh: c.ten_kh || c.ma_kh,
+          assigned_to: uid, // người import phụ trách tạm — ông sửa KD trong Khách hàng sau
+          tinh_thanh: '',
+        } as any);
+        if (!insErr) createdCustomers++;
+      }
+    }
+
     try {
-      const auth = await db.auth.getUser((req.headers.get('authorization') ?? '').replace(/^Bearer /i, '').trim() || 'x');
-      const uid = auth.data.user?.id;
       if (uid) {
         const { data: me } = await db.from('profiles').select('full_name').eq('id', uid).single();
-        await db.from('audit_logs').insert({ actor_id: uid, action: 'Import sổ 131', entity_type: 'receivable', entity_id: null, details: { soDong: rows.length, tu: minNgay, den: maxNgay, batch, full_name: (me as any)?.full_name ?? '' } });
+        await db.from('audit_logs').insert({ actor_id: uid, action: 'Import sổ 131', entity_type: 'receivable', entity_id: null, details: { soDong: rows.length, tu: minNgay, den: maxNgay, batch, taoKhach: createdCustomers, gop: mergedCustomers, full_name: (me as any)?.full_name ?? '' } });
       }
     } catch {}
 
-    return NextResponse.json({ preview: false, soDong: rows.length, tuNgay: minNgay, denNgay: maxNgay, kiemTra, canhBao });
+    return NextResponse.json({ preview: false, soDong: rows.length, tuNgay: minNgay, denNgay: maxNgay, kiemTra, canhBao, createdCustomers, mergedCustomers });
   } catch (e: any) {
     return NextResponse.json({ error: e?.message ?? 'Lỗi không xác định' }, { status: 500 });
   }

@@ -61,8 +61,9 @@ describe('parseDataKHSheet', () => {
     ];
     const r = parseDataKHSheet(rows);
     expect(r).toHaveLength(2);
-    expect(r[0]).toEqual({ ma: 'LP1163', ten: 'Cửa hàng Anh Vinh', duNo: 58426000 });
+    expect(r[0]).toEqual({ ma: 'LP1163', ten: 'Cửa hàng Anh Vinh', nvkd: 'Đinh Anh Chi', duNo: 58426000 });
     expect(r[1].duNo).toBe(0);
+    expect(r[1].nvkd).toBe('Công ty');
   });
   it('DataKH bản thu tiền KHÔNG có cột Nợ → trả rỗng, không được ghi đè số gốc', () => {
     const rows = [

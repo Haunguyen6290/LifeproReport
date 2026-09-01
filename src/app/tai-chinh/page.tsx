@@ -249,6 +249,8 @@ function Screen() {
   const [impBusy, setImpBusy] = useState(false);
   const [impMsg, setImpMsg] = useState('');
   const [refreshKey, setRefreshKey] = useState(0);
+  const [impExclude, setImpExclude] = useState<Set<string>>(new Set());
+  const [impMerge, setImpMerge] = useState<Map<string, string>>(new Map());
 
   const canImport = can('quan_ly_cai_dat');
 
@@ -283,6 +285,7 @@ function Screen() {
   async function previewImport() {
     if (!impFile) { setImpMsg('Chọn file trước.'); return; }
     setImpBusy(true); setImpMsg(''); setImpPreview(null);
+    setImpExclude(new Set()); setImpMerge(new Map());
     try {
       const fd = new FormData(); fd.append('file', impFile); fd.append('mode', 'preview');
       const r = await fetch('/api/finance/import-131', { method: 'POST', body: fd });
@@ -298,11 +301,14 @@ function Screen() {
     setImpBusy(true); setImpMsg('');
     try {
       const fd = new FormData(); fd.append('file', impFile); fd.append('mode', 'commit');
+      fd.append('exclude', JSON.stringify([...impExclude]));
+      fd.append('merge', JSON.stringify(Object.fromEntries(impMerge)));
       const r = await fetch('/api/finance/import-131', { method: 'POST', body: fd });
       const j = await r.json();
       setImpPreview(j);
       if (j.error) { setImpMsg(j.error); return; }
       setImpMsg(`Đã lưu ${j.soDong.toLocaleString('vi-VN')} dòng (${fmtDateVN(j.tuNgay)} → ${fmtDateVN(j.denNgay)}). Đang tải lại báo cáo…`);
+      if (!j.preview) { setImpExclude(new Set()); setImpMerge(new Map()); }
       setRefreshKey((k) => k + 1);
     } catch (e: any) { setImpMsg(e?.message ?? 'Lỗi'); }
     finally { setImpBusy(false); }
@@ -341,14 +347,14 @@ function Screen() {
         {/* Dialog import */}
         {impOpen && (
           <div className="fixed inset-0 z-40 flex items-center justify-center p-4">
-            <button aria-label="Đóng" onClick={() => { setImpOpen(false); setImpPreview(null); setImpFile(null); setImpMsg(''); }} className="absolute inset-0 bg-black/40" />
-            <div role="dialog" className="relative max-h-[85vh] w-full max-w-2xl overflow-y-auto rounded-xl bg-white p-5 shadow-2xl">
+            <button aria-label="Đóng" onClick={() => { setImpOpen(false); setImpPreview(null); setImpFile(null); setImpMsg(''); setImpExclude(new Set()); setImpMerge(new Map()); }} className="absolute inset-0 bg-black/40" />
+            <div role="dialog" className="relative max-h-[85vh] w-full max-w-3xl overflow-y-auto rounded-xl bg-white p-5 shadow-2xl">
               <div className="mb-3 flex items-center justify-between">
                 <h2 className="text-base font-bold">Import sổ 131</h2>
-                <button onClick={() => { setImpOpen(false); setImpPreview(null); setImpFile(null); setImpMsg(''); }} className="grid h-8 w-8 place-items-center rounded-md hover:bg-slate-100" aria-label="Đóng">×</button>
+                <button onClick={() => { setImpOpen(false); setImpPreview(null); setImpFile(null); setImpMsg(''); setImpExclude(new Set()); setImpMerge(new Map()); }} className="grid h-8 w-8 place-items-center rounded-md hover:bg-slate-100" aria-label="Đóng">×</button>
               </div>
               <p className="mb-3 text-xs text-slate-500">Chọn file Excel do MISA xuất (sheet TK131, hoặc bản có kèm DataKH để nạp số dư gốc). Lần sau chỉ cần sheet TK131.</p>
-              <input type="file" accept=".xlsx,.xls" onChange={(e) => { setImpFile(e.target.files?.[0] ?? null); setImpPreview(null); setImpMsg(''); }} className="mb-3 w-full text-sm" />
+              <input type="file" accept=".xlsx,.xls" onChange={(e) => { setImpFile(e.target.files?.[0] ?? null); setImpPreview(null); setImpMsg(''); setImpExclude(new Set()); setImpMerge(new Map()); }} className="mb-3 w-full text-sm" />
               <div className="flex gap-2">
                 <button onClick={previewImport} disabled={impBusy || !impFile} className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-semibold hover:border-[#1e3a8a] disabled:opacity-60">{impBusy ? 'Đang xử lý…' : 'Kiểm tra trước'}</button>
                 <button onClick={commitImport} disabled={impBusy || !impPreview || impPreview.blocked || !!impPreview.error} className="rounded-lg bg-[#1e3a8a] px-4 py-2 text-sm font-semibold text-white hover:bg-[#1e40af] disabled:opacity-60">Lưu vào hệ thống</button>
@@ -365,6 +371,60 @@ function Screen() {
                   {(impPreview.canhBao ?? []).map((c: string, i: number) => (
                     <div key={i} className="rounded-md bg-amber-50 px-3 py-2 text-amber-800">⚠ {c}</div>
                   ))}
+                  {(impPreview.khLa ?? []).length > 0 && (
+                    <div className="mt-2 rounded-lg border border-amber-200 bg-white">
+                      <div className="flex items-center justify-between border-b border-slate-100 px-3 py-2">
+                        <p className="text-xs font-bold text-slate-800">Khách chưa có trong danh mục ({impPreview.khLa.length}) — chọn Thêm / Gộp / Bỏ qua cho từng mã:</p>
+                        <button onClick={() => setImpExclude(new Set((impPreview.khLa as any[]).map((c: any) => c.ma_kh)))} className="text-xs text-slate-500 hover:underline">Bỏ qua tất cả</button>
+                      </div>
+                      <div className="max-h-[260px] overflow-auto">
+                        <table className="w-full text-xs">
+                          <thead><tr className="bg-amber-50 text-left text-slate-700"><th className="px-2 py-1">Mã KH</th><th className="px-2 py-1">Tên KH</th><th className="px-2 py-1">KD trong file</th><th className="px-2 py-1">Số dư cuối</th><th className="px-2 py-1">Xử lý</th></tr></thead>
+                          <tbody>
+                            {impPreview.khLa.map((c: any) => {
+                              const isExcluded = impExclude.has(c.ma_kh);
+                              const isMerged = impMerge.has(c.ma_kh);
+                              const dup = !!c.mergeTo;
+                              return (
+                                <tr key={c.ma_kh} className={`border-t border-slate-100 ${isExcluded ? 'bg-slate-100 opacity-60' : isMerged ? 'bg-emerald-50' : dup ? 'bg-amber-50' : ''}`}>
+                                  <td className="px-2 py-1 font-mono">{c.ma_kh}</td>
+                                  <td className="px-2 py-1">
+                                    <span>{c.ten_kh || '—'}</span>
+                                    {isMerged && <span className="ml-2 rounded bg-emerald-100 px-1.5 py-0.5 text-[10px] font-semibold text-emerald-800">→ {impMerge.get(c.ma_kh)}</span>}
+                                    {!isMerged && dup && <span className="ml-2 rounded bg-amber-100 px-1.5 py-0.5 text-[10px] font-semibold text-amber-800">Trùng tên ({c.mergeTo})</span>}
+                                    {isExcluded && <span className="ml-2 text-[10px] text-slate-500">(sẽ bỏ qua)</span>}
+                                  </td>
+                                  <td className="px-2 py-1">{c.nvkd || '—'}</td>
+                                  <td className="px-2 py-1 text-right tabular-nums">{c.du_cuoi != null ? c.du_cuoi.toLocaleString('vi-VN') : '—'}</td>
+                                  <td className="px-2 py-1">
+                                    <select value={isExcluded ? 'bo-qua' : isMerged ? c.mergeTo : 'them'} onChange={(e) => {
+                                      const val = e.target.value;
+                                      if (val === 'bo-qua') {
+                                        setImpMerge((prev) => { const n = new Map(prev); n.delete(c.ma_kh); return n; });
+                                        setImpExclude((prev) => new Set(prev).add(c.ma_kh));
+                                      } else if (val === 'them') {
+                                        setImpExclude((prev) => { const n = new Set(prev); n.delete(c.ma_kh); return n; });
+                                        setImpMerge((prev) => { const n = new Map(prev); n.delete(c.ma_kh); return n; });
+                                      } else {
+                                        setImpExclude((prev) => { const n = new Set(prev); n.delete(c.ma_kh); return n; });
+                                        setImpMerge((prev) => new Map(prev).set(c.ma_kh, val));
+                                      }
+                                    }} className="rounded border border-slate-200 px-1 py-1 text-xs">
+                                      <option value="them">Thêm mới</option>
+                                      {c.mergeTo && <option value={c.mergeTo}>Gộp → {c.mergeTo}</option>}
+                                      <option value="bo-qua">Bỏ qua</option>
+                                    </select>
+                                  </td>
+                                </tr>
+                              );
+                            })}
+                          </tbody>
+                        </table>
+                      </div>
+                      {impExclude.size > 0 && <p className="border-t border-slate-100 px-3 py-2 text-xs text-slate-600">Đã bỏ qua {impExclude.size} khách — sẽ chỉ tạo {impPreview.khLa.length - impExclude.size - impMerge.size} khách mới + gộp {impMerge.size}.</p>}
+                      {impMerge.size > 0 && <p className="border-t border-slate-100 px-3 py-2 text-xs text-emerald-700">Sẽ gộp {impMerge.size} khách vào mã đã có — doanh số vẫn tính đủ, dùng mã cũ.</p>}
+                    </div>
+                  )}
                   {impPreview.blocked && <p className="font-semibold text-red-600">Không cho lưu — sửa các lỗi ở trên rồi import lại.</p>}
                 </div>
               )}
