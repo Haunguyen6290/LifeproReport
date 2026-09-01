@@ -229,7 +229,7 @@ function Screen({ params }: { params: Promise<{ id: string }> }) {
         {updates.length === 0 ? <p className="py-6 text-center text-sm text-slate-600">Chưa có cập nhật nào.</p> : (
           <ul className="space-y-3">
             {updates.map((u) => (
-              <li key={u.id} className={card}>
+              <li key={u.id} className="rounded-xl border border-[#1e3a8a] bg-white p-4 shadow-[0_1px_3px_rgba(15,23,42,0.06)] sm:p-5">
                 <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-slate-600">
                   <span><span className="font-semibold text-slate-700">{u.type?.name ?? '—'}</span>{u.rating && ` · ${RATING_LABEL[u.rating] ?? u.rating}`}</span>
                   <span>{fmtDateVN(u.ngay)} · {u.reporter?.full_name ?? ''}</span>
