@@ -57,12 +57,16 @@ function DebtTable({ rows, han }: { rows: DebtRow[]; han: number }) {
     XLSX.writeFile(wb, `Cong_no_qua_han_${nowYM()}.xlsx`);
   }
 
+  const W_MONEY = 116;
   const thBtn = (key: typeof sortKey, label: string) => (
-    <th className="whitespace-nowrap px-3 py-2">
-      <button onClick={() => { if (sortKey === key) setSortDir((d) => (d === 'asc' ? 'desc' : 'asc')); else { setSortKey(key); setSortDir('desc'); } }} className="flex w-full items-center justify-end gap-1 text-right font-bold">
-        {label}{sortKey === key ? <span>{sortDir === 'asc' ? '↑' : '↓'}</span> : <span className="text-slate-400">↕</span>}
+    <th className="px-3 py-2 align-bottom" style={{ width: W_MONEY, minWidth: W_MONEY, maxWidth: W_MONEY }}>
+      <button onClick={() => { if (sortKey === key) setSortDir((d) => (d === 'asc' ? 'desc' : 'asc')); else { setSortKey(key); setSortDir('desc'); } }} className="flex w-full items-end justify-end gap-1 text-right font-bold leading-tight">
+        <span className="whitespace-normal break-words">{label}</span>{sortKey === key ? <span className="shrink-0">{sortDir === 'asc' ? '↑' : '↓'}</span> : <span className="shrink-0 text-slate-400">↕</span>}
       </button>
     </th>
+  );
+  const thMoney = (label: string) => (
+    <th className="px-3 py-2 text-right font-bold leading-tight whitespace-normal break-words align-bottom" style={{ width: W_MONEY, minWidth: W_MONEY, maxWidth: W_MONEY }}>{label}</th>
   );
 
   return (
@@ -84,7 +88,20 @@ function DebtTable({ rows, han }: { rows: DebtRow[]; han: number }) {
       </div>
 
       <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white">
-        <table className="w-full min-w-[1100px] text-sm">
+        <table className="w-full min-w-[1180px] table-fixed text-sm">
+          <colgroup>
+            <col style={{ width: 44 }} />
+            <col style={{ width: 78 }} />
+            <col />
+            <col style={{ width: 110 }} />
+            <col style={{ width: W_MONEY }} />
+            <col style={{ width: W_MONEY }} />
+            <col style={{ width: W_MONEY }} />
+            <col style={{ width: W_MONEY }} />
+            <col style={{ width: W_MONEY }} />
+            <col style={{ width: W_MONEY }} />
+            <col style={{ width: 112 }} />
+          </colgroup>
           <thead>
             <tr className="bg-[#eff6ff] text-left text-[#1e3a8a]">
               <th className="whitespace-nowrap px-3 py-2 font-bold">STT</th>
@@ -93,9 +110,9 @@ function DebtTable({ rows, han }: { rows: DebtRow[]; han: number }) {
               <th className="whitespace-nowrap px-3 py-2 font-bold">NVKD</th>
               {thBtn('cong_no_dau_ky', 'Công nợ đầu kỳ')}
               {thBtn('doanh_thu', 'DS phát sinh trong kỳ')}
-              <th className="whitespace-nowrap px-3 py-2 text-right font-bold">Trả lại</th>
-              <th className="whitespace-nowrap px-3 py-2 text-right font-bold">Thu tiền</th>
-              <th className="whitespace-nowrap px-3 py-2 text-right font-bold">Tổng giảm trừ</th>
+              {thMoney('Trả lại')}
+              {thMoney('Thu tiền')}
+              {thMoney('Tổng giảm trừ')}
               {thBtn('con_thieu', 'Số còn thiếu')}
               <th className="whitespace-nowrap px-3 py-2 font-bold">Cảnh báo</th>
             </tr>
@@ -104,8 +121,8 @@ function DebtTable({ rows, han }: { rows: DebtRow[]; han: number }) {
             {filtered.map((r, i) => (
               <tr key={r.ma_kh} className={r.qua_han ? 'bg-red-50' : 'hover:bg-slate-50'}>
                 <td className="whitespace-nowrap px-3 py-2 text-slate-600">{i + 1}</td>
-                <td className="whitespace-nowrap px-3 py-2 font-mono text-xs">{r.ma_kh}</td>
-                <td className="px-3 py-2">{r.ten_kh}</td>
+                <td className="truncate px-3 py-2 font-mono text-xs" title={r.ma_kh}>{r.ma_kh}</td>
+                <td className="px-3 py-2 break-words">{r.ten_kh}</td>
                 <td className="whitespace-nowrap px-3 py-2 text-slate-700">{r.nvkd || '—'}</td>
                 <td className="whitespace-nowrap px-3 py-2 text-right tabular-nums">{fmt(r.cong_no_dau_ky)}</td>
                 <td className="whitespace-nowrap px-3 py-2 text-right tabular-nums">{fmt(r.doanh_thu)}</td>
@@ -140,7 +157,7 @@ function DebtTable({ rows, han }: { rows: DebtRow[]; han: number }) {
   );
 }
 
-function CollectionsTable({ rows, plan, thang }: { rows: CollRow[]; plan: PlanRow[]; thang: string }) {
+function CollectionsTable({ rows, plan, thang, tinhKhac, onTinhKhac }: { rows: CollRow[]; plan: PlanRow[]; thang: string; tinhKhac: boolean; onTinhKhac: (v: boolean) => void }) {
   const planThang = useMemo(() => plan.filter((p) => p.thang === thang), [plan, thang]);
   const miens = useMemo(() => [...new Set(planThang.map((p) => p.mien).filter(Boolean))], [planThang]);
 
@@ -150,14 +167,6 @@ function CollectionsTable({ rows, plan, thang }: { rows: CollRow[]; plan: PlanRo
   const knownNames = new Set(planThang.map((p) => p.ten));
   const others = rows.filter((r) => !knownNames.has(r.nvkd));
   const [otherDetail, setOtherDetail] = useState(false);
-  const [tinhKhac, setTinhKhac] = useState<boolean>(() => {
-    try { return localStorage.getItem('fin_tinh_khac') !== '0'; } catch { return true; }
-  });
-  function onTinhKhac(e: React.ChangeEvent<HTMLInputElement>) {
-    const v = e.target.checked;
-    setTinhKhac(v);
-    try { localStorage.setItem('fin_tinh_khac', v ? '1' : '0'); } catch {}
-  }
   const rowsTinh = tinhKhac ? rows : rows.filter((r) => knownNames.has(r.nvkd));
   const totalDS = rowsTinh.reduce((a, r) => a + r.doanh_so, 0);
   const totalThu = rowsTinh.reduce((a, r) => a + r.thu_tien, 0);
@@ -298,7 +307,7 @@ function CollectionsTable({ rows, plan, thang }: { rows: CollRow[]; plan: PlanRo
               Khác — {others.map((r) => r.nvkd).join(', ')}<span className="ml-1 text-slate-400">{otherDetail ? '▲' : '▼'}</span>
             </button>
             <label className="flex items-center gap-1.5 text-xs text-slate-700">
-              <input type="checkbox" checked={tinhKhac} onChange={onTinhKhac} className="h-3.5 w-3.5 rounded border-slate-300" />
+              <input type="checkbox" checked={tinhKhac} onChange={(e) => onTinhKhac(e.target.checked)} className="h-3.5 w-3.5 rounded border-slate-300" />
               Hiện &amp; tính “Khác” vào <span className="font-semibold">Tổng công ty</span>
             </label>
           </div>
@@ -327,8 +336,228 @@ function CollectionsTable({ rows, plan, thang }: { rows: CollRow[]; plan: PlanRo
   );
 }
 
-type UnmatchedRow = { ma_so: string; ten_so: string; ma_chuan: string | null; ten_chuan: string | null; doanh_thu: number; tra_lai: number; thu_tien: number; so_dong: number; chua_gan_kd: boolean };
+// Báo cáo lũy kế năm: dồn từ tháng 1 đến hết tháng đang chọn, thêm hàng "% Thu/Bán".
+function YtdTable({ rows, plan, thang, tinhKhac, onTinhKhac }: { rows: CollRow[]; plan: PlanRow[]; thang: string; tinhKhac: boolean; onTinhKhac: (v: boolean) => void }) {
+  // Các tháng thuộc năm của tháng đang chọn, từ 01 đến tháng đó
+  const ytdMonths = useMemo(() => {
+    const [y, m] = thang.split('-');
+    const s = new Set<string>();
+    for (let i = 1; i <= parseInt(m, 10); i++) s.add(`${y}-${String(i).padStart(2, '0')}`);
+    return s;
+  }, [thang]);
+  const planYtd = useMemo(() => plan.filter((p) => ytdMonths.has(p.thang)), [plan, ytdMonths]);
 
+  // Gom kế hoạch theo từng kinh doanh (cộng dồn các tháng trong năm), lấy miền mới nhất
+  const byTen = useMemo(() => {
+    const m = new Map<string, { mien: string; khDS: number; khThu: number }>();
+    for (const p of [...planYtd].sort((a, b) => a.thang.localeCompare(b.thang))) {
+      const cur = m.get(p.ten) ?? { mien: p.mien, khDS: 0, khThu: 0 };
+      cur.mien = p.mien; cur.khDS += p.kh_doanh_so; cur.khThu += p.kh_thu_tien;
+      m.set(p.ten, cur);
+    }
+    return m;
+  }, [planYtd]);
+  const miens = useMemo(() => [...new Set([...byTen.values()].map((v) => v.mien).filter(Boolean))], [byTen]);
+  const byNvkd = useMemo(() => new Map(rows.map((r) => [r.nvkd, r])), [rows]);
+
+  const knownNames = new Set([...byTen.keys()]);
+  const others = rows.filter((r) => !knownNames.has(r.nvkd));
+  const [otherDetail, setOtherDetail] = useState(false);
+  const rowsTinh = tinhKhac ? rows : rows.filter((r) => knownNames.has(r.nvkd));
+
+  const ratio = (thu: number, ban: number) => (ban ? `${((thu / ban) * 100).toFixed(1)}%` : '—');
+
+  function block(title: string, key: 'doanh_so' | 'thu_tien', khField: 'khDS' | 'khThu') {
+    const NV = 'border-l border-slate-100 px-3 py-2 text-right text-xs tabular-nums';
+    const NV_B = `${NV} font-semibold text-[#0f2a4a]`;
+    const TOT = 'px-3 py-2 text-right text-xs font-semibold tabular-nums';
+    const TOT_B = `${TOT} font-semibold text-[#0f2a4a]`;
+    const GCT = 'border-l border-slate-100 px-3 py-2 text-right text-xs font-bold tabular-nums';
+    const GCT_B = `${GCT} font-bold text-[#0f2a4a]`;
+    const khOf = (ten: string) => byTen.get(ten)?.[khField] ?? 0;
+    const thOf = (ten: string) => byNvkd.get(ten)?.[key] ?? 0;
+    return [
+      <tr key={`${key}-kh`}>
+        <td rowSpan={3} className="whitespace-nowrap border-r border-slate-100 px-3 py-2 align-middle font-bold text-[#0f2a4a]">{title}</td>
+        <td className="whitespace-nowrap px-3 py-2 font-semibold text-[#0f2a4a]">Kế hoạch</td>
+        {miens.map((m) => {
+          const tens = [...byTen.keys()].filter((t) => byTen.get(t)!.mien === m);
+          return (
+            <Fragment key={m}>
+              {tens.map((t) => <td key={t} className={NV_B}>{fmt(khOf(t))}</td>)}
+              <td className={TOT_B}>{fmt(tens.reduce((a, t) => a + khOf(t), 0))}</td>
+            </Fragment>
+          );
+        })}
+        {showKhac && <td className={NV_B}>—</td>}
+        <td className={GCT_B}>{fmt([...byTen.values()].reduce((a, v) => a + v[khField], 0))}</td>
+      </tr>,
+      <tr key={`${key}-th`}>
+        <td className="whitespace-nowrap px-3 py-2 text-slate-600">Thực hiện</td>
+        {miens.map((m) => {
+          const tens = [...byTen.keys()].filter((t) => byTen.get(t)!.mien === m);
+          return (
+            <Fragment key={m}>
+              {tens.map((t) => <td key={t} className={NV}>{fmt(thOf(t))}</td>)}
+              <td className={TOT}>{fmt(tens.reduce((a, t) => a + thOf(t), 0))}</td>
+            </Fragment>
+          );
+        })}
+        {showKhac && <td className={NV}>{fmt(others.reduce((a, r) => a + r[key], 0))}</td>}
+        <td className={GCT}>{fmt(rowsTinh.reduce((a, r) => a + r[key], 0))}</td>
+      </tr>,
+      <tr key={`${key}-pct`}>
+        <td className="whitespace-nowrap px-3 py-2 text-slate-600">% thực hiện</td>
+        {miens.map((m) => {
+          const tens = [...byTen.keys()].filter((t) => byTen.get(t)!.mien === m);
+          return (
+            <Fragment key={m}>
+              {tens.map((t) => <td key={t} className={NV}>{pct(thOf(t), khOf(t))}</td>)}
+              <td className={TOT}>{pct(tens.reduce((a, t) => a + thOf(t), 0), tens.reduce((a, t) => a + khOf(t), 0))}</td>
+            </Fragment>
+          );
+        })}
+        {showKhac && <td className={NV}>—</td>}
+        <td className={GCT}>{pct(rowsTinh.reduce((a, r) => a + r[key], 0), [...byTen.values()].reduce((a, v) => a + v[khField], 0))}</td>
+      </tr>,
+    ];
+  }
+
+  const showKhac = others.length > 0 && tinhKhac;
+  const dsKhac = others.reduce((a, r) => a + r.doanh_so, 0);
+  const thuKhac = others.reduce((a, r) => a + r.thu_tien, 0);
+
+  // Nếu chưa khai báo kế hoạch năm nhưng đã có số liệu → bảng gọn theo kinh doanh
+  if (byTen.size === 0 && rows.length > 0) {
+    const tDS = rowsTinh.reduce((a, r) => a + r.doanh_so, 0);
+    const tThu = rowsTinh.reduce((a, r) => a + r.thu_tien, 0);
+    return (
+      <div className="mt-5">
+        <h2 className="mb-2 text-sm font-bold text-[#1e3a8a]">Báo cáo lũy kế năm {thang.split('-')[0]} (đến hết {thang})</h2>
+        <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white">
+          <table className="w-full min-w-[640px] text-sm">
+            <thead>
+              <tr className="bg-[#eff6ff] text-[#1e3a8a]">
+                <th className="whitespace-nowrap px-3 py-2 text-left font-bold">Kinh doanh</th>
+                <th className="whitespace-nowrap px-3 py-2 text-right font-bold">Doanh số bán hàng</th>
+                <th className="whitespace-nowrap px-3 py-2 text-right font-bold">Doanh thu thu tiền</th>
+                <th className="whitespace-nowrap px-3 py-2 text-right font-bold">% Thu/Bán</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100">
+              {rows.map((r) => (
+                <tr key={r.nvkd} className="hover:bg-slate-50">
+                  <td className="whitespace-nowrap px-3 py-2 font-medium">{r.nvkd}</td>
+                  <td className="whitespace-nowrap px-3 py-2 text-right tabular-nums">{fmt(r.doanh_so)}</td>
+                  <td className="whitespace-nowrap px-3 py-2 text-right tabular-nums">{fmt(r.thu_tien)}</td>
+                  <td className="whitespace-nowrap px-3 py-2 text-right font-semibold tabular-nums">{ratio(r.thu_tien, r.doanh_so)}</td>
+                </tr>
+              ))}
+            </tbody>
+            <tfoot>
+              <tr className="border-t-2 border-slate-200 bg-slate-50 font-semibold">
+                <td className="px-3 py-2 text-right">Tổng công ty</td>
+                <td className="whitespace-nowrap px-3 py-2 text-right tabular-nums">{fmt(tDS)}</td>
+                <td className="whitespace-nowrap px-3 py-2 text-right tabular-nums">{fmt(tThu)}</td>
+                <td className="whitespace-nowrap px-3 py-2 text-right tabular-nums">{ratio(tThu, tDS)}</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    );
+  }
+  if (byTen.size === 0) return null;
+
+  const tDS = rowsTinh.reduce((a, r) => a + r.doanh_so, 0);
+  const tThu = rowsTinh.reduce((a, r) => a + r.thu_tien, 0);
+
+  return (
+    <div className="mt-5 space-y-3">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <h2 className="text-sm font-bold text-[#1e3a8a]">Báo cáo lũy kế năm {thang.split('-')[0]} (đến hết tháng {thang.split('-')[1]})</h2>
+      </div>
+      <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white">
+        <table className="w-full min-w-[900px] text-sm">
+          <thead>
+            <tr className="bg-[#eff6ff] text-[#1e3a8a]">
+              <th className="whitespace-nowrap px-3 py-2 text-left font-bold" colSpan={2} rowSpan={2}>Chỉ tiêu</th>
+              {miens.map((m) => {
+                const n = [...byTen.keys()].filter((t) => byTen.get(t)!.mien === m).length;
+                return <th key={m} colSpan={n + 1} className="whitespace-nowrap border-l border-slate-200 px-3 py-2 text-center font-bold">{m}</th>;
+              })}
+              {showKhac && <th className="whitespace-nowrap border-l border-slate-200 px-3 py-2 text-center font-bold" rowSpan={2}>Khác</th>}
+              <th className="whitespace-nowrap border-l border-slate-200 px-3 py-2 text-center font-bold" rowSpan={2}>Tổng công ty</th>
+            </tr>
+            <tr className="bg-[#f8fafc] text-xs text-slate-600">
+              {miens.map((m) => (
+                <Fragment key={m}>
+                  {[...byTen.keys()].filter((t) => byTen.get(t)!.mien === m).map((t) => <th key={t} className="whitespace-nowrap border-l border-slate-200 px-3 py-1.5 text-center font-semibold">{t}</th>)}
+                  <th className="whitespace-nowrap px-3 py-1.5 text-center font-semibold">Tổng {m}</th>
+                </Fragment>
+              ))}
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-slate-100">
+            {block('Doanh số bán hàng', 'doanh_so', 'khDS')}
+            {block('Doanh thu thu tiền', 'thu_tien', 'khThu')}
+            {/* Hàng % Thu/Bán: tổng thu chia tổng bán (lũy kế) */}
+            <tr>
+              <td colSpan={2} className="whitespace-nowrap border-r border-slate-100 px-3 py-2 font-bold text-[#0f2a4a]">% Thu/Bán</td>
+              {miens.map((m) => {
+                const tens = [...byTen.keys()].filter((t) => byTen.get(t)!.mien === m);
+                const ban = tens.reduce((a, t) => a + (byNvkd.get(t)?.doanh_so ?? 0), 0);
+                const thu = tens.reduce((a, t) => a + (byNvkd.get(t)?.thu_tien ?? 0), 0);
+                return (
+                  <Fragment key={m}>
+                    {tens.map((t) => <td key={t} className="border-l border-slate-100 px-3 py-2 text-right text-xs font-semibold tabular-nums text-[#0f2a4a]">{ratio(byNvkd.get(t)?.thu_tien ?? 0, byNvkd.get(t)?.doanh_so ?? 0)}</td>)}
+                    <td className="px-3 py-2 text-right text-xs font-semibold tabular-nums text-[#0f2a4a]">{ratio(thu, ban)}</td>
+                  </Fragment>
+                );
+              })}
+              {showKhac && <td className="border-l border-slate-100 px-3 py-2 text-right text-xs font-semibold tabular-nums">{ratio(thuKhac, dsKhac)}</td>}
+              <td className="border-l border-slate-100 px-3 py-2 text-right text-xs font-bold tabular-nums text-[#0f2a4a]">{ratio(tThu, tDS)}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      {others.length > 0 && (
+        <div className="rounded-lg border border-slate-200 bg-white">
+          <div className="flex flex-wrap items-center justify-between gap-2 px-3 py-2.5">
+            <button onClick={() => setOtherDetail((o) => !o)} className="flex items-center gap-1.5 text-xs font-semibold text-[#1e3a8a]">
+              <span className="grid h-5 w-5 place-items-center rounded bg-[#eff6ff] text-[11px]">{others.length}</span>
+              Khác — {others.map((r) => r.nvkd).join(', ')}<span className="ml-1 text-slate-400">{otherDetail ? '▲' : '▼'}</span>
+            </button>
+            <label className="flex items-center gap-1.5 text-xs text-slate-700">
+              <input type="checkbox" checked={tinhKhac} onChange={(e) => onTinhKhac(e.target.checked)} className="h-3.5 w-3.5 rounded border-slate-300" />
+              Hiện &amp; tính “Khác” vào <span className="font-semibold">Tổng công ty</span>
+            </label>
+          </div>
+          {otherDetail && (
+            <div className="border-t border-slate-100 overflow-x-auto">
+              <table className="w-full text-xs">
+                <thead><tr className="bg-[#eff6ff] text-left text-[#1e3a8a]"><th className="px-3 py-1.5">Kinh doanh</th><th className="px-3 py-1.5 text-right">Doanh số</th><th className="px-3 py-1.5 text-right">Thu tiền</th><th className="px-3 py-1.5 text-right">% Thu/Bán</th></tr></thead>
+                <tbody className="divide-y divide-slate-100">
+                  {others.map((r) => (
+                    <tr key={r.nvkd} className="hover:bg-slate-50">
+                      <td className="px-3 py-1.5 font-medium">{r.nvkd}</td>
+                      <td className="px-3 py-1.5 text-right tabular-nums">{fmt(r.doanh_so)}</td>
+                      <td className="px-3 py-1.5 text-right tabular-nums">{fmt(r.thu_tien)}</td>
+                      <td className="px-3 py-1.5 text-right font-semibold tabular-nums">{ratio(r.thu_tien, r.doanh_so)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+                <tfoot><tr className="bg-slate-50 font-bold"><td className="px-3 py-1.5 text-right">Tổng Khác</td><td className="px-3 py-1.5 text-right tabular-nums">{fmt(dsKhac)}</td><td className="px-3 py-1.5 text-right tabular-nums">{fmt(thuKhac)}</td><td className="px-3 py-1.5 text-right tabular-nums">{ratio(thuKhac, dsKhac)}</td></tr></tfoot>
+              </table>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+type UnmatchedRow = { ma_so: string; ten_so: string; ma_chuan: string | null; ten_chuan: string | null; doanh_thu: number; tra_lai: number; thu_tien: number; so_dong: number; chua_gan_kd: boolean };
 function UnmatchedPanel({ thang, refreshKey }: { thang: string; refreshKey: number }) {
   const [rows, setRows] = useState<UnmatchedRow[] | null>(null);
   const [open, setOpen] = useState(false);
@@ -420,6 +649,14 @@ function Screen() {
   const [han, setHan] = useState(90);
   const [debt, setDebt] = useState<{ D: string; E: string; rows: DebtRow[] } | null>(null);
   const [coll, setColl] = useState<{ plan: PlanRow[]; rows: CollRow[] } | null>(null);
+  const [ytd, setYtd] = useState<{ plan: PlanRow[]; rows: CollRow[] } | null>(null);
+  const [tinhKhac, setTinhKhac] = useState<boolean>(() => {
+    try { return localStorage.getItem('fin_tinh_khac') !== '0'; } catch { return true; }
+  });
+  function onTinhKhac(v: boolean) {
+    setTinhKhac(v);
+    try { localStorage.setItem('fin_tinh_khac', v ? '1' : '0'); } catch {}
+  }
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState('');
 
@@ -454,11 +691,15 @@ function Screen() {
     (async () => {
       setLoading(true); setErr('');
       try {
-        const r = await fetch(`/api/finance/collections?thang=${thang}`);
-        const j = await r.json();
-        if (!r.ok) throw new Error(j?.error ?? 'Lỗi tải báo cáo');
+        const [rColl, rYtd] = await Promise.all([
+          fetch(`/api/finance/collections?thang=${thang}`),
+          fetch(`/api/finance/collections-ytd?thang=${thang}`),
+        ]);
+        const j = await rColl.json();
+        if (!rColl.ok) throw new Error(j?.error ?? 'Lỗi tải báo cáo');
         setColl(j);
-      } catch (e: any) { setErr(e?.message ?? 'Lỗi'); setColl(null); }
+        if (rYtd.ok) setYtd(await rYtd.json()); else setYtd(null);
+      } catch (e: any) { setErr(e?.message ?? 'Lỗi'); setColl(null); setYtd(null); }
       finally { setLoading(false); }
     })();
   }, [tab, thang, refreshKey]);
@@ -529,7 +770,8 @@ function Screen() {
         {!loading && tab === 'thu-tien' && coll && (
           <>
             <KeHoachBox thang={thang} onSaved={() => setRefreshKey((k) => k + 1)} />
-            <CollectionsTable rows={coll.rows ?? []} plan={coll.plan ?? []} thang={thang} />
+            <CollectionsTable rows={coll.rows ?? []} plan={coll.plan ?? []} thang={thang} tinhKhac={tinhKhac} onTinhKhac={onTinhKhac} />
+            {ytd && <YtdTable rows={ytd.rows ?? []} plan={ytd.plan ?? []} thang={thang} tinhKhac={tinhKhac} onTinhKhac={onTinhKhac} />}
             <UnmatchedPanel thang={thang} refreshKey={refreshKey} />
           </>
         )}

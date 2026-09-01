@@ -2,6 +2,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { supabase } from '@/lib/supabase/client';
 import { useAuth } from '@/components/RequireAuth';
+import { MoneyInput } from '@/components/MoneyInput';
 
 export type PlanRow = { thang: string; ten: string; mien: string; kh_doanh_so: number; kh_thu_tien: number };
 type RowState = PlanRow & { id: string };
@@ -115,8 +116,8 @@ export function KeHoachPanel({ thang, onThangChange, embed = 'page', onSaved }: 
                     ))}
                   </select>
                 </td>
-                <td className="px-2 py-1.5"><input type="number" min={0} step={1000000} value={p.kh_doanh_so || ''} onChange={(e) => patch(p.id, { kh_doanh_so: Number(e.target.value) })} disabled={!editable} className={num} /></td>
-                <td className="px-2 py-1.5"><input type="number" min={0} step={1000000} value={p.kh_thu_tien || ''} onChange={(e) => patch(p.id, { kh_thu_tien: Number(e.target.value) })} disabled={!editable} className={num} /></td>
+                <td className="px-2 py-1.5"><MoneyInput value={p.kh_doanh_so || 0} onChange={(n) => patch(p.id, { kh_doanh_so: n })} disabled={!editable} className={`${num} text-right`} /></td>
+                <td className="px-2 py-1.5"><MoneyInput value={p.kh_thu_tien || 0} onChange={(n) => patch(p.id, { kh_thu_tien: n })} disabled={!editable} className={`${num} text-right`} /></td>
                 {editable && <td className="px-2 py-1.5"><button onClick={() => xoa(p.id)} className="text-xs text-red-600 hover:underline">Xóa</button></td>}
               </tr>
             ))}
