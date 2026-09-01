@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useMemo, useState } from 'react';
+import { Fragment, useEffect, useMemo, useState } from 'react';
 import * as XLSX from 'xlsx';
 import { RequireAuth, useAuth } from '@/components/RequireAuth';
 import { AppSidebar } from '@/components/AppSidebar';
@@ -151,6 +151,50 @@ function CollectionsTable({ rows, plan, thang }: { rows: CollRow[]; plan: PlanRo
   const knownNames = new Set(planThang.map((p) => p.ten));
   const others = rows.filter((r) => !knownNames.has(r.nvkd));
 
+  // Một khối chỉ tiêu (Doanh số bán hàng / Doanh thu thu tiền):
+  // cột tên khối gộp dọc 3 dòng + cột chỉ tiêu con (Kế hoạch / Thực hiện / % thực hiện) — đúng mẫu Excel
+  function renderBlock(title: string, key: 'doanh_so' | 'thu_tien') {
+    const khField: 'kh_doanh_so' | 'kh_thu_tien' = key === 'doanh_so' ? 'kh_doanh_so' : 'kh_thu_tien';
+    const sumKh = (list: PlanRow[]) => list.reduce((a, p) => a + p[khField], 0);
+    const thucToanCty = rows.reduce((a, r) => a + r[key], 0);
+    return [
+      <tr key={`${key}-kh`}>
+        <td rowSpan={3} className="whitespace-nowrap border-r border-slate-100 px-3 py-2 align-middle font-bold text-[#0f2a4a]">{title}</td>
+        <td className="whitespace-nowrap px-3 py-2 text-slate-600">Kế hoạch</td>
+        {miens.map((m) => (
+          <Fragment key={m}>
+            {planThang.filter((p) => p.mien === m).map((p) => <td key={p.ten} className="border-l border-slate-100 px-3 py-2 text-right tabular-nums">{fmt(p[khField])}</td>)}
+            <td className="px-3 py-2 text-right font-semibold tabular-nums">{fmt(sumKh(planThang.filter((p) => p.mien === m)))}</td>
+          </Fragment>
+        ))}
+        {others.length > 0 && <td className="border-l border-slate-100 px-3 py-2 text-right tabular-nums">—</td>}
+        <td className="border-l border-slate-100 px-3 py-2 text-right font-bold tabular-nums">{fmt(sumKh(planThang))}</td>
+      </tr>,
+      <tr key={`${key}-th`}>
+        <td className="whitespace-nowrap px-3 py-2 text-slate-600">Thực hiện</td>
+        {miens.map((m) => (
+          <Fragment key={m}>
+            {planThang.filter((p) => p.mien === m).map((p) => <td key={p.ten} className="border-l border-slate-100 px-3 py-2 text-right tabular-nums">{fmt(byNvkd.get(p.ten)?.[key] ?? 0)}</td>)}
+            <td className="px-3 py-2 text-right font-semibold tabular-nums">{fmt(planThang.filter((p) => p.mien === m).reduce((a, p) => a + (byNvkd.get(p.ten)?.[key] ?? 0), 0))}</td>
+          </Fragment>
+        ))}
+        {others.length > 0 && <td className="border-l border-slate-100 px-3 py-2 text-right tabular-nums">{fmt(others.reduce((a, r) => a + r[key], 0))}</td>}
+        <td className="border-l border-slate-100 px-3 py-2 text-right font-bold tabular-nums">{fmt(thucToanCty)}</td>
+      </tr>,
+      <tr key={`${key}-pct`}>
+        <td className="whitespace-nowrap px-3 py-2 text-slate-600">% thực hiện</td>
+        {miens.map((m) => (
+          <Fragment key={m}>
+            {planThang.filter((p) => p.mien === m).map((p) => <td key={p.ten} className="border-l border-slate-100 px-3 py-2 text-right tabular-nums">{pct(byNvkd.get(p.ten)?.[key] ?? 0, p[khField])}</td>)}
+            {(() => { const ke = sumKh(planThang.filter((p) => p.mien === m)); const th = planThang.filter((p) => p.mien === m).reduce((a, p) => a + (byNvkd.get(p.ten)?.[key] ?? 0), 0); return <td className="px-3 py-2 text-right font-semibold tabular-nums">{pct(th, ke)}</td>; })()}
+          </Fragment>
+        ))}
+        {others.length > 0 && <td className="border-l border-slate-100 px-3 py-2 text-right tabular-nums">—</td>}
+        <td className="border-l border-slate-100 px-3 py-2 text-right font-bold tabular-nums">{pct(thucToanCty, sumKh(planThang))}</td>
+      </tr>,
+    ];
+  }
+
   // Chưa khai báo kế hoạch tháng này nhưng đã có dữ liệu thực hiện → hiện bảng theo NVKD
   if (planThang.length === 0 && rows.length > 0) {
     return (
@@ -203,7 +247,7 @@ function CollectionsTable({ rows, plan, thang }: { rows: CollRow[]; plan: PlanRo
         <table className="w-full min-w-[900px] text-sm">
           <thead>
             <tr className="bg-[#eff6ff] text-[#1e3a8a]">
-              <th className="whitespace-nowrap px-3 py-2 text-left font-bold" rowSpan={2}>Chỉ tiêu</th>
+              <th className="whitespace-nowrap px-3 py-2 text-left font-bold" colSpan={2}>Chỉ tiêu</th>
               {miens.map((m) => (
                 <th key={m} colSpan={planThang.filter((p) => p.mien === m).length + 1} className="whitespace-nowrap border-l border-slate-200 px-3 py-2 text-center font-bold">{m}</th>
               ))}
@@ -211,58 +255,17 @@ function CollectionsTable({ rows, plan, thang }: { rows: CollRow[]; plan: PlanRo
               <th className="whitespace-nowrap border-l border-slate-200 px-3 py-2 text-center font-bold" rowSpan={2}>Tổng công ty</th>
             </tr>
             <tr className="bg-[#f8fafc] text-xs text-slate-600">
-              {miens.map((m) => planThang.filter((p) => p.mien === m).map((p) => <th key={p.ten} className="whitespace-nowrap border-l border-slate-200 px-3 py-1.5 text-center font-semibold">{p.ten}</th>))}
-              {miens.map((m) => <th key={m} className="whitespace-nowrap px-3 py-1.5 text-center font-semibold">Tổng {m}</th>)}
+              {miens.map((m) => (
+                <Fragment key={m}>
+                  {planThang.filter((p) => p.mien === m).map((p) => <th key={p.ten} className="whitespace-nowrap border-l border-slate-200 px-3 py-1.5 text-center font-semibold">{p.ten}</th>)}
+                  <th className="whitespace-nowrap px-3 py-1.5 text-center font-semibold">Tổng {m}</th>
+                </Fragment>
+              ))}
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
-            {/* Doanh số bán hàng */}
-            <tr><td className="px-3 py-2 font-bold text-[#0f2a4a]">Doanh số bán hàng</td></tr>
-            <tr>
-              <td className="px-3 py-2 text-slate-600">Kế hoạch</td>
-              {miens.map((m) => planThang.filter((p) => p.mien === m).map((p) => <td key={p.ten} className="border-l border-slate-100 px-3 py-2 text-right tabular-nums">{fmt(p.kh_doanh_so)}</td>))}
-              {miens.map((m) => { const s = planThang.filter((p) => p.mien === m).reduce((a, p) => a + p.kh_doanh_so, 0); return <td key={m} className="px-3 py-2 text-right font-semibold tabular-nums">{fmt(s)}</td>; })}
-              {others.length > 0 && <td className="border-l border-slate-100 px-3 py-2 text-right tabular-nums">—</td>}
-              <td className="border-l border-slate-100 px-3 py-2 text-right font-bold tabular-nums">{fmt(planThang.reduce((a, p) => a + p.kh_doanh_so, 0))}</td>
-            </tr>
-            <tr>
-              <td className="px-3 py-2 text-slate-600">Thực hiện</td>
-              {miens.map((m) => planThang.filter((p) => p.mien === m).map((p) => { const r = byNvkd.get(p.ten); return <td key={p.ten} className="border-l border-slate-100 px-3 py-2 text-right tabular-nums">{fmt(r?.doanh_so ?? 0)}</td>; }))}
-              {miens.map((m) => { const s = planThang.filter((p) => p.mien === m).reduce((a, p) => a + (byNvkd.get(p.ten)?.doanh_so ?? 0), 0); return <td key={m} className="px-3 py-2 text-right font-semibold tabular-nums">{fmt(s)}</td>; })}
-              {others.length > 0 && <td className="border-l border-slate-100 px-3 py-2 text-right tabular-nums">{fmt(others.reduce((a, r) => a + r.doanh_so, 0))}</td>}
-              <td className="border-l border-slate-100 px-3 py-2 text-right font-bold tabular-nums">{fmt(totalDS)}</td>
-            </tr>
-            <tr>
-              <td className="px-3 py-2 text-slate-600">% thực hiện</td>
-              {miens.map((m) => planThang.filter((p) => p.mien === m).map((p) => { const r = byNvkd.get(p.ten); return <td key={p.ten} className="border-l border-slate-100 px-3 py-2 text-right tabular-nums">{pct(r?.doanh_so ?? 0, p.kh_doanh_so)}</td>; }))}
-              {miens.map((m) => { const ke = planThang.filter((p) => p.mien === m).reduce((a, p) => a + p.kh_doanh_so, 0); const th = planThang.filter((p) => p.mien === m).reduce((a, p) => a + (byNvkd.get(p.ten)?.doanh_so ?? 0), 0); return <td key={m} className="px-3 py-2 text-right font-semibold tabular-nums">{pct(th, ke)}</td>; })}
-              {others.length > 0 && <td className="border-l border-slate-100 px-3 py-2 text-right tabular-nums">—</td>}
-              <td className="border-l border-slate-100 px-3 py-2 text-right font-bold tabular-nums">{pct(totalDS, planThang.reduce((a, p) => a + p.kh_doanh_so, 0))}</td>
-            </tr>
-
-            {/* Doanh thu thu tiền */}
-            <tr><td className="px-3 py-2 font-bold text-[#0f2a4a]">Doanh thu thu tiền</td></tr>
-            <tr>
-              <td className="px-3 py-2 text-slate-600">Kế hoạch</td>
-              {miens.map((m) => planThang.filter((p) => p.mien === m).map((p) => <td key={p.ten} className="border-l border-slate-100 px-3 py-2 text-right tabular-nums">{fmt(p.kh_thu_tien)}</td>))}
-              {miens.map((m) => { const s = planThang.filter((p) => p.mien === m).reduce((a, p) => a + p.kh_thu_tien, 0); return <td key={m} className="px-3 py-2 text-right font-semibold tabular-nums">{fmt(s)}</td>; })}
-              {others.length > 0 && <td className="border-l border-slate-100 px-3 py-2 text-right tabular-nums">—</td>}
-              <td className="border-l border-slate-100 px-3 py-2 text-right font-bold tabular-nums">{fmt(planThang.reduce((a, p) => a + p.kh_thu_tien, 0))}</td>
-            </tr>
-            <tr>
-              <td className="px-3 py-2 text-slate-600">Thực hiện</td>
-              {miens.map((m) => planThang.filter((p) => p.mien === m).map((p) => { const r = byNvkd.get(p.ten); return <td key={p.ten} className="border-l border-slate-100 px-3 py-2 text-right tabular-nums">{fmt(r?.thu_tien ?? 0)}</td>; }))}
-              {miens.map((m) => { const s = planThang.filter((p) => p.mien === m).reduce((a, p) => a + (byNvkd.get(p.ten)?.thu_tien ?? 0), 0); return <td key={m} className="px-3 py-2 text-right font-semibold tabular-nums">{fmt(s)}</td>; })}
-              {others.length > 0 && <td className="border-l border-slate-100 px-3 py-2 text-right tabular-nums">{fmt(others.reduce((a, r) => a + r.thu_tien, 0))}</td>}
-              <td className="border-l border-slate-100 px-3 py-2 text-right font-bold tabular-nums">{fmt(totalThu)}</td>
-            </tr>
-            <tr>
-              <td className="px-3 py-2 text-slate-600">% thực hiện</td>
-              {miens.map((m) => planThang.filter((p) => p.mien === m).map((p) => { const r = byNvkd.get(p.ten); return <td key={p.ten} className="border-l border-slate-100 px-3 py-2 text-right tabular-nums">{pct(r?.thu_tien ?? 0, p.kh_thu_tien)}</td>; }))}
-              {miens.map((m) => { const ke = planThang.filter((p) => p.mien === m).reduce((a, p) => a + p.kh_thu_tien, 0); const th = planThang.filter((p) => p.mien === m).reduce((a, p) => a + (byNvkd.get(p.ten)?.thu_tien ?? 0), 0); return <td key={m} className="px-3 py-2 text-right font-semibold tabular-nums">{pct(th, ke)}</td>; })}
-              {others.length > 0 && <td className="border-l border-slate-100 px-3 py-2 text-right tabular-nums">—</td>}
-              <td className="border-l border-slate-100 px-3 py-2 text-right font-bold tabular-nums">{pct(totalThu, planThang.reduce((a, p) => a + p.kh_thu_tien, 0))}</td>
-            </tr>
+            {renderBlock('Doanh số bán hàng', 'doanh_so')}
+            {renderBlock('Doanh thu thu tiền', 'thu_tien')}
           </tbody>
         </table>
       </div>
