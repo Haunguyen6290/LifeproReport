@@ -86,9 +86,11 @@ Dialog import nhận file `.xlsx/.xls` do MISA xuất (hoặc sheet TK131 tách 
 
 Chọn kỳ báo cáo (mặc định tháng hiện tại). Mốc chốt kiểm tra:
 ```
-D = ngày đầu tháng ( hôm_nay − DEBT_GRACE_DAYS ngày )
+D = ngày đầu tháng ( ngày_cuối_cùng_của_tháng_hiện_tại − DEBT_GRACE_DAYS ngày )
 ```
-- Hạn 90, chạy T9 → D = 01/07 (đối chiếu đúng ví dụ của ông); hạn 60 → D = 01/08.
+- Hạn 90, chạy T9 (cuối T9 = 30/09 → lùi 90 ngày = 02/07 → đầu tháng) → D = 01/07 ✓ đúng ví dụ của ông
+- Hạn 60, chạy T9 → 30/09 − 60 = 01/08 → D = 01/08 ✓
+- Chạy giữa tháng nào cũng chốt theo tháng đó → công thức ổn định, không phụ thuộc ngày chạy.
 - Ngày lập báo cáo E = ngày cuối cùng có chứng từ trong DB (hoặc ngày ông chọn).
 
 Bảng kết quả — liệt kê **toàn bộ khách** (mặc định giống Excel), 11 cột như `BaoCaoQuaHan`, tính theo từng mã KH:
