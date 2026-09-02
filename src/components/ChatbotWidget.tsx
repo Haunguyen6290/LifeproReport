@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { supabase } from '@/lib/supabase/client';
 import type { QA } from '@/lib/chatbot/search';
-import { loadBotConfig, phanHeChoDuongDan, locCauHoiTheoCauHinh, type BotPhanHe, type BotNhom, type BotRow } from '@/lib/troly-config';
+import { loadBotConfig, phanHeChoDuongDan, locCauHoiTheoCauHinh, taoBangTenNhom, type BotPhanHe, type BotNhom, type BotRow } from '@/lib/troly-config';
 
 /* ------------------------------------------------------------------ */
 /* Types                                                               */
@@ -140,21 +140,16 @@ export function ChatbotWidget() {
       const cfg = await loadConfig();
       const actives = phanHeChoDuongDan(pathname, cfg.phanHe);
       setPhanHe(actives.join(' · '));
-      // Cần cả phan_he giao với actives VÀ nhóm được gắn vào actives (nhóm đa phân hệ).
-      // chatbot_qa.nhom_chu_de lưu "khóa" (tên gốc), nên tra theo key chứ không phải tên hiển thị.
-      const nhomCross = cfg.nhom.filter((n) => n.phanHe.some((p) => actives.includes(p))).map((n) => n.key);
-      const needPhanHes = [...new Set([...actives, ...cfg.nhom.filter((n) => nhomCross.includes(n.key)).flatMap((n) => n.phanHe)])];
-      const needNhoms = nhomCross;
-      // Lấy: (phan_he ∈ needPhanHes) OR (nhom_chu_de ∈ needNhoms) — qua 2 truy vấn
-      const qor: any[] = [];
-      if (needPhanHes.length) qor.push(supabase.from('chatbot_qa').select('cau_hoi, nhom_chu_de, phan_he').in('phan_he', needPhanHes).order('nhom_chu_de').order('cau_hoi'));
-      if (needNhoms.length) qor.push(supabase.from('chatbot_qa').select('cau_hoi, nhom_chu_de, phan_he').in('nhom_chu_de', needNhoms).order('nhom_chu_de').order('cau_hoi'));
-      const results = await Promise.all(qor);
+      // Lấy câu hỏi của (nhiều) phân hệ đang kích hoạt trên trang này
+      const { data } = await supabase
+        .from('chatbot_qa')
+        .select('cau_hoi, nhom_chu_de, phan_he')
+        .in('phan_he', actives.length ? actives : ['__khong-co__'])
+        .order('nhom_chu_de')
+        .order('cau_hoi');
       if (cancelled) return;
-      const merged = new Map<string, any>();
-      for (const r of results) for (const row of ((r.data ?? []) as any[]).filter((x: any) => x.cau_hoi)) merged.set(`${row.phan_he}::${row.nhom_chu_de}::${row.cau_hoi}`, row);
-      const raw = [...merged.values()];
-      const { groups: _g, rows: kept } = locCauHoiTheoCauHinh(raw as BotRow[], actives, cfg.nhom);
+      const raw = ((data ?? []) as any[]).filter((x) => x.cau_hoi);
+      const { groups: _g, rows: kept } = locCauHoiTheoCauHinh(raw as BotRow[], actives, taoBangTenNhom(cfg.nhom));
       allRowsRef.current = kept as typeof allRowsRef.current;
       const gs: string[] = (_g.length ? _g : [...new Set(kept.map((r) => (r as any).nhom_chu_de as string).filter(Boolean))] as string[]);
       setGroups(gs);

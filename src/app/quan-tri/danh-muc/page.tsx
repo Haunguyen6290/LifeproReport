@@ -28,7 +28,6 @@ const DM = [
 
 const OKR_TEMPLATE_SLUGS = new Set(['okr_o_template', 'okr_kr_template']);
 const BOT_PHAN_HE = 'tro_ly_phan_he';
-const BOT_NHOM = 'tro_ly_nhom';
 
 type Item = { id: string; code: string; name: string; description: string; sort_order: number; extra?: any };
 
@@ -37,12 +36,10 @@ function Screen() {
   const [slug, setSlug] = useState(DM[0].slug);
   const [items, setItems] = useState<Item[]>([]);
   const [roleNames, setRoleNames] = useState<string[]>([]);
-  const [phanHeOptions, setPhanHeOptions] = useState<{ name: string; routes: string[]; mac_dinh: boolean }[]>([]);
   const [dialog, setDialog] = useState<null | { id?: string; code?: string; name?: string; description?: string; extra?: any }>(null);
 
   const isOkr = OKR_TEMPLATE_SLUGS.has(slug);
   const isPhanHe = slug === BOT_PHAN_HE;
-  const isNhom = slug === BOT_NHOM;
 
   async function load() {
     const { data } = await supabase.from('categories').select('id, category_items(id, code, name, description, sort_order, extra)').eq('slug', slug).single();
@@ -57,17 +54,6 @@ function Screen() {
       setRoleNames(((data ?? []) as { name: string }[]).map((r) => r.name));
     })();
   }, []);
-
-  // Khi đang xem nhóm → nạp danh sách phân hệ để chọn
-  useEffect(() => {
-    if (!isNhom) { setPhanHeOptions([]); return; }
-    (async () => {
-      const { data: cat } = await supabase.from('categories').select('id').eq('slug', BOT_PHAN_HE).single();
-      if (!(cat as any)?.id) { setPhanHeOptions([]); return; }
-      const { data } = await supabase.from('category_items').select('name, extra').eq('category_id', (cat as any).id).order('sort_order');
-      setPhanHeOptions(((data ?? []) as any[]).map((r) => ({ name: r.name, routes: (r.extra?.routes as string[]) ?? [], mac_dinh: !!r.extra?.mac_dinh })));
-    })();
-  }, [isNhom, slug]);
 
   async function del(it: Item) {
     if (!confirm(`Xóa “${it.name}” khỏi danh mục?`)) return;
@@ -105,7 +91,6 @@ function Screen() {
                       <th className="px-3 py-2">Mã</th><th className="px-3 py-2">Tên</th>
                       {isOkr && <th className="px-3 py-2">Vai trò</th>}
                       {isPhanHe && <th className="px-3 py-2">Đường dẫn trang</th>}
-                      {isNhom && <th className="px-3 py-2">Thuộc phân hệ</th>}
                       <th className="px-3 py-2">Mô tả</th><th className="px-3 py-2 text-right">Thao tác</th>
                     </tr></thead>
                     <tbody>{items.map((it) => (
@@ -114,7 +99,6 @@ function Screen() {
                         <td className="px-3 py-2 font-medium text-slate-900">{it.name}</td>
                         {isOkr && <td className="px-3 py-2 text-xs font-semibold text-[#1e3a8a]">{(it.extra as any)?.role ?? '—'}</td>}
                         {isPhanHe && <td className="px-3 py-2 text-xs font-mono text-slate-700">{((it.extra as any)?.routes as string[] | undefined)?.length ? ((it.extra as any).routes as string[]).join(', ') : ((it.extra as any)?.mac_dinh ? 'Mặc định' : '—')}</td>}
-                        {isNhom && <td className="px-3 py-2 text-xs text-slate-700">{((it.extra as any)?.phan_he as string[] | undefined)?.length ? ((it.extra as any).phan_he as string[]).join(', ') : '—'}</td>}
                         <td className="px-3 py-2 text-slate-600">{it.description || '—'}</td>
                         <td className="px-3 py-2 text-right"><button onClick={() => setDialog({ id: it.id, code: it.code, name: it.name, description: it.description, extra: it.extra })} className="text-xs font-semibold text-[#1e3a8a] hover:underline">Sửa</button> <span className="text-slate-300">·</span> <button onClick={() => del(it)} className="text-xs font-semibold text-red-600 hover:underline">Xóa</button></td>
                       </tr>
@@ -125,7 +109,7 @@ function Screen() {
             </div>
           </div>
         </div>
-        {dialog !== null && <CategoryDialog open={dialog !== null} onClose={() => setDialog(null)} onDone={load} dmName={DM.find((d) => d.slug === slug)?.name ?? ''} slug={slug} userId={userId} roles={isOkr ? roleNames : undefined} phanHeOptions={isNhom ? phanHeOptions : undefined} initial={dialog ?? undefined} />}
+        {dialog !== null && <CategoryDialog open={dialog !== null} onClose={() => setDialog(null)} onDone={load} dmName={DM.find((d) => d.slug === slug)?.name ?? ''} slug={slug} userId={userId} roles={isOkr ? roleNames : undefined} initial={dialog ?? undefined} />}
       </main>
     </AppSidebar>
   );

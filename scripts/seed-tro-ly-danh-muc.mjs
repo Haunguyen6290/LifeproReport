@@ -82,8 +82,7 @@ for (const name of phanHeFromData) {
 
 // 2) Nhóm: mỗi nhóm 1 mục. name = tên hiển thị trong bot (đổi ở đây là bot đổi theo).
 //    extra.key = TÊN GỐC khớp với chatbot_qa.nhom_chu_de để nối câu hỏi — KHÔNG đổi khóa khi đổi tên.
-//    Mặc định KHÔNG gắn chéo phân hệ (để trống) vì nhiều nhóm trùng tên giữa các phân hệ —
-//    gắn bừa sẽ làm bot lẫn lộn. Ghi phân hệ gốc vào Mô tả để ông nhìn nguồn gốc.
+//    Ghi phân hệ gốc vào Mô tả để ông nhìn nguồn gốc.
 let nhCount = 0;
 let n = 0;
 for (const [nhom, phanHes] of nhomMap.entries()) {
@@ -92,7 +91,7 @@ for (const [nhom, phanHes] of nhomMap.entries()) {
   const { error } = await supabase.from('category_items').insert({
     category_id: catNhom, code: '', name: nhom,
     description: owners.length ? `Phân hệ gốc: ${owners.join(', ')}` : '', sort_order: n, active: true,
-    extra: { key: nhom, phan_he: [] },
+    extra: { key: nhom },
   });
   if (error) console.error('Lỗi thêm nhóm:', nhom, error.message); else nhCount++;
 }

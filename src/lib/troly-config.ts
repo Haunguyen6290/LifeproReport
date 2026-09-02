@@ -4,7 +4,7 @@ type SbClient = typeof supabase;
 
 export type BotPhanHe = { name: string; routes: string[]; macDinh: boolean };
 /** `key` là tên gốc của nhóm dùng để nối với câu hỏi; `name` là tên hiển thị (ông tự đổi trong Danh mục). */
-export type BotNhom = { key: string; name: string; phanHe: string[] };
+export type BotNhom = { key: string; name: string };
 
 // Fallback khi chưa chạy migration 0036 (giữ đúng hành vi cũ)
 const PHAN_HE_DUONG_DAN: [string, string][] = [
@@ -50,24 +50,23 @@ export function phanHeChoDuongDan(path: string, ds: BotPhanHe[]): string[] {
 
 export type BotRow = { cau_hoi: string; nhom_chu_de: string; phan_he: string };
 
-/** Lọc câu hỏi + dựng danh sách nhóm theo cấu hình phân hệ/nhóm.
- *  - Row thuộc phân hệ đang kích hoạt → luôn hiện.
- *  - Row thuộc phân hệ khác nhưng nhóm của nó được gắn vào phân hệ đang kích hoạt → cũng hiện.
- *  - Nhóm chưa chọn phân hệ nào trong "Nhóm trợ lý" → không thêm gì (coi như chưa cấu hình).
- *  - Tên hiển thị lấy theo Danh mục "Nhóm trợ lý" (đổi tên ở đó là bot đổi theo),
- *    khớp với câu hỏi qua "khóa" là tên gốc. Nhóm không có trong danh mục giữ tên gốc. */
-export function locCauHoiTheoCauHinh(rows: BotRow[], activePhanHe: string[], nhomCfg: BotNhom[]): { groups: string[]; rows: BotRow[] } {
-  const nhomHien = new Set(nhomCfg.filter((n) => n.phanHe.some((p) => activePhanHe.includes(p))).map((n) => n.key));
+/** Lọc câu hỏi theo phân hệ đang kích hoạt rồi đặt tên nhóm theo Danh mục "Nhóm trợ lý".
+ *  - Row thuộc phân hệ đang kích hoạt → hiện.
+ *  - Tên hiển thị lấy theo Danh mục (đổi tên ở đó là bot đổi theo), khớp qua "khóa" = tên gốc.
+ *    Nhóm không có trong danh mục giữ tên gốc. */
+export function locCauHoiTheoCauHinh(rows: BotRow[], activePhanHe: string[], tenNhomMap: Map<string, string>): { groups: string[]; rows: BotRow[] } {
   const kept = rows
-    .filter((r) => activePhanHe.includes(r.phan_he) || nhomHien.has(r.nhom_chu_de))
-    .map((r) => ({ ...r, nhom_chu_de: tenNhom(nhomCfg, r.nhom_chu_de) }));
+    .filter((r) => activePhanHe.includes(r.phan_he))
+    .map((r) => ({ ...r, nhom_chu_de: tenNhomMap.get(r.nhom_chu_de) ?? r.nhom_chu_de }));
   const groups = [...new Set(kept.map((r) => r.nhom_chu_de).filter(Boolean))];
   return { groups, rows: kept };
 }
 
-/** Tên hiển thị của nhóm theo "khóa" (tên gốc). Ưu tiên tên đã đổi trong Danh mục. */
-export function tenNhom(nhomCfg: BotNhom[], key: string): string {
-  return nhomCfg.find((n) => n.key === key)?.name ?? key;
+/** Bảng tra key → tên hiển thị từ Danh mục "Nhóm trợ lý". */
+export function taoBangTenNhom(nhomCfg: BotNhom[]): Map<string, string> {
+  const m = new Map<string, string>();
+  for (const n of nhomCfg) m.set(n.key, n.name);
+  return m;
 }
 
 /** Nạp toàn bộ cấu hình trợ lý (phân hệ + nhóm) từ danh mục. */
@@ -75,6 +74,6 @@ export async function loadBotConfig(client?: SbClient): Promise<{ phanHe: BotPha
   const [dsPhanHe, dsNhom] = await Promise.all([itemsOf('tro_ly_phan_he', client), itemsOf('tro_ly_nhom', client)]);
   return {
     phanHe: dsPhanHe.map((i) => ({ name: i.name, routes: Array.isArray(i.extra?.routes) ? (i.extra.routes as string[]) : [], macDinh: !!i.extra?.mac_dinh })),
-    nhom: dsNhom.map((i) => ({ key: (i.extra?.key ?? i.name) as string, name: i.name, phanHe: Array.isArray(i.extra?.phan_he) ? (i.extra.phan_he as string[]) : [] })),
+    nhom: dsNhom.map((i) => ({ key: (i.extra?.key ?? i.name) as string, name: i.name })),
   };
 }

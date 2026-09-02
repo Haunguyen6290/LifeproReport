@@ -4,11 +4,10 @@ import { supabase } from '@/lib/supabase/client';
 import { GrowArea } from '@/components/GrowArea';
 import { Dialog } from '@/components/Dialog';
 
-export function CategoryDialog({ open, onClose, onDone, dmName, initial, slug, userId, roles, phanHeOptions }: {
+export function CategoryDialog({ open, onClose, onDone, dmName, initial, slug, userId, roles }: {
   open: boolean; onClose: () => void; onDone: () => void;
   dmName: string; slug: string; userId: string;
   roles?: string[];
-  phanHeOptions?: { name: string; routes: string[]; mac_dinh: boolean }[];
   initial?: { id?: string; code?: string; name?: string; description?: string; extra?: any };
 }) {
   const [code, setCode] = useState(initial?.code ?? '');
@@ -17,7 +16,6 @@ export function CategoryDialog({ open, onClose, onDone, dmName, initial, slug, u
   const [role, setRole] = useState<string>((initial?.extra as any)?.role ?? '');
   const [routesText, setRoutesText] = useState<string>(((initial?.extra as any)?.routes as string[] | undefined)?.join(', ') ?? '');
   const [macDinh, setMacDinh] = useState<boolean>(!!(initial?.extra as any)?.mac_dinh);
-  const [phanHeSel, setPhanHeSel] = useState<string[]>((initial?.extra as any)?.phan_he ?? []);
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState('');
   const isEdit = !!initial?.id;
@@ -42,7 +40,7 @@ export function CategoryDialog({ open, onClose, onDone, dmName, initial, slug, u
     if (showPhanHe) payload.extra = { ...prevExtra, routes: parseRoutes(routesText), mac_dinh: macDinh };
     if (showNhom) {
       // Giữ "khóa" (extra.key = tên gốc nối với câu hỏi). Đổi Tên chỉ đổi chữ hiển thị, không đứt nối dữ liệu.
-      const extra: any = { ...prevExtra, phan_he: phanHeSel };
+      const extra: any = { ...prevExtra };
       if (!extra.key) extra.key = initial?.name ?? name.trim();
       payload.extra = extra;
     }
@@ -85,20 +83,9 @@ export function CategoryDialog({ open, onClose, onDone, dmName, initial, slug, u
           </div>
         )}
         {showNhom && (
-          <div>
-            <label className={LABEL}>Thuộc phân hệ</label>
-            <div className="grid max-h-48 gap-1 overflow-y-auto rounded-md border border-slate-200 p-2">
-              {(phanHeOptions ?? []).map((p) => (
-                <label key={p.name} className="flex items-center gap-2 text-sm">
-                  <input type="checkbox" checked={phanHeSel.includes(p.name)} onChange={(e) => {
-                    setPhanHeSel((prev) => (e.target.checked ? [...prev, p.name] : prev.filter((x) => x !== p.name)));
-                  }} />
-                  <span>{p.name}</span>
-                </label>
-              ))}
-            </div>
-            <p className="mt-1 text-xs text-slate-500">Nhóm chỉ hiện trong bot khi người dùng đang ở một trong các phân hệ đã chọn.</p>
-          </div>
+          <p className="text-xs text-slate-500">
+            Đây là <b>tên nhóm</b> hiển thị trong ô chat. Đổi tên ở đây là bot đổi theo; các câu hỏi thuộc nhóm (chọn trong Trợ lý → Sửa QA) vẫn giữ nguyên, không bị mất.
+          </p>
         )}
         <div><label className={LABEL}>Mô tả</label><GrowArea value={desc} onChange={(e) => setDesc(e.target.value)} placeholder="Mô tả (tùy chọn)" className={sel} rows={2} /></div>
         {msg && <p className="text-sm text-red-600">{msg}</p>}

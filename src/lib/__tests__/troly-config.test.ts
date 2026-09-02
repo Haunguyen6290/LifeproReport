@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { phanHeChoDuongDan, locCauHoiTheoCauHinh, type BotPhanHe, type BotNhom, type BotRow } from '@/lib/troly-config';
+import { phanHeChoDuongDan, locCauHoiTheoCauHinh, taoBangTenNhom, type BotPhanHe, type BotNhom, type BotRow } from '@/lib/troly-config';
 
 describe('phanHeChoDuongDan', () => {
   it('chưa có danh mục → fallback hành vi cũ', () => {
@@ -44,28 +44,20 @@ describe('locCauHoiTheoCauHinh', () => {
   ];
 
   it('chỉ hiện câu hỏi của phân hệ đang kích hoạt', () => {
-    const { groups, rows: kept } = locCauHoiTheoCauHinh(rows, ['Trợ lý Báo cáo tuần'], []);
+    const { groups, rows: kept } = locCauHoiTheoCauHinh(rows, ['Trợ lý Báo cáo tuần'], new Map());
     expect(groups).toEqual(['Quy trình']);
     expect(kept.length).toBe(1);
   });
 
-  it('nhóm gắn nhiều phân hệ → câu hỏi nhóm đó cũng hiện ở phân hệ kia', () => {
-    const nhom: BotNhom[] = [{ key: 'Nhóm Kế hoạch', name: 'Nhóm Kế hoạch', phanHe: ['Trợ lý Báo cáo tuần'] }];
-    const { groups, rows: kept } = locCauHoiTheoCauHinh(rows, ['Trợ lý Báo cáo tuần'], nhom);
+  it('một trang gắn 2 phân hệ → hiện cả 2', () => {
+    const { groups, rows: kept } = locCauHoiTheoCauHinh(rows, ['Trợ lý Kế hoạch', 'Trợ lý Báo cáo tuần'], new Map());
     expect(groups.sort()).toEqual(['Nhóm Kế hoạch', 'Quy trình']);
     expect(kept.length).toBe(2);
   });
 
-  it('nhóm chưa gắn phân hệ nào → không thêm gì', () => {
-    const nhom: BotNhom[] = [{ key: 'Nhóm Kế hoạch', name: 'Nhóm Kế hoạch', phanHe: [] }];
-    const { groups } = locCauHoiTheoCauHinh(rows, ['Trợ lý Báo cáo tuần'], nhom);
-    expect(groups).toEqual(['Quy trình']);
-  });
-
   it('đổi tên nhóm trong Danh mục → bot hiện tên mới, vẫn nối đúng câu hỏi qua key', () => {
-    const nhom: BotNhom[] = [{ key: 'Nhóm Kế hoạch', name: 'Kế hoạch tuần', phanHe: [] }];
-    const { groups, rows: kept } = locCauHoiTheoCauHinh(rows, ['Trợ lý Kế hoạch'], nhom);
-    // Phân hệ kích hoạt là Trợ lý Kế hoạch → giữ câu hỏi; tên nhóm hiển thị theo Danh mục
+    const m = taoBangTenNhom([{ key: 'Nhóm Kế hoạch', name: 'Kế hoạch tuần' }]);
+    const { groups, rows: kept } = locCauHoiTheoCauHinh(rows, ['Trợ lý Kế hoạch'], m);
     expect(groups).toEqual(['Kế hoạch tuần']);
     expect(kept.find((r) => r.cau_hoi === 'KH tuần là gì?')?.nhom_chu_de).toBe('Kế hoạch tuần');
   });
