@@ -25,6 +25,8 @@ type Msg =
 let msgId = 0;
 const nextId = () => ++msgId;
 
+const QUEUE_SIZE = 8;
+
 /* ------------------------------------------------------------------ */
 /* Component                                                           */
 /* ------------------------------------------------------------------ */
@@ -36,10 +38,17 @@ export function ChatbotWidget() {
   const [messages, setMessages] = useState<Msg[]>([]);
   const [input, setInput] = useState('');
   const [busy, setBusy] = useState(false);
-  const [chips, setChips] = useState<string[]>([]);
   const [isMobile, setIsMobile] = useState(false);
   const [loggedMiss, setLoggedMiss] = useState(false);
   const [aiUsed, setAiUsed] = useState(0);
+
+  // Luồng mới: phân hệ → nhóm → câu hỏi (hàng đợi xoay vòng)
+  const [phanHe, setPhanHe] = useState('Bộ não chung công ty');
+  const [groups, setGroups] = useState<string[]>([]);
+  const [activeGroup, setActiveGroup] = useState<string | null>(null);
+  const [groupAll, setGroupAll] = useState<string[]>([]);      // mọi cau_hoi của nhóm (gốc để xoay vòng)
+  const [queue, setQueue] = useState<string[]>([]);            // hàng đợi hiện tại (tối đa QUEUE_SIZE)
+  const [seen, setSeen] = useState<Set<string>>(new Set());    // câu đã bấm, chống lặp khi chưa hết
 
   const dialogRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -62,55 +71,14 @@ export function ChatbotWidget() {
     setOpen(false);
     setMessages([]);
     setInput('');
-    setChips([]);
     setLoggedMiss(false);
     setAiUsed(0);
+    setActiveGroup(null);
+    setGroupAll([]);
+    setQueue([]);
+    setSeen(new Set());
     msgRefs.current.clear();
   }, [pathname]);
-
-  // Lấy 4 câu hỏi gợi ý theo phân hệ hiện tại (RLS: authenticated được đọc chatbot_qa)
-  useEffect(() => {
-    if (!open) return;
-    let cancelled = false;
-    (async () => {
-      const contextPhanHe = await guessPhanHe(pathname);
-      const { data } = await supabase
-        .from('chatbot_qa')
-        .select('cau_hoi')
-        .eq('phan_he', contextPhanHe)
-        .limit(4);
-      if (!cancelled && data) setChips((data as any[]).map((r) => r.cau_hoi).filter(Boolean));
-    })();
-    return () => { cancelled = true; };
-  }, [open, pathname]);
-
-  // Đưa cặp câu hỏi–trả lời vào tầm nhìn: cuộn tới câu hỏi gần nhất để
-  // dữ liệu hiển thị ngay dưới câu hỏi, thanh cuộn giữ ở đó (không cuộn xuống đáy).
-  useEffect(() => {
-    const lastUser = [...messages].reverse().find((m) => m.role === 'user');
-    if (lastUser) {
-      const el = msgRefs.current.get(lastUser.id);
-      if (el) { el.scrollIntoView({ block: 'start', behavior: 'smooth' }); return; }
-    }
-    if (busy && bodyRef.current) bodyRef.current.scrollTop = bodyRef.current.scrollHeight;
-  }, [messages, busy]);
-
-  // Esc đóng, focus trap đơn giản
-  useEffect(() => {
-    if (!open) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') { setOpen(false); triggerRef.current?.focus(); }
-      if (e.key === 'Tab' && dialogRef.current) {
-        const f = dialogRef.current.querySelectorAll<HTMLElement>('button, [href], textarea, input, [tabindex]:not([tabindex="-1"])');
-        if (!f.length) return;
-        const first = f[0]; const last = f[f.length - 1];
-        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
-        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
-      }
-    };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, [open]);
 
   const guessPhanHe = useCallback(async (path: string): Promise<string> => {
     if (path.startsWith('/okr')) return 'Trợ lý OKRs';
@@ -120,6 +88,7 @@ export function ChatbotWidget() {
     if (path.startsWith('/khach-hang')) return 'Trợ lý Khách hàng';
     if (path.startsWith('/thi-truong')) return 'Trợ lý Thị trường kinh doanh';
     if (path.startsWith('/chien-dich')) return 'Trợ lý Chiến dịch';
+    // Các trang không thuộc phân hệ cụ thể → dùng Bộ não chung
     return 'Bộ não chung công ty';
   }, []);
 
@@ -164,6 +133,86 @@ export function ChatbotWidget() {
       setBusy(false);
     }
   }, [busy, pathname, messages, aiUsed]);
+
+  // Lấy toàn bộ câu hỏi của phân hệ hiện tại để dựng nhóm + hàng đợi (RLS: authenticated được đọc)
+  const allRowsRef = useRef<{ cau_hoi: string; nhom_chu_de: string }[]>([]);
+  useEffect(() => {
+    if (!open) return;
+    let cancelled = false;
+    (async () => {
+      const contextPhanHe = await guessPhanHe(pathname);
+      setPhanHe(contextPhanHe);
+      const { data } = await supabase
+        .from('chatbot_qa')
+        .select('cau_hoi, nhom_chu_de')
+        .eq('phan_he', contextPhanHe)
+        .order('nhom_chu_de')
+        .order('cau_hoi');
+      if (cancelled) return;
+      const rows = ((data ?? []) as any[]).filter((r) => r.cau_hoi);
+      allRowsRef.current = rows;
+      setGroups([...new Set(rows.map((r) => r.nhom_chu_de).filter(Boolean))]);
+      setActiveGroup(null);
+      setGroupAll([]);
+      setQueue([]);
+      setSeen(new Set());
+    })();
+    return () => { cancelled = true; };
+  }, [open, pathname, guessPhanHe]);
+
+  // Bấm một nhóm → dựng hàng đợi tối đa 8 câu hỏi của nhóm đó
+  const openGroup = useCallback((g: string) => {
+    const list = allRowsRef.current.filter((r) => r.nhom_chu_de === g).map((r) => r.cau_hoi);
+    setActiveGroup(g);
+    setGroupAll(list);
+    setQueue(list.slice(0, QUEUE_SIZE));
+    setSeen(new Set());
+  }, []);
+
+  // Bấm một câu hỏi → trả lời (qua send) rồi xoay vòng hàng đợi:
+  // luôn hiện tối đa 8 câu CHƯA xem; câu vừa xem rời hàng, câu kế đẩy lên;
+  // khi đã xem hết mọi câu trong nhóm thì quay vòng lại từ đầu.
+  const pickQuestion = useCallback((q: string) => {
+    if (busy) return;
+    send(q);
+    const newSeen = new Set(seen);
+    newSeen.add(q);
+    if (newSeen.size >= groupAll.length) {
+      setSeen(new Set());
+      setQueue(groupAll.slice(0, QUEUE_SIZE));
+    } else {
+      setSeen(newSeen);
+      setQueue(groupAll.filter((c) => !newSeen.has(c)).slice(0, QUEUE_SIZE));
+    }
+  }, [send, seen, groupAll, busy]);
+
+  // Đưa cặp câu hỏi–trả lời vào tầm nhìn: cuộn tới câu hỏi gần nhất để
+  // dữ liệu hiển thị ngay dưới câu hỏi, thanh cuộn giữ ở đó (không cuộn xuống đáy).
+  useEffect(() => {
+    const lastUser = [...messages].reverse().find((m) => m.role === 'user');
+    if (lastUser) {
+      const el = msgRefs.current.get(lastUser.id);
+      if (el) { el.scrollIntoView({ block: 'start', behavior: 'smooth' }); return; }
+    }
+    if (busy && bodyRef.current) bodyRef.current.scrollTop = bodyRef.current.scrollHeight;
+  }, [messages, busy]);
+
+  // Esc đóng, focus trap đơn giản
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') { setOpen(false); triggerRef.current?.focus(); }
+      if (e.key === 'Tab' && dialogRef.current) {
+        const f = dialogRef.current.querySelectorAll<HTMLElement>('button, [href], textarea, input, [tabindex]:not([tabindex="-1"])');
+        if (!f.length) return;
+        const first = f[0]; const last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [open]);
 
   const logMiss = useCallback(async (q: string) => {
     if (loggedMiss) return;
@@ -251,7 +300,27 @@ export function ChatbotWidget() {
         <div ref={bodyRef} className="flex-1 space-y-3 overflow-y-auto px-3 py-3">
           {messages.length === 0 && (
             <div className="rounded-xl bg-slate-50 p-3 text-[13px] text-slate-600">
-              Xin chào! Mình là trợ lý công việc. Chọn một câu hỏi gợi ý bên dưới hoặc gõ câu hỏi của bạn.
+              Xin chào! Tôi là trợ lý công việc của <b>{phanHe}</b>. Chọn một <b>nhóm</b> bên dưới để xem câu hỏi trong nhóm, hoặc gõ câu hỏi tự do ở dưới.
+            </div>
+          )}
+          {/* Khi chưa chọn nhóm: hiện các nhóm */}
+          {activeGroup === null ? (
+            groups.length > 0 ? (
+              <div className="space-y-1.5 pt-1">
+                <div className="text-[11px] font-semibold uppercase tracking-wide text-slate-400">Nhóm trong phân hệ</div>
+                {groups.map((g) => (
+                  <button key={g} onClick={() => openGroup(g)} className="block w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-left text-[13px] font-medium text-slate-700 hover:border-[#0d6efd]/40 hover:bg-slate-50">
+                    {g}
+                  </button>
+                ))}
+              </div>
+            ) : (
+              <div className="pt-1 text-[12px] text-slate-400">Chưa có nhóm nào trong phân hệ này. Bạn có thể gõ câu hỏi tự do ở dưới.</div>
+            )
+          ) : (
+            <div className="flex items-center justify-between pt-1">
+              <span className="text-[11px] font-semibold uppercase tracking-wide text-slate-400">Nhóm: {activeGroup}</span>
+              <button onClick={() => { setActiveGroup(null); setGroupAll([]); setQueue([]); setSeen(new Set()); }} className="text-[12px] font-semibold text-[#0d6efd] hover:underline">← Chọn nhóm khác</button>
             </div>
           )}
           {messages.map((m) => (
@@ -269,10 +338,11 @@ export function ChatbotWidget() {
             </div>
           ))}
           {busy && <div className="text-[12px] text-slate-400">Đang tìm câu trả lời…</div>}
-          {chips.length > 0 && messages.length === 0 && (
-            <div className="flex flex-wrap gap-1.5 pt-1">
-              {chips.map((c) => (
-                <button key={c} onClick={() => send(c)} className="rounded-full border border-slate-200 bg-white px-2.5 py-1 text-[12px] text-slate-600 hover:bg-slate-50">
+          {/* Hàng đợi 8 câu hỏi của nhóm — luôn dưới hội thoại để bấm tiếp; gõ tự do ở ô dưới */}
+          {activeGroup !== null && queue.length > 0 && (
+            <div className="flex flex-wrap gap-1.5 border-t border-slate-100 pt-2">
+              {queue.map((c) => (
+                <button key={c} onClick={() => pickQuestion(c)} className="rounded-full border border-[#0d6efd]/30 bg-[#0d6efd]/5 px-2.5 py-1 text-[12px] text-[#0d6efd] hover:bg-[#0d6efd]/10">
                   {c}
                 </button>
               ))}
