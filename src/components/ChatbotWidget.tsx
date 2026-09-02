@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { supabase } from '@/lib/supabase/client';
+import { useAuth } from '@/components/RequireAuth';
 import type { QA } from '@/lib/chatbot/search';
 import { loadBotConfig, phanHeChoDuongDan, locCauHoiTheoCauHinh, taoBangTenNhom, type BotPhanHe, type BotNhom, type BotRow } from '@/lib/troly-config';
 
@@ -34,6 +35,8 @@ const QUEUE_SIZE = 8;
 
 export function ChatbotWidget() {
   const pathname = usePathname();
+  const auth = useAuth();
+  const userRole = auth?.role ?? '';
 
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Msg[]>([]);
@@ -106,7 +109,7 @@ export function ChatbotWidget() {
       const res = await fetch('/api/chatbot', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ q, context: pathname, messages: history, aiUsed }),
+        body: JSON.stringify({ q, context: pathname, messages: history, aiUsed, role: userRole }),
       });
       if (!res.ok) {
         setMessages((m) => [...m, { id: nextId(), role: 'bot-miss', q }]);
@@ -129,7 +132,7 @@ export function ChatbotWidget() {
     } finally {
       setBusy(false);
     }
-  }, [busy, pathname, messages, aiUsed]);
+  }, [busy, pathname, messages, aiUsed, userRole]);
 
   // Lấy câu hỏi của (nhiều) phân hệ hiện tại để dựng nhóm + hàng đợi (RLS: authenticated được đọc)
   const allRowsRef = useRef<{ cau_hoi: string; nhom_chu_de: string; phan_he: string }[]>([]);

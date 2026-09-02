@@ -31,16 +31,22 @@ export async function loadAIConfig(admin: { from: (t: string) => any }): Promise
   };
 }
 
-const SYSTEM = [
+const SYSTEM_BASE = [
   'Bạn là trợ lý công việc nội bộ công ty, trả lời 100% tiếng Việt, câu ngắn, dễ hiểu.',
   'Người dùng hỏi về quy trình/phương pháp làm việc. Bạn được cung cấp danh sách câu hỏi chuẩn (id + câu hỏi).',
   'Nhiệm vụ: chọn ĐÚNG 1 câu hỏi chuẩn khớp nhất với Ý của người dùng (không cần trùng chữ).',
   'QUY TẮC ĐẦU RA — BẮT BUỘC: câu trả lời của bạn PHẢI BẮT ĐẦU bằng ký tự { và là một khối JSON hợp lệ duy nhất, không thêm bất kỳ chữ nào khác:',
   '- Có câu chuẩn khớp: {"type":"qa","id":"QA-0021"}',
-  '- Không câu nào đúng ý (hỏi sâu hơn/hỏi tiếp/ngoài danh sách): {"type":"ai","text":"<trả lời ≤ 4 câu, KHÔNG bịa số liệu riêng của công ty>"}',
+  '- Không câu nào đúng ý (hỏi sâu hơn/hỏi tiếp/ngoài danh sách): {"type":"ai","text":"<trả lời chuẩn chủ đề, ngắn gọn ≤ 4 câu, đủ ý, chính xác; nếu hỏi \\"làm như thế nào\\" thì nêu cách làm theo từng bước; KHÔNG bịa số liệu riêng của công ty>"}',
   '- Câu nhạy cảm/vượt phạm vi: {"type":"ai","text":"Việc này cần hỏi trực tiếp quản lý bộ phận."}',
   'KHÔNG viết markdown, KHÔNG giải thích ngoài JSON, KHÔNG mở đầu bằng "#".',
 ].join('\n');
+
+/** Ghép system prompt: thêm ngữ cảnh vai trò người hỏi để AI trả lời đúng góc nhìn của họ. */
+function buildSystem(role: string): string {
+  if (!role) return SYSTEM_BASE;
+  return `${SYSTEM_BASE}\nNGƯỜI HỎI thuộc vai trò/bộ phận: "${role}". Hãy trả lời phù hợp với góc nhìn, trách nhiệm và cách làm của vai trò này (không lan man sang bộ phận khác).`;
+}
 
 /** Gọi Haiku chọn QA / trả lời nâng cao. Lỗi bất kỳ → null (fallback rankQA). */
 export async function askAI(
@@ -49,6 +55,7 @@ export async function askAI(
   candidates: QACandidate[],
   history: { role: 'user' | 'assistant'; content: string }[],
   aiUsedCount: number,
+  userRole: string = '',
 ): Promise<AIAnswer | null> {
   if (!cfg.enabled || !cfg.key) return { type: 'off' };
   if (aiUsedCount >= cfg.freeLimit) {
@@ -71,7 +78,7 @@ export async function askAI(
       model: cfg.model,
       max_tokens: 1000,
       temperature: 0.2,
-      system: SYSTEM,
+      system: buildSystem(userRole),
       messages: [...capped, { role: 'user', content: userMsg }],
     });
     const text = res.content.find((b) => b.type === 'text')?.text ?? '';

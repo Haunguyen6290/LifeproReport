@@ -38,11 +38,12 @@ export async function GET(req: NextRequest) {
 /** POST — widget chat: rankQA top 5 → Haiku chọn id / trả lời nâng cao → fallback rankQA. */
 export async function POST(req: NextRequest) {
   const body = (await req.json().catch(() => ({}))) as {
-    q?: unknown; context?: unknown; messages?: unknown; aiUsed?: unknown;
+    q?: unknown; context?: unknown; messages?: unknown; aiUsed?: unknown; role?: unknown;
   };
   const q = String(body.q ?? '').trim().slice(0, 200);
   if (!q) return NextResponse.json({ error: 'q rỗng' }, { status: 400 });
   const contextPath = String(body.context ?? '');
+  const role = String(body.role ?? '').trim().slice(0, 60);
   const history = (Array.isArray(body.messages) ? body.messages : []).slice(-6)
     .filter((m: any) => m && typeof m.content === 'string' && ['user', 'assistant'].includes(m.role))
     .map((m: any) => ({ role: m.role, content: String(m.content).slice(0, 300) }));
@@ -59,7 +60,7 @@ export async function POST(req: NextRequest) {
   const cfg = await loadAIConfig(admin);
   if (cfg.enabled && cfg.key) {
     const candidates = matches.length ? matches : rankQA(rows, q, null, 5).matches;
-    const answer = await askAI(cfg, q, candidates.map((c) => ({ id: c.qa.id, cau_hoi: c.qa.cau_hoi })), history, aiUsed);
+    const answer = await askAI(cfg, q, candidates.map((c) => ({ id: c.qa.id, cau_hoi: c.qa.cau_hoi })), history, aiUsed, role);
     if (answer?.type === 'qa') {
       const qa = rows.find((r) => r.id === answer.id);
       if (qa) return NextResponse.json({ kind: 'qa', qa });
