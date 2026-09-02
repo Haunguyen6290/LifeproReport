@@ -7,7 +7,7 @@ import { AppSidebar } from '@/components/AppSidebar';
 import { Dialog } from '@/components/Dialog';
 import { GrowArea } from '@/components/GrowArea';
 import { rankQA, type QA } from '@/lib/chatbot/search';
-import { loadBotConfig } from '@/lib/troly-config';
+import { loadBotConfig, type BotNhom } from '@/lib/troly-config';
 
 const BO_NAO_CHUNG = 'Bộ não chung công ty';
 
@@ -28,6 +28,7 @@ function Screen() {
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState<QA | null>(null);
   const [phanHeDs, setPhanHeDs] = useState<string[]>([]);
+  const [nhomDs, setNhomDs] = useState<BotNhom[]>([]);
 
   // CRUD
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -45,14 +46,28 @@ function Screen() {
   }
   useEffect(() => { reload(); }, []);
 
-  // Danh sách phân hệ lấy từ Danh mục "Phân hệ trợ lý"; chưa có thì tạm dùng các phân hệ đã có câu hỏi
+  // Danh sách phân hệ + nhóm lấy từ Danh mục ("Phân hệ trợ lý", "Nhóm trợ lý");
+  // chưa có thì tạm dùng các phân hệ/nhóm đã có câu hỏi.
   useEffect(() => {
-    loadBotConfig().then((c) => setPhanHeDs(c.phanHe.map((p) => p.name)));
+    loadBotConfig().then((c) => {
+      setPhanHeDs(c.phanHe.map((p) => p.name));
+      setNhomDs(c.nhom);
+    });
   }, []);
   const FILTERS = useMemo(() => {
     const ds = phanHeDs.length ? phanHeDs : [...new Set(rows.map((r) => r.phan_he).filter(Boolean))];
     return ['Tất cả', ...ds];
   }, [phanHeDs, rows]);
+
+  // Nhóm cho ô "Nhóm chủ đề": lấy từ Danh mục "Nhóm trợ lý" (value=key, hiển thị=name).
+  // Chưa seed danh mục → tạm dùng các nhóm đã có trong câu hỏi.
+  const NHOM_OPTIONS = useMemo(() => {
+    const base = nhomDs.length ? nhomDs.map((n) => ({ key: n.key, name: n.name })) : [...new Set(rows.map((r) => r.nhom_chu_de).filter(Boolean))].map((x) => ({ key: x, name: x }));
+    // Giữ nhóm hiện đang gán (kể cả đã xóa khỏi danh mục) để không bị mất khi mở sửa
+    const cur = draft.nhom_chu_de;
+    if (cur && !base.some((o) => o.key === cur)) return [{ key: cur, name: `${cur} (ngoài danh mục)` }, ...base];
+    return base;
+  }, [nhomDs, rows, draft.nhom_chu_de]);
   // Nếu danh mục đổi (xóa phân hệ đang lọc) → quay về Tất cả
   useEffect(() => {
     if (filter !== 'Tất cả' && !FILTERS.includes(filter)) setFilter('Tất cả');
@@ -132,7 +147,7 @@ function Screen() {
             <div>
               <h1 className="text-xl font-bold tracking-tight">Trợ lý công việc — Tra cứu &amp; Quản lý QA</h1>
               <p className="mt-1 text-sm text-slate-500">
-                Chọn phân hệ bên trái, gõ từ khóa để lọc. <b>Nhóm</b> lấy từ trường <b>Nhóm chủ đề</b> — bot hiển thị theo nhóm {FILTERS.length - 1} phân hệ. Ong bấm vào câu hỏi để xem đầy đủ và {canWrite ? 'Sửa / Xóa' : 'chỉ xem'}.
+                Chọn phân hệ bên trái, gõ từ khóa để lọc. Mỗi câu hỏi thuộc 1 <b>Nhóm chủ đề</b> — danh sách nhóm lấy từ <b>Danh mục → Nhóm trợ lý</b>. Bấm vào câu hỏi để xem đầy đủ và {canWrite ? 'Sửa / Xóa' : 'chỉ xem'}.
               </p>
             </div>
             {canWrite && <button onClick={startAdd} className="rounded-lg bg-[#0d6efd] px-4 py-2 text-sm font-semibold text-white shadow hover:bg-[#0b5ed7]">+ Thêm câu hỏi</button>}
@@ -251,8 +266,13 @@ function Screen() {
               </div>
               <div>
                 <label className="mb-1 block text-xs font-semibold uppercase tracking-wide text-slate-700">Nhóm chủ đề</label>
-                <input value={draft.nhom_chu_de} onChange={(e) => setDraft((d) => ({ ...d, nhom_chu_de: e.target.value }))} placeholder="VD: OKRs là gì / Nhóm Kế hoạch / Báo cáo vấn đề" className={inputCls} />
-                <p className="mt-1 text-[11px] text-slate-400">Nhóm này hiện trong widget khi bấm vào ô chat — tối đa 8 câu/nhóm, tự xoay vòng.</p>
+                <select value={draft.nhom_chu_de} onChange={(e) => setDraft((d) => ({ ...d, nhom_chu_de: e.target.value }))} className={inputCls}>
+                  <option value="">— Chọn nhóm —</option>
+                  {NHOM_OPTIONS.map((n) => <option key={n.key} value={n.key}>{n.name}</option>)}
+                </select>
+                <p className="mt-1 text-[11px] text-slate-400">
+                  Danh sách lấy từ <b>Danh mục → Nhóm trợ lý</b>. Muốn thêm/đổi tên nhóm thì sửa ở đó. Bot sẽ hiển thị đúng tên nhóm trong Danh mục.
+                </p>
               </div>
             </div>
             <div>
