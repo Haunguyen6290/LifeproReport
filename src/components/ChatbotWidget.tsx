@@ -140,9 +140,10 @@ export function ChatbotWidget() {
       const cfg = await loadConfig();
       const actives = phanHeChoDuongDan(pathname, cfg.phanHe);
       setPhanHe(actives.join(' · '));
-      // Cần cả phan_he giao với actives VÀ nhóm được gắn vào actives (nhóm đa phân hệ)
-      const nhomCross = cfg.nhom.filter((n) => n.phanHe.some((p) => actives.includes(p))).map((n) => n.name);
-      const needPhanHes = [...new Set([...actives, ...cfg.nhom.filter((n) => nhomCross.includes(n.name)).flatMap((n) => n.phanHe)])];
+      // Cần cả phan_he giao với actives VÀ nhóm được gắn vào actives (nhóm đa phân hệ).
+      // chatbot_qa.nhom_chu_de lưu "khóa" (tên gốc), nên tra theo key chứ không phải tên hiển thị.
+      const nhomCross = cfg.nhom.filter((n) => n.phanHe.some((p) => actives.includes(p))).map((n) => n.key);
+      const needPhanHes = [...new Set([...actives, ...cfg.nhom.filter((n) => nhomCross.includes(n.key)).flatMap((n) => n.phanHe)])];
       const needNhoms = nhomCross;
       // Lấy: (phan_he ∈ needPhanHes) OR (nhom_chu_de ∈ needNhoms) — qua 2 truy vấn
       const qor: any[] = [];

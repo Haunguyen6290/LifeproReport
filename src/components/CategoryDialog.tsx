@@ -40,7 +40,12 @@ export function CategoryDialog({ open, onClose, onDone, dmName, initial, slug, u
     const prevExtra = (initial?.extra as any) ?? {};
     if (showRole) payload.extra = { ...prevExtra, role };
     if (showPhanHe) payload.extra = { ...prevExtra, routes: parseRoutes(routesText), mac_dinh: macDinh };
-    if (showNhom) payload.extra = { ...prevExtra, phan_he: phanHeSel };
+    if (showNhom) {
+      // Giữ "khóa" (extra.key = tên gốc nối với câu hỏi). Đổi Tên chỉ đổi chữ hiển thị, không đứt nối dữ liệu.
+      const extra: any = { ...prevExtra, phan_he: phanHeSel };
+      if (!extra.key) extra.key = initial?.name ?? name.trim();
+      payload.extra = extra;
+    }
     if (isEdit) {
       const { error } = await supabase.from('category_items').update(payload).eq('id', initial!.id!);
       if (error) { setMsg(error.message.includes('unique') ? 'Tên đã tồn tại trong danh mục này.' : error.message); setBusy(false); return; }

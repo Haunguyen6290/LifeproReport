@@ -50,15 +50,23 @@ describe('locCauHoiTheoCauHinh', () => {
   });
 
   it('nhóm gắn nhiều phân hệ → câu hỏi nhóm đó cũng hiện ở phân hệ kia', () => {
-    const nhom: BotNhom[] = [{ name: 'Nhóm Kế hoạch', phanHe: ['Trợ lý Báo cáo tuần'] }];
+    const nhom: BotNhom[] = [{ key: 'Nhóm Kế hoạch', name: 'Nhóm Kế hoạch', phanHe: ['Trợ lý Báo cáo tuần'] }];
     const { groups, rows: kept } = locCauHoiTheoCauHinh(rows, ['Trợ lý Báo cáo tuần'], nhom);
     expect(groups.sort()).toEqual(['Nhóm Kế hoạch', 'Quy trình']);
     expect(kept.length).toBe(2);
   });
 
   it('nhóm chưa gắn phân hệ nào → không thêm gì', () => {
-    const nhom: BotNhom[] = [{ name: 'Nhóm Kế hoạch', phanHe: [] }];
+    const nhom: BotNhom[] = [{ key: 'Nhóm Kế hoạch', name: 'Nhóm Kế hoạch', phanHe: [] }];
     const { groups } = locCauHoiTheoCauHinh(rows, ['Trợ lý Báo cáo tuần'], nhom);
     expect(groups).toEqual(['Quy trình']);
+  });
+
+  it('đổi tên nhóm trong Danh mục → bot hiện tên mới, vẫn nối đúng câu hỏi qua key', () => {
+    const nhom: BotNhom[] = [{ key: 'Nhóm Kế hoạch', name: 'Kế hoạch tuần', phanHe: [] }];
+    const { groups, rows: kept } = locCauHoiTheoCauHinh(rows, ['Trợ lý Kế hoạch'], nhom);
+    // Phân hệ kích hoạt là Trợ lý Kế hoạch → giữ câu hỏi; tên nhóm hiển thị theo Danh mục
+    expect(groups).toEqual(['Kế hoạch tuần']);
+    expect(kept.find((r) => r.cau_hoi === 'KH tuần là gì?')?.nhom_chu_de).toBe('Kế hoạch tuần');
   });
 });
