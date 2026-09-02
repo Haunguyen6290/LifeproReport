@@ -1,8 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase/admin';
-import { mapContextToPhanHe } from '@/lib/chatbot/context';
 import { rankQA } from '@/lib/chatbot/search';
 import { loadAIConfig, askAI } from '@/lib/chatbot/ai';
+import { loadBotConfig, phanHeChoDuongDan } from '@/lib/troly-config';
+
+async function phanHeChoReq(admin: ReturnType<typeof createAdminClient>, contextPath: string): Promise<string[] | null> {
+  try {
+    const cfg = await loadBotConfig(admin as unknown as any);
+    const ph = phanHeChoDuongDan(contextPath, cfg.phanHe);
+    return ph.length ? ph : null;
+  } catch { return null; }
+}
 
 export async function GET(req: NextRequest) {
   const q = (req.nextUrl.searchParams.get('q') ?? '').trim();
@@ -12,9 +20,10 @@ export async function GET(req: NextRequest) {
   const contextPath = req.nextUrl.searchParams.get('context') ?? '';
   const rawLimit = req.nextUrl.searchParams.get('limit') ?? '3';
   const limit = Math.min(5, Math.max(1, parseInt(rawLimit, 10) || 3));
-  const phanHe = contextPath ? mapContextToPhanHe(contextPath) : null;
 
   const admin = createAdminClient();
+  const phanHe = contextPath ? await phanHeChoReq(admin, contextPath) : null;
+
   const { data, error } = await admin.from('chatbot_qa').select('*');
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
@@ -43,7 +52,7 @@ export async function POST(req: NextRequest) {
   const { data, error } = await admin.from('chatbot_qa').select('*');
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
-  const phanHe = contextPath ? mapContextToPhanHe(contextPath) : null;
+  const phanHe = contextPath ? await phanHeChoReq(admin, contextPath) : null;
   const { matches } = rankQA((data ?? []) as any, q, phanHe, 5);
   const rows = (data ?? []) as any[];
 

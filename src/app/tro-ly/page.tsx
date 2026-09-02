@@ -7,32 +7,12 @@ import { AppSidebar } from '@/components/AppSidebar';
 import { Dialog } from '@/components/Dialog';
 import { GrowArea } from '@/components/GrowArea';
 import { rankQA, type QA } from '@/lib/chatbot/search';
+import { loadBotConfig } from '@/lib/troly-config';
 
-const FILTERS = [
-  'Tất cả',
-  'Bộ não chung công ty',
-  'Trợ lý OKRs',
-  'Trợ lý Kế hoạch',
-  'Trợ lý Báo cáo tuần',
-  'Trợ lý Check-in hàng tuần',
-  'Trợ lý Báo cáo vấn đề',
-  'Trợ lý Khách hàng',
-  'Trợ lý Kinh doanh',
-  'Trợ lý Kho',
-  'Trợ lý Tổng hợp kho',
-  'Trợ lý Bảo hành',
-  'Trợ lý Kế toán',
-  'Trợ lý Mua hàng',
-  'Trợ lý Marketing & Thiết kế',
-  'Trợ lý Phát triển sản phẩm',
-  'Trợ lý Lái xe',
-  'Trợ lý Chiến dịch',
-  'Trợ lý Thị trường kinh doanh',
-  'Trợ lý Bảng tin',
-];
+const BO_NAO_CHUNG = 'Bộ não chung công ty';
 
 type QaDraft = { phan_he: string; nhom_chu_de: string; cau_hoi: string; tra_loi_chuan: string; vi_du: string; cau_hoi_tiep_theo: string; hanh_dong: string };
-const blank: QaDraft = { phan_he: 'Bộ não chung công ty', nhom_chu_de: '', cau_hoi: '', tra_loi_chuan: '', vi_du: '', cau_hoi_tiep_theo: '', hanh_dong: '' };
+const blank: QaDraft = { phan_he: BO_NAO_CHUNG, nhom_chu_de: '', cau_hoi: '', tra_loi_chuan: '', vi_du: '', cau_hoi_tiep_theo: '', hanh_dong: '' };
 
 function uid(): string {
   // ngắn gọn, đủ duy nhất cho chatbot_qa (mã ông vẫn dùng: QAxxx)
@@ -47,6 +27,7 @@ function Screen() {
   const [rows, setRows] = useState<QA[]>([]);
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState<QA | null>(null);
+  const [phanHeDs, setPhanHeDs] = useState<string[]>([]);
 
   // CRUD
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -63,6 +44,19 @@ function Screen() {
     setLoading(false);
   }
   useEffect(() => { reload(); }, []);
+
+  // Danh sách phân hệ lấy từ Danh mục "Phân hệ trợ lý"; chưa có thì tạm dùng các phân hệ đã có câu hỏi
+  useEffect(() => {
+    loadBotConfig().then((c) => setPhanHeDs(c.phanHe.map((p) => p.name)));
+  }, []);
+  const FILTERS = useMemo(() => {
+    const ds = phanHeDs.length ? phanHeDs : [...new Set(rows.map((r) => r.phan_he).filter(Boolean))];
+    return ['Tất cả', ...ds];
+  }, [phanHeDs, rows]);
+  // Nếu danh mục đổi (xóa phân hệ đang lọc) → quay về Tất cả
+  useEffect(() => {
+    if (filter !== 'Tất cả' && !FILTERS.includes(filter)) setFilter('Tất cả');
+  }, [FILTERS, filter]);
 
   // Debounce q 300ms
   const [debounced, setDebounced] = useState(q);
@@ -81,7 +75,7 @@ function Screen() {
 
   function startAdd() {
     setEditingId(null);
-    setDraft({ ...blank, phan_he: filter !== 'Tất cả' ? filter : 'Bộ não chung công ty' });
+    setDraft({ ...blank, phan_he: filter !== 'Tất cả' ? filter : BO_NAO_CHUNG });
     setFormMsg('');
     setFormOpen(true);
   }

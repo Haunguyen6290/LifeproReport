@@ -1,4 +1,4 @@
-/** Map pathname hiện tại → phân hệ trợ lý để ưu tiên QA cùng phân hệ. */
+/** Fallback khi DB chưa có danh mục tro_ly_phan_he (vd môi trường test hoặc trước migration 0036). */
 export const CONTEXT_MAP: Record<string, string> = {
   '/okr': 'Trợ lý OKRs',
   '/bao-cao-tuan': 'Trợ lý Báo cáo tuần',
@@ -11,7 +11,8 @@ export const CONTEXT_MAP: Record<string, string> = {
   '/': 'Bộ não chung công ty',
 };
 
-/** Trả về phan_he khớp prefix dài nhất; '/' chỉ khớp exact '/'; không khớp → null. */
+/** Trả về phan_he khớp prefix dài nhất; '/' chỉ khớp exact '/'; không khớp → null.
+ *  Giữ nguyên cho test/legacy. Luồng chính đã dùng `phanHeChoDuongDan` (load từ Danh mục). */
 export function mapContextToPhanHe(pathname: string): string | null {
   if (pathname === '/') return CONTEXT_MAP['/'];
   for (const [prefix, phanHe] of Object.entries(CONTEXT_MAP)) {

@@ -73,11 +73,12 @@ function matchKeyword(t: string, hayTokens: string[], hayStr: string): boolean {
 /**
  * Chấm điểm QA theo query, có trọng số IDF (từ hiếm được tính điểm cao hơn từ phổ biến).
  * + context boost (+0.2). Ví dụ "báo cáo kho": "kho" (hiếm) thắng "báo cáo" (phổ biến),
- * nên không bị rơi vào QA Báo cáo tuần.
+ * nên không bị rơi vào QA Báo cáo tuần. `context` nhận 1 phân hệ hoặc MẢNG phân hệ
+ * (một trang có thể gắn nhiều phân hệ qua Danh mục).
  * Trả matches (score >= SCORE_THRESHOLD, top limit) + suggestions (3 câu gần nhất để gợi ý).
  * Pure function, không đụng DB — GĐ2 có thể bọc thêm AI phía sau mà không đổi chữ ký.
  */
-export function rankQA(rows: QA[], q: string, context: string | null, limit = 3): { matches: RankedQA[]; suggestions: string[] } {
+export function rankQA(rows: QA[], q: string, context: string | string[] | null, limit = 3): { matches: RankedQA[]; suggestions: string[] } {
   const qKeywords = extractKeywords(q);
   if (!qKeywords.length) {
     return { matches: [], suggestions: rows.slice(0, limit).map((r) => r.cau_hoi) };
@@ -102,7 +103,7 @@ export function rankQA(rows: QA[], q: string, context: string | null, limit = 3)
     let hitW = 0;
     for (const t of qKeywords) if (matchKeyword(t, hayTok[i], hayStrs[i])) hitW += weight[t];
     let score = totalW ? hitW / totalW : 0;
-    if (context && r.phan_he === context) score += 0.2;
+    if (context && (Array.isArray(context) ? context.includes(r.phan_he) : r.phan_he === context)) score += 0.2;
     return { qa: r, score };
   });
   scored.sort((a, b) => b.score - a.score);

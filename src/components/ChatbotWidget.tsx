@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { supabase } from '@/lib/supabase/client';
 import type { QA } from '@/lib/chatbot/search';
+import { loadBotConfig, phanHeChoDuongDan, locCauHoiTheoCauHinh, type BotPhanHe, type BotNhom, type BotRow } from '@/lib/troly-config';
 
 /* ------------------------------------------------------------------ */
 /* Types                                                               */
@@ -50,6 +51,7 @@ export function ChatbotWidget() {
   const [queue, setQueue] = useState<string[]>([]);            // hàng đợi hiện tại (tối đa QUEUE_SIZE)
   const [seen, setSeen] = useState<Set<string>>(new Set());    // câu đã bấm, chống lặp khi chưa hết
 
+  const botConfigRef = useRef<{ phanHe: BotPhanHe[]; nhom: BotNhom[] }>({ phanHe: [], nhom: [] });
   const dialogRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
@@ -80,16 +82,11 @@ export function ChatbotWidget() {
     msgRefs.current.clear();
   }, [pathname]);
 
-  const guessPhanHe = useCallback(async (path: string): Promise<string> => {
-    if (path.startsWith('/okr')) return 'Trợ lý OKRs';
-    if (path.startsWith('/bao-cao-tuan')) return 'Trợ lý Báo cáo tuần';
-    if (path.startsWith('/bao-cao-kho')) return 'Trợ lý Kho';
-    if (path.startsWith('/bao-cao-ban-hang')) return 'Trợ lý Kinh doanh';
-    if (path.startsWith('/khach-hang')) return 'Trợ lý Khách hàng';
-    if (path.startsWith('/thi-truong')) return 'Trợ lý Thị trường kinh doanh';
-    if (path.startsWith('/chien-dich')) return 'Trợ lý Chiến dịch';
-    // Các trang không thuộc phân hệ cụ thể → dùng Bộ não chung
-    return 'Bộ não chung công ty';
+  // Nạp cấu hình trợ lý (bộ nhớ đệm trong phiên) — trả về để effect câu hỏi chờ xong trước khi query
+  const loadConfig = useCallback(async () => {
+    const c = await loadBotConfig();
+    botConfigRef.current = c;
+    return c;
   }, []);
 
   const send = useCallback(async (raw: string) => {
@@ -134,31 +131,39 @@ export function ChatbotWidget() {
     }
   }, [busy, pathname, messages, aiUsed]);
 
-  // Lấy toàn bộ câu hỏi của phân hệ hiện tại để dựng nhóm + hàng đợi (RLS: authenticated được đọc)
-  const allRowsRef = useRef<{ cau_hoi: string; nhom_chu_de: string }[]>([]);
+  // Lấy câu hỏi của (nhiều) phân hệ hiện tại để dựng nhóm + hàng đợi (RLS: authenticated được đọc)
+  const allRowsRef = useRef<{ cau_hoi: string; nhom_chu_de: string; phan_he: string }[]>([]);
   useEffect(() => {
     if (!open) return;
     let cancelled = false;
     (async () => {
-      const contextPhanHe = await guessPhanHe(pathname);
-      setPhanHe(contextPhanHe);
-      const { data } = await supabase
-        .from('chatbot_qa')
-        .select('cau_hoi, nhom_chu_de')
-        .eq('phan_he', contextPhanHe)
-        .order('nhom_chu_de')
-        .order('cau_hoi');
+      const cfg = await loadConfig();
+      const actives = phanHeChoDuongDan(pathname, cfg.phanHe);
+      setPhanHe(actives.join(' · '));
+      // Cần cả phan_he giao với actives VÀ nhóm được gắn vào actives (nhóm đa phân hệ)
+      const nhomCross = cfg.nhom.filter((n) => n.phanHe.some((p) => actives.includes(p))).map((n) => n.name);
+      const needPhanHes = [...new Set([...actives, ...cfg.nhom.filter((n) => nhomCross.includes(n.name)).flatMap((n) => n.phanHe)])];
+      const needNhoms = nhomCross;
+      // Lấy: (phan_he ∈ needPhanHes) OR (nhom_chu_de ∈ needNhoms) — qua 2 truy vấn
+      const qor: any[] = [];
+      if (needPhanHes.length) qor.push(supabase.from('chatbot_qa').select('cau_hoi, nhom_chu_de, phan_he').in('phan_he', needPhanHes).order('nhom_chu_de').order('cau_hoi'));
+      if (needNhoms.length) qor.push(supabase.from('chatbot_qa').select('cau_hoi, nhom_chu_de, phan_he').in('nhom_chu_de', needNhoms).order('nhom_chu_de').order('cau_hoi'));
+      const results = await Promise.all(qor);
       if (cancelled) return;
-      const rows = ((data ?? []) as any[]).filter((r) => r.cau_hoi);
-      allRowsRef.current = rows;
-      setGroups([...new Set(rows.map((r) => r.nhom_chu_de).filter(Boolean))]);
+      const merged = new Map<string, any>();
+      for (const r of results) for (const row of ((r.data ?? []) as any[]).filter((x: any) => x.cau_hoi)) merged.set(`${row.phan_he}::${row.nhom_chu_de}::${row.cau_hoi}`, row);
+      const raw = [...merged.values()];
+      const { groups: _g, rows: kept } = locCauHoiTheoCauHinh(raw as BotRow[], actives, cfg.nhom);
+      allRowsRef.current = kept as typeof allRowsRef.current;
+      const gs: string[] = (_g.length ? _g : [...new Set(kept.map((r) => (r as any).nhom_chu_de as string).filter(Boolean))] as string[]);
+      setGroups(gs);
       setActiveGroup(null);
       setGroupAll([]);
       setQueue([]);
       setSeen(new Set());
     })();
     return () => { cancelled = true; };
-  }, [open, pathname, guessPhanHe]);
+  }, [open, pathname, loadConfig]);
 
   // Bấm một nhóm → dựng hàng đợi tối đa 8 câu hỏi của nhóm đó
   const openGroup = useCallback((g: string) => {
