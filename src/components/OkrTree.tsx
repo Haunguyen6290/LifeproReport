@@ -197,7 +197,7 @@ export function OkrTree({ tu, den, readOnly, showArchived }: { tu: string; den: 
       </Selectable>
 
       {/* Cây cá nhân nối thẳng */}
-      <div className="mx-auto h-6 w-0 border-l-2 border-slate-200" aria-hidden />
+      <div className="mx-auto h-6 w-0 border-l-2 border-[#1e3a8a]" aria-hidden />
       {linkedPersonal.length === 0 ? (
         <p className="text-sm text-slate-500">Chưa có OKR cá nhân gắn OKR công ty này.</p>
       ) : (
