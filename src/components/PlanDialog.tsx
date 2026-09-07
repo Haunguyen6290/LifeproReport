@@ -64,13 +64,20 @@ export function PlanDialog({
       setMucTieu('');
       setItems([{ cong_viec: '', kq_can_dat: '', ngay_list: '', uu_tien: 'Trung bình', kr_id: '' }]);
     }
-    // load KR cá nhân của mình trong kỳ để gắn
+    // load KR của chính mình + KR công ty đang hiệu lực trong tuần (giao kỳ: tu <= den && den >= tu)
+    // Option A+B: KR cá nhân của mình + KR công ty hiệu lực
     (async () => {
       try {
         const uid = userId || (await supabase.auth.getUser()).data.user?.id || '';
         if (!uid) return;
-        const { data } = await supabase.from('okrs').select('id').eq('user_id', uid).eq('is_company', false).gte('den_ngay', tuanTu).lte('tu_ngay', tuanDen);
-        const okrIds = (data ?? []).map((o: any) => o.id);
+        const { data: okrs } = await supabase.from('okrs')
+          .select('id, is_company, user_id')
+          .lte('tu_ngay', tuanDen)
+          .gte('den_ngay', tuanTu)
+          .eq('is_archived', false);
+        const personalIds = (okrs ?? []).filter((o: any) => !o.is_company && o.user_id === uid).map((o: any) => o.id);
+        const companyIds = (okrs ?? []).filter((o: any) => o.is_company).map((o: any) => o.id);
+        const okrIds = [...personalIds, ...companyIds];
         if (okrIds.length) {
           const { data: krs } = await supabase.from('okr_key_results').select('id, noi_dung').in('okr_id', okrIds).order('sort_order');
           setMyKRs((krs ?? []) as any);
