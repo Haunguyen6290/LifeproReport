@@ -119,6 +119,24 @@ export function OkrDetailDialog({ okr, onClose, onDone, onRefresh, canManage, re
     await supabase.from('okr_check_ins').update({ y_kien_quan_ly: text.trim() }).eq('id', id);
     load();
   }
+  async function deleteCheckIn(c: CheckIn) {
+    const tuan = c.tuan_tu ? fmtDateVN(c.tuan_tu) : '';
+    if (!confirm(`Xóa check-in tuần ${tuan} (${c.tien_do}%)? Hành động này không hoàn tác được.`)) return;
+    setBusy(true);
+    try {
+      const { error } = await supabase.from('okr_check_ins').delete().eq('id', c.id);
+      if (error) throw new Error(error.message);
+      try {
+        await supabase.from('audit_logs').insert({
+          actor_id: userId, action: 'Xóa check-in OKR', entity_type: 'okr_check_in', entity_id: c.id,
+          details: { okr_id: okr.id, tuan_tu: c.tuan_tu, tien_do: c.tien_do },
+        });
+      } catch {}
+      await load();
+      onRefresh?.();
+    } catch (e: any) { setMsg(e?.message ?? 'Xóa thất bại'); }
+    finally { setBusy(false); }
+  }
 
   const sel = 'w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-[#1e3a8a] focus:ring-1 focus:ring-[#1e3a8a]';
   return (
@@ -213,6 +231,11 @@ export function OkrDetailDialog({ okr, onClose, onDone, onRefresh, canManage, re
                       ) : c.y_kien_quan_ly ? (
                         <p className="mt-1 rounded-md bg-amber-50 px-2 py-1 text-sm text-amber-800">Cấp trên: {c.y_kien_quan_ly}</p>
                       ) : null}
+                      {canManage && (
+                        <div className="mt-2 flex justify-end">
+                          <button type="button" onClick={() => deleteCheckIn(c)} disabled={busy} className="text-xs font-semibold text-red-600 hover:underline disabled:opacity-50">Xóa check-in này</button>
+                        </div>
+                      )}
                     </li>
                   ))}</ul>
                 )}
