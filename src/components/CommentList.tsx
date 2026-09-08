@@ -63,7 +63,7 @@ export function CommentList({ targetType, targetId }: { targetType: 'news' | 'ca
         const entityMap: Record<string, string> = { news: 'news', campaign_update: 'campaign', warehouse_report: 'warehouse_report' };
         await supabase.from('audit_logs').insert({ actor_id: userId, action: actionMap[targetType] ?? 'Bình luận', entity_type: entityMap[targetType] ?? targetType, entity_id: targetId as any, details: { comment_id: data.id, full_name: (me2 as any)?.full_name ?? '' } });
       } catch {}
-      try { const nm = (await supabase.from('profiles').select('full_name').eq('id', userId).single()).data?.full_name ?? ''; await fetch('/api/telegram',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({eventKey:'TB_COMMENT_MOI', text:`[Binh luan] ${content.trim().slice(0,300)}\nNguoi gui: ${nm}`})}); } catch {}
+      try { const nm = (await supabase.from('profiles').select('full_name').eq('id', userId).single()).data?.full_name ?? ''; await fetch('/api/telegram',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({eventKey:'TB_COMMENT_MOI', text:`[Bình luận] ${content.trim().slice(0,300)}\nNgười gửi: ${nm}`})}); } catch {}
     }
     setContent(''); setImgs([]);
     setBusy(false);

@@ -85,7 +85,7 @@ export function OkrCheckInPanel({ okr, tu, den }: { okr: OkrRow; tu: string; den
         await fetch('/api/telegram', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ eventKey: 'TB_OKR', text: `[Check-in OKR] ${ocrClean(okr.objective)}\nNguoi: ${nm}\nTuan ${fmtDateVN(week.tu)} -> ${fmtDateVN(week.den)} · ${tienDo}% · ${tuTin}` }),
+          body: JSON.stringify({ eventKey: 'TB_OKR', text: `[Check-in OKR] ${ocrClean(okr.objective)}\nNgười: ${nm}\nTuần ${fmtDateVN(week.tu)} -> ${fmtDateVN(week.den)} · ${tienDo}% · ${tuTin}` }),
         });
       } catch {}
       setVuongMac('');

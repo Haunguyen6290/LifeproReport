@@ -224,7 +224,7 @@ export function ReportDialog({
         await fetch('/api/telegram', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ eventKey: 'TB_BAO_CAO_TUAN', text: `[Bao cao tuan] ${nm}\nTuan ${tuanTu} -> ${tuanDen}\nTu danh gia: ${tuDanhGia} · %HT: ${tyLe || 0}` }),
+          body: JSON.stringify({ eventKey: 'TB_BAO_CAO_TUAN', text: `[Báo cáo tuần] ${nm}\nTuần ${tuanTu} -> ${tuanDen}\nTự đánh giá: ${tuDanhGia} · %HT: ${tyLe || 0}` }),
         });
       } catch {}
       onDone();

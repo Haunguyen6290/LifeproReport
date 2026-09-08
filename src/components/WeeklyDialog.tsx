@@ -160,13 +160,13 @@ export function WeeklyDialog({
       try {
         const { data: me3 } = await supabase.from('profiles').select('full_name').eq('id', uid).single();
         const nm = (me3 as any)?.full_name ?? '';
-        const prefix = mode === 'plan' ? '[Ke hoach tuan]' : '[Bao cao tuan]';
+        const prefix = mode === 'plan' ? '[Kế hoạch tuần]' : '[Báo cáo tuần]';
         await fetch('/api/telegram', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             eventKey,
-            text: `${prefix} ${tu} → ${den}\nNguoi gui: ${nm}\n${t.slice(0, 300)}`,
+            text: `${prefix} ${tu} → ${den}\nNgười gửi: ${nm}\n${t.slice(0, 300)}`,
           }),
         });
       } catch {}

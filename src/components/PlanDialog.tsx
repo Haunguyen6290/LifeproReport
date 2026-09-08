@@ -178,7 +178,7 @@ export function PlanDialog({
         await fetch('/api/telegram', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ eventKey: 'TB_KE_HOACH_TUAN', text: `[Ke hoach tuan] ${nm}\nTuan ${tuanTu} -> ${tuanDen}\nMuc tieu: ${mucTieu.trim().slice(0, 200)}\nSo viec: ${rows.length}` }),
+          body: JSON.stringify({ eventKey: 'TB_KE_HOACH_TUAN', text: `[Kế hoạch tuần] ${nm}\nTuần ${tuanTu} -> ${tuanDen}\nMục tiêu: ${mucTieu.trim().slice(0, 200)}\nSố việc: ${rows.length}` }),
         });
       } catch {}
       onDone();

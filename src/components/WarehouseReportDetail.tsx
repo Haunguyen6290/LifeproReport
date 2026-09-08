@@ -92,7 +92,7 @@ export function WarehouseReportDetail({ id }: { id: string }) {
       } catch {}
       try {
         const nm = (await supabase.from('profiles').select('full_name').eq('id', userId).single()).data?.full_name ?? '';
-        await fetch('/api/telegram', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ eventKey: 'TB_BAO_CAO_KHO', text: `[Cap nhat kho] ${row?.ngay ?? ''} · ${vdName || '—'}\nNguoi gui: ${nm}\n${newContent.trim().slice(0, 300)}` }) });
+        await fetch('/api/telegram', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ eventKey: 'TB_BAO_CAO_KHO', text: `[Cập nhật kho] ${row?.ngay ?? ''} · ${vdName || '—'}\nNgười gửi: ${nm}\n${newContent.trim().slice(0, 300)}` }) });
       } catch {}
       setNewContent('');
       setImgs([]);

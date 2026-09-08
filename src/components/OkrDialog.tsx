@@ -242,7 +242,7 @@ export function OkrDialog({
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             eventKey: 'TB_OKR',
-            text: `[OKR ${isCompany ? 'cong ty' : 'ca nhan'}] ${objective.trim().slice(0, 300)}\nNguoi tao: ${nm}\nKy: ${periodLabel(tu, den)}`,
+            text: `[OKR ${isCompany ? 'công ty' : 'cá nhân'}] ${objective.trim().slice(0, 300)}\nNgười tạo: ${nm}\nKỳ: ${periodLabel(tu, den)}`,
           }),
         });
       } catch {}

@@ -114,7 +114,7 @@ function Screen() {
       warnings: preview.warnings, actor_id: userId,
     });
     try { const { data: me2 } = await supabase.from('profiles').select('full_name').eq('id', userId).single(); await supabase.from('audit_logs').insert({ actor_id: userId, action: 'Import Excel', entity_type: 'customer', entity_id: null, details: { added: addedCount, pending_imported: pendingImported, dupes: preview.dupes.length, errors: preview.errors.length, pending: 0, full_name: me2?.full_name ?? '' } }); } catch {}
-    try { const nm = (await supabase.from('profiles').select('full_name').eq('id', userId).single()).data?.full_name ?? ''; await fetch('/api/telegram',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({eventKey:'TB_IMPORT', text:`[Import] Them ${addedCount} khach, ${preview.dupes.length} trung\nNguoi import: ${nm}`})}); } catch {}
+    try { const nm = (await supabase.from('profiles').select('full_name').eq('id', userId).single()).data?.full_name ?? ''; await fetch('/api/telegram',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({eventKey:'TB_IMPORT', text:`[Import] Thêm ${addedCount} khách, ${preview.dupes.length} trùng\nNgười import: ${nm}`})}); } catch {}
     setBusy(false);
     setMsg(`Đã thêm ${addedCount + pendingImported} khách (${addedCount} khớp Kinh doanh, ${pendingImported} tạm gán về bạn — yêu cầu kinh doanh sửa phụ trách sau).`);
   }

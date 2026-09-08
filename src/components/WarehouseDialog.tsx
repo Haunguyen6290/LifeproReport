@@ -212,14 +212,14 @@ export function WarehouseDialog({
         const nm = (me3 as any)?.full_name ?? '';
         const grpName = sanPhamItems.find((x) => x.id === productGroupId)?.name ?? (productGroupId ? productGroupId.slice(0, 8) : '—');
         const vdName = vanDeItems.find((x) => x.id === nhomVanDeId)?.name ?? '';
-        const prefix = '[Bao cao kho]';
+        const prefix = '[Báo cáo kho]';
         const line2 = vdName ? `Nhom van de: ${vdName}` : '';
         await fetch('/api/telegram', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             eventKey: 'TB_BAO_CAO_KHO',
-            text: `${prefix} ${ngay} · Nhom SP: ${grpName} · ${trangThai}\nNguoi gui: ${nm}\n${line2}${line2 ? '\n' : ''}${t.slice(0, 300)}`,
+            text: `${prefix} ${ngay} · Nhóm SP: ${grpName} · ${trangThai}\nNgười gửi: ${nm}\n${line2}${line2 ? '\n' : ''}${t.slice(0, 300)}`,
           }),
         });
       } catch {}
