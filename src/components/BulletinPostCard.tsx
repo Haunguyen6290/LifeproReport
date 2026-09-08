@@ -4,6 +4,7 @@ import { supabase } from '@/lib/supabase/client';
 import { Avatar } from '@/components/Avatar';
 import { Dialog } from '@/components/Dialog';
 import { MentionInput } from '@/components/MentionInput';
+import { ImageLightbox } from '@/components/ImageLightbox';
 import { fmtCommentTimeVN } from '@/lib/time';
 import { renderContent, type MentionProfile } from '@/components/MentionContent';
 
@@ -19,10 +20,23 @@ const REACTIONS: { kind: Reaction['kind']; emoji: string; label: string }[] = [
 ];
 
 function PostImages({ imgs }: { imgs: { public_url: string }[] }) {
+  const [idx, setIdx] = useState(-1);
   if (imgs.length === 0) return null;
-  if (imgs.length === 1) return <img src={imgs[0].public_url} alt="" className="mt-3 max-h-[520px] w-full rounded-lg object-cover" />;
-  if (imgs.length === 2) return <div className="mt-3 grid grid-cols-2 gap-1 overflow-hidden rounded-lg">{imgs.slice(0, 2).map((im, i) => <img key={i} src={im.public_url} alt="" className="h-[280px] w-full object-cover" />)}</div>;
-  return <div className="mt-3 grid grid-cols-3 gap-1 overflow-hidden rounded-lg">{imgs.slice(0, 6).map((im, i) => <img key={i} src={im.public_url} alt="" className="h-[160px] w-full object-cover" />)}</div>;
+  const srcs = imgs.map((i) => i.public_url);
+  function tile(src: string, i: number, cls: string) {
+    return <button key={i} type="button" onClick={() => setIdx(i)} className="cursor-zoom-in overflow-hidden"><img src={src} alt="" className={cls + ' hover:opacity-90'} /></button>;
+  }
+  let grid: string | null = null;
+  if (imgs.length === 1) grid = 'mt-3 overflow-hidden rounded-lg';
+  else if (imgs.length === 2) grid = 'mt-3 grid grid-cols-2 gap-1 overflow-hidden rounded-lg';
+  else grid = 'mt-3 grid grid-cols-3 gap-1 overflow-hidden rounded-lg';
+  const hCls = imgs.length === 1 ? 'max-h-[520px] w-full object-cover' : imgs.length === 2 ? 'h-[280px] w-full object-cover' : 'h-[160px] w-full object-cover';
+  return (
+    <>
+      <div className={grid}>{imgs.slice(0, 6).map((im, i) => tile(im.public_url, i, hCls))}</div>
+      {idx >= 0 && <ImageLightbox srcs={srcs.slice(0, 6)} index={idx} onClose={() => setIdx(-1)} />}
+    </>
+  );
 }
 
 /** Một bình luận (gốc hoặc trả lời) + ô trả lời inline. */

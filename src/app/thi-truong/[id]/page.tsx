@@ -6,6 +6,7 @@ import { RequireAuth, useAuth } from '@/components/RequireAuth';
 import { AppSidebar } from '@/components/AppSidebar';
 import { CommentList } from '@/components/CommentList';
 import { GrowArea } from '@/components/GrowArea';
+import { ClickableImages } from '@/components/ClickableImages';
 import { categoryItems } from '@/lib/categories';
 import { fmtDateVN } from '@/lib/time';
 
@@ -150,7 +151,7 @@ function Screen({ params }: { params: Promise<{ id: string }> }) {
               <p className="mt-3 whitespace-pre-wrap leading-relaxed">{tin.content}</p>
               {tin.source && <p className="mt-2 text-xs text-slate-600">Nguồn: {tin.source}</p>}
               {tin.suggested_action && <p className="mt-1 text-xs"><span className="font-semibold">💡 Đề xuất:</span> {tin.suggested_action}</p>}
-              {imgs.length > 0 && <div className="mt-3 flex flex-wrap gap-2">{imgs.map((im, i) => <img key={i} src={im.public_url} alt="ảnh" className="h-24 w-24 rounded-lg border object-cover" />)}</div>}
+              {imgs.length > 0 && <ClickableImages imgs={imgs} />}
             </>
           )}
         </div>

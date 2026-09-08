@@ -5,6 +5,8 @@ import { useAuth } from '@/components/RequireAuth';
 import { CommentList } from '@/components/CommentList';
 import { GrowArea } from '@/components/GrowArea';
 import { AttachmentInput } from '@/components/AttachmentInput';
+import { ClickableImages } from '@/components/ClickableImages';
+import { uploadImage, imagesFromPaste } from '@/lib/upload-image';
 import { fmtDateVN, fmtCommentTimeVN } from '@/lib/time';
 import { categoryItems } from '@/lib/categories';
 
@@ -37,6 +39,7 @@ export function WarehouseReportDetail({ id }: { id: string }) {
   const [spName, setSpName] = useState('');
   const [vdName, setVdName] = useState('');
   const [updates, setUpdates] = useState<Update[]>([]);
+  const [updateImgs, setUpdateImgs] = useState<Record<string, { public_url: string }[]>>({});
   const [newContent, setNewContent] = useState('');
   const [imgs, setImgs] = useState<{ storage_path: string; public_url: string }[]>([]);
   const [busy, setBusy] = useState(false);
@@ -66,6 +69,13 @@ export function WarehouseReportDetail({ id }: { id: string }) {
       .order('created_at', { ascending: false });
     // fallback gracefully if table not yet migrated
     if (ups) setUpdates(ups as any);
+    if (ups && ups.length) {
+      const ids = (ups as any[]).map((u: any) => u.id);
+      const { data: atts } = await supabase.from('attachments').select('public_url, owner_id').eq('owner_type', 'warehouse_report').in('owner_id', ids);
+      const m: Record<string, { public_url: string }[]> = {};
+      for (const a of (atts ?? []) as any[]) (m[a.owner_id] ||= []).push({ public_url: a.public_url });
+      setUpdateImgs(m);
+    } else setUpdateImgs({});
   }
 
   useEffect(() => {
@@ -135,7 +145,7 @@ export function WarehouseReportDetail({ id }: { id: string }) {
 
         <div className={`${card} mt-4`}>
           <h3 className="text-sm font-bold text-[#1e3a8a]">Cập nhật</h3>
-          <GrowArea value={newContent} onChange={(e) => setNewContent(e.target.value)} placeholder="Thêm cập nhật cho phiếu này…" rows={2} className="mt-2 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-[#1e3a8a] focus:ring-1 focus:ring-[#1e3a8a]" />
+          <GrowArea value={newContent} onChange={(e) => setNewContent(e.target.value)} onPaste={(e) => { const f = imagesFromPaste(e); if(f.length){ e.preventDefault(); (async()=>{for(const x of f){try{const up=await uploadImage(x); setImgs((p)=>[...p,up])}catch{}}})(); } }} placeholder="Thêm cập nhật cho phiếu này… (Ctrl+V dán ảnh)" rows={2} className="mt-2 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-[#1e3a8a] focus:ring-1 focus:ring-[#1e3a8a]" />
           <div className="mt-2">
             <AttachmentInput value={imgs} onChange={setImgs} />
           </div>
@@ -153,6 +163,7 @@ export function WarehouseReportDetail({ id }: { id: string }) {
                   <span>{fmtCommentTimeVN(u.created_at)}</span>
                 </div>
                 <p className="mt-1 whitespace-pre-wrap text-sm text-slate-900">{u.content}</p>
+                {updateImgs[u.id]?.length ? <ClickableImages imgs={updateImgs[u.id]} thumbClass="h-16 w-16 rounded-md border object-cover" /> : null}
               </div>
             ))}
           </div>

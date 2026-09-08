@@ -4,6 +4,8 @@ import { supabase } from '@/lib/supabase/client';
 import { useAuth } from './RequireAuth';
 import { AttachmentInput } from './AttachmentInput';
 import { Avatar } from './Avatar';
+import { ImageLightbox } from './ImageLightbox';
+import { uploadImage, imagesFromPaste } from '@/lib/upload-image';
 import { fmtCommentTimeVN } from '@/lib/time';
 
 export type Comment = {
@@ -18,6 +20,8 @@ export function CommentList({ targetType, targetId }: { targetType: 'news' | 'ca
   const [content, setContent] = useState('');
   const [imgs, setImgs] = useState<{ storage_path: string; public_url: string }[]>([]);
   const [busy, setBusy] = useState(false);
+  const [lightboxSrcs, setLightboxSrcs] = useState<string[]>([]);
+  const [lightboxIdx, setLightboxIdx] = useState(-1);
 
   async function load() {
     let data: any[] | null = null;
@@ -50,6 +54,15 @@ export function CommentList({ targetType, targetId }: { targetType: 'news' | 'ca
   }
 
   useEffect(() => { load(); /* eslint-disable-next-line */ }, [targetId]);
+
+  async function onCommentPaste(e: React.ClipboardEvent) {
+    const files = imagesFromPaste(e);
+    if (files.length === 0) return;
+    e.preventDefault();
+    for (const f of files) {
+      try { const up = await uploadImage(f); setImgs((prev) => [...prev, up]); } catch {}
+    }
+  }
 
   async function post() {
     if (!content.trim()) return;
@@ -92,7 +105,7 @@ export function CommentList({ targetType, targetId }: { targetType: 'news' | 'ca
                 </div>
                 <p className="mt-1 whitespace-pre-wrap text-sm text-slate-900">{c.content}</p>
                 {c.images && c.images.length > 0 && (
-                  <div className="mt-2 flex flex-wrap gap-1">{c.images.map((im) => <img key={im.id} src={im.public_url} alt="ảnh" className="h-16 w-16 rounded object-cover" />)}</div>
+                  <div className="mt-2 flex flex-wrap gap-1">{c.images.map((im) => <button key={im.id} type="button" onClick={() => { setLightboxSrcs(c.images!.map((x) => x.public_url)); setLightboxIdx(c.images!.findIndex((x) => x.id === im.id)); }}><img src={im.public_url} alt="ảnh" className="h-16 w-16 rounded object-cover ring-1 ring-slate-200 hover:opacity-90" /></button>)}</div>
                 )}
                 {(c.author_id === userId || can('ket_luan')) && <button onClick={() => del(c)} className="mt-1 text-xs text-[var(--color-destructive)] hover:underline">Xóa</button>}
               </div>
@@ -100,11 +113,12 @@ export function CommentList({ targetType, targetId }: { targetType: 'news' | 'ca
           ))}
         </ul>
       )}
-      <textarea value={content} onChange={(e) => setContent(e.target.value)} rows={2} placeholder="Viết bình luận… (Ctrl+V dán ảnh)" className="w-full rounded-md border-[1.5px] border-[var(--color-muted)] bg-white px-3 py-2 text-sm outline-none focus:border-[var(--color-ring)]" />
+      <textarea value={content} onChange={(e) => setContent(e.target.value)} onPaste={onCommentPaste} rows={2} placeholder="Viết bình luận… (Ctrl+V dán ảnh)" className="w-full rounded-md border-[1.5px] border-[var(--color-muted)] bg-white px-3 py-2 text-sm outline-none focus:border-[var(--color-ring)]" />
       <div className="mt-2"><AttachmentInput value={imgs} onChange={setImgs} /></div>
       <div className="mt-2 flex justify-end">
         <button onClick={post} disabled={busy || !content.trim()} className="rounded-md bg-[var(--color-primary)] px-4 py-2 text-sm font-semibold text-white hover:bg-[var(--color-primary-hover)] disabled:opacity-60">{busy ? 'Đang gửi…' : 'Gửi bình luận'}</button>
       </div>
+      {lightboxIdx >= 0 && <ImageLightbox srcs={lightboxSrcs} index={lightboxIdx} onClose={() => setLightboxIdx(-1)} />}
     </section>
   );
 }
