@@ -6,6 +6,7 @@ import { Dialog } from '@/components/Dialog';
 import { GrowArea } from '@/components/GrowArea';
 import { SingleCombobox } from '@/components/SingleCombobox';
 import { categoryItems, type CategoryItem } from '@/lib/categories';
+import { notifyTelegram } from '@/lib/notify';
 import { fmtDateVN, fmtCommentTimeVN } from '@/lib/time';
 
 const TRANG_THAI: string[] = ['Chờ giải quyết', 'Đang giải quyết', 'Đã xử lý'];
@@ -206,23 +207,15 @@ export function WarehouseDialog({
         });
       } catch {}
 
-      // telegram via /api/telegram (không chặn lưu)
-      try {
-        const { data: me3 } = await supabase.from('profiles').select('full_name').eq('id', uid).single();
-        const nm = (me3 as any)?.full_name ?? '';
-        const grpName = sanPhamItems.find((x) => x.id === productGroupId)?.name ?? (productGroupId ? productGroupId.slice(0, 8) : '—');
-        const vdName = vanDeItems.find((x) => x.id === nhomVanDeId)?.name ?? '';
-        const prefix = '[Báo cáo kho]';
-        const line2 = vdName ? `Nhom van de: ${vdName}` : '';
-        await fetch('/api/telegram', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            eventKey: 'TB_BAO_CAO_KHO',
-            text: `${prefix} ${ngay} · Nhóm SP: ${grpName} · ${trangThai}\nNgười gửi: ${nm}\n${line2}${line2 ? '\n' : ''}${t.slice(0, 300)}`,
-          }),
-        });
-      } catch {}
+      // telegram via /api/telegram (không chặn lưu — chạy nền)
+      const _ngayW = ngay, _ttW = trangThai, _gN = sanPhamItems.find((x) => x.id === productGroupId)?.name ?? (productGroupId ? productGroupId.slice(0, 8) : '—');
+      const _vdW = vanDeItems.find((x) => x.id === nhomVanDeId)?.name ?? '';
+      const _tW = t.slice(0, 300);
+      const _uidW = uid;
+      notifyTelegram('TB_BAO_CAO_KHO', (nm) => {
+        const line2 = _vdW ? `Nhóm vấn đề: ${_vdW}` : '';
+        return `[Báo cáo kho] ${_ngayW} · Nhóm SP: ${_gN} · ${_ttW}\nNgười gửi: ${nm}\n${line2}${line2 ? '\n' : ''}${_tW}`;
+      }, _uidW);
 
       setBusy(false);
       onDone?.();

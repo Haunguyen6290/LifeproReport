@@ -8,6 +8,7 @@ import { WarehouseReportDetail } from '@/components/WarehouseReportDetail';
 import { Dialog } from '@/components/Dialog';
 import { Selectable } from '@/components/Selectable';
 import { categoryItems, type CategoryItem } from '@/lib/categories';
+import { notifyTelegram } from '@/lib/notify';
 import { weekBounds } from '@/lib/week';
 import { fmtDateVN, fmtCommentTimeVN } from '@/lib/time';
 
@@ -152,8 +153,9 @@ function Screen() {
         const { data: me2 } = await supabase.from('profiles').select('full_name').eq('id', userId).single();
         await supabase.from('audit_logs').insert({ actor_id: userId, action: 'Xóa báo cáo kho', entity_type: 'warehouse_report', entity_id: r.id, details: { ngay: r.ngay, thuc_trang: r.thuc_trang.slice(0, 200), full_name: (me2 as any)?.full_name ?? '' } });
       } catch {}
-      try { const { data: me3 } = await supabase.from('profiles').select('full_name').eq('id', userId).single(); const nm = (me3 as any)?.full_name ?? ''; await fetch('/api/telegram', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ eventKey: 'TB_BAO_CAO_KHO', text: `[Báo cáo kho] Xóa ${fmtDateVN(r.ngay)} · Người xóa: ${nm}
-${r.thuc_trang.slice(0, 300)}` }) }); } catch {}
+      const _ttX = r.thuc_trang.slice(0, 300);
+      const _ngX = fmtDateVN(r.ngay);
+      notifyTelegram('TB_BAO_CAO_KHO', (nm) => `[Báo cáo kho] Xóa ${_ngX} · Người xóa: ${nm}\n${_ttX}`, userId);
       setRefreshKey((k) => k + 1);
     } catch (e: any) {
       setMsg(e?.message ?? 'Không xóa được');

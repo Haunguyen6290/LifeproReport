@@ -7,6 +7,7 @@ import { AppSidebar } from '@/components/AppSidebar';
 import { mapTable } from '@/lib/import-map';
 import { normText } from '@/lib/format';
 import { applyImportRules, type ImportResult } from '@/lib/customers';
+import { notifyTelegram } from '@/lib/notify';
 
 type Preview = ImportResult & { total: number };
 
@@ -113,8 +114,9 @@ function Screen() {
       errors: preview.errors, pending: preview.pending.map((p) => ({ MaKH: p.MaKH, ten: p.ten, kinhDoanh: p.kinhDoanh })),
       warnings: preview.warnings, actor_id: userId,
     });
-    try { const { data: me2 } = await supabase.from('profiles').select('full_name').eq('id', userId).single(); await supabase.from('audit_logs').insert({ actor_id: userId, action: 'Import Excel', entity_type: 'customer', entity_id: null, details: { added: addedCount, pending_imported: pendingImported, dupes: preview.dupes.length, errors: preview.errors.length, pending: 0, full_name: me2?.full_name ?? '' } }); } catch {}
-    try { const nm = (await supabase.from('profiles').select('full_name').eq('id', userId).single()).data?.full_name ?? ''; await fetch('/api/telegram',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({eventKey:'TB_IMPORT', text:`[Import] Thêm ${addedCount} khách, ${preview.dupes.length} trùng\nNgười import: ${nm}`})}); } catch {}
+    let _nmI = '';
+    try { const { data: me2 } = await supabase.from('profiles').select('full_name').eq('id', userId).single(); _nmI = (me2 as any)?.full_name ?? ''; await supabase.from('audit_logs').insert({ actor_id: userId, action: 'Import Excel', entity_type: 'customer', entity_id: null, details: { added: addedCount, pending_imported: pendingImported, dupes: preview.dupes.length, errors: preview.errors.length, pending: 0, full_name: _nmI } }); } catch {}
+    notifyTelegram('TB_IMPORT', `[Import] Thêm ${addedCount} khách, ${preview.dupes.length} trùng\nNgười import: ${_nmI}`);
     setBusy(false);
     setMsg(`Đã thêm ${addedCount + pendingImported} khách (${addedCount} khớp Kinh doanh, ${pendingImported} tạm gán về bạn — yêu cầu kinh doanh sửa phụ trách sau).`);
   }

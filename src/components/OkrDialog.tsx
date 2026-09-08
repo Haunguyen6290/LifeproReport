@@ -7,6 +7,7 @@ import { GrowArea } from '@/components/GrowArea';
 import { SingleCombobox } from '@/components/SingleCombobox';
 import { validateKRs, warnObjective, periodLabel } from '@/lib/okr';
 import { loadOkrTemplates, type OkrTemplate } from '@/lib/okr-templates';
+import { notifyTelegram } from '@/lib/notify';
 
 export type Period = { tu?: string; den?: string; tu_ngay?: string; den_ngay?: string };
 
@@ -235,17 +236,10 @@ export function OkrDialog({
           details: { objective: objective.trim(), full_name: (me2 as any)?.full_name ?? '', tu, den, tu_ngay: tu, den_ngay: den },
         });
       } catch {}
-      try {
-        const nm = (await supabase.from('profiles').select('full_name').eq('id', uid).single()).data?.full_name ?? '';
-        await fetch('/api/telegram', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            eventKey: 'TB_OKR',
-            text: `[OKR ${isCompany ? 'công ty' : 'cá nhân'}] ${objective.trim().slice(0, 300)}\nNgười tạo: ${nm}\nKỳ: ${periodLabel(tu, den)}`,
-          }),
-        });
-      } catch {}
+      const _obj = objective.trim().slice(0, 300);
+      const _nvOKR = isCompany ? 'công ty' : 'cá nhân';
+      const _tu = String(tu), _den = String(den);
+      notifyTelegram('TB_OKR', (nm) => `[OKR ${_nvOKR}] ${_obj}\nNgười tạo: ${nm}\nKỳ: ${periodLabel(_tu, _den)}`, uid);
       setObjective('');
       setKrs(['', '']);
       setParentOkrId('');

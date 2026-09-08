@@ -5,6 +5,7 @@ import { useAuth } from '@/components/RequireAuth';
 import { Dialog } from '@/components/Dialog';
 import { GrowArea } from '@/components/GrowArea';
 import { DAYS, joinDays, parseDays, weekBounds, deadlineKH, isLate } from '@/lib/week';
+import { notifyTelegram } from '@/lib/notify';
 import { fmtCommentTimeVN } from '@/lib/time';
 
 export type PlanItemDraft = {
@@ -173,14 +174,10 @@ export function PlanDialog({
           details: { tuan_tu: tuanTu, muc_tieu: mucTieu.trim(), so_viec: rows.length, full_name: (me2 as any)?.full_name ?? '' },
         });
       } catch {}
-      try {
-        const nm = (await supabase.from('profiles').select('full_name').eq('id', uid).single()).data?.full_name ?? '';
-        await fetch('/api/telegram', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ eventKey: 'TB_KE_HOACH_TUAN', text: `[Kế hoạch tuần] ${nm}\nTuần ${tuanTu} -> ${tuanDen}\nMục tiêu: ${mucTieu.trim().slice(0, 200)}\nSố việc: ${rows.length}` }),
-        });
-      } catch {}
+      const _nv = rows.length;
+      const _mt = mucTieu.trim().slice(0, 200);
+      const _tu = tuanTu, _den = tuanDen;
+      notifyTelegram('TB_KE_HOACH_TUAN', (nm) => `[Kế hoạch tuần] ${nm}\nTuần ${_tu} -> ${_den}\nMục tiêu: ${_mt}\nSố việc: ${_nv}`, uid);
       onDone();
       onClose();
     } catch (e: any) {

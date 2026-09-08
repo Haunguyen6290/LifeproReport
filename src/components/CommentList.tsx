@@ -6,6 +6,7 @@ import { AttachmentInput } from './AttachmentInput';
 import { Avatar } from './Avatar';
 import { ImageLightbox } from './ImageLightbox';
 import { uploadImage, imagesFromPaste } from '@/lib/upload-image';
+import { notifyTelegram } from '@/lib/notify';
 import { fmtCommentTimeVN } from '@/lib/time';
 
 export type Comment = {
@@ -70,13 +71,13 @@ export function CommentList({ targetType, targetId }: { targetType: 'news' | 'ca
     const { data } = await supabase.from('comments').insert({ target_type: targetType, target_id: targetId, author_id: userId, content: content.trim() }).select('id').single();
     if (data) {
       for (const im of imgs) await supabase.from('attachments').insert({ owner_type: 'comment', owner_id: data.id, storage_path: im.storage_path, public_url: im.public_url, uploader_id: userId });
-      try {
-        const { data: me2 } = await supabase.from('profiles').select('full_name').eq('id', userId).single();
+      let _nm = '';
+      try { const { data: me2 } = await supabase.from('profiles').select('full_name').eq('id', userId).single(); _nm = (me2 as any)?.full_name ?? '';
         const actionMap: Record<string, string> = { news: 'Bình luận tin thị trường', campaign_update: 'Bình luận chiến dịch', warehouse_report: 'Bình luận báo cáo kho' };
         const entityMap: Record<string, string> = { news: 'news', campaign_update: 'campaign', warehouse_report: 'warehouse_report' };
-        await supabase.from('audit_logs').insert({ actor_id: userId, action: actionMap[targetType] ?? 'Bình luận', entity_type: entityMap[targetType] ?? targetType, entity_id: targetId as any, details: { comment_id: data.id, full_name: (me2 as any)?.full_name ?? '' } });
+        await supabase.from('audit_logs').insert({ actor_id: userId, action: actionMap[targetType] ?? 'Bình luận', entity_type: entityMap[targetType] ?? targetType, entity_id: targetId as any, details: { comment_id: data.id, full_name: _nm } });
       } catch {}
-      try { const nm = (await supabase.from('profiles').select('full_name').eq('id', userId).single()).data?.full_name ?? ''; await fetch('/api/telegram',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({eventKey:'TB_COMMENT_MOI', text:`[Bình luận] ${content.trim().slice(0,300)}\nNgười gửi: ${nm}`})}); } catch {}
+      notifyTelegram('TB_COMMENT_MOI', `[Bình luận] ${content.trim().slice(0, 300)}\nNgười gửi: ${_nm}`);
     }
     setContent(''); setImgs([]);
     setBusy(false);

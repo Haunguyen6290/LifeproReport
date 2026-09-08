@@ -6,6 +6,7 @@ import { useAuth } from '@/components/RequireAuth';
 import { CommentList } from '@/components/CommentList';
 import { GrowArea } from '@/components/GrowArea';
 import { ClickableImages } from '@/components/ClickableImages';
+import { notifyTelegram } from '@/lib/notify';
 import { categoryItems } from '@/lib/categories';
 import { fmtDateVN } from '@/lib/time';
 
@@ -98,7 +99,9 @@ export function MarketNewsDetail({ id }: { id: string }) {
     setBusy(true);
     await supabase.from('market_news').update({ status: 'KETLUAN', conclusion_content: conc.trim(), conclusion_resolved: resolved, conclusion_by: userId, conclusion_at: new Date().toISOString() }).eq('id', id);
     try { const { data: me2 } = await supabase.from('profiles').select('full_name').eq('id', userId).single(); await supabase.from('audit_logs').insert({ actor_id: userId, action: 'Kết luận tin thị trường', entity_type: 'news', entity_id: id, details: { resolved, full_name: me2?.full_name ?? '' } }); } catch {}
-    try { const nm = (await supabase.from('profiles').select('full_name').eq('id', userId).single()).data?.full_name ?? ''; await fetch('/api/telegram',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({eventKey:'TB_KET_LUAN', text:`[Kết luận] Tin thị trường - ${resolved ? 'Đã xử lý' : 'Chưa xử lý'}\nNgười kết luận: ${nm}\n${conc.trim().slice(0,300)}`})}); } catch {}
+    const _kl = conc.trim().slice(0, 300);
+    const _rs = resolved;
+    notifyTelegram('TB_KET_LUAN', (nm) => `[Kết luận] Tin thị trường - ${_rs ? 'Đã xử lý' : 'Chưa xử lý'}\nNgười kết luận: ${nm}\n${_kl}`, userId);
     setBusy(false); load();
   }
 

@@ -5,6 +5,7 @@ import { supabase } from '@/lib/supabase/client';
 import { RequireAuth, useAuth } from '@/components/RequireAuth';
 import { AppSidebar } from '@/components/AppSidebar';
 import { categoryItems } from '@/lib/categories';
+import { notifyTelegram } from '@/lib/notify';
 import { CustomerForm, type CustomerValues } from '@/components/CustomerForm';
 function Screen() {
   const { userId, username, can } = useAuth();
@@ -57,8 +58,9 @@ function Screen() {
     };
     const { data, error } = await supabase.from('customers').insert(payload).select('id').single();
     if (error) return error.message.includes('duplicate') ? 'Mã khách hàng này đã tồn tại.' : error.message;
-    try { const { data: me2 } = await supabase.from('profiles').select('full_name').eq('id', userId).single(); await supabase.from('audit_logs').insert({ actor_id: userId, action: 'Thêm khách hàng', entity_type: 'customer', entity_id: data.id, details: { ten_kh: payload.ten_kh, full_name: (me2 as any)?.full_name ?? '' } }); } catch {}
-    try { const nm = (await supabase.from('profiles').select('full_name').eq('id', userId).single()).data?.full_name ?? ''; await fetch('/api/telegram',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({eventKey:'TB_KHACH_HANG_MOI', text:`[Khách mới] ${payload.ten_kh} (${payload.ma_kh})\nNgười tạo: ${nm}`})}); } catch {}
+    let _nm = '';
+    try { const { data: me2 } = await supabase.from('profiles').select('full_name').eq('id', userId).single(); _nm = (me2 as any)?.full_name ?? ''; await supabase.from('audit_logs').insert({ actor_id: userId, action: 'Thêm khách hàng', entity_type: 'customer', entity_id: data.id, details: { ten_kh: payload.ten_kh, full_name: _nm } }); } catch {}
+    notifyTelegram('TB_KHACH_HANG_MOI', `[Khách mới] ${payload.ten_kh} (${payload.ma_kh})\nNgười tạo: ${_nm}`);
     window.location.href = `/khach-hang/${data.id}`;
     return null;
   }

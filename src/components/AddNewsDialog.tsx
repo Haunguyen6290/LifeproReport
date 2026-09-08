@@ -7,6 +7,7 @@ import { AttachmentInput } from '@/components/AttachmentInput';
 import { Combobox } from '@/components/Combobox';
 import { GrowArea } from '@/components/GrowArea';
 import { categoryItems } from '@/lib/categories';
+import { notifyTelegram } from '@/lib/notify';
 
 export function AddNewsDialog({ open, onClose, onDone }: { open: boolean; onClose: () => void; onDone: () => void }) {
   const { userId } = useAuth();
@@ -50,7 +51,9 @@ export function AddNewsDialog({ open, onClose, onDone }: { open: boolean; onClos
       for (const sp of ganSP) await supabase.from('object_links').insert({ owner_type: 'news', owner_id: data.id, target_type: 'product', target_id: sp });
       for (const im of imgs) await supabase.from('attachments').insert({ owner_type: 'news', owner_id: data.id, storage_path: im.storage_path, public_url: im.public_url, uploader_id: userId });
       try { const { data: me2 } = await supabase.from('profiles').select('full_name').eq('id', userId).single(); await supabase.from('audit_logs').insert({ actor_id: userId, action: 'Ghi tin thị trường', entity_type: 'news', entity_id: data.id, details: { type_id: typeId, full_name: (me2 as any)?.full_name ?? '' } }); } catch {}
-      try { const nm = (await supabase.from('profiles').select('full_name').eq('id', userId).single()).data?.full_name ?? ''; const typeName = types.find(x=>x.id===typeId)?.name ?? ''; await fetch('/api/telegram',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({eventKey:'TB_TIN_THI_TRUONG_MOI', text:`[Tin thị trường] ${typeName ? typeName+' - ' : ''}${content.trim().slice(0,300)}\nNgười gửi: ${nm}`})}); } catch {}
+      const _nd = content.trim().slice(0, 300);
+      const _loai = types.find(x => x.id === typeId)?.name ?? '';
+      notifyTelegram('TB_TIN_THI_TRUONG_MOI', (nm) => `[Tin thị trường] ${_loai ? _loai + ' - ' : ''}${_nd}\nNgười gửi: ${nm}`, userId);
     }
     setContent(''); setTypeId(''); setLevelId(''); setSource(''); setAction(''); setGanKH([]); setGanSP([]); setImgs([]);
     setBusy(false); onClose(); onDone();

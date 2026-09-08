@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase/client';
 import { useAuth } from '@/components/RequireAuth';
 import { weekBounds } from '@/lib/week';
+import { notifyTelegram } from '@/lib/notify';
 import { fmtCommentTimeVN, fmtDateVN } from '@/lib/time';
 
 type OkrRow = { id: string; user_id: string; objective: string };
@@ -80,14 +81,10 @@ export function OkrCheckInPanel({ okr, tu, den }: { okr: OkrRow; tu: string; den
           details: { tuan_tu: week.tu, tien_do: tienDo, tu_tin: tuTin, full_name: (me2 as any)?.full_name ?? '' },
         });
       } catch {}
-      try {
-        const nm = (await supabase.from('profiles').select('full_name').eq('id', userId).single()).data?.full_name ?? '';
-        await fetch('/api/telegram', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ eventKey: 'TB_OKR', text: `[Check-in OKR] ${ocrClean(okr.objective)}\nNgười: ${nm}\nTuần ${fmtDateVN(week.tu)} -> ${fmtDateVN(week.den)} · ${tienDo}% · ${tuTin}` }),
-        });
-      } catch {}
+      const _obj2 = ocrClean((okr as any)?.objective ?? '');
+      const _tu2 = fmtDateVN(week.tu), _den2 = fmtDateVN(week.den);
+      const _td = tienDo, _tt = tuTin;
+      notifyTelegram('TB_OKR', (nm) => `[Check-in OKR] ${_obj2}\nNgười: ${nm}\nTuần ${_tu2} -> ${_den2} · ${_td}% · ${_tt}`, userId);
       setVuongMac('');
       setCanHoTro('');
       await load();

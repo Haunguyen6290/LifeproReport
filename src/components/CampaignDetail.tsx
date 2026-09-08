@@ -8,6 +8,7 @@ import { Combobox } from '@/components/Combobox';
 import { Dialog } from '@/components/Dialog';
 import { GrowArea } from '@/components/GrowArea';
 import { categoryItems } from '@/lib/categories';
+import { notifyTelegram } from '@/lib/notify';
 import { fmtDateVN } from '@/lib/time';
 
 type Update = {
@@ -118,7 +119,9 @@ export function CampaignDetail({ id, onClose }: { id: string; onClose?: () => vo
       for (const sp of newU.ganSP) await supabase.from('object_links').insert({ owner_type: 'campaign_update', owner_id: data.id, target_type: 'product', target_id: sp });
       for (const im of newU.imgs) await supabase.from('attachments').insert({ owner_type: 'campaign_update', owner_id: data.id, storage_path: im.storage_path, public_url: im.public_url, uploader_id: userId });
       try { const { data: me2 } = await supabase.from('profiles').select('full_name').eq('id', userId).single(); await supabase.from('audit_logs').insert({ actor_id: userId, action: 'Cập nhật chiến dịch', entity_type: 'campaign', entity_id: id, details: { update_id: data.id, full_name: (me2 as any)?.full_name ?? '' } }); } catch {}
-      try { const nm = (await supabase.from('profiles').select('full_name').eq('id', userId).single()).data?.full_name ?? ''; await fetch('/api/telegram',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({eventKey:'TB_CAP_NHAT_CHIEN_DICH', text:`[Cập nhật chiến dịch] ${name} - ${newU.content.trim().slice(0,300)}\nNgười gửi: ${nm}`})}); } catch {}
+      const _nd = newU.content.trim().slice(0, 300);
+      const _ten = name;
+      notifyTelegram('TB_CAP_NHAT_CHIEN_DICH', (nm) => `[Cập nhật chiến dịch] ${_ten} - ${_nd}\nNgười gửi: ${nm}`, userId);
     }
     setNewU({ type: '', content: '', rating: '', ganKH: [], ganSP: [], imgs: [] });
     setAddOpen(false);
@@ -127,7 +130,8 @@ export function CampaignDetail({ id, onClose }: { id: string; onClose?: () => vo
   async function conclude(u: Update, resolved: boolean) {
     await supabase.from('campaign_updates').update({ conclusion_content: resolved ? 'Đã xử lý' : 'Chưa xử lý', conclusion_resolved: resolved, conclusion_by: userId }).eq('id', u.id);
     try { const { data: me2 } = await supabase.from('profiles').select('full_name').eq('id', userId).single(); await supabase.from('audit_logs').insert({ actor_id: userId, action: 'Kết luận bản cập nhật', entity_type: 'campaign', entity_id: id, details: { update_id: u.id, resolved, full_name: (me2 as any)?.full_name ?? '' } }); } catch {}
-    try { const nm = (await supabase.from('profiles').select('full_name').eq('id', userId).single()).data?.full_name ?? ''; await fetch('/api/telegram',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({eventKey:'TB_KET_LUAN', text:`[Kết luận] Chiến dịch ${name} - ${resolved ? 'Đã xử lý' : 'Chưa xử lý'}\nNgười kết luận: ${nm}`})}); } catch {}
+    const _tenKL = name;
+    notifyTelegram('TB_KET_LUAN', (nm) => `[Kết luận] Chiến dịch ${_tenKL} - ${resolved ? 'Đã xử lý' : 'Chưa xử lý'}\nNgười kết luận: ${nm}`, userId);
     load();
   }
   const sel = 'w-full rounded-md border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-[#1e3a8a] focus:ring-1 focus:ring-[#1e3a8a]';

@@ -5,6 +5,7 @@ import { useAuth } from '@/components/RequireAuth';
 import { Dialog } from '@/components/Dialog';
 import { GrowArea } from '@/components/GrowArea';
 import { deadlineBC, isLate } from '@/lib/week';
+import { notifyTelegram } from '@/lib/notify';
 
 export type ReportItemDraft = {
   id?: string;
@@ -219,14 +220,10 @@ export function ReportDialog({
           details: { tuan_tu: tuanTu, ty_le_ht: tyLe, full_name: (me2 as any)?.full_name ?? '' },
         });
       } catch {}
-      try {
-        const nm = (await supabase.from('profiles').select('full_name').eq('id', uid).single()).data?.full_name ?? '';
-        await fetch('/api/telegram', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ eventKey: 'TB_BAO_CAO_TUAN', text: `[Báo cáo tuần] ${nm}\nTuần ${tuanTu} -> ${tuanDen}\nTự đánh giá: ${tuDanhGia} · %HT: ${tyLe || 0}` }),
-        });
-      } catch {}
+      const _nvR = String(tyLe || 0);
+      const _tuR = String(tuanTu), _denR = String(tuanDen);
+      const _tdg = String(tuDanhGia);
+      notifyTelegram('TB_BAO_CAO_TUAN', (nm) => `[Báo cáo tuần] ${nm}\nTuần ${_tuR} -> ${_denR}\nTự đánh giá: ${_tdg} · %HT: ${_nvR}`, uid);
       onDone();
       if (!lateHint) onClose();
     } catch (e: any) {

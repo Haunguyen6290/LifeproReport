@@ -7,6 +7,7 @@ import { GrowArea } from '@/components/GrowArea';
 import { AttachmentInput } from '@/components/AttachmentInput';
 import { ClickableImages } from '@/components/ClickableImages';
 import { uploadImage, imagesFromPaste } from '@/lib/upload-image';
+import { notifyTelegram } from '@/lib/notify';
 import { fmtDateVN, fmtCommentTimeVN } from '@/lib/time';
 import { categoryItems } from '@/lib/categories';
 
@@ -100,10 +101,9 @@ export function WarehouseReportDetail({ id }: { id: string }) {
         const me2 = (await supabase.from('profiles').select('full_name').eq('id', userId).single()).data;
         await supabase.from('audit_logs').insert({ actor_id: userId, action: 'Cập nhật báo cáo kho', entity_type: 'warehouse_report', entity_id: id, details: { update_id: data.id, full_name: (me2 as any)?.full_name ?? '' } });
       } catch {}
-      try {
-        const nm = (await supabase.from('profiles').select('full_name').eq('id', userId).single()).data?.full_name ?? '';
-        await fetch('/api/telegram', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ eventKey: 'TB_BAO_CAO_KHO', text: `[Cập nhật kho] ${row?.ngay ?? ''} · ${vdName || '—'}\nNgười gửi: ${nm}\n${newContent.trim().slice(0, 300)}` }) });
-      } catch {}
+      const _ndWR = newContent.trim().slice(0, 300);
+      const _ngayWR = row?.ngay ?? '', _vdWR = vdName || '—';
+      notifyTelegram('TB_BAO_CAO_KHO', (nm) => `[Cập nhật kho] ${_ngayWR} · ${_vdWR}\nNgười gửi: ${nm}\n${_ndWR}`, userId);
       setNewContent('');
       setImgs([]);
       await load();

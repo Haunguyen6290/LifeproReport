@@ -5,6 +5,7 @@ import { useAuth } from '@/components/RequireAuth';
 import { Dialog } from '@/components/Dialog';
 import { GrowArea } from '@/components/GrowArea';
 import { weekBounds, deadlineKH, deadlineBC, isLate } from '@/lib/week';
+import { notifyTelegram } from '@/lib/notify';
 
 type Mode = 'plan' | 'report';
 
@@ -156,20 +157,11 @@ export function WeeklyDialog({
           details: { tuan_tu: tu, tuan_den: den, noi_dung: t.slice(0, 500), full_name: fullName, changes: { noi_dung: t } },
         });
       } catch {}
-      // telegram via /api/telegram with try/catch (không chặn lưu)
-      try {
-        const { data: me3 } = await supabase.from('profiles').select('full_name').eq('id', uid).single();
-        const nm = (me3 as any)?.full_name ?? '';
-        const prefix = mode === 'plan' ? '[Kế hoạch tuần]' : '[Báo cáo tuần]';
-        await fetch('/api/telegram', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            eventKey,
-            text: `${prefix} ${tu} → ${den}\nNgười gửi: ${nm}\n${t.slice(0, 300)}`,
-          }),
-        });
-      } catch {}
+      const _nvW = t.slice(0, 300);
+      const _tuW = String(tu), _denW = String(den);
+      const _isPlan = mode === 'plan';
+      const _evW = String(eventKey);
+      notifyTelegram(_evW, (nm) => `${_isPlan ? '[Kế hoạch tuần]' : '[Báo cáo tuần]'} ${_tuW} → ${_denW}\nNgười gửi: ${nm}\n${_nvW}`, uid);
       // keep updated existingCreatedAt for next edit in same session
       setExistingCreatedAt(createdAt);
       setExistingId((upserted as any).id as string);

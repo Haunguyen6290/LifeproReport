@@ -5,6 +5,7 @@ import { useAuth } from '@/components/RequireAuth';
 import { Dialog } from '@/components/Dialog';
 import { GrowArea } from '@/components/GrowArea';
 import { categoryItems } from '@/lib/categories';
+import { notifyTelegram } from '@/lib/notify';
 
 export function AddCampaignDialog({ open, onClose, onDone }: { open: boolean; onClose: () => void; onDone: () => void }) {
   const { userId } = useAuth();
@@ -32,7 +33,8 @@ export function AddCampaignDialog({ open, onClose, onDone }: { open: boolean; on
     setBusy(true);
     await supabase.from('campaigns').insert({ name: name.trim(), type_id: typeId || null, status_id: statusId || null, start_date: start || null, end_date: end || null, objective: obj.trim(), owner_id: userId, created_by: userId });
     try { const { data: me2 } = await supabase.from('profiles').select('full_name').eq('id', userId).single(); await supabase.from('audit_logs').insert({ actor_id: userId, action: 'Tạo chiến dịch', entity_type: 'campaign', entity_id: null, details: { name: name.trim(), full_name: me2?.full_name ?? '' } }); } catch {}
-    try { const nm = (await supabase.from('profiles').select('full_name').eq('id', userId).single()).data?.full_name ?? ''; await fetch('/api/telegram',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({eventKey:'TB_CHIEN_DICH_MOI', text:`[Chiến dịch mới] ${name.trim()}\nNgười tạo: ${nm}`})}); } catch {}
+    const _tenCD = name.trim();
+    notifyTelegram('TB_CHIEN_DICH_MOI', (nm) => `[Chiến dịch mới] ${_tenCD}\nNgười tạo: ${nm}`, userId);
     setName(''); setTypeId(''); setStatusId(''); setStart(''); setEnd(''); setObj('');
     setBusy(false); onClose(); onDone();
   }
