@@ -56,6 +56,7 @@ type QueryResult = {
   byKh: { label: string; value: number }[];
   byMonth: { m: string; dt: number; hd: number }[];
   nhomMonth?: { nhom: string; m: string; value: number }[];
+  khachMonth?: { ma_kh: string; ten_kh: string; kd: string; m: string; value: number }[];
   topSp: { label: string; total: number; qty: number; count: number }[];
   topSpQty: { label: string; total: number; qty: number; count: number }[];
   options: { kd: string[]; vung: string[]; nhom: string[]; kh: string[]; sp: string[] };
@@ -177,6 +178,221 @@ function NhomMonthTable({ result }: { result: QueryResult | null }) {
       <p className="mt-2 text-[11px] leading-none text-[#64748b]">Kỳ {months.length} tháng · khung hiển thị tối đa {MAX_ROWS} dòng, kéo dọc trong khung. Giữ chuột rồi rê để cuộn ngang/dọc. 2 cột đầu và 2 dòng đầu luôn cố định. Ô "–" = không phát sinh.</p>
     </div>
   );
+}
+
+
+function ExcelFilter({
+  label,
+  options,
+  selected,
+  onChange,
+}: {
+  label: string;
+  options: string[];
+  selected: string[];
+  onChange: (v: string[]) => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const [q, setQ] = useState('');
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!open) return;
+    const h = (e: MouseEvent) => { if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false); };
+    document.addEventListener('mousedown', h);
+    return () => document.removeEventListener('mousedown', h);
+  }, [open]);
+  const filtered = q.trim()
+    ? options.filter((o) => String(o).toLowerCase().includes(q.trim().toLowerCase())).slice(0, 80)
+    : options.slice(0, 80);
+  const all = selected.length === 0;
+  const active = selected.length > 0;
+  return (
+    <div className="relative" ref={ref}>
+      <button
+        onClick={() => setOpen((o) => !o)}
+        className={`flex items-center gap-1 rounded-md border px-2 py-1 text-[10px] font-bold leading-none ${active ? 'border-[#16A97B] bg-[#ecfdf5] text-[#065f46]' : 'border-[#e2e8f0] bg-white text-[#64748b] hover:border-[#16A97B]'}`}
+        title={`${label}: ${all ? 'Tất cả' : selected.length + ' mục'}`}
+      >
+        <span className="max-w-[110px] truncate">{label}</span>
+        <span className="text-[10px]">{active ? `(${selected.length})` : ''}</span>
+        <span className="text-[10px]">▼</span>
+      </button>
+      {open && (
+        <div className="absolute left-0 z-10 mt-1 max-h-72 w-64 overflow-auto rounded-lg border border-[#e2e8f0] bg-white p-2 shadow-lg">
+          <input
+            value={q}
+            onChange={(e) => setQ(e.target.value)}
+            placeholder="Tìm..."
+            className="mb-2 w-full rounded border border-[#e2e8f0] px-2 py-1.5 text-xs outline-none focus:border-[#16A97B]"
+          />
+          <div className="mb-1 flex gap-1">
+            <button onClick={() => onChange([])} className="rounded bg-[#f1f5f9] px-2 py-1 text-[11px] font-semibold text-[#334155] hover:bg-[#e2e8f0]">Tất cả</button>
+            <button onClick={() => onChange(options)} className="rounded bg-[#f1f5f9] px-2 py-1 text-[11px] font-semibold text-[#334155] hover:bg-[#e2e8f0]">Chọn hết</button>
+            <button onClick={() => { setQ(''); setOpen(false); }} className="ml-auto rounded bg-[#16A97B] px-2 py-1 text-[11px] font-semibold text-white">Xong</button>
+          </div>
+          {filtered.map((o) => {
+            const checked = all ? true : selected.includes(o);
+            // all means everything passes; checked state for UI: show as checked when draining
+            const isOn = selected.length === 0 ? true : selected.includes(o);
+            return (
+              <label key={o} className="flex cursor-pointer items-center gap-2 rounded px-2 py-1 text-xs hover:bg-[#f0f4f8]">
+                <input
+                  type="checkbox"
+                  checked={isOn}
+                  onChange={() => {
+                    if (selected.length === 0) {
+                      // switching from All to explicit: exclude this one
+                      onChange(options.filter((x) => x !== o));
+                    } else if (selected.includes(o)) {
+                      const next = selected.filter((x) => x !== o);
+                      onChange(next.length === options.length ? [] : next);
+                    } else {
+                      const next = [...selected, o];
+                      onChange(next.length === options.length ? [] : next);
+                    }
+                  }}
+                  className="h-3.5 w-3.5 rounded border-slate-300"
+                />
+                <span className="min-w-0 flex-1 truncate" title={o}>{o}</span>
+              </label>
+            );
+          })}
+          {filtered.length === 0 && <p className="px-2 py-1 text-xs text-[#64748b]">Không tìm thấy</p>}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function KhachMonthTable({ result }: { result: QueryResult | null }) {
+  const [gran, setGran] = useState<'auto' | 'month' | 'quarter' | 'year'>('auto');
+  const [fTen, setFTen] = useState<string[]>([]);
+  const [fKd, setFKd] = useState<string[]>([]);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const drag = useRef({ down: false, x: 0, y: 0, sl: 0, st: 0 });
+  const km = result?.khachMonth ?? [];
+  const months = result?.byMonth?.map((x) => x.m).filter(Boolean).sort() ?? [];
+  if (!result || months.length === 0 || km.length === 0) return null;
+
+  const qLab = (m: string) => { const [y, mo] = m.split('-'); return 'Q' + Math.ceil(Number(mo) / 3) + '/' + y.slice(-2); };
+  const yLab = (m: string) => m.slice(0, 4);
+  const effGran: 'month' | 'quarter' | 'year' = gran === 'auto' ? (months.length > 24 ? 'quarter' : 'month') : (gran === 'year' ? 'year' : gran === 'quarter' ? 'quarter' : 'month');
+  const colOf = (m: string) => (effGran === 'month' ? m : effGran === 'quarter' ? qLab(m) : yLab(m));
+  const colKeys = [...new Set(months.map(colOf))];
+  const colLabel = (c: string) => (effGran === 'month' ? 'T' + c.slice(5) + '/' + c.slice(2, 4) : c);
+
+  const tenOpts = [...new Set(km.map((x) => x.ten_kh).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'vi'));
+  const kdOpts = [...new Set(km.map((x) => x.kd).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'vi'));
+
+  const passTen = (ten: string) => fTen.length === 0 || fTen.includes(ten);
+  const passKd = (kd: string) => fKd.length === 0 || fKd.includes(kd);
+
+  // Agg per (ma_kh unique): collect display fields and pivot
+  type Agg = { ma: string; ten: string; kd: string; tot: number; byCol: Map<string, number> };
+  const byMa = new Map<string, Agg>();
+  for (const x of km) {
+    if (!passTen(x.ten_kh) || !passKd(x.kd)) continue;
+    const cur = byMa.get(x.ma_kh) ?? { ma: x.ma_kh, ten: x.ten_kh, kd: x.kd, tot: 0, byCol: new Map() };
+    const c = colOf(x.m);
+    cur.tot += x.value;
+    cur.byCol.set(c, (cur.byCol.get(c) ?? 0) + x.value);
+    // keep most frequent ten/kd if duplicates
+    if (x.ten_kh) cur.ten = x.ten_kh;
+    if (x.kd) cur.kd = x.kd;
+    byMa.set(x.ma_kh, cur);
+  }
+  const rows = [...byMa.values()].sort((a, b) => b.tot - a.tot);
+
+  const colTot = (c: string) => rows.reduce((a, r) => a + (r.byCol.get(c) ?? 0), 0);
+  const grand = rows.reduce((a, r) => a + r.tot, 0);
+  const fmtCell = (n: number) => (n ? fmtDot(n) : '–');
+
+  // 10px font, 15 cols = 3 pinned + 12 time cols visible; container maxHeight 30 rows; wrap Ten khach
+  const TEN_W = 200, KD_W = 150, TOT_W = 132, COL_W = 128;
+  const ROW_MIN = 30, HEADER_H = 32, MAX_ROWS = 30;
+  const boxH = HEADER_H + ROW_MIN * (MAX_ROWS - 1);
+  const thBase = 'px-2 text-[9px] font-bold leading-tight text-[#64748b]';
+  const sumLeft = (w: number) => w;
+  const c1 = { left: 0, minWidth: TEN_W, width: TEN_W, maxWidth: TEN_W };
+  const c2 = { left: TEN_W, minWidth: KD_W, width: KD_W, maxWidth: KD_W };
+  const c3 = { left: TEN_W + KD_W, minWidth: TOT_W, width: TOT_W, maxWidth: TOT_W };
+
+  function onDown(e: React.PointerEvent) {
+    const el = scrollRef.current; if (!el) return;
+    drag.current = { down: true, x: e.clientX, y: e.clientY, sl: el.scrollLeft, st: el.scrollTop };
+    try { el.setPointerCapture(e.pointerId); } catch {}
+  }
+  function onMove(e: React.PointerEvent) {
+    const el = scrollRef.current; if (!el || !drag.current.down) return;
+    el.scrollLeft = drag.current.sl - (e.clientX - drag.current.x);
+    el.scrollTop = drag.current.st - (e.clientY - drag.current.y);
+  }
+  function onUp(e: React.PointerEvent) {
+    const el = scrollRef.current; if (!el) return;
+    drag.current.down = false;
+    try { el.releasePointerCapture(e.pointerId); } catch {}
+  }
+
+  const hasFilter = fTen.length > 0 || fKd.length > 0;
+
+  return (
+    <div className="mt-4 rounded-xl bg-white p-4 shadow-[0_1px_4px_rgba(0,0,0,0.07),0_4px_16px_rgba(0,0,0,0.04)]">
+      <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
+        <div className="flex items-center gap-2 text-sm font-semibold text-[#1e293b]"><span className="h-2 w-2 rounded-full" style={{ background: '#3B82F6' }} />Doanh số theo Khách hàng × {effGran === 'month' ? 'Tháng' : effGran === 'quarter' ? 'Quý' : 'Năm'}</div>
+        <div className="flex items-center gap-2">
+          <ExcelFilter label="Tên khách" options={tenOpts} selected={fTen} onChange={setFTen} />
+          <ExcelFilter label="Kinh doanh" options={kdOpts} selected={fKd} onChange={setFKd} />
+          <div className="flex items-center gap-1 rounded-full bg-[#f1f5f9] p-0.5 text-xs">
+            {(['auto', 'month', 'quarter', 'year'] as const).map((v) => (
+              <button key={v} onClick={() => setGran(v)} className={`rounded-full px-2.5 py-1 font-semibold ${gran === v ? 'bg-white text-[#1e293b] shadow' : 'text-[#64748b]'}`}>{v === 'auto' ? 'Tự động' : v === 'month' ? 'Tháng' : v === 'quarter' ? 'Quý' : 'Năm'}</button>
+            ))}
+          </div>
+        </div>
+      </div>
+      {hasFilter && <p className="mb-2 text-[11px] text-[#16A97B]">Đang lọc: {fTen.length ? `Tên khách (${fTen.length})` : ''}{fTen.length && fKd.length ? ' · ' : ''}{fKd.length ? `Kinh doanh (${fKd.length})` : ''} · {rows.length} khách khớp · <button onClick={() => { setFTen([]); setFKd([]); }} className="font-bold underline">Xóa lọc</button></p>}
+      <div
+        ref={scrollRef}
+        onPointerDown={onDown}
+        onPointerMove={onMove}
+        onPointerUp={onUp}
+        onPointerCancel={onUp}
+        className="cursor-grab touch-none overflow-auto rounded-lg border border-[#e2e8f0] select-none active:cursor-grabbing"
+        style={{ maxHeight: boxH }}
+      >
+        <table className="border-separate border-spacing-0 text-[10px] leading-tight">
+          <thead>
+            <tr>
+              <th className={`${thBase} sticky z-[5] border-b border-r border-[#e2e8f0] bg-[#f8fafc] text-left`} style={{ ...c1, top: 0, height: HEADER_H, whiteSpace: 'nowrap' }}>Tên khách</th>
+              <th className={`${thBase} sticky z-[5] whitespace-nowrap border-b border-r border-[#e2e8f0] bg-[#f8fafc] text-left`} style={{ ...c2, top: 0, height: HEADER_H }}>Kinh doanh</th>
+              <th className={`${thBase} sticky z-[5] whitespace-nowrap border-b border-r border-[#e2e8f0] bg-[#f8fafc] text-right`} style={{ ...c3, top: 0, height: HEADER_H }}>Tổng</th>
+              {colKeys.map((c) => <th key={c} className={`${thBase} sticky z-[4] whitespace-nowrap border-b border-[#e2e8f0] bg-[#f8fafc] text-right`} style={{ top: 0, height: HEADER_H, minWidth: COL_W, width: COL_W, maxWidth: COL_W }}>{colLabel(c)}</th>)}
+            </tr>
+          </thead>
+          <tbody>
+            <tr className="bg-[#f0f4f8] font-bold text-[#0f2a4a]">
+              <td className="sticky z-[4] whitespace-nowrap border-b-2 border-r border-[#e2e8f0] bg-[#f0f4f8] px-2" style={{ ...c1, top: HEADER_H, minHeight: ROW_MIN, height: ROW_MIN }}>TỔNG</td>
+              <td className="sticky z-[4] whitespace-nowrap border-b-2 border-r border-[#e2e8f0] bg-[#f0f4f8] px-2" style={{ ...c2, top: HEADER_H, minHeight: ROW_MIN, height: ROW_MIN }}></td>
+              <td className="sticky z-[4] whitespace-nowrap border-b-2 border-r border-[#e2e8f0] bg-[#f0f4f8] px-2 text-right tabular-nums text-[#0d7a59]" style={{ ...c3, top: HEADER_H, minHeight: ROW_MIN, height: ROW_MIN }}>{fmtDot(grand)}</td>
+              {colKeys.map((c) => <td key={c} className="sticky z-[3] whitespace-nowrap border-b-2 border-[#e2e8f0] bg-[#f0f4f8] px-2 text-right tabular-nums" style={{ top: HEADER_H, minHeight: ROW_MIN, height: ROW_MIN, minWidth: COL_W, width: COL_W, maxWidth: COL_W }}>{fmtDot(colTot(c))}</td>)}
+            </tr>
+            {rows.map((r) => (
+              <tr key={r.ma} className="bg-white hover:bg-[#f8fafc]">
+                <td className="sticky z-[1] break-words border-b border-r border-[#e2e8f0] bg-white px-2 py-1.5 font-medium text-[#1e293b]" style={{ ...c1, minHeight: ROW_MIN }} title={`${r.ten} (${r.ma})`}>{r.ten}<span className="ml-1 text-[9px] font-normal text-[#94a3b8]">{r.ma}</span></td>
+                <td className="sticky z-[1] whitespace-nowrap border-b border-r border-[#e2e8f0] bg-white px-2 py-1.5 text-[#334155]" style={{ ...c2, minHeight: ROW_MIN }} title={r.kd}>{r.kd}</td>
+                <td className="sticky z-[1] whitespace-nowrap border-b border-r border-[#e2e8f0] bg-white px-2 py-1.5 text-right font-semibold tabular-nums text-[#0d7a59]" style={{ ...c3, minHeight: ROW_MIN }}>{fmtDot(r.tot)}</td>
+                {colKeys.map((c) => <td key={c} className="whitespace-nowrap border-b border-[#e2e8f0] bg-white px-2 py-1.5 text-right tabular-nums text-[#334155]" style={{ minWidth: COL_W, width: COL_W, maxWidth: COL_W }}>{fmtCell(r.byCol.get(c) ?? 0)}</td>)}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p className="mt-2 text-[11px] leading-none text-[#64748b]">Kỳ {months.length} tháng · {hasFilter ? `${rows.length} khách khớp / ${byMaSize(km)} khách trong kỳ` : `${byMaSize(km)} khách trong kỳ`} · khung tối đa {MAX_ROWS} dòng (1 tiêu đề + 1 TỔNG + 28 khách), kéo dọc trong khung. Giữ chuột rồi rê để cuộn. 3 cột đầu và 2 dòng đầu luôn cố định. Ô "–" = không phát sinh.</p>
+    </div>
+  );
+}
+
+function byMaSize(km: { ma_kh: string }[]): number {
+  return new Set(km.map((x) => x.ma_kh)).size;
 }
 
 
@@ -635,6 +851,7 @@ function DashboardInner() {
             </div>
             {/* Doanh số theo Nhóm hàng × Tháng/Quý */}
             <NhomMonthTable result={result} />
+            <KhachMonthTable result={result} />
             {result.count === 0 && <p className="mt-4 rounded-lg bg-amber-50 p-4 text-center text-sm text-amber-800">Không có dữ liệu trong kỳ/bộ lọc này.</p>}
           </>
         ) : (

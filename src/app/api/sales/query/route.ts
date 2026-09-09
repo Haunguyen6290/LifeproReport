@@ -131,9 +131,26 @@ async function nodeFallback(admin: any, from: string, to: string, selKd: string[
     return { nhom: k.slice(0, i), m: k.slice(i + 1), value };
   });
 
+  // Pivot Khach hang x Thang (khop khachMonth cua ham SQL; 3 cot dau co dinh, ten khach wrap)
+  const KM_SEP = "";
+  const kmMap = new Map();
+  for (const r of filtered) {
+    const ma = String(r.ma_kh || "").trim();
+    const ten = String(r.ten_kh || ma || "(khong ro)").trim();
+    const kd = String(r.kinh_doanh || "(trong)").trim();
+    const m = String(r.sale_month || "");
+    if (!m || !ma) continue;
+    const key = ma + KM_SEP + ten + KM_SEP + kd + KM_SEP + m;
+    kmMap.set(key, (kmMap.get(key) ?? 0) + Number(r.thanh_tien ?? 0));
+  }
+  const khachMonth = [...kmMap.entries()].map(([k, value]) => {
+    const parts = k.split(KM_SEP);
+    return { ma_kh: parts[0], ten_kh: parts[1], kd: parts[2], m: parts[3], value };
+  });
+
   return {
     total, totalQty, count, soHoaDon, soKhachHang, avgValue,
-    byKd, byVung, byNhom, byHang, byKh, byMonth, nhomMonth, topSp, topSpQty,
+    byKd, byVung, byNhom, byHang, byKh, byMonth, nhomMonth, khachMonth, topSp, topSpQty,
     options: { kd: kdOpts, vung: vungOpts, nhom: nhomOpts, kh: khOpts, sp: spOpts },
     meta: { scanned: rows.length, filtered: filtered.length, engine: 'node' },
   };
