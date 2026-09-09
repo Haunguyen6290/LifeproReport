@@ -4,6 +4,14 @@ import { createClient } from '@supabase/supabase-js';
 const URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const SRV = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 
+/** Nhãn sản phẩm chuẩn: "[MÃ] Tên" (Tên đã bỏ phần [MÃ] lặp đầu nếu có). */
+function spLabel(maVt: unknown, tenVt: unknown): string {
+  const code = String(maVt ?? '').trim();
+  const name = String(tenVt ?? '').replace(/^\s*\[[^\]]*\]\s*/, '').trim();
+  if (code) return name ? `[${code}] ${name}` : code;
+  return name;
+}
+
 async function fetchAllRows(admin: any, from: string, to: string) {
   const step = 1000;
   const out: Record<string, any>[] = [];
@@ -46,9 +54,9 @@ async function nodeFallback(admin: any, from: string, to: string, selKd: string[
     if (selVung.length && !selVung.includes(r.vung)) return false;
     if (selNhom.length && !selNhom.includes(r.nhom_hang)) return false;
     if (selKh.length && !selKh.includes(r.ten_kh)) return false;
-    if (selSp.length && !selSp.includes(r.ten_vt)) return false;
+    if (selSp.length && !(selSp.includes(String(r.ten_vt ?? '')) || selSp.includes(String(r.ma_vt ?? '')) || selSp.includes(spLabel(r.ma_vt, r.ten_vt)))) return false;
     if (search) {
-      const hay = `${r.ten_kh ?? ''} ${r.ma_kh ?? ''} ${r.ten_vt ?? ''} ${r.ma_vt ?? ''} ${r.so_ct ?? ''} ${r.kinh_doanh ?? ''}`.toLowerCase();
+      const hay = `${r.ten_kh ?? ''} ${r.ma_kh ?? ''} ${r.ten_vt ?? ''} ${r.ma_vt ?? ''} ${r.kinh_doanh ?? ''}`.toLowerCase();
       if (!hay.includes(search)) return false;
     }
     return true;
@@ -57,7 +65,7 @@ async function nodeFallback(admin: any, from: string, to: string, selKd: string[
   const total = filtered.length;
   const start = (page - 1) * limit;
   const pageRows = filtered.slice(start, start + limit).map((r) => ({
-    ngay: r.ngay, so_ct: r.so_ct, ma_vt: r.ma_vt, ten_vt: r.ten_vt,
+    ngay: r.ngay, so_ct: r.so_ct, ma_vt: r.ma_vt, ten_vt: spLabel(r.ma_vt, r.ten_vt),
     ma_kh: r.ma_kh, ten_kh: r.ten_kh, kinh_doanh: r.kinh_doanh,
     so_luong: Number(r.so_luong ?? 0), thanh_tien: Number(r.thanh_tien ?? 0),
     vung: r.vung, nhom_hang: r.nhom_hang,

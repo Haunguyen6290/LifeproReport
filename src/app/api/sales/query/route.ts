@@ -24,6 +24,14 @@ async function fetchAllRows(admin: any, from: string, to: string) {
   return out;
 }
 
+/** Nhãn sản phẩm chuẩn: "[MÃ] Tên" (Tên đã bỏ phần [MÃ] lặp đầu nếu có). */
+function spLabel(maVt: unknown, tenVt: unknown): string {
+  const code = String(maVt ?? '').trim();
+  const name = String(tenVt ?? '').replace(/^\s*\[[^\]]*\]\s*/, '').trim();
+  if (code) return name ? `[${code}] ${name}` : code;
+  return name;
+}
+
 /** Fallback: kéo hết dòng về rồi tính ở Node — chỉ dùng khi hàm SQL sales_report chưa tồn tại. */
 async function nodeFallback(admin: any, from: string, to: string, selKd: string[], selVung: string[], selNhom: string[], selKh: string[], selSp: string[]) {
   const rows = await fetchAllRows(admin, from, to);
@@ -46,7 +54,7 @@ async function nodeFallback(admin: any, from: string, to: string, selKd: string[
     if (selVung.length && !selVung.includes(r.vung)) return false;
     if (selNhom.length && !selNhom.includes(r.nhom_hang)) return false;
     if (selKh.length && !selKh.includes(r.ten_kh)) return false;
-    if (selSp.length && !selSp.includes(r.ten_vt)) return false;
+    if (selSp.length && !(selSp.includes(String(r.ten_vt ?? '')) || selSp.includes(String(r.ma_vt ?? '')) || selSp.includes(spLabel(r.ma_vt, r.ten_vt)))) return false;
     return true;
   });
 
@@ -54,7 +62,7 @@ async function nodeFallback(admin: any, from: string, to: string, selKd: string[
   const vungOpts = [...new Set(rows.map((r) => r.vung).filter(Boolean))].sort();
   const nhomOpts = [...new Set(rows.map((r) => r.nhom_hang).filter(Boolean))].sort();
   const khOpts = [...new Set(rows.map((r) => r.ten_kh).filter(Boolean))].sort();
-  const spOpts = [...new Set(rows.map((r) => r.ten_vt).filter(Boolean))].sort();
+  const spOpts = [...new Set(rows.map((r) => spLabel(r.ma_vt, r.ten_vt)).filter(Boolean))].sort();
 
   const total = filtered.reduce((s, r) => s + Number(r.thanh_tien ?? 0), 0);
   const totalQty = filtered.reduce((s, r) => s + Number(r.so_luong ?? 0), 0);
@@ -95,17 +103,18 @@ async function nodeFallback(admin: any, from: string, to: string, selKd: string[
   }
   const byMonth = [...monthMap.entries()].sort((a, b) => a[0].localeCompare(b[0])).map(([m, v]) => ({ m, dt: v.dt, hd: v.hd.size }));
 
-  const spMap = new Map<string, { total: number; qty: number; count: number }>();
+  const spMap = new Map<string, { total: number; qty: number; count: number; label: string }>();
   for (const r of filtered) {
-    const k = r.ten_vt || r.ma_vt || '(không rõ)';
-    const cur = spMap.get(k) ?? { total: 0, qty: 0, count: 0 };
+    const key = String(r.ma_vt ?? '').trim() || String(r.ten_vt ?? '').trim() || '(không rõ)';
+    const lab = String(r.ma_vt ?? '').trim() ? spLabel(r.ma_vt, r.ten_vt) : String(r.ten_vt ?? '').replace(/^\s*\[[^\]]*\]\s*/, '').trim() || key;
+    const cur = spMap.get(key) ?? { total: 0, qty: 0, count: 0, label: lab };
     cur.total += Number(r.thanh_tien ?? 0);
     cur.qty += Number(r.so_luong ?? 0);
     cur.count += 1;
-    spMap.set(k, cur);
+    spMap.set(key, cur);
   }
-  const topSp = [...spMap.entries()].sort((a, b) => b[1].total - a[1].total).slice(0, 15).map(([label, v]) => ({ label, total: v.total, qty: v.qty, count: v.count }));
-  const topSpQty = [...spMap.entries()].sort((a, b) => b[1].qty - a[1].qty).slice(0, 15).map(([label, v]) => ({ label, total: v.total, qty: v.qty, count: v.count }));
+  const topSp = [...spMap.entries()].sort((a, b) => b[1].total - a[1].total).slice(0, 15).map(([, v]) => ({ label: v.label, total: v.total, qty: v.qty, count: v.count }));
+  const topSpQty = [...spMap.entries()].sort((a, b) => b[1].qty - a[1].qty).slice(0, 15).map(([, v]) => ({ label: v.label, total: v.total, qty: v.qty, count: v.count }));
 
   return {
     total, totalQty, count, soHoaDon, soKhachHang, avgValue,
