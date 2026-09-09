@@ -91,7 +91,9 @@ function FilterDropdown({ label, options, selected, onChange, searchable }: { la
     return () => document.removeEventListener('mousedown', h);
   }, [open]);
   if (options.length === 0) return null;
-  const filtered = searchable && q.trim() ? options.filter((o) => o.toLowerCase().includes(q.trim().toLowerCase())).slice(0, 40) : options.slice(0, searchable ? 50 : 200);
+  const filtered = searchable && q.trim()
+    ? options.filter((o) => String(o ?? '').toLowerCase().includes(q.trim().toLowerCase())).slice(0, 40)
+    : options.filter((o) => o != null && String(o).trim() !== '').slice(0, searchable ? 50 : 200);
   const labelText = selected.length === 0 ? 'Tất cả' : selected.length === 1 ? selected[0] : `${selected.length} mục`;
   const toggle = (o: string) => onChange(selected.includes(o) ? selected.filter((x) => x !== o) : [...selected, o]);
   return (
@@ -293,7 +295,8 @@ function DashboardInner() {
       const j = await res.json();
       if (!res.ok) throw new Error(j?.error ?? 'Lỗi query');
       setResult(j);
-      setFilterOpts({ kd: j.options?.kd ?? [], vung: j.options?.vung ?? [], nhom: j.options?.nhom ?? [], kh: j.options?.kh ?? [], sp: j.options?.sp ?? [] });
+      const clean = (arr: unknown) => (Array.isArray(arr) ? arr.filter((x) => x != null && String(x).trim() !== '').map((x) => String(x)) : []);
+      setFilterOpts({ kd: clean(j.options?.kd), vung: clean(j.options?.vung), nhom: clean(j.options?.nhom), kh: clean(j.options?.kh), sp: clean(j.options?.sp) });
       // reset detail & load page 1 — truyền f/t trực tiếp để Chi tiết dùng đúng kỳ vừa Chạy (không đọc state cũ)
       setDetailPage(1); setDetailSearch('');
       await loadDetail(1, '', false, f, t);
