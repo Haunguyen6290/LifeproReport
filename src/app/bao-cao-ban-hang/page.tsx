@@ -204,14 +204,16 @@ function ExcelFilter({
   const filtered = q.trim()
     ? options.filter((o) => String(o).toLowerCase().includes(q.trim().toLowerCase())).slice(0, 80)
     : options.slice(0, 80);
-  const all = selected.length === 0;
-  const active = selected.length > 0;
+  // Trạng thái bộ lọc: rỗng = không lọc (hiện tất cả), có phần tử = chỉ hiện những mục được TICK
+  const allChecked = options.length > 0 && selected.length === options.length;
+  const noneChecked = selected.length === 0;
+  const active = !noneChecked;
   return (
     <div className="relative" ref={ref}>
       <button
         onClick={() => setOpen((o) => !o)}
         className={`flex items-center gap-1 rounded-md border px-2 py-1 text-[10px] font-bold leading-none ${active ? 'border-[#16A97B] bg-[#ecfdf5] text-[#065f46]' : 'border-[#e2e8f0] bg-white text-[#64748b] hover:border-[#16A97B]'}`}
-        title={`${label}: ${all ? 'Tất cả' : selected.length + ' mục'}`}
+        title={`${label}: ${noneChecked ? 'Tất cả' : selected.length + '/' + options.length + ' mục'}`}
       >
         <span className="max-w-[110px] truncate">{label}</span>
         <span className="text-[10px]">{active ? `(${selected.length})` : ''}</span>
@@ -226,28 +228,30 @@ function ExcelFilter({
             className="mb-2 w-full rounded border border-[#e2e8f0] px-2 py-1.5 text-xs outline-none focus:border-[#16A97B]"
           />
           <div className="mb-1 flex gap-1">
-            <button onClick={() => onChange([])} className="rounded bg-[#f1f5f9] px-2 py-1 text-[11px] font-semibold text-[#334155] hover:bg-[#e2e8f0]">Tất cả</button>
-            <button onClick={() => onChange(options)} className="rounded bg-[#f1f5f9] px-2 py-1 text-[11px] font-semibold text-[#334155] hover:bg-[#e2e8f0]">Chọn hết</button>
+            <button
+              onClick={() => onChange(allChecked ? [] : options.slice())}
+              className="rounded bg-[#f1f5f9] px-2 py-1 text-[11px] font-semibold text-[#334155] hover:bg-[#e2e8f0]"
+              title={allChecked ? 'Bỏ tick tất cả (quay lại không lọc)' : 'Tick tất cả'}
+            >
+              {allChecked ? 'Bỏ hết' : 'Chọn hết'}
+            </button>
+            <button onClick={() => onChange([])} className="rounded bg-[#f1f5f9] px-2 py-1 text-[11px] font-semibold text-[#334155] hover:bg-[#e2e8f0]" title="Xóa lọc — hiện tất cả">Không lọc</button>
             <button onClick={() => { setQ(''); setOpen(false); }} className="ml-auto rounded bg-[#16A97B] px-2 py-1 text-[11px] font-semibold text-white">Xong</button>
           </div>
           {filtered.map((o) => {
-            const checked = all ? true : selected.includes(o);
-            // all means everything passes; checked state for UI: show as checked when draining
-            const isOn = selected.length === 0 ? true : selected.includes(o);
+            const isOn = selected.includes(o);
             return (
               <label key={o} className="flex cursor-pointer items-center gap-2 rounded px-2 py-1 text-xs hover:bg-[#f0f4f8]">
                 <input
                   type="checkbox"
                   checked={isOn}
                   onChange={() => {
-                    if (selected.length === 0) {
-                      // switching from All to explicit: exclude this one
-                      onChange(options.filter((x) => x !== o));
-                    } else if (selected.includes(o)) {
+                    if (isOn) {
                       const next = selected.filter((x) => x !== o);
-                      onChange(next.length === options.length ? [] : next);
+                      onChange(next);
                     } else {
                       const next = [...selected, o];
+                      // Nếu tick đủ hết → trở về trạng thái không lọc (rỗng) để bảng hiện tất cả mà không tích đầy
                       onChange(next.length === options.length ? [] : next);
                     }
                   }}
@@ -312,7 +316,6 @@ function KhachMonthTable({ result }: { result: QueryResult | null }) {
   const ROW_MIN = 30, HEADER_H = 32, MAX_ROWS = 30;
   const boxH = HEADER_H + ROW_MIN * (MAX_ROWS - 1);
   const thBase = 'px-2 text-[9px] font-bold leading-tight text-[#64748b]';
-  const sumLeft = (w: number) => w;
   const c1 = { left: 0, minWidth: TEN_W, width: TEN_W, maxWidth: TEN_W };
   const c2 = { left: TEN_W, minWidth: KD_W, width: KD_W, maxWidth: KD_W };
   const c3 = { left: TEN_W + KD_W, minWidth: TOT_W, width: TOT_W, maxWidth: TOT_W };
