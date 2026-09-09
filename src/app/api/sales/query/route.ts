@@ -116,9 +116,24 @@ async function nodeFallback(admin: any, from: string, to: string, selKd: string[
   const topSp = [...spMap.entries()].sort((a, b) => b[1].total - a[1].total).slice(0, 15).map(([, v]) => ({ label: v.label, total: v.total, qty: v.qty, count: v.count }));
   const topSpQty = [...spMap.entries()].sort((a, b) => b[1].qty - a[1].qty).slice(0, 15).map(([, v]) => ({ label: v.label, total: v.total, qty: v.qty, count: v.count }));
 
+  // Pivot Nhom hang x Thang (khop nhomMonth cua ham SQL; frontend dung bang, tu gop quy khi ky dai)
+  const SEP = "";
+  const nmMap = new Map();
+  for (const r of filtered) {
+    const nh = String(r.nhom_hang || "(khong ro)");
+    const m = String(r.sale_month || "");
+    if (!m) continue;
+    const key = nh + SEP + m;
+    nmMap.set(key, (nmMap.get(key) ?? 0) + Number(r.thanh_tien ?? 0));
+  }
+  const nhomMonth = [...nmMap.entries()].map(([k, value]) => {
+    const i = k.indexOf(SEP);
+    return { nhom: k.slice(0, i), m: k.slice(i + 1), value };
+  });
+
   return {
     total, totalQty, count, soHoaDon, soKhachHang, avgValue,
-    byKd, byVung, byNhom, byHang, byKh, byMonth, topSp, topSpQty,
+    byKd, byVung, byNhom, byHang, byKh, byMonth, nhomMonth, topSp, topSpQty,
     options: { kd: kdOpts, vung: vungOpts, nhom: nhomOpts, kh: khOpts, sp: spOpts },
     meta: { scanned: rows.length, filtered: filtered.length, engine: 'node' },
   };
