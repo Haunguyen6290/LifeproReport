@@ -8,6 +8,7 @@ type Preview = {
   imported: number;
   skipped: number;
   months: string[];
+  monthRanges?: Record<string, { min: string; max: string }>;
   byMonth: Record<string, number>;
   newCustomers: NewCust[];
 };
@@ -16,6 +17,7 @@ type Done = {
   imported: number;
   skipped: number;
   months: string[];
+  monthRanges?: Record<string, { min: string; max: string }>;
   newCustomers: { ma_kh: string; ten_kh: string }[];
   createdCustomers: number;
 };
@@ -104,7 +106,7 @@ function Inner() {
                 <p className="text-slate-800"><span className="font-semibold">{preview.skipped}</span> dòng sẽ bỏ qua</p>
               </div>
               {preview.months.length > 0 && (
-                <p className="mt-2 text-xs text-slate-700">Tháng sẽ ghi đè: {preview.months.join(', ')}</p>
+                <p className="mt-2 text-xs text-slate-700">Khoảng ngày sẽ ghi đè: {preview.months.map((m) => { const r = preview.monthRanges?.[m]; return r ? `${m} (${r.min} → ${r.max})` : m; }).join(', ')}</p>
               )}
               {Object.keys(preview.byMonth ?? {}).length > 0 && (
                 <div className="mt-2 flex flex-wrap gap-2">
@@ -170,7 +172,7 @@ function Inner() {
           {done && (
             <div className="mt-4 rounded-lg bg-emerald-50 p-4">
               <p className="text-sm font-semibold text-emerald-800">Import xong: {done.imported} dòng đã lưu, {done.skipped} dòng bỏ qua</p>
-              {done.months.length > 0 && <p className="mt-1 text-xs text-emerald-700">Tháng ghi đè: {done.months.join(', ')}</p>}
+              {done.months.length > 0 && <p className="mt-1 text-xs text-emerald-700">Khoảng ngày đã ghi đè: {done.months.map((m) => { const r = done.monthRanges?.[m]; return r ? `${m} (${r.min} → ${r.max})` : m; }).join(', ')} — phần còn lại trong tháng được giữ nguyên.</p>}
               {done.createdCustomers != null && done.createdCustomers > 0 && (
                 <p className="mt-2 text-xs text-emerald-700">Đã tự tạo {done.createdCustomers} khách mới vào danh sách — ông vào <a href="/khach-hang" className="font-semibold underline">Khách hàng</a> để sửa bổ sung.</p>
               )}
@@ -183,7 +185,7 @@ function Inner() {
           <p className="font-semibold">Lưu ý:</p>
           <ul className="mt-1 list-disc pl-5 space-y-1">
             <li>Bấm <strong>Kiểm tra</strong> trước để xem sẽ lưu/giữ gì, bấm <strong>X</strong> để loại khách trùng, đúng rồi mới <strong>Xác nhận lưu</strong>.</li>
-            <li>Mỗi tháng có thể import nhiều lần — lần sau sẽ ghi đè tháng đó.</li>
+            <li>Một tháng có thể tách nhiều file — mỗi lần import <strong>chỉ ghi đè đúng khoảng ngày trong file</strong>, phần còn lại của tháng được giữ nguyên (nối tháng an toàn).</li>
             <li>Chỉ tính các dòng có <em>Kinh doanh QL</em> nằm trong danh sách cho phép (Cài đặt chung).</li>
             <li>Tên như <code>Nguyễn Trung Chính SG</code> / <code>Đỗ Thành Công</code> sẽ tự gộp về <code>Nguyễn Trung Chính</code> theo ánh xạ.</li>
           </ul>

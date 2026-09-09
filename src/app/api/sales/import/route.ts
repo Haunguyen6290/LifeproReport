@@ -43,7 +43,9 @@ function prepareInsert(header: { col: Record<string, number>; dataStart: number 
   const dataRows = rows.slice(header.dataStart);
   let skipped = 0;
   const toInsert: SalesRec[] = [];
-  const seenMonths = new Set<string>();
+  // Theo khoảng ngày (min→max) của TỪNG tháng có trong file: khi ghi sẽ chỉ xóa đúng khoảng này,
+  // nhờ vậy 1 tháng tách 2 file (nửa đầu / nửa cuối) không xóa mất dữ liệu của file kia.
+  const monthInfo = new Map<string, { min: string; max: string; count: number }>();
   const khInFile = new Map<string, { ma_kh: string; ten_kh: string; kinh_doanh: string; vung: string }>();
 
   for (const r of dataRows) {
@@ -86,12 +88,14 @@ function prepareInsert(header: { col: Record<string, number>; dataStart: number 
       ma_nv: get('ma_nv'),
     };
     toInsert.push(rec);
-    seenMonths.add(saleMonth);
+    const mi = monthInfo.get(saleMonth);
+    if (!mi) monthInfo.set(saleMonth, { min: ngay, max: ngay, count: 1 });
+    else { mi.count++; if (ngay < mi.min) mi.min = ngay; if (ngay > mi.max) mi.max = ngay; }
     const maKh = String(rec.ma_kh ?? '');
     if (maKh && !khInFile.has(maKh)) khInFile.set(maKh, { ma_kh: maKh, ten_kh: String(rec.ten_kh ?? ''), kinh_doanh: kinhDoanh, vung: String(rec.vung ?? '') });
   }
 
-  return { toInsert, skipped, months: [...seenMonths].sort(), khInFile };
+  return { toInsert, skipped, months: [...monthInfo.keys()].sort(), monthInfo, khInFile };
 }
 
 export async function POST(req: NextRequest) {
@@ -110,7 +114,7 @@ export async function POST(req: NextRequest) {
     const { allowed, nameMap } = parseSettings((settingsRows ?? []) as any);
     if (allowed.length === 0) return NextResponse.json({ error: 'Chưa cấu hình danh sách nhân viên được tính (SALES_ALLOWED_NAMES)' }, { status: 400 });
 
-    const { toInsert, skipped, months, khInFile } = prepareInsert(parsed.header, parsed.rows, allowed, nameMap);
+    const { toInsert, skipped, months, monthInfo, khInFile } = prepareInsert(parsed.header, parsed.rows, allowed, nameMap);
 
     if (toInsert.length === 0) {
       return NextResponse.json({ preview: true, imported: 0, skipped, months: [], newCustomers: [], message: 'Không có dòng nào hợp lệ (đã lọc theo danh sách nhân viên)' });
@@ -153,11 +157,14 @@ export async function POST(req: NextRequest) {
     if (mode !== 'commit') {
       const byMonth: Record<string, number> = {};
       for (const r of toInsert) byMonth[r.sale_month] = (byMonth[r.sale_month] ?? 0) + 1;
+      const monthRanges: Record<string, { min: string; max: string }> = {};
+      for (const [m, v] of monthInfo) monthRanges[m] = { min: v.min, max: v.max };
       return NextResponse.json({
         preview: true,
         imported: toInsert.length,
         skipped,
         months,
+        monthRanges,
         byMonth,
         newCustomers,
       });
@@ -179,9 +186,10 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // Xóa dữ liệu cũ của các tháng rồi ghi lại
+    // Chỉ xóa dữ liệu đúng khoảng ngày có trong file cho từng tháng — nhờ vậy 1 tháng tách 2 file không xóa mất dữ liệu của file kia.
     for (const m of months) {
-      const { error } = await admin.from('sales_rows').delete().eq('sale_month', m);
+      const mi = monthInfo.get(m)!;
+      const { error } = await admin.from('sales_rows').delete().eq('sale_month', m).gte('ngay', mi.min).lte('ngay', mi.max);
       if (error) {
         if (String(error.message).includes('not find') || String(error.code) === 'PGRST205') {
           return NextResponse.json({ error: 'Bảng sales_rows chưa tồn tại — vui lòng chạy migration 0019_sales_rows.sql trong Supabase SQL Editor.' }, { status: 500 });
@@ -233,7 +241,9 @@ export async function POST(req: NextRequest) {
       }
     } catch {}
 
-    return NextResponse.json({ imported: toInsert.length, skipped, months, newCustomers, createdCustomers, mergedCustomers });
+    const monthRanges: Record<string, { min: string; max: string }> = {};
+    for (const [m, v] of monthInfo) monthRanges[m] = { min: v.min, max: v.max };
+    return NextResponse.json({ imported: toInsert.length, skipped, months, monthRanges, newCustomers, createdCustomers, mergedCustomers });
   } catch (e: any) {
     return NextResponse.json({ error: e?.message ?? 'Lỗi import' }, { status: 500 });
   }
