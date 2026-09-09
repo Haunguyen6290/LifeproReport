@@ -3,6 +3,7 @@ import { Fragment, useEffect, useMemo, useState } from 'react';
 import * as XLSX from 'xlsx';
 import { RequireAuth, useAuth } from '@/components/RequireAuth';
 import { AppSidebar } from '@/components/AppSidebar';
+import { supabase } from '@/lib/supabase/client';
 import { fmtDateVN } from '@/lib/time';
 import { KeHoachPanel } from '@/components/KeHoachPanel';
 
@@ -671,7 +672,7 @@ function Screen() {
   const [impExclude, setImpExclude] = useState<Set<string>>(new Set());
   const [impMerge, setImpMerge] = useState<Map<string, string>>(new Map());
 
-  const canImport = can('quan_ly_cai_dat');
+  const canImport = can('quan_ly_cai_dat') || can('import_tai_chinh');
 
   useEffect(() => {
     (async () => {
@@ -711,8 +712,10 @@ function Screen() {
     setImpBusy(true); setImpMsg(''); setImpPreview(null);
     setImpExclude(new Set()); setImpMerge(new Map());
     try {
+      const { data } = await supabase.auth.getSession();
+      const tok = data.session?.access_token ?? '';
       const fd = new FormData(); fd.append('file', impFile); fd.append('mode', 'preview');
-      const r = await fetch('/api/finance/import-131', { method: 'POST', body: fd });
+      const r = await fetch('/api/finance/import-131', { method: 'POST', headers: tok ? { Authorization: `Bearer ${tok}` } : {}, body: fd });
       const j = await r.json();
       setImpPreview(j);
       if (j.error) setImpMsg(j.error);
@@ -724,10 +727,12 @@ function Screen() {
     if (!impFile) return;
     setImpBusy(true); setImpMsg('');
     try {
+      const { data } = await supabase.auth.getSession();
+      const tok = data.session?.access_token ?? '';
       const fd = new FormData(); fd.append('file', impFile); fd.append('mode', 'commit');
       fd.append('exclude', JSON.stringify([...impExclude]));
       fd.append('merge', JSON.stringify(Object.fromEntries(impMerge)));
-      const r = await fetch('/api/finance/import-131', { method: 'POST', body: fd });
+      const r = await fetch('/api/finance/import-131', { method: 'POST', headers: tok ? { Authorization: `Bearer ${tok}` } : {}, body: fd });
       const j = await r.json();
       setImpPreview(j);
       if (j.error) { setImpMsg(j.error); return; }

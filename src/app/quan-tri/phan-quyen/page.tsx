@@ -11,6 +11,7 @@ export const PERMS: { key: string; label: string }[] = [
   { key: 'chuyen_khach_hang_loat', label: 'Chuyển khách hàng hàng loạt' },
   { key: 'xoa_khach', label: 'Xóa vĩnh viễn khách hàng' },
   { key: 'import_khach', label: 'Import Excel' },
+  { key: 'import_tai_chinh', label: 'Import Excel Tài chính (sổ 131)' },
   { key: 'ket_luan', label: 'Kết luận tin/chiến dịch' },
   { key: 'quan_ly_chien_dich', label: 'Quản lý chiến dịch (tạo/sửa, OKR)' },
   { key: 'quan_ly_danh_muc', label: 'Quản lý danh mục' },
