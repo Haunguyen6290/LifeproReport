@@ -59,16 +59,6 @@ function DebtTable({ rows, han }: { rows: DebtRow[]; han: number }) {
   }
 
   const W_MONEY = 116;
-  const thBtn = (key: typeof sortKey, label: string) => (
-    <th className="px-3 py-2 align-bottom" style={{ width: W_MONEY, minWidth: W_MONEY, maxWidth: W_MONEY }}>
-      <button onClick={() => { if (sortKey === key) setSortDir((d) => (d === 'asc' ? 'desc' : 'asc')); else { setSortKey(key); setSortDir('desc'); } }} className="flex w-full items-end justify-end gap-1 text-right font-bold leading-tight">
-        <span className="whitespace-normal break-words">{label}</span>{sortKey === key ? <span className="shrink-0">{sortDir === 'asc' ? '↑' : '↓'}</span> : <span className="shrink-0 text-slate-400">↕</span>}
-      </button>
-    </th>
-  );
-  const thMoney = (label: string) => (
-    <th className="px-3 py-2 text-right font-bold leading-tight whitespace-normal break-words align-bottom" style={{ width: W_MONEY, minWidth: W_MONEY, maxWidth: W_MONEY }}>{label}</th>
-  );
 
   return (
     <div>
@@ -88,8 +78,8 @@ function DebtTable({ rows, han }: { rows: DebtRow[]; han: number }) {
         <span className="text-xs text-slate-500">Lọc được {filtered.length} khách</span>
       </div>
 
-      <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white">
-        <table className="w-full min-w-[1180px] table-fixed text-[12.5px]">
+      <div className="max-h-[640px] overflow-auto rounded-xl border border-slate-200 bg-white">
+        <table className="w-full min-w-[1180px] border-separate border-spacing-0 table-fixed text-[12.5px]">
           <colgroup>
             <col style={{ width: 44 }} />
             <col style={{ width: 78 }} />
@@ -104,18 +94,40 @@ function DebtTable({ rows, han }: { rows: DebtRow[]; han: number }) {
             <col style={{ width: 112 }} />
           </colgroup>
           <thead>
-            <tr className="bg-[#eff6ff] text-left text-[#1e3a8a]">
-              <th className="whitespace-nowrap px-3 py-2 font-bold">STT</th>
-              <th className="whitespace-nowrap px-3 py-2 font-bold">Mã KH</th>
-              <th className="px-3 py-2 font-bold">Tên KH</th>
-              <th className="whitespace-nowrap px-3 py-2 font-bold">NVKD</th>
-              {thBtn('cong_no_dau_ky', 'Công nợ đầu kỳ')}
-              {thBtn('doanh_thu', 'DS phát sinh trong kỳ')}
-              {thMoney('Trả lại')}
-              {thMoney('Thu tiền')}
-              {thMoney('Tổng giảm trừ')}
-              {thBtn('con_thieu', 'Số còn thiếu')}
-              <th className="whitespace-nowrap px-3 py-2 font-bold">Cảnh báo</th>
+            <tr className="bg-[#eff6ff] text-left text-[#1e3a8a]" style={{ position: 'sticky', top: 0, zIndex: 20 }}>
+              <th className="whitespace-nowrap border-b border-slate-200 px-3 py-2 font-bold">STT</th>
+              <th className="whitespace-nowrap border-b border-slate-200 px-3 py-2 font-bold">Mã KH</th>
+              <th className="border-b border-slate-200 px-3 py-2 font-bold">Tên KH</th>
+              <th className="whitespace-nowrap border-b border-slate-200 px-3 py-2 font-bold">NVKD</th>
+              <th className="border-b border-slate-200 px-3 py-2 align-bottom" style={{ width: W_MONEY, minWidth: W_MONEY, maxWidth: W_MONEY }}>
+                <button onClick={() => { if (sortKey === 'cong_no_dau_ky') setSortDir((d) => (d === 'asc' ? 'desc' : 'asc')); else { setSortKey('cong_no_dau_ky'); setSortDir('desc'); } }} className="flex w-full items-end justify-end gap-1 text-right font-bold leading-tight">
+                  <span className="whitespace-normal break-words">Công nợ đầu kỳ</span>{sortKey === 'cong_no_dau_ky' ? <span className="shrink-0">{sortDir === 'asc' ? '↑' : '↓'}</span> : <span className="shrink-0 text-slate-400">↕</span>}
+                </button>
+              </th>
+              <th className="border-b border-slate-200 px-3 py-2 align-bottom" style={{ width: W_MONEY, minWidth: W_MONEY, maxWidth: W_MONEY }}>
+                <button onClick={() => { if (sortKey === 'doanh_thu') setSortDir((d) => (d === 'asc' ? 'desc' : 'asc')); else { setSortKey('doanh_thu'); setSortDir('desc'); } }} className="flex w-full items-end justify-end gap-1 text-right font-bold leading-tight">
+                  <span className="whitespace-normal break-words">DS phát sinh trong kỳ</span>{sortKey === 'doanh_thu' ? <span className="shrink-0">{sortDir === 'asc' ? '↑' : '↓'}</span> : <span className="shrink-0 text-slate-400">↕</span>}
+                </button>
+              </th>
+              <th className="border-b border-slate-200 px-3 py-2 text-right font-bold leading-tight whitespace-normal break-words align-bottom" style={{ width: W_MONEY, minWidth: W_MONEY, maxWidth: W_MONEY }}>Trả lại</th>
+              <th className="border-b border-slate-200 px-3 py-2 text-right font-bold leading-tight whitespace-normal break-words align-bottom" style={{ width: W_MONEY, minWidth: W_MONEY, maxWidth: W_MONEY }}>Thu tiền</th>
+              <th className="border-b border-slate-200 px-3 py-2 text-right font-bold leading-tight whitespace-normal break-words align-bottom" style={{ width: W_MONEY, minWidth: W_MONEY, maxWidth: W_MONEY }}>Tổng giảm trừ</th>
+              <th className="border-b border-slate-200 px-3 py-2 align-bottom" style={{ width: W_MONEY, minWidth: W_MONEY, maxWidth: W_MONEY }}>
+                <button onClick={() => { if (sortKey === 'con_thieu') setSortDir((d) => (d === 'asc' ? 'desc' : 'asc')); else { setSortKey('con_thieu'); setSortDir('desc'); } }} className="flex w-full items-end justify-end gap-1 text-right font-bold leading-tight">
+                  <span className="whitespace-normal break-words">Số còn thiếu</span>{sortKey === 'con_thieu' ? <span className="shrink-0">{sortDir === 'asc' ? '↑' : '↓'}</span> : <span className="shrink-0 text-slate-400">↕</span>}
+                </button>
+              </th>
+              <th className="whitespace-nowrap border-b border-slate-200 px-3 py-2 font-bold">Cảnh báo</th>
+            </tr>
+            <tr className="bg-[#eef2f7] font-semibold" style={{ position: 'sticky', top: 40, zIndex: 15 }}>
+              <td colSpan={4} className="border-b border-slate-200 px-3 py-2 text-right">Tổng cộng</td>
+              <td className="whitespace-nowrap border-b border-slate-200 px-3 py-2 text-right tabular-nums">{fmt(totals.cndk)}</td>
+              <td className="whitespace-nowrap border-b border-slate-200 px-3 py-2 text-right tabular-nums">{fmt(totals.dt)}</td>
+              <td className="whitespace-nowrap border-b border-slate-200 px-3 py-2 text-right tabular-nums">{fmt(totals.tl)}</td>
+              <td className="whitespace-nowrap border-b border-slate-200 px-3 py-2 text-right tabular-nums">{fmt(totals.tt)}</td>
+              <td className="whitespace-nowrap border-b border-slate-200 px-3 py-2 text-right tabular-nums">{fmt(totals.giam)}</td>
+              <td className="whitespace-nowrap border-b border-slate-200 px-3 py-2 text-right tabular-nums text-red-700">{fmt(totals.thieu)}</td>
+              <td className="border-b border-slate-200"></td>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
@@ -139,18 +151,6 @@ function DebtTable({ rows, han }: { rows: DebtRow[]; han: number }) {
               </tr>
             ))}
           </tbody>
-          <tfoot>
-            <tr className="border-t-2 border-slate-200 bg-slate-50 font-semibold">
-              <td colSpan={4} className="px-3 py-2 text-right">Tổng cộng</td>
-              <td className="whitespace-nowrap px-3 py-2 text-right tabular-nums">{fmt(totals.cndk)}</td>
-              <td className="whitespace-nowrap px-3 py-2 text-right tabular-nums">{fmt(totals.dt)}</td>
-              <td className="whitespace-nowrap px-3 py-2 text-right tabular-nums">{fmt(totals.tl)}</td>
-              <td className="whitespace-nowrap px-3 py-2 text-right tabular-nums">{fmt(totals.tt)}</td>
-              <td className="whitespace-nowrap px-3 py-2 text-right tabular-nums">{fmt(totals.giam)}</td>
-              <td className="whitespace-nowrap px-3 py-2 text-right tabular-nums text-red-700">{fmt(totals.thieu)}</td>
-              <td></td>
-            </tr>
-          </tfoot>
         </table>
       </div>
       <p className="mt-2 text-xs text-slate-500">Hạn công nợ đang áp dụng: {han} ngày · Danh sách hiện toàn bộ khách hàng có số dư gốc, sắp xếp theo Số còn thiếu giảm dần.</p>
