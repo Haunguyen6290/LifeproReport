@@ -84,54 +84,101 @@ function Chart({ option, height = 280 }: { option: echarts.EChartsOption | null;
 }
 
 function NhomMonthTable({ result }: { result: QueryResult | null }) {
+  const [gran, setGran] = useState<'auto' | 'month' | 'quarter' | 'year'>('auto');
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const drag = useRef({ down: false, x: 0, y: 0, sl: 0, st: 0 });
   if (!result || !result.byMonth || result.byMonth.length === 0) return null;
   const nm = result.nhomMonth ?? [];
   const months = result.byMonth.map((x) => x.m).filter(Boolean).sort();
   if (months.length === 0 || nm.length === 0) return null;
   const nhoms = result.byNhom.map((x) => x.label);
-  const valMap = new Map<string, number>();
-  for (const x of nm) valMap.set(x.nhom + '' + x.m, (valMap.get(x.nhom + '' + x.m) ?? 0) + x.value);
+  const qLab = (m: string) => { const [y, mo] = m.split('-'); return 'Q' + Math.ceil(Number(mo) / 3) + '/' + y.slice(-2); };
+  const yLab = (m: string) => m.slice(0, 4);
+  const effGran: 'month' | 'quarter' | 'year' = gran === 'auto' ? (months.length > 24 ? 'quarter' : 'month') : (gran === 'year' ? 'year' : gran === 'quarter' ? 'quarter' : 'month');
+  const colOf = (m: string) => (effGran === 'month' ? m : effGran === 'quarter' ? qLab(m) : yLab(m));
+  const colKeys = [...new Set(months.map(colOf))];
+  const colLabel = (c: string) => (effGran === 'month' ? 'T' + c.slice(5) + '/' + c.slice(2, 4) : c);
+  const cellVal = new Map<string, Map<string, number>>();
+  for (const nh of nhoms) cellVal.set(nh, new Map());
+  const colTot = new Map<string, number>();
+  for (const x of nm) {
+    const c = colOf(x.m);
+    const row = cellVal.get(x.nhom);
+    if (row) row.set(c, (row.get(c) ?? 0) + x.value);
+    colTot.set(c, (colTot.get(c) ?? 0) + x.value);
+  }
+  const get = (nh: string, c: string) => cellVal.get(nh)?.get(c) ?? 0;
   const totOf = (nh: string) => result.byNhom.find((x) => x.label === nh)?.value ?? 0;
-  const colTot = (m: string) => nhoms.reduce((a, nh) => a + (valMap.get(nh + '' + m) ?? 0), 0);
   const fmtCell = (n: number) => (n ? fmtDot(n) : '–');
-  const COL_W = 132; // vừa đủ 15 ký tự (12 chữ số + 3 chấm) ở 11px tabular-nums, không xuống dòng
-  const LEFT_W = 200, TOT_W = 148;
-  const thBase = 'bg-[#f8fafc] px-2 py-2 text-[11px] font-bold leading-none text-[#64748b]';
-  const mLabel = (m: string) => 'T' + m.slice(5) + '/' + m.slice(2, 4);
+  const LEFT_W = 176, TOT_W = 132, COL_W = 128;
+  const ROW_H = 32, HEADER_H = 32, MAX_ROWS = 30;
+  const boxH = HEADER_H + ROW_H * (MAX_ROWS - 1);
+  const thBase = 'px-2 text-[11px] font-bold leading-none text-[#64748b]';
+  const c1 = { left: 0, minWidth: LEFT_W, width: LEFT_W, maxWidth: LEFT_W };
+  const c2 = { left: LEFT_W, minWidth: TOT_W, width: TOT_W, maxWidth: TOT_W };
+  function onDown(e: React.PointerEvent) {
+    const el = scrollRef.current; if (!el) return;
+    drag.current = { down: true, x: e.clientX, y: e.clientY, sl: el.scrollLeft, st: el.scrollTop };
+    try { el.setPointerCapture(e.pointerId); } catch {}
+  }
+  function onMove(e: React.PointerEvent) {
+    const el = scrollRef.current; if (!el || !drag.current.down) return;
+    el.scrollLeft = drag.current.sl - (e.clientX - drag.current.x);
+    el.scrollTop = drag.current.st - (e.clientY - drag.current.y);
+  }
+  function onUp(e: React.PointerEvent) {
+    const el = scrollRef.current; if (!el) return;
+    drag.current.down = false;
+    try { el.releasePointerCapture(e.pointerId); } catch {}
+  }
   return (
     <div className="mt-4 rounded-xl bg-white p-4 shadow-[0_1px_4px_rgba(0,0,0,0.07),0_4px_16px_rgba(0,0,0,0.04)]">
-      <div className="mb-2 flex items-center gap-2 text-sm font-semibold text-[#1e293b]"><span className="h-2 w-2 rounded-full" style={{ background: '#F59E0B' }} />Doanh số theo Nhóm hàng × Tháng</div>
-      <div className="overflow-auto rounded-lg border border-[#e2e8f0]">
-        <table className="w-full text-[11px] leading-none">
+      <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
+        <div className="flex items-center gap-2 text-sm font-semibold text-[#1e293b]"><span className="h-2 w-2 rounded-full" style={{ background: '#F59E0B' }} />Doanh số theo Nhóm hàng × {effGran === 'month' ? 'Tháng' : effGran === 'quarter' ? 'Quý' : 'Năm'}</div>
+        <div className="flex items-center gap-1 rounded-full bg-[#f1f5f9] p-0.5 text-xs">
+          {(['auto', 'month', 'quarter', 'year'] as const).map((v) => (
+            <button key={v} onClick={() => setGran(v)} className={`rounded-full px-2.5 py-1 font-semibold ${gran === v ? 'bg-white text-[#1e293b] shadow' : 'text-[#64748b]'}`}>{v === 'auto' ? 'Tự động' : v === 'month' ? 'Tháng' : v === 'quarter' ? 'Quý' : 'Năm'}</button>
+          ))}
+        </div>
+      </div>
+      <div
+        ref={scrollRef}
+        onPointerDown={onDown}
+        onPointerMove={onMove}
+        onPointerUp={onUp}
+        onPointerCancel={onUp}
+        className="cursor-grab touch-none overflow-auto rounded-lg border border-[#e2e8f0] select-none active:cursor-grabbing"
+        style={{ maxHeight: boxH }}
+      >
+        <table className="border-separate border-spacing-0 text-[11px] leading-none">
           <thead>
-            <tr className="whitespace-nowrap text-left">
-              <th className={`${thBase} sticky left-0 z-[2] border-r border-[#e2e8f0] text-left`} style={{ minWidth: LEFT_W, width: LEFT_W, maxWidth: LEFT_W }}>Nhóm hàng</th>
-              <th className={`${thBase} sticky z-[2] border-r border-[#e2e8f0] text-right`} style={{ left: LEFT_W, minWidth: TOT_W, width: TOT_W, maxWidth: TOT_W }}>Tổng</th>
-              {months.map((m) => <th key={m} className={`${thBase} whitespace-nowrap text-right`} style={{ minWidth: COL_W, width: COL_W, maxWidth: COL_W }}>{mLabel(m)}</th>)}
+            <tr>
+              <th className={`${thBase} sticky z-[4] border-b border-r border-[#e2e8f0] bg-[#f8fafc] text-left`} style={{ ...c1, top: 0, height: HEADER_H }}>Nhóm hàng</th>
+              <th className={`${thBase} sticky z-[4] border-b border-r border-[#e2e8f0] bg-[#f8fafc] text-right`} style={{ ...c2, top: 0, height: HEADER_H }}>Tổng</th>
+              {colKeys.map((c) => <th key={c} className={`${thBase} sticky z-[3] whitespace-nowrap border-b border-[#e2e8f0] bg-[#f8fafc] text-right`} style={{ top: 0, height: HEADER_H, minWidth: COL_W, width: COL_W, maxWidth: COL_W }}>{colLabel(c)}</th>)}
             </tr>
           </thead>
           <tbody>
+            <tr className="bg-[#f0f4f8] font-bold text-[#0f2a4a]">
+              <td className="sticky z-[4] whitespace-nowrap border-b-2 border-r border-[#e2e8f0] bg-[#f0f4f8] px-2" style={{ ...c1, top: HEADER_H, height: ROW_H }}>TỔNG</td>
+              <td className="sticky z-[4] whitespace-nowrap border-b-2 border-r border-[#e2e8f0] bg-[#f0f4f8] px-2 text-right tabular-nums text-[#0d7a59]" style={{ ...c2, top: HEADER_H, height: ROW_H }}>{fmtDot(result.total)}</td>
+              {colKeys.map((c) => <td key={c} className="sticky z-[2] whitespace-nowrap border-b-2 border-[#e2e8f0] bg-[#f0f4f8] px-2 text-right tabular-nums" style={{ top: HEADER_H, height: ROW_H, minWidth: COL_W, width: COL_W, maxWidth: COL_W }}>{fmtDot(colTot.get(c) ?? 0)}</td>)}
+            </tr>
             {nhoms.map((nh) => (
-              <tr key={nh} className="border-t border-[#f1f5f9] hover:bg-[#f8fafc]">
-                <td className="sticky left-0 z-[1] truncate border-r border-[#e2e8f0] bg-white px-2 py-2 font-medium text-[#1e293b]" style={{ minWidth: LEFT_W, width: LEFT_W, maxWidth: LEFT_W }} title={nh}>{nh}</td>
-                <td className="sticky z-[1] whitespace-nowrap border-r border-[#e2e8f0] bg-white px-2 py-2 text-right font-semibold tabular-nums text-[#0d7a59]" style={{ left: LEFT_W, minWidth: TOT_W, width: TOT_W, maxWidth: TOT_W }}>{fmtDot(totOf(nh))}</td>
-                {months.map((m) => <td key={m} className="whitespace-nowrap px-2 py-2 text-right tabular-nums text-[#334155]" style={{ minWidth: COL_W, width: COL_W, maxWidth: COL_W }}>{fmtCell(valMap.get(nh + '' + m) ?? 0)}</td>)}
+              <tr key={nh} className="bg-white hover:bg-[#f8fafc]">
+                <td className="sticky z-[1] truncate border-b border-r border-[#e2e8f0] bg-white px-2 font-medium text-[#1e293b]" style={{ ...c1, height: ROW_H }} title={nh}>{nh}</td>
+                <td className="sticky z-[1] whitespace-nowrap border-b border-r border-[#e2e8f0] bg-white px-2 text-right font-semibold tabular-nums text-[#0d7a59]" style={{ ...c2, height: ROW_H }}>{fmtDot(totOf(nh))}</td>
+                {colKeys.map((c) => <td key={c} className="whitespace-nowrap border-b border-[#e2e8f0] bg-white px-2 text-right tabular-nums text-[#334155]" style={{ height: ROW_H, minWidth: COL_W, width: COL_W, maxWidth: COL_W }}>{fmtCell(get(nh, c))}</td>)}
               </tr>
             ))}
           </tbody>
-          <tfoot>
-            <tr className="border-t-2 border-[#e2e8f0] bg-[#f0f4f8] font-bold text-[#0f2a4a]">
-              <td className="sticky left-0 whitespace-nowrap border-r border-[#e2e8f0] bg-[#f0f4f8] px-2 py-2" style={{ minWidth: LEFT_W, width: LEFT_W, maxWidth: LEFT_W }}>Tổng</td>
-              <td className="sticky whitespace-nowrap border-r border-[#e2e8f0] bg-[#f0f4f8] px-2 py-2 text-right tabular-nums text-[#0d7a59]" style={{ left: LEFT_W, minWidth: TOT_W, width: TOT_W, maxWidth: TOT_W }}>{fmtDot(result.total)}</td>
-              {months.map((m) => <td key={m} className="whitespace-nowrap px-2 py-2 text-right tabular-nums" style={{ minWidth: COL_W, width: COL_W, maxWidth: COL_W }}>{fmtDot(colTot(m))}</td>)}
-            </tr>
-          </tfoot>
         </table>
       </div>
-      <p className="mt-2 text-[11px] leading-none text-[#64748b]">Tính theo kỳ đang chọn và bộ lọc hiện tại. Vuốt/kéo ngang để xem đủ tháng — 2 cột đầu cố định. Ô "–" = không phát sinh.</p>
+      <p className="mt-2 text-[11px] leading-none text-[#64748b]">Kỳ {months.length} tháng · khung hiển thị tối đa {MAX_ROWS} dòng, kéo dọc trong khung. Giữ chuột rồi rê để cuộn ngang/dọc. 2 cột đầu và 2 dòng đầu luôn cố định. Ô "–" = không phát sinh.</p>
     </div>
   );
 }
+
 
 function FilterDropdown({ label, options, selected, onChange, searchable }: { label: string; options: string[]; selected: string[]; onChange: (v: string[]) => void; searchable?: boolean }) {
   const [open, setOpen] = useState(false);
