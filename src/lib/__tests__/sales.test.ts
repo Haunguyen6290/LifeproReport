@@ -57,4 +57,20 @@ describe('sales helpers', () => {
     expect(isAllowedNameWithMap('Người lạ', allowed, map)).toBe(false);
     expect(isAllowedNameWithMap('', allowed, map)).toBe(false);
   });
+
+  it('mapSalesName khong phan biet hoa/thuong + dau', () => {
+    const m: Record<string, string> = { 'Đỗ Thành Công': 'Nguyễn Trung Chính' };
+    // khác hoa thường
+    expect(mapSalesName('đỗ thành công', m)).toBe('Nguyễn Trung Chính');
+    expect(mapSalesName('ĐỖ THÀNH CÔNG', m)).toBe('Nguyễn Trung Chính');
+    // thừa khoảng trắng
+    expect(mapSalesName('  Đỗ   Thành  Công ', m)).toBe('Nguyễn Trung Chính');
+  });
+
+  it('isAllowedNameWithMap khong phan biet hoa/thuong + dau', () => {
+    const allowed = ['Nguyễn Trung Chính'];
+    const map: Record<string, string> = { 'Đỗ Thành Công': 'Nguyễn Trung Chính' };
+    expect(isAllowedNameWithMap('đỗ thành công', allowed, map)).toBe(true);
+    expect(isAllowedNameWithMap('ĐỖ THÀNH CÔNG', allowed, map)).toBe(true);
+  });
 });

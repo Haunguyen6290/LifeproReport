@@ -1,4 +1,5 @@
 // Helpers for sales dashboard: name mapping, filtering, month parsing, sheet header detection.
+import { normText } from '@/lib/format';
 
 export function normalizeName(s: string): string {
   return s.trim().replace(/\s+/g, ' ');
@@ -9,6 +10,13 @@ export function mapSalesName(raw: string, nameMap: Record<string, string>): stri
   if (k in nameMap) return nameMap[k];
   // also try exact raw (in case map has non-normalized keys)
   if (raw in nameMap) return nameMap[raw];
+  // Không phân biệt HOA/thường + dấu: file Odoo hay khác hoa thường với tên ông gõ trong bảng ánh xạ
+  const fold = normText(raw);
+  if (fold) {
+    for (const key of Object.keys(nameMap)) {
+      if (normText(key) === fold) return nameMap[key];
+    }
+  }
   return k;
 }
 
@@ -22,9 +30,9 @@ export function isAllowedNameWithMap(raw: string, allowed: string[], nameMap: Re
 }
 
 export function isAllowedName(raw: string, allowed: string[]): boolean {
-  const n = normalizeName(raw).toLowerCase();
+  const n = normText(raw);
   if (!n) return false;
-  return allowed.some((a) => normalizeName(a).toLowerCase() === n);
+  return allowed.some((a) => normText(a) === n);
 }
 
 export function saleMonthFromDate(d: string | Date): string {
