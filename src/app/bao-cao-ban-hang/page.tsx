@@ -17,6 +17,8 @@ function fmtMoney(n: number) {
   return new Intl.NumberFormat('vi-VN').format(Math.round(n)) + ' đ';
 }
 function fmtFull(n: number) { return new Intl.NumberFormat('vi-VN').format(Math.round(n)) + ' đ'; }
+/** Full tiền, phân cách hàng nghìn bằng dấu chấm, KHÔNG kèm "đ" (dùng cho bảng Nhóm hàng × Tháng). */
+function fmtDot(n: number) { return new Intl.NumberFormat('vi-VN').format(Math.round(n)); }
 function fmts(n: number) {
   if (!n) return '0';
   if (n >= 1e9) return (n / 1e9).toFixed(2).replace(/\.00$/, '') + ' tỷ';
@@ -82,65 +84,51 @@ function Chart({ option, height = 280 }: { option: echarts.EChartsOption | null;
 }
 
 function NhomMonthTable({ result }: { result: QueryResult | null }) {
-  const [gran, setGran] = useState<'auto' | 'month' | 'quarter'>('auto');
   if (!result || !result.byMonth || result.byMonth.length === 0) return null;
   const nm = result.nhomMonth ?? [];
   const months = result.byMonth.map((x) => x.m).filter(Boolean).sort();
   if (months.length === 0 || nm.length === 0) return null;
   const nhoms = result.byNhom.map((x) => x.label);
-  const qLab = (m: string) => { const [y, mo] = m.split('-'); return 'Q' + Math.ceil(Number(mo) / 3) + '/' + y.slice(-2); };
-  const useQuarter = gran === 'quarter' || (gran === 'auto' && months.length > 24);
-  const colKeys = useQuarter ? [...new Set(months.map(qLab))] : months;
-  const colLabels = colKeys.map((c) => (useQuarter ? c : 'T' + c.slice(5) + '/' + c.slice(2, 4)));
   const valMap = new Map<string, number>();
-  for (const x of nm) {
-    const k = useQuarter ? qLab(x.m) : x.m;
-    const key = x.nhom + '' + k;
-    valMap.set(key, (valMap.get(key) ?? 0) + x.value);
-  }
+  for (const x of nm) valMap.set(x.nhom + '' + x.m, (valMap.get(x.nhom + '' + x.m) ?? 0) + x.value);
   const totOf = (nh: string) => result.byNhom.find((x) => x.label === nh)?.value ?? 0;
-  const colTot = (c: string) => nhoms.reduce((a, nh) => a + (valMap.get(nh + '' + c) ?? 0), 0);
-  const fmtCell = (n: number) => (n ? fmts(n) : '–');
-  const LEFT_W = 180, TOT_W = 120;
-  const thBase = 'bg-[#f8fafc] px-3 py-2 text-[11px] font-bold text-[#64748b]';
+  const colTot = (m: string) => nhoms.reduce((a, nh) => a + (valMap.get(nh + '' + m) ?? 0), 0);
+  const fmtCell = (n: number) => (n ? fmtDot(n) : '–');
+  const COL_W = 132; // vừa đủ 15 ký tự (12 chữ số + 3 chấm) ở 11px tabular-nums, không xuống dòng
+  const LEFT_W = 200, TOT_W = 148;
+  const thBase = 'bg-[#f8fafc] px-2 py-2 text-[11px] font-bold leading-none text-[#64748b]';
+  const mLabel = (m: string) => 'T' + m.slice(5) + '/' + m.slice(2, 4);
   return (
     <div className="mt-4 rounded-xl bg-white p-4 shadow-[0_1px_4px_rgba(0,0,0,0.07),0_4px_16px_rgba(0,0,0,0.04)]">
-      <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
-        <div className="flex items-center gap-2 text-sm font-semibold text-[#1e293b]"><span className="h-2 w-2 rounded-full" style={{ background: '#F59E0B' }} />Doanh số theo Nhóm hàng × {useQuarter ? 'Quý' : 'Tháng'}</div>
-        <div className="flex items-center gap-1 rounded-full bg-[#f1f5f9] p-0.5 text-xs">
-          {(['auto', 'month', 'quarter'] as const).map((v) => (
-            <button key={v} onClick={() => setGran(v)} className={`rounded-full px-2.5 py-1 font-semibold ${gran === v ? 'bg-white text-[#1e293b] shadow' : 'text-[#64748b]'}`}>{v === 'auto' ? 'Tự động' : v === 'month' ? 'Tháng' : 'Quý'}</button>
-          ))}
-        </div>
-      </div>
+      <div className="mb-2 flex items-center gap-2 text-sm font-semibold text-[#1e293b]"><span className="h-2 w-2 rounded-full" style={{ background: '#F59E0B' }} />Doanh số theo Nhóm hàng × Tháng</div>
       <div className="overflow-auto rounded-lg border border-[#e2e8f0]">
-        <table className="w-full text-xs">
+        <table className="w-full text-[11px] leading-none">
           <thead>
-            <tr className="text-left">
-              <th className={`${thBase} sticky left-0 z-[2]`} style={{ minWidth: LEFT_W }}>Nhóm hàng</th>
-              <th className={`${thBase} sticky z-[2] text-right`} style={{ left: LEFT_W, minWidth: TOT_W }}>Tổng</th>
-              {colLabels.map((c) => <th key={c} className={`${thBase} whitespace-nowrap text-right`}>{c}</th>)}
+            <tr className="whitespace-nowrap text-left">
+              <th className={`${thBase} sticky left-0 z-[2] border-r border-[#e2e8f0] text-left`} style={{ minWidth: LEFT_W, width: LEFT_W, maxWidth: LEFT_W }}>Nhóm hàng</th>
+              <th className={`${thBase} sticky z-[2] border-r border-[#e2e8f0] text-right`} style={{ left: LEFT_W, minWidth: TOT_W, width: TOT_W, maxWidth: TOT_W }}>Tổng</th>
+              {months.map((m) => <th key={m} className={`${thBase} whitespace-nowrap text-right`} style={{ minWidth: COL_W, width: COL_W, maxWidth: COL_W }}>{mLabel(m)}</th>)}
             </tr>
           </thead>
           <tbody>
             {nhoms.map((nh) => (
               <tr key={nh} className="border-t border-[#f1f5f9] hover:bg-[#f8fafc]">
-                <td className="sticky left-0 z-[1] max-w-[220px] truncate bg-white px-3 py-1.5 font-medium text-[#1e293b]" style={{ minWidth: LEFT_W }} title={nh}>{nh}</td>
-                <td className="sticky z-[1] whitespace-nowrap bg-white px-3 py-1.5 text-right font-semibold text-[#0d7a59]" style={{ left: LEFT_W, minWidth: TOT_W }}>{fmts(totOf(nh))}</td>
-                {colKeys.map((c) => <td key={c} className="whitespace-nowrap px-3 py-1.5 text-right tabular-nums text-[#334155]">{fmtCell(valMap.get(nh + '' + c) ?? 0)}</td>)}
+                <td className="sticky left-0 z-[1] truncate border-r border-[#e2e8f0] bg-white px-2 py-2 font-medium text-[#1e293b]" style={{ minWidth: LEFT_W, width: LEFT_W, maxWidth: LEFT_W }} title={nh}>{nh}</td>
+                <td className="sticky z-[1] whitespace-nowrap border-r border-[#e2e8f0] bg-white px-2 py-2 text-right font-semibold tabular-nums text-[#0d7a59]" style={{ left: LEFT_W, minWidth: TOT_W, width: TOT_W, maxWidth: TOT_W }}>{fmtDot(totOf(nh))}</td>
+                {months.map((m) => <td key={m} className="whitespace-nowrap px-2 py-2 text-right tabular-nums text-[#334155]" style={{ minWidth: COL_W, width: COL_W, maxWidth: COL_W }}>{fmtCell(valMap.get(nh + '' + m) ?? 0)}</td>)}
               </tr>
             ))}
           </tbody>
           <tfoot>
             <tr className="border-t-2 border-[#e2e8f0] bg-[#f0f4f8] font-bold text-[#0f2a4a]">
-              <td className="sticky left-0 bg-[#f0f4f8] px-3 py-2" style={{ minWidth: LEFT_W }}>Tổng</td>
-              <td className="sticky z-[1] whitespace-nowrap bg-[#f0f4f8] px-3 py-2 text-right text-[#0d7a59]" style={{ left: LEFT_W, minWidth: TOT_W }}>{fmts(result.total)}</td>
-              {colKeys.map((c) => <td key={c} className="whitespace-nowrap px-3 py-2 text-right tabular-nums">{fmts(colTot(c))}</td>)}
+              <td className="sticky left-0 whitespace-nowrap border-r border-[#e2e8f0] bg-[#f0f4f8] px-2 py-2" style={{ minWidth: LEFT_W, width: LEFT_W, maxWidth: LEFT_W }}>Tổng</td>
+              <td className="sticky whitespace-nowrap border-r border-[#e2e8f0] bg-[#f0f4f8] px-2 py-2 text-right tabular-nums text-[#0d7a59]" style={{ left: LEFT_W, minWidth: TOT_W, width: TOT_W, maxWidth: TOT_W }}>{fmtDot(result.total)}</td>
+              {months.map((m) => <td key={m} className="whitespace-nowrap px-2 py-2 text-right tabular-nums" style={{ minWidth: COL_W, width: COL_W, maxWidth: COL_W }}>{fmtDot(colTot(m))}</td>)}
             </tr>
           </tfoot>
         </table>
       </div>
-      <p className="mt-2 text-[11px] text-[#64748b]">Tính theo kỳ đang chọn và bộ lọc hiện tại. Kỳ &gt;24 tháng tự gom theo Quý — bấm Tháng/Quý để đổi. Ô "–" = không phát sinh.</p>
+      <p className="mt-2 text-[11px] leading-none text-[#64748b]">Tính theo kỳ đang chọn và bộ lọc hiện tại. Vuốt/kéo ngang để xem đủ tháng — 2 cột đầu cố định. Ô "–" = không phát sinh.</p>
     </div>
   );
 }
