@@ -9,6 +9,18 @@ const SRV = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 export async function GET() {
   try {
     const admin = createClient(URL, SRV, { auth: { autoRefreshToken: false, persistSession: false } });
+
+    // Ưu tiên hàm SQL nhẹ (chạy trên index, trả vài chục giá trị). Chưa có migration 0039 thì fallback quét bảng.
+    try {
+      const { data, error } = await admin.rpc('sales_months');
+      if (!error && data) {
+        const months = Array.isArray((data as any).months) ? (data as any).months : [];
+        const years = Array.isArray((data as any).years) ? (data as any).years : [];
+        return NextResponse.json({ months, years });
+      }
+      if (error && String((error as any).code) !== 'PGRST202' && String((error as any).code) !== '42883') throw error;
+    } catch { /* fallback bên dưới */ }
+
     const step = 1000;
     let offset = 0;
     const months = new Set<string>();
