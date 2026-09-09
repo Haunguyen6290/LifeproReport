@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { normalizeName, mapSalesName, isAllowedName, saleMonthFromDate, parseSalesSheet, parseNumber } from '@/lib/sales';
+import { normalizeName, mapSalesName, isAllowedName, isAllowedNameWithMap, saleMonthFromDate, parseSalesSheet, parseNumber } from '@/lib/sales';
 
 describe('sales helpers', () => {
   it('mapSalesName gộp SG và Công về Chính', () => {
@@ -43,5 +43,18 @@ describe('sales helpers', () => {
 
   it('normalizeName', () => {
     expect(normalizeName('  Nguyễn   Trung  Chính  SG  ')).toBe('Nguyễn Trung Chính SG');
+  });
+
+  it('isAllowedNameWithMap cho qua khi anh xa ve ten duoc phep', () => {
+    const allowed = ['Nguyễn Trung Chính', 'Mai Đình Chiến'];
+    const map: Record<string, string> = { 'Nguyễn Trung Chính SG': 'Nguyễn Trung Chính', 'Đỗ Thành Công': 'Nguyễn Trung Chính' };
+    // Tên gốc đã được phép
+    expect(isAllowedNameWithMap('Mai Đình Chiến', allowed, map)).toBe(true);
+    // Tên không được phép nhưng ánh xạ về tên được phép → cho qua
+    expect(isAllowedNameWithMap('Nguyễn Trung Chính SG', allowed, map)).toBe(true);
+    expect(isAllowedNameWithMap('Đỗ Thành Công', allowed, map)).toBe(true);
+    // Tên không được phép và không ánh xạ
+    expect(isAllowedNameWithMap('Người lạ', allowed, map)).toBe(false);
+    expect(isAllowedNameWithMap('', allowed, map)).toBe(false);
   });
 });

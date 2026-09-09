@@ -12,6 +12,15 @@ export function mapSalesName(raw: string, nameMap: Record<string, string>): stri
   return k;
 }
 
+/**
+ * Kiểm tra tên có được phép: chấp nhận nếu tên gốc HOẶC tên sau ánh xạ nằm trong danh sách cho phép.
+ * Điều này cho phép ông ánh xạ "tên biến thể → tên chính thức" mà không cần thêm cả 2 vào danh sách cho phép.
+ */
+export function isAllowedNameWithMap(raw: string, allowed: string[], nameMap: Record<string, string>): boolean {
+  if (isAllowedName(raw, allowed)) return true;
+  return isAllowedName(mapSalesName(raw, nameMap), allowed);
+}
+
 export function isAllowedName(raw: string, allowed: string[]): boolean {
   const n = normalizeName(raw).toLowerCase();
   if (!n) return false;

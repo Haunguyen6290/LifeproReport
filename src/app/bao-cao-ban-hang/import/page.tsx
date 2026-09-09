@@ -33,6 +33,14 @@ function Inner() {
 
   function reset() { setPreview(null); setDone(null); setErr(''); setExcluded(new Set()); setMerged(new Map()); }
 
+  function friendlyErr(e: any, fallback: string): string {
+    const m = e?.message ?? String(e);
+    if (/failed to fetch|networkerror|load failed|timeout/i.test(m)) {
+      return 'Máy chủ trả lời quá lâu (có thể do file nhiều dòng/khách mới). Vui lòng bấm Xác nhận lưu lại lần nữa — dữ liệu thường đã được ghi, vào Dashboard kiểm tra trước khi import lại.';
+    }
+    return m || fallback;
+  }
+
   async function doPreview() {
     if (!file) { setErr('Chưa chọn file'); return; }
     setBusy(true); setErr(''); reset();
@@ -45,7 +53,7 @@ function Inner() {
       if (!res.ok) throw new Error(body?.error ?? 'Không đọc được file');
       setPreview(body);
     } catch (e: any) {
-      setErr(e?.message ?? String(e));
+      setErr(friendlyErr(e, 'Không đọc được file'));
     } finally { setBusy(false); }
   }
 
@@ -66,7 +74,7 @@ function Inner() {
       setMerged(new Map());
       setDone(body);
     } catch (e: any) {
-      setErr(e?.message ?? String(e));
+      setErr(friendlyErr(e, 'Import thất bại'));
     } finally { setConfirming(false); }
   }
 
