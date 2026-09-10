@@ -7,6 +7,7 @@ import { WarehouseDialog, type WarehouseInitial } from '@/components/WarehouseDi
 import { WarehouseReportDetail } from '@/components/WarehouseReportDetail';
 import { Dialog } from '@/components/Dialog';
 import { Selectable } from '@/components/Selectable';
+import { Combobox } from '@/components/Combobox';
 import { categoryItems, type CategoryItem } from '@/lib/categories';
 import { notifyTelegram } from '@/lib/notify';
 import { weekBounds } from '@/lib/week';
@@ -54,7 +55,7 @@ function weekKey(r: Row): string {
 function Screen() {
   const { userId, can } = useAuth();
   const [filterStatus, setFilterStatus] = useState<string[]>(['Chờ giải quyết', 'Đang giải quyết']); // Mặc định chỉ hiện chưa xong
-  const [filterGroup, setFilterGroup] = useState('');
+  const [filterGroup, setFilterGroup] = useState<string[]>([]); // Đổi thành array cho multi-select
   const [rows, setRows] = useState<Row[]>([]);
   const [profiles, setProfiles] = useState<Map<string, string>>(new Map());
   const [sanPhamMap, setSanPhamMap] = useState<Map<string, string>>(new Map());
@@ -99,7 +100,7 @@ function Screen() {
           .order('ngay', { ascending: false })
           .order('created_at', { ascending: false });
         if (filterStatus.length > 0) q = q.in('trang_thai', filterStatus);
-        if (filterGroup) q = q.eq('product_group_id', filterGroup);
+        if (filterGroup.length > 0) q = q.in('product_group_id', filterGroup);
         const { data, error } = await q;
         if (cancelled) return;
         if (error) { setMsg(error.message); setRows([]); }
@@ -186,12 +187,14 @@ function Screen() {
                 <option value="TAT_CA">Tất cả trạng thái</option>
               </select>
             </div>
-            <div>
+            <div className="flex-1 min-w-[280px]">
               <label className="mb-1 block text-xs font-semibold uppercase tracking-wider text-[#1e3a8a]">Nhóm sản phẩm</label>
-              <select value={filterGroup} onChange={(e) => setFilterGroup(e.target.value)} className={sel}>
-                <option value="">— Tất cả —</option>
-                {sanPhamOpts.map((o) => <option key={o.id} value={o.id}>{o.name}</option>)}
-              </select>
+              <Combobox
+                options={sanPhamOpts.map((o) => ({ id: o.id, label: o.name }))}
+                value={filterGroup}
+                onChange={setFilterGroup}
+                placeholder="Bấm để tìm + chọn nhiều nhóm…"
+              />
             </div>
           </div>
           <p className="mt-2 text-xs text-slate-500">Lọc theo Trạng thái và Nhóm sản phẩm. Mặc định chỉ hiện báo cáo chưa xử lý xong.</p>

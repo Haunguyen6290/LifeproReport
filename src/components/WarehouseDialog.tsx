@@ -300,11 +300,12 @@ export function WarehouseDialog({
                       </select>
                     </td>
                     <td className="px-3 py-2">
-                      <input
+                      <textarea
                         value={it.tinh_trang}
                         onChange={(e) => setItems(items.map((x, i) => (i === idx ? { ...x, tinh_trang: e.target.value } : x)))}
                         placeholder="Mô tả tình trạng…"
-                        className="w-full rounded border border-slate-200 px-2 py-1.5 text-sm outline-none focus:border-[#1e3a8a]"
+                        rows={2}
+                        className="w-full rounded border border-slate-200 px-2 py-1.5 text-sm outline-none focus:border-[#1e3a8a] resize-y"
                       />
                     </td>
                     <td className="px-3 py-2 text-center">
