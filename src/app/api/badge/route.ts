@@ -20,20 +20,41 @@ export async function GET(req: NextRequest) {
   const user = await getUser(req);
   if (!user) return NextResponse.json({ error: 'Chưa đăng nhập' }, { status: 401 });
   const admin = createAdminClient();
-  // last viewed per kind, default 2000-01-01 if never viewed
+
+  // Badge Thông báo (bulletin)
   const { data: views } = await admin.from('badge_views').select('kind, last_viewed_at').eq('user_id', user.id);
   const byKind: Record<string, string> = {};
   for (const v of (views ?? []) as { kind: string; last_viewed_at: string }[]) byKind[v.kind] = v.last_viewed_at;
   const bBulletin = byKind['bulletin'] ?? '2000-01-01T00:00:00Z';
-  const bCampaign = byKind['campaign'] ?? '2000-01-01T00:00:00Z';
-  // count new posts/updates since last viewed
-  const [bulletinCnt, campaignCnt] = await Promise.all([
-    admin.from('bulletin_posts').select('id', { count: 'exact', head: true }).gt('created_at', bBulletin),
-    admin.from('campaign_updates').select('id', { count: 'exact', head: true }).gt('created_at', bCampaign),
-  ]);
+
+  const bulletinCnt = await admin.from('bulletin_posts').select('id', { count: 'exact', head: true }).gt('created_at', bBulletin);
+
+  // Badge Chiến dịch: đếm tổng updates + comments chưa đọc của tất cả chiến dịch
+  // Lấy danh sách campaign_id và last_viewed_at
+  const { data: allCamps } = await admin.from('campaigns').select('id');
+  const campIds = (allCamps ?? []).map((c: any) => c.id);
+
+  let totalUnread = 0;
+  if (campIds.length > 0) {
+    const { data: campViews } = await admin.from('campaign_views').select('campaign_id, last_viewed_at').eq('user_id', user.id).in('campaign_id', campIds);
+    const viewMap: Record<string, string> = {};
+    for (const v of (campViews ?? []) as { campaign_id: string; last_viewed_at: string }[]) {
+      viewMap[v.campaign_id] = v.last_viewed_at;
+    }
+
+    for (const cid of campIds) {
+      const lastViewed = viewMap[cid] ?? '2000-01-01T00:00:00Z';
+      const [updCnt, cmtCnt] = await Promise.all([
+        admin.from('campaign_updates').select('id', { count: 'exact', head: true }).eq('campaign_id', cid).neq('reporter_id', user.id).gt('created_at', lastViewed),
+        admin.from('comments').select('id', { count: 'exact', head: true }).eq('target_type', 'campaign').eq('target_id', cid).neq('author_id', user.id).gt('created_at', lastViewed),
+      ]);
+      totalUnread += ((updCnt as any)?.count ?? 0) + ((cmtCnt as any)?.count ?? 0);
+    }
+  }
+
   return NextResponse.json({
     bulletin: (bulletinCnt as any)?.count ?? 0,
-    campaign: (campaignCnt as any)?.count ?? 0,
+    campaign: totalUnread,
   });
 }
 

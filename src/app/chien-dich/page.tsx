@@ -9,17 +9,35 @@ import { Dialog } from '@/components/Dialog';
 import { Selectable } from '@/components/Selectable';
 import { fmtDateVN } from '@/lib/time';
 
-type CD = { id: string; name: string; objective: string; start_date: string; end_date: string; type?: { name: string } | null; status?: { name: string } | null };
+type CD = { id: string; name: string; objective: string; start_date: string; end_date: string; type?: { name: string } | null; status?: { name: string } | null; unread?: number };
 
 function Screen() {
-  const { can } = useAuth();
+  const { can, userId } = useAuth();
   const [list, setList] = useState<CD[]>([]);
   const [open, setOpen] = useState(false);
   const [detailId, setDetailId] = useState<string | null>(null);
 
   async function load() {
     const { data } = await supabase.from('campaigns').select('id, name, objective, start_date, end_date, type:category_items!campaigns_type_id_fkey(name), status:category_items!campaigns_status_id_fkey(name)').order('created_at', { ascending: false });
-    setList((data ?? []) as unknown as CD[]);
+    const campaigns = (data ?? []) as unknown as CD[];
+
+    // Lấy session để gọi API đếm tin chưa đọc
+    const { data: { session } } = await supabase.auth.getSession();
+    if (session?.access_token && campaigns.length > 0) {
+      try {
+        const res = await fetch('/api/campaign/unread', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session.access_token}` },
+          body: JSON.stringify({ campaign_ids: campaigns.map(c => c.id) }),
+        });
+        const unreadData = await res.json() as Record<string, number>;
+        for (const c of campaigns) {
+          c.unread = unreadData[c.id] ?? 0;
+        }
+      } catch {}
+    }
+
+    setList(campaigns);
   }
   useEffect(() => { load(); }, []);
 
@@ -41,7 +59,14 @@ function Screen() {
               <li key={c.id}>
                 <Selectable as="button" onOpen={() => setDetailId(c.id)} className={`${card} ${leftBorder[c.status?.name ?? ''] ?? ''} block w-full text-left`}>
                   <div className="flex flex-wrap items-center justify-between gap-2">
-                    <span className="font-semibold text-slate-900">{c.name}</span>
+                    <div className="flex items-center gap-2">
+                      <span className="font-semibold text-slate-900">{c.name}</span>
+                      {c.unread !== undefined && c.unread > 0 && (
+                        <span className="inline-flex items-center gap-1 rounded-full bg-red-500 px-2 py-0.5 text-xs font-bold text-white">
+                          {c.unread} tin chưa đọc
+                        </span>
+                      )}
+                    </div>
                     <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs font-semibold text-slate-600">{c.status?.name ?? '—'}</span>
                   </div>
                   <div className="mt-1 text-xs text-slate-600">{c.type?.name ?? '—'} · {c.start_date ? fmtDateVN(c.start_date) : '—'} → {c.end_date ? fmtDateVN(c.end_date) : '—'}</div>

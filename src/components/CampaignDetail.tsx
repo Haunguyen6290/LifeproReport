@@ -72,6 +72,17 @@ export function CampaignDetail({ id, onClose }: { id: string; onClose?: () => vo
 
   useEffect(() => {
     load();
+    // Đánh dấu đã xem chiến dịch này
+    (async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.access_token) {
+        await fetch('/api/campaign/mark-viewed', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session.access_token}` },
+          body: JSON.stringify({ campaign_id: id }),
+        });
+      }
+    })();
     (async () => {
       const [t, p, c, ct, cs] = await Promise.all([categoryItems('loai_cap_nhat'), categoryItems('san_pham'), supabase.from('customers').select('id, ma_kh, ten_kh').order('ten_kh'), categoryItems('loai_chien_dich'), categoryItems('trang_thai_chien_dich')]);
       setTypes(t.map((x) => ({ id: x.id, name: x.name })));
