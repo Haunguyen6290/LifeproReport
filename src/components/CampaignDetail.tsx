@@ -19,7 +19,7 @@ type Update = {
 };
 const RATING_LABEL: Record<string, string> = { TOT: '🟢 Tốt', BINH_THUONG: '🟡 Bình thường', XAU: '🔴 Xấu' };
 
-export function CampaignDetail({ id, onClose }: { id: string; onClose?: () => void }) {
+export function CampaignDetail({ id, onClose, onMarkViewed }: { id: string; onClose?: () => void; onMarkViewed?: () => void }) {
   const { userId, can } = useAuth();
   const [name, setName] = useState('');
   const [objective, setObjective] = useState('');
@@ -81,6 +81,8 @@ export function CampaignDetail({ id, onClose }: { id: string; onClose?: () => vo
           headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session.access_token}` },
           body: JSON.stringify({ campaign_id: id }),
         });
+        // Callback để trang danh sách refresh badge
+        onMarkViewed?.();
       }
     })();
     (async () => {
@@ -91,7 +93,7 @@ export function CampaignDetail({ id, onClose }: { id: string; onClose?: () => vo
       setCampTypes(ct.map((x) => ({ id: x.id, name: x.name })));
       setCampStatuses(cs.map((x) => ({ id: x.id, name: x.name })));
     })();
-  }, [id]);
+  }, [id, onMarkViewed]);
 
   function startEdit() {
     setEditName(name); setEditType(meta.type_id ?? ''); setEditStatus(meta.status_id ?? '');

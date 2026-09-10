@@ -39,6 +39,23 @@ function Screen() {
 
     setList(campaigns);
   }
+
+  async function refreshBadge(campaignId: string) {
+    // Gọi lại API đếm badge cho chiến dịch vừa xem
+    const { data: { session } } = await supabase.auth.getSession();
+    if (session?.access_token) {
+      try {
+        const res = await fetch('/api/campaign/unread', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session.access_token}` },
+          body: JSON.stringify({ campaign_ids: [campaignId] }),
+        });
+        const unreadData = await res.json() as Record<string, number>;
+        // Cập nhật badge trên UI
+        setList(prev => prev.map(c => c.id === campaignId ? { ...c, unread: unreadData[campaignId] ?? 0 } : c));
+      } catch {}
+    }
+  }
   useEffect(() => { load(); }, []);
 
   const card = 'rounded-xl border border-slate-200 bg-white p-4 shadow-[0_1px_3px_rgba(15,23,42,0.06)] hover:shadow-[0_4px_12px_rgba(15,23,42,0.08)] transition';
@@ -52,7 +69,7 @@ function Screen() {
           {can('quan_ly_chien_dich') && <button onClick={() => setOpen(true)} className="rounded-lg bg-[var(--color-primary)] px-4 py-2.5 text-sm font-semibold text-white shadow hover:bg-[var(--color-primary-hover)]">+ Tạo chiến dịch</button>}
         </div>
         <AddCampaignDialog open={open} onClose={() => setOpen(false)} onDone={load} />
-        {detailId && <Dialog open={!!detailId} onClose={() => setDetailId(null)} title="Chi tiết chiến dịch" size="wide"><CampaignDetail id={detailId} onClose={() => setDetailId(null)} /></Dialog>}
+        {detailId && <Dialog open={!!detailId} onClose={() => setDetailId(null)} title="Chi tiết chiến dịch" size="wide"><CampaignDetail id={detailId} onClose={() => setDetailId(null)} onMarkViewed={() => refreshBadge(detailId)} /></Dialog>}
         {list.length === 0 ? <p className="py-10 text-center text-slate-600">Chưa có chiến dịch nào.</p> : (
           <ul className="space-y-3">
             {list.map((c) => (
