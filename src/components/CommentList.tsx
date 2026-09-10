@@ -15,9 +15,9 @@ export type Comment = {
   images?: { id: string; public_url: string }[];
 };
 
-export function CommentList({ targetType, targetId }: { targetType: 'news' | 'campaign_update' | 'warehouse_report'; targetId: string }) {
+export function CommentList({ targetType, targetId, initialComments }: { targetType: 'news' | 'campaign_update' | 'warehouse_report'; targetId: string; initialComments?: Comment[] }) {
   const { userId, fullName, can } = useAuth();
-  const [items, setItems] = useState<Comment[]>([]);
+  const [items, setItems] = useState<Comment[]>(initialComments ?? []);
   const [content, setContent] = useState('');
   const [imgs, setImgs] = useState<{ storage_path: string; public_url: string }[]>([]);
   const [busy, setBusy] = useState(false);
@@ -54,7 +54,11 @@ export function CommentList({ targetType, targetId }: { targetType: 'news' | 'ca
     setItems(list);
   }
 
-  useEffect(() => { load(); /* eslint-disable-next-line */ }, [targetId]);
+  useEffect(() => {
+    // Chỉ fetch lại khi không có initialComments (trang cũ chưa tối ưu) hoặc targetId thay đổi
+    if (!initialComments || items.length === 0) load();
+    // eslint-disable-next-line
+  }, [targetId]);
 
   async function onCommentPaste(e: React.ClipboardEvent) {
     const files = imagesFromPaste(e);

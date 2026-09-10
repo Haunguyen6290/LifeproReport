@@ -56,6 +56,7 @@ function Screen({ params }: { params: Promise<{ id: string }> }) {
     const { data: ups } = await supabase.from('campaign_updates').select('id, ngay, content, rating, conclusion_content, conclusion_resolved, reporter:profiles!campaign_updates_reporter_id_fkey(full_name), type:category_items!campaign_updates_type_id_fkey(name)').eq('campaign_id', id).order('created_at', { ascending: false });
     const list = (ups ?? []) as any[];
     const ids = list.map((u) => u.id);
+    // Gộp fetch object_links, customers, products
     const [lkRes, lpRes] = await Promise.all([
       supabase.from('object_links').select('owner_id, target_id').eq('owner_type', 'campaign_update').in('owner_id', ids).eq('target_type', 'customer'),
       supabase.from('object_links').select('owner_id, target_id').eq('owner_type', 'campaign_update').in('owner_id', ids).eq('target_type', 'product'),
@@ -66,6 +67,26 @@ function Screen({ params }: { params: Promise<{ id: string }> }) {
     if (khIds.length) { const { data } = await supabase.from('customers').select('id, ma_kh, ten_kh').in('id', khIds); for (const c of (data ?? []) as any[]) khMap[c.id] = { ma_kh: c.ma_kh, ten_kh: c.ten_kh }; }
     const spMap: Record<string, { name: string }> = {};
     if (spIds.length) { const { data } = await supabase.from('category_items').select('id, name').in('id', spIds); for (const s of (data ?? []) as any[]) spMap[s.id] = { name: s.name }; }
+    // Gộp fetch comments + attachments cho TẤT CẢ updates trong 1 đợt
+    let comments: any[] = [];
+    if (ids.length) {
+      const r = await supabase.from('comments').select('id, target_id, author_id, content, created_at, edited_at, author:profiles!comments_author_id_fkey(full_name, avatar_url)').eq('target_type', 'campaign_update').in('target_id', ids).is('deleted_at', null).order('created_at', { ascending: true });
+      if (r.error && String(r.error.message).includes('avatar_url')) {
+        const r2 = await supabase.from('comments').select('id, target_id, author_id, content, created_at, edited_at, author:profiles!comments_author_id_fkey(full_name)').eq('target_type', 'campaign_update').in('target_id', ids).is('deleted_at', null).order('created_at', { ascending: true });
+        comments = (r2.data ?? []) as any[];
+      } else {
+        comments = (r.data ?? []) as any[];
+      }
+      const cIds = comments.map((c) => c.id);
+      if (cIds.length) {
+        const { data: atts } = await supabase.from('attachments').select('id, owner_id, public_url').eq('owner_type', 'comment').in('owner_id', cIds);
+        const attMap: Record<string, { id: string; public_url: string }[]> = {};
+        for (const a of (atts ?? []) as { id: string; owner_id: string; public_url: string }[]) (attMap[a.owner_id] ||= []).push({ id: a.id, public_url: a.public_url });
+        comments.forEach((c) => (c.images = attMap[c.id] ?? []));
+      }
+    }
+    const commentsByUpdate: Record<string, any[]> = {};
+    comments.forEach((c) => (commentsByUpdate[c.target_id] ||= []).push(c));
     const out: Update[] = list.map((u) => ({
       id: u.id, ngay: u.ngay, content: u.content, rating: u.rating, conclusion_content: u.conclusion_content, conclusion_resolved: u.conclusion_resolved,
       reporter: u.reporter, type: u.type,
@@ -73,6 +94,8 @@ function Screen({ params }: { params: Promise<{ id: string }> }) {
       ganSP: (lpRes.data ?? []).filter((x: any) => x.owner_id === u.id).map((x: any) => spMap[x.target_id]).filter(Boolean),
     }));
     setUpdates(out);
+    // Lưu comments đã fetch vào state để truyền xuống CommentList
+    (window as any).__campaignComments = commentsByUpdate;
   }
 
   useEffect(() => {
@@ -248,7 +271,7 @@ function Screen({ params }: { params: Promise<{ id: string }> }) {
                     <button onClick={() => conclude(u, false)} className="rounded border border-slate-200 px-2 py-1 text-xs hover:border-[#1e3a8a]">⏳ Chưa xử lý</button>
                   </div>
                 ) : null}
-                <CommentList targetType="campaign_update" targetId={u.id} />
+                <CommentList targetType="campaign_update" targetId={u.id} initialComments={typeof window !== 'undefined' ? ((window as any).__campaignComments?.[u.id] ?? []) : []} />
               </li>
             ))}
           </ul>
