@@ -178,8 +178,8 @@ function Screen() {
           <div className="flex flex-wrap items-end gap-3">
             <div>
               <label className="mb-1 block text-xs font-semibold uppercase tracking-wider text-[#1e3a8a]">Trạng thái</label>
-              <select value={filterStatus.length === 1 ? filterStatus[0] : (filterStatus.length === 2 && !filterStatus.includes('Đã xử lý') ? 'CHUA_XON' : 'TAT_CA')} onChange={(e) => { const v = e.target.value; if (v === 'TAT_CA') setFilterStatus([]); else if (v === 'CHUA_XONG') setFilterStatus(['Chờ giải quyết', 'Đang giải quyết']); else setFilterStatus([v]); }} className={sel}>
-                <option value="CHUA_XONG">Chờ xử lý + Đang xử lý</option>
+              <select value={filterStatus.length === 1 ? filterStatus[0] : (filterStatus.length === 2 && !filterStatus.includes('Đã xử lý') ? 'CHUA_XONG' : 'TAT_CA')} onChange={(e) => { const v = e.target.value; if (v === 'TAT_CA') setFilterStatus([]); else if (v === 'CHUA_XONG') setFilterStatus(['Chờ giải quyết', 'Đang giải quyết']); else setFilterStatus([v]); }} className={sel}>
+                <option value="CHUA_XONG">Chờ + Đang giải quyết</option>
                 <option value="Chờ giải quyết">Chờ giải quyết</option>
                 <option value="Đang giải quyết">Đang giải quyết</option>
                 <option value="Đã xử lý">Đã xử lý</option>
