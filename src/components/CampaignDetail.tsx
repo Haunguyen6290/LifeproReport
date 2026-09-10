@@ -24,7 +24,6 @@ export function CampaignDetail({ id, onClose }: { id: string; onClose?: () => vo
   const [name, setName] = useState('');
   const [objective, setObjective] = useState('');
   const [meta, setMeta] = useState<{ type?: string; status?: string; type_id?: string; status_id?: string; start?: string; end?: string; owner?: string; owner_id?: string }>({});
-  const [krs, setKrs] = useState<{ id?: string; title: string }[]>([]);
   const [updates, setUpdates] = useState<Update[]>([]);
   const [types, setTypes] = useState<{ id: string; name: string }[]>([]);
   const [campTypes, setCampTypes] = useState<{ id: string; name: string }[]>([]);
@@ -46,8 +45,6 @@ export function CampaignDetail({ id, onClose }: { id: string; onClose?: () => vo
     const { data: cd } = await supabase.from('campaigns').select('id, name, objective, start_date, end_date, type_id, status_id, owner_id, type:category_items!campaigns_type_id_fkey(name), status:category_items!campaigns_status_id_fkey(name), owner:profiles!campaigns_owner_id_fkey(full_name)').eq('id', id).single();
     setName(cd?.name ?? ''); setObjective(cd?.objective ?? '');
     setMeta({ type: (cd as any)?.type?.name, status: (cd as any)?.status?.name, type_id: (cd as any)?.type_id, status_id: (cd as any)?.status_id, start: (cd as any)?.start_date, end: (cd as any)?.end_date, owner: (cd as any)?.owner?.full_name, owner_id: (cd as any)?.owner_id });
-    const { data: k } = await supabase.from('key_results').select('id, title').eq('campaign_id', id).order('sort_order');
-    setKrs((k ?? []).map((x: any) => ({ id: x.id, title: x.title })));
     const { data: ups } = await supabase.from('campaign_updates').select('id, ngay, content, rating, conclusion_content, conclusion_resolved, reporter:profiles!campaign_updates_reporter_id_fkey(full_name), type:category_items!campaign_updates_type_id_fkey(name)').eq('campaign_id', id).order('created_at', { ascending: false });
     const list = (ups ?? []) as any[];
     const ids = list.map((u) => u.id);
@@ -104,12 +101,6 @@ export function CampaignDetail({ id, onClose }: { id: string; onClose?: () => vo
     await supabase.from('campaigns').delete().eq('id', id);
     onClose?.();
   }
-  async function saveKrs() {
-    setBusy(true);
-    await supabase.from('key_results').delete().eq('campaign_id', id);
-    for (let i = 0; i < krs.length; i++) { const kr = krs[i]; if (!kr.title.trim()) continue; await supabase.from('key_results').insert({ campaign_id: id, title: kr.title.trim(), sort_order: i }); }
-    setBusy(false); load();
-  }
   async function postUpdate() {
     if (!newU.content.trim()) return;
     setBusy(true);
@@ -153,7 +144,7 @@ export function CampaignDetail({ id, onClose }: { id: string; onClose?: () => vo
                   {(meta.start || meta.end) && <span>{meta.start ? fmtDateVN(meta.start) : '—'} → {meta.end ? fmtDateVN(meta.end) : '—'}</span>}
                 </div>
                 {objective && <p className="mt-2 text-sm"><span className="font-semibold">🎯 Mục tiêu:</span> {objective}</p>}
-                <div className="mt-2 flex gap-2 text-xs text-slate-600"><span>{krs.length} KR</span><span>·</span><span>{updates.length} cập nhật</span></div>
+                <div className="mt-2 flex gap-2 text-xs text-slate-600"><span>{updates.length} cập nhật</span></div>
               </div>
             </div>
             <div className="flex shrink-0 gap-2">
@@ -173,19 +164,6 @@ export function CampaignDetail({ id, onClose }: { id: string; onClose?: () => vo
               <div className="sm:col-span-2 flex justify-end gap-2"><button onClick={() => setEditing(false)} className="rounded-lg border border-slate-200 px-4 py-2 text-sm">Hủy</button><button onClick={saveEdit} disabled={busy || !editName.trim()} className="rounded-lg bg-[#1e3a8a] px-4 py-2 text-sm font-semibold text-white hover:bg-[#1e40af] disabled:opacity-60">{busy?'Đang lưu…':'Lưu'}</button></div>
             </div>
           )}
-        </div>
-        <div className={card + ' mt-4'}>
-          <div className="mb-2 flex items-center justify-between"><h2 className="text-sm font-bold text-[#1e3a8a]">Key Results (OKR)</h2><button onClick={() => setKrs((k)=>[...k,{title:''}])} className="text-xs font-semibold text-[#1e3a8a] hover:underline">+ KR</button></div>
-          <div className="space-y-2">
-            {krs.map((kr, i) => (
-              <div key={i} className="flex gap-2">
-                <span className="grid shrink-0 place-items-center text-xs font-semibold text-slate-600">{i + 1}.</span>
-                <input value={kr.title} onChange={(e) => setKrs((k)=>k.map((x,idx)=>idx===i?{...x,title:e.target.value}:x))} placeholder={`Key Result ${i+1} (vd: Tiếp cận 50 khách)`} className={sel + ' w-full'} />
-                <button type="button" onClick={() => setKrs(krs.filter((_, idx) => idx !== i))} aria-label="Bỏ KR" className="shrink-0 rounded-md border border-slate-200 px-2 text-sm text-slate-600 hover:border-red-300 hover:text-red-600">×</button>
-              </div>
-            ))}
-          </div>
-          <div className="mt-2 flex justify-end"><button onClick={async()=>{ setBusy(true); await supabase.from('key_results').delete().eq('campaign_id', id); for(let i=0;i<krs.length;i++){ const kr=krs[i]; if(!kr.title.trim()) continue; await supabase.from('key_results').insert({ campaign_id: id, title: kr.title.trim(), sort_order: i }); } setBusy(false); load(); }} disabled={busy} className="rounded-lg bg-[#1e3a8a] px-4 py-2 text-sm font-semibold text-white hover:bg-[#1e40af] disabled:opacity-60">{busy ? 'Đang lưu…' : 'Lưu OKR'}</button></div>
         </div>
         <div className="mt-4 flex justify-end"><button onClick={() => setAddOpen(true)} className="rounded-lg bg-[#1e3a8a] px-4 py-2 text-sm font-semibold text-white hover:bg-[#1e40af]">+ Thêm bản cập nhật</button></div>
         <Dialog open={addOpen} onClose={() => setAddOpen(false)} title="Thêm bản cập nhật">
