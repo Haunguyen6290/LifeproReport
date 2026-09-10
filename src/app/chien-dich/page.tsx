@@ -23,7 +23,11 @@ function Screen() {
     const { data } = await supabase.from('campaigns').select('id, name, objective, start_date, end_date, type:category_items!campaigns_type_id_fkey(name), status:category_items!campaigns_status_id_fkey(name)').order('created_at', { ascending: false });
     const campaigns = (data ?? []) as unknown as CD[];
 
-    // Lấy session để gọi API đếm tin chưa đọc
+    // Hiển thị danh sách ngay, chưa có badge
+    setList(campaigns);
+    setLoading(false);
+
+    // Load badge sau (lazy loading)
     const { data: { session } } = await supabase.auth.getSession();
     if (session?.access_token && campaigns.length > 0) {
       try {
@@ -33,14 +37,10 @@ function Screen() {
           body: JSON.stringify({ campaign_ids: campaigns.map(c => c.id) }),
         });
         const unreadData = await res.json() as Record<string, number>;
-        for (const c of campaigns) {
-          c.unread = unreadData[c.id] ?? 0;
-        }
+        // Cập nhật badge sau khi API trả về
+        setList(prev => prev.map(c => ({ ...c, unread: unreadData[c.id] ?? 0 })));
       } catch {}
     }
-
-    setList(campaigns);
-    setLoading(false);
   }
 
   async function refreshBadge(campaignId: string) {
