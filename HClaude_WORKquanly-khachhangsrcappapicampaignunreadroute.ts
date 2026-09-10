@@ -38,35 +38,30 @@ export async function POST(req: NextRequest) {
     viewMap[v.campaign_id] = v.last_viewed_at;
   }
 
-  // Lấy tất cả updates + comments trong 1 lần (gộp query)
-  const [allUpdates, allComments] = await Promise.all([
-    admin
-      .from('campaign_updates')
-      .select('campaign_id, created_at, reporter_id')
-      .in('campaign_id', campaign_ids)
-      .neq('reporter_id', user.id),
-    admin
-      .from('comments')
-      .select('target_id, created_at, author_id')
-      .eq('target_type', 'campaign')
-      .in('target_id', campaign_ids)
-      .neq('author_id', user.id),
-  ]);
-
-  // Đếm từng campaign
+  // Đếm updates + comments cho từng campaign (không đếm của chính mình)
   const result: Record<string, number> = {};
+
   for (const cid of campaign_ids) {
     const lastViewed = viewMap[cid] ?? '2000-01-01T00:00:00Z';
 
-    const updatesCount = (allUpdates.data ?? []).filter(
-      (u: any) => u.campaign_id === cid && u.created_at > lastViewed
-    ).length;
+    // Đếm updates (không phải của mình)
+    const { count: updatesCount } = await admin
+      .from('campaign_updates')
+      .select('id', { count: 'exact', head: true })
+      .eq('campaign_id', cid)
+      .neq('reporter_id', user.id)
+      .gt('created_at', lastViewed);
 
-    const commentsCount = (allComments.data ?? []).filter(
-      (c: any) => c.target_id === cid && c.created_at > lastViewed
-    ).length;
+    // Đếm comments (không phải của mình)
+    const { count: commentsCount } = await admin
+      .from('comments')
+      .select('id', { count: 'exact', head: true })
+      .eq('target_type', 'campaign')
+      .eq('target_id', cid)
+      .neq('author_id', user.id)
+      .gt('created_at', lastViewed);
 
-    result[cid] = updatesCount + commentsCount;
+    result[cid] = (updatesCount ?? 0) + (commentsCount ?? 0);
   }
 
   return NextResponse.json(result);

@@ -29,7 +29,8 @@ export async function GET(req: NextRequest) {
 
   const bulletinCnt = await admin.from('bulletin_posts').select('id', { count: 'exact', head: true }).gt('created_at', bBulletin);
 
-  // Badge Chiến dịch: gộp query lại cho nhanh
+  // Badge Chiến dịch: đếm tổng updates + comments chưa đọc của tất cả chiến dịch
+  // Lấy danh sách campaign_id và last_viewed_at
   const { data: allCamps } = await admin.from('campaigns').select('id');
   const campIds = (allCamps ?? []).map((c: any) => c.id);
 
@@ -41,17 +42,13 @@ export async function GET(req: NextRequest) {
       viewMap[v.campaign_id] = v.last_viewed_at;
     }
 
-    // Gộp lấy tất cả updates + comments 1 lần
-    const [allUpdates, allComments] = await Promise.all([
-      admin.from('campaign_updates').select('campaign_id, created_at, reporter_id').in('campaign_id', campIds).neq('reporter_id', user.id),
-      admin.from('comments').select('target_id, created_at, author_id').eq('target_type', 'campaign').in('target_id', campIds).neq('author_id', user.id),
-    ]);
-
     for (const cid of campIds) {
       const lastViewed = viewMap[cid] ?? '2000-01-01T00:00:00Z';
-      const updCnt = (allUpdates.data ?? []).filter((u: any) => u.campaign_id === cid && u.created_at > lastViewed).length;
-      const cmtCnt = (allComments.data ?? []).filter((c: any) => c.target_id === cid && c.created_at > lastViewed).length;
-      totalUnread += updCnt + cmtCnt;
+      const [updCnt, cmtCnt] = await Promise.all([
+        admin.from('campaign_updates').select('id', { count: 'exact', head: true }).eq('campaign_id', cid).neq('reporter_id', user.id).gt('created_at', lastViewed),
+        admin.from('comments').select('id', { count: 'exact', head: true }).eq('target_type', 'campaign').eq('target_id', cid).neq('author_id', user.id).gt('created_at', lastViewed),
+      ]);
+      totalUnread += ((updCnt as any)?.count ?? 0) + ((cmtCnt as any)?.count ?? 0);
     }
   }
 
