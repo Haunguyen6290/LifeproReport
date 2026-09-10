@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { supabase } from '@/lib/supabase/client';
 import { RequireAuth, useAuth } from '@/components/RequireAuth';
 import { AppSidebar } from '@/components/AppSidebar';
@@ -7,7 +7,6 @@ import { WarehouseDialog, type WarehouseInitial } from '@/components/WarehouseDi
 import { WarehouseReportDetail } from '@/components/WarehouseReportDetail';
 import { Dialog } from '@/components/Dialog';
 import { Selectable } from '@/components/Selectable';
-import { Combobox } from '@/components/Combobox';
 import { categoryItems, type CategoryItem } from '@/lib/categories';
 import { notifyTelegram } from '@/lib/notify';
 import { weekBounds } from '@/lib/week';
@@ -28,6 +27,48 @@ type Row = {
   tuan_den: string | null;
   created_at: string;
 };
+
+function FilterDropdown({ label, options, selected, onChange }: { label: string; options: CategoryItem[]; selected: string[]; onChange: (v: string[]) => void }) {
+  const [open, setOpen] = useState(false);
+  const [q, setQ] = useState('');
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!open) return;
+    const h = (e: MouseEvent) => { if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false); };
+    document.addEventListener('mousedown', h);
+    return () => document.removeEventListener('mousedown', h);
+  }, [open]);
+  if (options.length === 0) return null;
+  const filtered = q.trim()
+    ? options.filter((o) => o.name.toLowerCase().includes(q.trim().toLowerCase())).slice(0, 50)
+    : options;
+  const labelText = selected.length === 0 ? 'Tất cả' : selected.length === 1 ? (options.find(o => o.id === selected[0])?.name ?? selected[0]) : `${selected.length} nhóm`;
+  const toggle = (id: string) => onChange(selected.includes(id) ? selected.filter((x) => x !== id) : [...selected, id]);
+  return (
+    <div className="relative flex-1 min-w-[280px]" ref={ref}>
+      <button onClick={() => setOpen((o) => !o)} className="flex w-full items-center justify-between gap-2 rounded-md border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none hover:border-[#1e3a8a] focus:border-[#1e3a8a] focus:ring-1 focus:ring-[#1e3a8a]">
+        <span className="truncate font-medium text-slate-900">{labelText}</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={`shrink-0 text-slate-600 transition ${open ? 'rotate-180' : ''}`} aria-hidden><path d="M6 9l6 6 6-6" /></svg>
+      </button>
+      {open && (
+        <div className="absolute left-0 z-20 mt-1 max-h-64 w-full overflow-auto rounded-lg border border-slate-200 bg-white p-2 shadow-lg">
+          <input autoFocus value={q} onChange={(e) => setQ(e.target.value)} placeholder="Tìm nhóm..." className="mb-2 w-full rounded border border-slate-200 px-2 py-1.5 text-sm outline-none focus:border-[#1e3a8a]" />
+          <label className="flex cursor-pointer items-center gap-2 rounded px-2 py-1.5 text-sm hover:bg-slate-50">
+            <input type="checkbox" checked={selected.length === 0} onChange={() => onChange([])} />
+            Tất cả
+          </label>
+          {filtered.map((o) => (
+            <label key={o.id} className="flex cursor-pointer items-center gap-2 rounded px-2 py-1.5 text-sm hover:bg-slate-50">
+              <input type="checkbox" checked={selected.includes(o.id)} onChange={() => toggle(o.id)} />
+              <span className="min-w-0 flex-1 truncate">{o.name}</span>
+            </label>
+          ))}
+          {filtered.length === 0 && <p className="px-2 py-1 text-xs text-slate-600">Không tìm thấy</p>}
+        </div>
+      )}
+    </div>
+  );
+}
 
 function TrangThai({ v }: { v: string }) {
   const dot = v === 'Đã xử lý' ? 'bg-emerald-500' : v === 'Đang giải quyết' ? 'bg-amber-500' : 'bg-red-500';
@@ -189,12 +230,7 @@ function Screen() {
             </div>
             <div className="flex-1 min-w-[280px]">
               <label className="mb-1 block text-xs font-semibold uppercase tracking-wider text-[#1e3a8a]">Nhóm sản phẩm</label>
-              <Combobox
-                options={sanPhamOpts.map((o) => ({ id: o.id, label: o.name }))}
-                value={filterGroup}
-                onChange={setFilterGroup}
-                placeholder="Bấm để tìm + chọn nhiều nhóm…"
-              />
+              <FilterDropdown label="Nhóm sản phẩm" options={sanPhamOpts} selected={filterGroup} onChange={setFilterGroup} />
             </div>
           </div>
           <p className="mt-2 text-xs text-slate-500">Lọc theo Trạng thái và Nhóm sản phẩm. Mặc định chỉ hiện báo cáo chưa xử lý xong.</p>
