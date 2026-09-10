@@ -1,0 +1,6563 @@
+[
+  {
+    "id": "4d3bbaca-d6cf-40e6-8187-35dc57889d34",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Đăng nhập",
+    "entity_type": "auth",
+    "entity_id": null,
+    "details": {
+      "username": "admin",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-25T13:19:43.866458+00:00"
+  },
+  {
+    "id": "190569d6-0b14-48b9-bff1-fc46a296168b",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Lưu cài đặt",
+    "entity_type": "settings",
+    "entity_id": null,
+    "details": {
+      "keys": [
+        "TEN_DOANH_NGHIEP",
+        "TEN_RUT_GON",
+        "TELEGRAM_BOT_TOKEN",
+        "TELEGRAM_CHAT_ID",
+        "TB_KHACH_HANG_MOI",
+        "TB_TIN_THI_TRUONG_MOI",
+        "TB_COMMENT_MOI",
+        "TB_CAP_NHAT_CHIEN_DICH",
+        "TB_CHIEN_DICH_MOI",
+        "TB_KET_LUAN",
+        "TB_IMPORT",
+        "TIMEZONE",
+        "DATE_FORMAT",
+        "APP_NAME"
+      ],
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-25T13:21:40.916551+00:00"
+  },
+  {
+    "id": "4729bee7-cd51-4bcf-9516-e12895c1d88c",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Lưu cài đặt",
+    "entity_type": "settings",
+    "entity_id": null,
+    "details": {
+      "keys": [
+        "TEN_DOANH_NGHIEP",
+        "TEN_RUT_GON",
+        "TELEGRAM_BOT_TOKEN",
+        "TELEGRAM_CHAT_ID",
+        "TB_KHACH_HANG_MOI",
+        "TB_TIN_THI_TRUONG_MOI",
+        "TB_COMMENT_MOI",
+        "TB_CAP_NHAT_CHIEN_DICH",
+        "TB_CHIEN_DICH_MOI",
+        "TB_KET_LUAN",
+        "TB_IMPORT",
+        "TIMEZONE",
+        "DATE_FORMAT",
+        "APP_NAME"
+      ],
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-25T13:23:00.584857+00:00"
+  },
+  {
+    "id": "04f7afbc-2ad6-489c-bde2-8b3aee719d6c",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Tạo vai trò",
+    "entity_type": "role",
+    "entity_id": null,
+    "details": {
+      "name": "GIÁM_ĐỐC",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-25T14:36:49.048792+00:00"
+  },
+  {
+    "id": "a1705b2d-f984-4295-b7cd-e978f8ac35c0",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Tạo vai trò",
+    "entity_type": "role",
+    "entity_id": null,
+    "details": {
+      "name": "KẾ_TOÁN",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-25T14:37:18.873888+00:00"
+  },
+  {
+    "id": "2cf47df9-43e9-4c84-b237-094f697635a6",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Đăng xuất",
+    "entity_type": "auth",
+    "entity_id": null,
+    "details": {
+      "username": "admin",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-25T14:48:10.733303+00:00"
+  },
+  {
+    "id": "4f3883f8-d4f9-43b3-8c07-585594f06e40",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Đăng nhập",
+    "entity_type": "auth",
+    "entity_id": null,
+    "details": {
+      "username": "admin",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-25T14:48:17.160945+00:00"
+  },
+  {
+    "id": "54de1e72-885c-4119-aba1-c0277aa9223d",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Tạo tài khoản",
+    "entity_type": "user",
+    "entity_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "details": {
+      "username": "thanhhau",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-08-25T14:48:41.834284+00:00"
+  },
+  {
+    "id": "216811e8-8846-4cae-91e6-cb57cc4292af",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Reset mật khẩu",
+    "entity_type": "user",
+    "entity_id": "28946fe8-583b-4e27-98fe-bc6a2a5ffdb0",
+    "details": {
+      "to": "123456",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-25T14:48:52.2653+00:00"
+  },
+  {
+    "id": "146d61b2-bc0e-4185-a741-b8658a60f58a",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Reset mật khẩu",
+    "entity_type": "user",
+    "entity_id": "078534d9-aef7-4c79-95ea-4269b0e5bfc3",
+    "details": {
+      "to": "123456",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-25T14:48:54.462041+00:00"
+  },
+  {
+    "id": "dec5421f-f4c5-4a8a-ba5b-5d2440afb308",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Reset mật khẩu",
+    "entity_type": "user",
+    "entity_id": "ee423566-9458-4ba6-9770-95fd4e0957ab",
+    "details": {
+      "to": "123456",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-25T14:48:57.41414+00:00"
+  },
+  {
+    "id": "1bad8c77-ac2f-439f-b325-ab7c62300458",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Reset mật khẩu",
+    "entity_type": "user",
+    "entity_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "details": {
+      "to": "123456",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-25T14:48:59.240402+00:00"
+  },
+  {
+    "id": "dab8e9c5-ac49-49c8-996f-7d81fafd3dbb",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Đăng xuất",
+    "entity_type": "auth",
+    "entity_id": null,
+    "details": {
+      "username": "admin",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-25T14:51:51.874862+00:00"
+  },
+  {
+    "id": "ed14332d-3e0a-4f8d-9a9e-d842862056d3",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Đăng nhập",
+    "entity_type": "auth",
+    "entity_id": null,
+    "details": {
+      "username": "admin",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-25T14:51:56.741726+00:00"
+  },
+  {
+    "id": "fa603a9e-868c-4ff3-9628-0452711c889c",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Reset mật khẩu",
+    "entity_type": "user",
+    "entity_id": "1ff0f20c-ac44-42f0-a973-20d576c685c5",
+    "details": {
+      "to": "123456",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-25T14:52:23.15704+00:00"
+  },
+  {
+    "id": "583712f1-afb8-4f8d-8a81-17fa331e25a7",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Reset mật khẩu",
+    "entity_type": "user",
+    "entity_id": "9c66520e-9b3a-4432-9090-2709de976078",
+    "details": {
+      "to": "123456",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-25T14:52:27.171409+00:00"
+  },
+  {
+    "id": "881cc356-bcae-4e3f-be28-1280f26c0dec",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Tạo tài khoản",
+    "entity_type": "user",
+    "entity_id": "8bee0a51-da81-4daf-8a63-0cca90b75eca",
+    "details": {
+      "username": "quyetthang",
+      "full_name": "Nguyễn Quyết Thắng"
+    },
+    "created_at": "2026-08-25T14:52:46.521034+00:00"
+  },
+  {
+    "id": "e2efd608-15c7-4036-ba58-00e37f9ef0ca",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Tạo tài khoản",
+    "entity_type": "user",
+    "entity_id": "514c7638-0c38-4fef-b37b-b76aeede3f9e",
+    "details": {
+      "username": "huuhung",
+      "full_name": "Nguyễn Hữu Hùng"
+    },
+    "created_at": "2026-08-25T14:53:00.559393+00:00"
+  },
+  {
+    "id": "1c822f5d-2584-4f67-b454-e6fa3fb18b59",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Tạo tài khoản",
+    "entity_type": "user",
+    "entity_id": "270ea635-b37d-4b5b-801d-6b809508f2fe",
+    "details": {
+      "username": "phucanh",
+      "full_name": "Đặng Phúc Anh"
+    },
+    "created_at": "2026-08-25T14:53:16.112152+00:00"
+  },
+  {
+    "id": "d50d9a81-0091-46e7-8c39-8f6f31ae4899",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Tạo tài khoản",
+    "entity_type": "user",
+    "entity_id": "ab336e7b-daf2-4254-8ccb-16582d5f33e8",
+    "details": {
+      "username": "tranhong",
+      "full_name": "Trần Hồng"
+    },
+    "created_at": "2026-08-25T14:53:29.511721+00:00"
+  },
+  {
+    "id": "79a059aa-1f1e-4f8e-91d5-ce1f16107f7c",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa tài khoản",
+    "entity_type": "user",
+    "entity_id": "ee423566-9458-4ba6-9770-95fd4e0957ab",
+    "details": {
+      "status": "LOCKED",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-25T14:53:51.31166+00:00"
+  },
+  {
+    "id": "6f7eeb91-fd69-43cb-8acf-bf54d51b6cfd",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Đăng nhập",
+    "entity_type": "auth",
+    "entity_id": null,
+    "details": {
+      "username": "thanhhau",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-08-25T23:46:19.711825+00:00"
+  },
+  {
+    "id": "ab0f52ec-6538-4b1a-9400-35346dc46c5c",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Đăng xuất",
+    "entity_type": "auth",
+    "entity_id": null,
+    "details": {
+      "username": "thanhhau",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-08-25T23:48:23.434805+00:00"
+  },
+  {
+    "id": "8782e1a2-3632-4b35-b969-40245af2feda",
+    "actor_id": "1ff0f20c-ac44-42f0-a973-20d576c685c5",
+    "action": "Đăng nhập",
+    "entity_type": "auth",
+    "entity_id": null,
+    "details": {
+      "username": "trungchinh",
+      "full_name": "Nguyễn Trung Chính"
+    },
+    "created_at": "2026-08-25T23:48:38.440436+00:00"
+  },
+  {
+    "id": "489f651b-2aba-4f49-ad68-a31e9ef9add4",
+    "actor_id": "1ff0f20c-ac44-42f0-a973-20d576c685c5",
+    "action": "Đăng xuất",
+    "entity_type": "auth",
+    "entity_id": null,
+    "details": {
+      "username": "trungchinh",
+      "full_name": "Nguyễn Trung Chính"
+    },
+    "created_at": "2026-08-26T00:32:34.065747+00:00"
+  },
+  {
+    "id": "1ebf4158-3bc1-4318-9909-d2bf5ecd6dd6",
+    "actor_id": "ab336e7b-daf2-4254-8ccb-16582d5f33e8",
+    "action": "Đăng nhập",
+    "entity_type": "auth",
+    "entity_id": null,
+    "details": {
+      "username": "tranhong",
+      "full_name": "Trần Hồng"
+    },
+    "created_at": "2026-08-26T00:32:46.173193+00:00"
+  },
+  {
+    "id": "08ac5ede-4972-4d4a-b3f2-a19d7928abb4",
+    "actor_id": "ab336e7b-daf2-4254-8ccb-16582d5f33e8",
+    "action": "Đăng xuất",
+    "entity_type": "auth",
+    "entity_id": null,
+    "details": {
+      "username": "tranhong",
+      "full_name": "Trần Hồng"
+    },
+    "created_at": "2026-08-26T00:33:33.137573+00:00"
+  },
+  {
+    "id": "1bd5e7a0-45e0-448b-9606-e747a07d5dc2",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Đăng nhập",
+    "entity_type": "auth",
+    "entity_id": null,
+    "details": {
+      "username": "admin",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-26T00:33:51.395008+00:00"
+  },
+  {
+    "id": "83ed7878-168e-4d34-842f-ea8223e6b853",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Đăng nhập",
+    "entity_type": "auth",
+    "entity_id": null,
+    "details": {
+      "username": "admin",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-26T02:48:06.579227+00:00"
+  },
+  {
+    "id": "fce52c89-4ff4-43a6-a47a-0899c3371b32",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Đăng xuất",
+    "entity_type": "auth",
+    "entity_id": null,
+    "details": {
+      "username": "admin",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-26T02:52:11.555938+00:00"
+  },
+  {
+    "id": "adb1bf59-7456-4c00-be64-4756c1d7b14e",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Đăng nhập",
+    "entity_type": "auth",
+    "entity_id": null,
+    "details": {
+      "username": "admin",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-26T05:19:12.887621+00:00"
+  },
+  {
+    "id": "217a0931-9d77-48e0-9f72-f97d3b86c343",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Đăng xuất",
+    "entity_type": "auth",
+    "entity_id": null,
+    "details": {
+      "username": "admin",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-26T05:20:30.644579+00:00"
+  },
+  {
+    "id": "da7d0446-9285-4cc2-9bc5-17b68cc62e07",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Đăng nhập",
+    "entity_type": "auth",
+    "entity_id": null,
+    "details": {
+      "username": "admin",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-26T05:20:37.777103+00:00"
+  },
+  {
+    "id": "f59975fd-be08-4233-9868-4657496f7b9b",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Lưu cài đặt",
+    "entity_type": "settings",
+    "entity_id": null,
+    "details": {
+      "keys": [
+        "DATE_FORMAT",
+        "APP_NAME",
+        "LOGIN_TITLE",
+        "LOGIN_SUBTITLE",
+        "LOGO_URL",
+        "TEN_DOANH_NGHIEP",
+        "TEN_RUT_GON",
+        "TELEGRAM_BOT_TOKEN",
+        "TELEGRAM_CHAT_ID",
+        "TB_KHACH_HANG_MOI",
+        "TB_TIN_THI_TRUONG_MOI",
+        "TB_COMMENT_MOI",
+        "TB_CAP_NHAT_CHIEN_DICH",
+        "TB_CHIEN_DICH_MOI",
+        "TB_KET_LUAN",
+        "TB_IMPORT",
+        "TIMEZONE"
+      ],
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-26T05:20:55.543494+00:00"
+  },
+  {
+    "id": "ed80766c-1324-4775-8ac8-8cdcedc553af",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Đăng xuất",
+    "entity_type": "auth",
+    "entity_id": null,
+    "details": {
+      "username": "admin",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-26T05:20:57.881713+00:00"
+  },
+  {
+    "id": "71ade0d8-3827-48a1-bc7f-2a9f0d4f9af6",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Đăng nhập",
+    "entity_type": "auth",
+    "entity_id": null,
+    "details": {
+      "username": "admin",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-26T05:21:15.434952+00:00"
+  },
+  {
+    "id": "197526ea-b7ba-4ef8-a7a8-c2536cfbb91b",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Lưu cài đặt",
+    "entity_type": "settings",
+    "entity_id": null,
+    "details": {
+      "keys": [
+        "DATE_FORMAT",
+        "APP_NAME",
+        "LOGIN_TITLE",
+        "LOGIN_SUBTITLE",
+        "LOGO_URL",
+        "TEN_DOANH_NGHIEP",
+        "TEN_RUT_GON",
+        "TELEGRAM_BOT_TOKEN",
+        "TELEGRAM_CHAT_ID",
+        "TB_KHACH_HANG_MOI",
+        "TB_TIN_THI_TRUONG_MOI",
+        "TB_COMMENT_MOI",
+        "TB_CAP_NHAT_CHIEN_DICH",
+        "TB_CHIEN_DICH_MOI",
+        "TB_KET_LUAN",
+        "TB_IMPORT",
+        "TIMEZONE"
+      ],
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-26T05:23:56.549413+00:00"
+  },
+  {
+    "id": "4a29b064-fb4b-4f8b-9198-01ef1cf35c9a",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Đăng xuất",
+    "entity_type": "auth",
+    "entity_id": null,
+    "details": {
+      "username": "admin",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-26T05:24:13.265231+00:00"
+  },
+  {
+    "id": "96d784dd-79ab-484f-906d-cffcf740a0c1",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Đăng nhập",
+    "entity_type": "auth",
+    "entity_id": null,
+    "details": {
+      "username": "admin",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-26T06:29:51.312366+00:00"
+  },
+  {
+    "id": "7921aaa1-43c7-4714-a143-199282d2bb04",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Đăng xuất",
+    "entity_type": "auth",
+    "entity_id": null,
+    "details": {
+      "username": "admin",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-26T06:30:07.341339+00:00"
+  },
+  {
+    "id": "f26a0574-49d9-42d1-9b66-b9335de667f2",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Đăng nhập",
+    "entity_type": "auth",
+    "entity_id": null,
+    "details": {
+      "username": "admin",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-26T06:32:00.43293+00:00"
+  },
+  {
+    "id": "fe7881db-55e3-4a30-9474-bfc27cb94e4d",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Đăng xuất",
+    "entity_type": "auth",
+    "entity_id": null,
+    "details": {
+      "username": "admin",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-26T06:32:02.70471+00:00"
+  },
+  {
+    "id": "9f3cfbeb-3d45-4e1c-bef1-1d28455a4f4c",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Đăng nhập",
+    "entity_type": "auth",
+    "entity_id": null,
+    "details": {
+      "username": "admin",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-26T06:32:05.041793+00:00"
+  },
+  {
+    "id": "1c99820e-7408-4b83-9b4d-642f05a839e5",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Đăng xuất",
+    "entity_type": "auth",
+    "entity_id": null,
+    "details": {
+      "username": "admin",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-26T06:33:11.657901+00:00"
+  },
+  {
+    "id": "b78f6791-880e-4111-98f9-517fba922d23",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Đăng nhập",
+    "entity_type": "auth",
+    "entity_id": null,
+    "details": {
+      "username": "admin",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-26T06:33:22.415182+00:00"
+  },
+  {
+    "id": "e06495d7-250d-4532-a412-1228f6849c08",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Đăng xuất",
+    "entity_type": "auth",
+    "entity_id": null,
+    "details": {
+      "username": "admin",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-26T06:33:35.844027+00:00"
+  },
+  {
+    "id": "fd488349-e87d-4466-8aaa-9454f44afd03",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Đăng nhập",
+    "entity_type": "auth",
+    "entity_id": null,
+    "details": {
+      "username": "thanhhau",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-08-26T06:33:48.770017+00:00"
+  },
+  {
+    "id": "d8ff1466-8dbb-4e6d-a858-0e3c69265710",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Lưu cài đặt",
+    "entity_type": "settings",
+    "entity_id": null,
+    "details": {
+      "keys": [
+        "DATE_FORMAT",
+        "APP_NAME",
+        "LOGIN_TITLE",
+        "LOGIN_SUBTITLE",
+        "TEN_DOANH_NGHIEP",
+        "TEN_RUT_GON",
+        "TELEGRAM_BOT_TOKEN",
+        "TELEGRAM_CHAT_ID",
+        "TB_KHACH_HANG_MOI",
+        "TB_TIN_THI_TRUONG_MOI",
+        "TB_COMMENT_MOI",
+        "TB_CAP_NHAT_CHIEN_DICH",
+        "TB_CHIEN_DICH_MOI",
+        "TB_KET_LUAN",
+        "TB_IMPORT",
+        "TIMEZONE",
+        "LOGO_URL"
+      ],
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-08-26T06:34:38.613988+00:00"
+  },
+  {
+    "id": "6c5c5280-3749-4fff-9efb-d4cfc1f06c8c",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Đăng nhập",
+    "entity_type": "auth",
+    "entity_id": null,
+    "details": {
+      "username": "thanhhau",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-08-26T12:02:56.69514+00:00"
+  },
+  {
+    "id": "2230226d-72c5-47b5-b7b4-552d0b8ba2f2",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Đăng xuất",
+    "entity_type": "auth",
+    "entity_id": null,
+    "details": {
+      "username": "thanhhau",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-08-28T03:32:26.816097+00:00"
+  },
+  {
+    "id": "e5c43f3e-35ea-4832-bc33-61aa200f2765",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Đăng nhập",
+    "entity_type": "auth",
+    "entity_id": null,
+    "details": {
+      "username": "admin",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T03:32:29.840966+00:00"
+  },
+  {
+    "id": "fead78e2-18f6-4bbd-8c2b-3c4b53ad3a2e",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "35a77755-0bd1-49ed-a2a8-4ba450bcdc05",
+    "details": {
+      "changes": [
+        {
+          "new": "0982 362 529",
+          "old": "",
+          "field": "sdt"
+        },
+        {
+          "new": "Hà Nội",
+          "old": "Quận Hai Bà Trưng",
+          "field": "tinh_thanh"
+        }
+      ],
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T03:34:04.093341+00:00"
+  },
+  {
+    "id": "f7b1f2f9-c019-46d3-9ee6-8daf5fe93ea5",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "90213932-a795-4aa4-96df-01f936de3d57",
+    "details": {
+      "changes": [
+        {
+          "new": "0986 808 099",
+          "old": "",
+          "field": "sdt"
+        }
+      ],
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T03:34:32.928424+00:00"
+  },
+  {
+    "id": "f513c644-e2ec-4041-922d-af2a2a9a5145",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "90213932-a795-4aa4-96df-01f936de3d57",
+    "details": {
+      "changes": [
+        {
+          "new": "Hà Nội",
+          "old": "Quận Hai Bà Trưng",
+          "field": "tinh_thanh"
+        }
+      ],
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T03:34:40.751087+00:00"
+  },
+  {
+    "id": "7771228d-138f-4611-a63c-b587a533dac7",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "771c2ea8-1f53-4c87-a6b9-bd645807d8f7",
+    "details": {
+      "changes": [
+        {
+          "new": "0986 808 099",
+          "old": "",
+          "field": "sdt"
+        },
+        {
+          "new": "Bình Dương",
+          "old": "Tỉnh Bình Dương",
+          "field": "tinh_thanh"
+        }
+      ],
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T03:36:14.532374+00:00"
+  },
+  {
+    "id": "b3462701-9546-4e35-8be4-160b93ffe5e8",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "1bfcf3f7-b430-4cc0-8b56-539979aaf42e",
+    "details": {
+      "changes": [
+        {
+          "new": "Bình Phước",
+          "old": "Tỉnh Bình Phước",
+          "field": "tinh_thanh"
+        }
+      ],
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T03:43:56.917887+00:00"
+  },
+  {
+    "id": "c08a7813-dfe3-43c0-912b-c8ad759ba496",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "9a904dbe-b49f-4041-88b6-414a3a1b5881",
+    "details": {
+      "changes": [
+        {
+          "new": "Thành phố Hồ Chí Minh",
+          "old": "Quận Tân Phú",
+          "field": "tinh_thanh"
+        }
+      ],
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T03:44:06.123665+00:00"
+  },
+  {
+    "id": "67d68f0f-eee3-41cf-a7fc-cbfe76a8ad72",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "65121bcd-4520-4ebd-aaa6-bfd75dfc0acc",
+    "details": {
+      "changes": [
+        {
+          "new": "Thành phố Hồ Chí Minh",
+          "old": "Huyện Bình Chánh",
+          "field": "tinh_thanh"
+        }
+      ],
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T03:44:13.78251+00:00"
+  },
+  {
+    "id": "3aabfcbd-7443-467c-97ce-b661f81f781f",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "febea3af-1747-4262-b0c5-8634f10528b5",
+    "details": {
+      "changes": [
+        {
+          "new": "Bình Phước",
+          "old": "Tỉnh Bình Phước",
+          "field": "tinh_thanh"
+        }
+      ],
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T03:44:20.241233+00:00"
+  },
+  {
+    "id": "d2a42440-b1db-4c5a-9fcc-8024ce7a7614",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "76777b61-ee8c-4e8b-b446-821052af152a",
+    "details": {
+      "changes": [
+        {
+          "new": "Bình Dương",
+          "old": "Tỉnh Bình Dương",
+          "field": "tinh_thanh"
+        }
+      ],
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T03:44:32.636008+00:00"
+  },
+  {
+    "id": "2fad4574-35ca-4b50-a008-50a409b2c386",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "b6ad99fe-cded-4f26-972b-538a3de977cc",
+    "details": {
+      "changes": [
+        {
+          "new": "Sóc Trăng",
+          "old": "Tỉnh Sóc Trăng",
+          "field": "tinh_thanh"
+        }
+      ],
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T03:44:39.850883+00:00"
+  },
+  {
+    "id": "af7db8ec-91b1-4da4-9fd9-f0850a327063",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "2e2d7479-4a7f-41e6-a85a-9750b6ab608f",
+    "details": {
+      "changes": [
+        {
+          "new": "Bình Dương",
+          "old": "Tỉnh Bình Dương",
+          "field": "tinh_thanh"
+        }
+      ],
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T03:44:45.503106+00:00"
+  },
+  {
+    "id": "57a097b1-008b-478f-9b91-474da14f9958",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "eecfe8b8-0adb-47b3-b4bb-a5eae0e88dfa",
+    "details": {
+      "changes": [
+        {
+          "new": "8fac3644-9c4b-4c9d-a5ce-0d6e2f312413",
+          "old": "",
+          "field": "status_id"
+        }
+      ],
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T03:45:21.323755+00:00"
+  },
+  {
+    "id": "2da5ce73-47ca-4665-9e21-819ab65c384c",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "XÓA VĨNH VIỄN khách hàng",
+    "entity_type": "customer",
+    "entity_id": "eecfe8b8-0adb-47b3-b4bb-a5eae0e88dfa",
+    "details": {
+      "ma_kh": "LP - ĐÔNGTÍN",
+      "ten_kh": "Phụ tùng ô tô ĐÔNG TÍN",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T03:45:26.939818+00:00"
+  },
+  {
+    "id": "7854b9a2-35cf-4330-8099-f39aecf0e91c",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Đăng xuất",
+    "entity_type": "auth",
+    "entity_id": null,
+    "details": {
+      "username": "admin",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T07:26:12.280405+00:00"
+  },
+  {
+    "id": "9a618569-1463-4007-88f6-3cd98d8b15ae",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Đăng nhập",
+    "entity_type": "auth",
+    "entity_id": null,
+    "details": {
+      "username": "admin",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T07:26:18.597997+00:00"
+  },
+  {
+    "id": "5f0120f4-250b-44df-916b-a3b5ae04c0b4",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Bóng LED F3 Ultra",
+      "slug": "san_pham",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T07:48:59.830717+00:00"
+  },
+  {
+    "id": "d8e45061-e3ea-4ad4-a56c-c98edc0d7918",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Bóng LED S55 3 màu",
+      "slug": "san_pham",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T07:49:12.689909+00:00"
+  },
+  {
+    "id": "bf26e1c8-a117-4c85-b9f7-8e9712dafdd4",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Bi gầm F9 Blackhawk",
+      "slug": "san_pham",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T07:49:26.672776+00:00"
+  },
+  {
+    "id": "6a00271d-2b10-4121-8aee-14bd67b03e62",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Bi Gầm AZ100",
+      "slug": "san_pham",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T07:49:49.034896+00:00"
+  },
+  {
+    "id": "8873c30b-ee98-4efd-9557-3d8b4a086f6c",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Thêm danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Bi gầm AZ100 Laser",
+      "slug": "san_pham",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T07:49:56.947119+00:00"
+  },
+  {
+    "id": "9e9bcd84-75d9-40e5-b25c-987702771b6b",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Thêm danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Bi Gầm AZ50 2.0 inch",
+      "slug": "san_pham",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T07:50:11.604471+00:00"
+  },
+  {
+    "id": "e37a729d-2570-471d-b28a-d5a061c74da2",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Thêm danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Bi Gầm AZ50 Laser",
+      "slug": "san_pham",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T07:50:27.979936+00:00"
+  },
+  {
+    "id": "2d31faf4-006c-46cc-84e2-973fa8cef5d6",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Thêm danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Bóng LED VF35 Ultra 360",
+      "slug": "san_pham",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T07:51:39.734054+00:00"
+  },
+  {
+    "id": "1544b745-0347-402c-9d54-bb2351a4d3ec",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Thêm danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Khiển cửa",
+      "slug": "san_pham",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T07:51:54.454066+00:00"
+  },
+  {
+    "id": "c35dfeb0-7432-4edd-bb0e-a361706897f2",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Thêm danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Bóng LED F3 cũ",
+      "slug": "san_pham",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T07:52:09.919316+00:00"
+  },
+  {
+    "id": "1eadb1b7-6140-4b69-9e06-7937b4638e6d",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Thêm danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Bóng LED S85 PRO",
+      "slug": "san_pham",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T07:52:20.095037+00:00"
+  },
+  {
+    "id": "67537395-b638-4983-bd47-876012565eb7",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Thêm danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Hàng bảo hành",
+      "slug": "nhom_van_de_kho",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T08:03:47.2276+00:00"
+  },
+  {
+    "id": "1adddfe7-2910-4868-a046-847b0a77234b",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Thêm danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "🏠 Thông tin Nội bộ",
+      "slug": "loai_tin_tt",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T08:05:33.89541+00:00"
+  },
+  {
+    "id": "7f2c01e5-df41-49d1-83e4-b9a73a8b611d",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "0eaacc2c-e3f9-4626-88c7-7690be60f2f8",
+    "details": {
+      "changes": [
+        {
+          "new": "Bà Rịa - Vũng Tàu",
+          "old": "Tỉnh Bà Rịa - Vũng Tàu",
+          "field": "tinh_thanh"
+        }
+      ],
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T08:06:09.735184+00:00"
+  },
+  {
+    "id": "8c528f27-48dd-4b6d-8c8b-e4efb150cdd6",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "602fe453-855e-4703-89c7-84416bedd7fc",
+    "details": {
+      "changes": [
+        {
+          "new": "Nam Định",
+          "old": "Tỉnh Nam Định",
+          "field": "tinh_thanh"
+        }
+      ],
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T08:06:16.32267+00:00"
+  },
+  {
+    "id": "580f4a28-9ccf-43ab-86d9-4f411e473461",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "de7de37c-febb-47e2-b2bb-8ad11cae1793",
+    "details": {
+      "changes": [
+        {
+          "new": "Quảng Ninh",
+          "old": "Tỉnh Quảng Ninh",
+          "field": "tinh_thanh"
+        }
+      ],
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T08:06:22.115236+00:00"
+  },
+  {
+    "id": "cc3285ac-3051-43d0-a1fd-95f482e42e54",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "7855b5a5-3438-49b8-b713-edc6f211e455",
+    "details": {
+      "changes": [
+        {
+          "new": "Khánh Hòa",
+          "old": "Tỉnh Khánh Hòa",
+          "field": "tinh_thanh"
+        }
+      ],
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T08:06:38.546687+00:00"
+  },
+  {
+    "id": "55346ad9-6fe0-4ae5-b623-6ef61e734a46",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "d1c48336-beb7-4fe4-8f95-0a1a1f149ce7",
+    "details": {
+      "changes": [
+        {
+          "new": "Bà Rịa - Vũng Tàu",
+          "old": "Tỉnh Bà Rịa - Vũng Tàu",
+          "field": "tinh_thanh"
+        }
+      ],
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T08:06:28.219557+00:00"
+  },
+  {
+    "id": "b09a4273-d111-4d2c-82a4-5ed515fa5cef",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "d4bca47b-7da1-4260-92d6-48d01977f6b9",
+    "details": {
+      "changes": [
+        {
+          "new": "Thành phố Hồ Chí Minh",
+          "old": "Quận 5",
+          "field": "tinh_thanh"
+        }
+      ],
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T08:06:47.775753+00:00"
+  },
+  {
+    "id": "9f0a5405-8912-4130-800a-f566c19d9fc0",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "2b6192ce-dbe5-4f39-ac08-554df44c0707",
+    "details": {
+      "changes": [
+        {
+          "new": "Thành phố Hồ Chí Minh",
+          "old": "Quận 5",
+          "field": "tinh_thanh"
+        }
+      ],
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T08:06:54.053519+00:00"
+  },
+  {
+    "id": "aa38121f-2c61-48ea-9258-acf67ffaf775",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "45648bc1-8164-45cf-a436-36c6281783a5",
+    "details": {
+      "changes": [
+        {
+          "new": "Bà Rịa - Vũng Tàu",
+          "old": "Tỉnh Bà Rịa - Vũng Tàu",
+          "field": "tinh_thanh"
+        }
+      ],
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T08:07:04.897545+00:00"
+  },
+  {
+    "id": "6543cf20-a953-44a8-919a-36486ebc87e4",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "284545c6-23e7-42e5-840c-a09f650ecfba",
+    "details": {
+      "changes": [
+        {
+          "new": "Thành phố Hồ Chí Minh",
+          "old": "Quận 1",
+          "field": "tinh_thanh"
+        }
+      ],
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T08:08:29.775016+00:00"
+  },
+  {
+    "id": "5dcc787c-dcaf-4e95-a8f9-f5ed2a95764b",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "55f76d25-bdac-4388-bc62-eec6b039d13a",
+    "details": {
+      "changes": [
+        {
+          "new": "Tiền Giang",
+          "old": "Tỉnh Tiền Giang",
+          "field": "tinh_thanh"
+        }
+      ],
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T08:08:36.005548+00:00"
+  },
+  {
+    "id": "7c9392f4-4cdd-4f3c-9d55-7b714ab6992e",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "1e84e395-73ac-4f66-a414-85d99929154a",
+    "details": {
+      "changes": [
+        {
+          "new": "Thành phố Hồ Chí Minh",
+          "old": "Quận 7",
+          "field": "tinh_thanh"
+        }
+      ],
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T08:08:45.892461+00:00"
+  },
+  {
+    "id": "dd0491c8-ca4c-454b-bb13-f85f9efb1191",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "050b4764-22dc-44f1-9cd9-d1a2d63da68e",
+    "details": {
+      "changes": [
+        {
+          "new": "Trà Vinh",
+          "old": "Tỉnh Trà Vinh",
+          "field": "tinh_thanh"
+        }
+      ],
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T08:08:53.295812+00:00"
+  },
+  {
+    "id": "979d4d9e-82d9-4d41-8e29-48ea65b24f22",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "df169259-75c0-4e1c-826f-a0619e040fb2",
+    "details": {
+      "changes": [
+        {
+          "new": "Bà Rịa - Vũng Tàu",
+          "old": "Tỉnh Bà Rịa - Vũng Tàu",
+          "field": "tinh_thanh"
+        }
+      ],
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T08:08:59.560943+00:00"
+  },
+  {
+    "id": "1063db4c-de64-46eb-bd8b-d3929ab2d934",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "7a0ab333-b2af-48a3-add3-0ee06fc3ab1f",
+    "details": {
+      "changes": [
+        {
+          "new": "Hải Phòng",
+          "old": "Thành phố Hải Phòng",
+          "field": "tinh_thanh"
+        }
+      ],
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T08:09:06.542691+00:00"
+  },
+  {
+    "id": "aee8c5f7-a088-4d15-8079-83d7920faab9",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "8aadaff2-991b-418f-b165-e9f1093adb64",
+    "details": {
+      "changes": [
+        {
+          "new": "Hải Phòng",
+          "old": "Thành phố Hải Phòng",
+          "field": "tinh_thanh"
+        }
+      ],
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T08:09:15.684936+00:00"
+  },
+  {
+    "id": "02ef52c8-2e66-4814-9748-ad11c1e99af8",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "9aafb6b8-814d-49b7-813f-1db41cb21f74",
+    "details": {
+      "changes": [
+        {
+          "new": "Đồng Nai",
+          "old": "Tỉnh Đồng Nai",
+          "field": "tinh_thanh"
+        }
+      ],
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T08:09:24.75456+00:00"
+  },
+  {
+    "id": "d63bae33-e5a8-4086-80d4-2d0900b44dd4",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "adbcf060-00b7-44a8-bb46-e288a61cc6aa",
+    "details": {
+      "changes": [
+        {
+          "new": "Thành phố Hồ Chí Minh",
+          "old": "Quận Tân Phú",
+          "field": "tinh_thanh"
+        }
+      ],
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T08:09:32.651931+00:00"
+  },
+  {
+    "id": "e9c6d29a-ac7e-45b0-afe9-500ae388143a",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "56a37a44-c307-4c45-9a4d-d29ec88a1a23",
+    "details": {
+      "changes": [
+        {
+          "new": "Thành phố Hồ Chí Minh",
+          "old": "Quận 12",
+          "field": "tinh_thanh"
+        }
+      ],
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T08:09:45.261898+00:00"
+  },
+  {
+    "id": "80b91ff1-b997-4108-bdbb-b21313bc2554",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "9355b499-b037-4504-a6f2-3b3c3bfd8d5d",
+    "details": {
+      "changes": [
+        {
+          "new": "Thành phố Hồ Chí Minh",
+          "old": "Quận Bình Tân",
+          "field": "tinh_thanh"
+        }
+      ],
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T08:11:22.969412+00:00"
+  },
+  {
+    "id": "80eccdbe-e3b4-4015-8ed3-a4c7570f09c8",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "01a1115e-d527-48c1-8583-384f5c76103d",
+    "details": {
+      "changes": [
+        {
+          "new": "Đồng Nai",
+          "old": "Tỉnh Đồng Nai",
+          "field": "tinh_thanh"
+        }
+      ],
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T08:11:28.782415+00:00"
+  },
+  {
+    "id": "59dbb2c0-7627-4ecb-b3b4-2ec698e5f442",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "2b3539c8-d33a-4426-80fe-8885273eebbb",
+    "details": {
+      "changes": [
+        {
+          "new": "Thành phố Hồ Chí Minh",
+          "old": "Huyện Củ Chi",
+          "field": "tinh_thanh"
+        }
+      ],
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T08:11:35.384534+00:00"
+  },
+  {
+    "id": "42a5e816-3246-42ca-b864-d127fc04f835",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "65771ffb-4528-4912-aa0b-8f0403c82ed2",
+    "details": {
+      "changes": [
+        {
+          "new": "Thành phố Hồ Chí Minh",
+          "old": "Quận 7",
+          "field": "tinh_thanh"
+        }
+      ],
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T08:11:41.738996+00:00"
+  },
+  {
+    "id": "6a656b28-eccc-4559-8cfe-98e5adb67f9d",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "55e75dc7-abb1-463c-8ed3-60cf432c27ea",
+    "details": {
+      "changes": [
+        {
+          "new": "Đồng Tháp",
+          "old": "Tỉnh Đồng Tháp",
+          "field": "tinh_thanh"
+        }
+      ],
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T08:11:48.288488+00:00"
+  },
+  {
+    "id": "bde08f70-a0e7-4194-a75e-aa50aea421e6",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "d9bf9b96-0b1d-4336-bdad-d809c22d9040",
+    "details": {
+      "changes": [
+        {
+          "new": "Thành phố Hồ Chí Minh",
+          "old": "Quận Thủ Đức",
+          "field": "tinh_thanh"
+        }
+      ],
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T08:11:55.063905+00:00"
+  },
+  {
+    "id": "b7a89ef7-ee17-417b-8cd1-7f50caf7a4d0",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "c69dbf79-c8cc-4989-9757-9090d12d9ff2",
+    "details": {
+      "changes": [
+        {
+          "new": "Đồng Nai",
+          "old": "Tỉnh Đồng Nai",
+          "field": "tinh_thanh"
+        }
+      ],
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T08:12:02.738016+00:00"
+  },
+  {
+    "id": "796e097a-2c26-4ad0-b32b-8682a97a446c",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "e95465a3-ba6d-4c5b-a9c5-dc91d37417e3",
+    "details": {
+      "changes": [
+        {
+          "new": "Cà Mau",
+          "old": "Tỉnh Cà Mau",
+          "field": "tinh_thanh"
+        }
+      ],
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T08:12:08.934626+00:00"
+  },
+  {
+    "id": "a5edddc6-b341-4453-a80a-1bd485f2306e",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "74a168ab-6b78-46a5-a0bf-e34929d883af",
+    "details": {
+      "changes": [
+        {
+          "new": "Bình Dương",
+          "old": "Tỉnh Bình Dương",
+          "field": "tinh_thanh"
+        }
+      ],
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T08:12:14.748727+00:00"
+  },
+  {
+    "id": "b46ce88f-d693-4470-9c56-b9da3ba00896",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "5cc4126d-b963-47e7-8b6f-9fda4a89f960",
+    "details": {
+      "changes": [
+        {
+          "new": "Bình Định",
+          "old": "Tỉnh Bình Định",
+          "field": "tinh_thanh"
+        }
+      ],
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T08:12:23.614726+00:00"
+  },
+  {
+    "id": "b9abc4ae-4726-42b5-a165-e73a9689f776",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "b0f33461-a61f-4000-8df1-fa1c1f2f8ce9",
+    "details": {
+      "changes": [
+        {
+          "new": "Trà Vinh",
+          "old": "Tỉnh Trà Vinh",
+          "field": "tinh_thanh"
+        }
+      ],
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T08:12:30.968685+00:00"
+  },
+  {
+    "id": "f7adad97-2796-4137-a037-4f5e3d37ea75",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "7a4151f1-bb06-4ed9-90f8-6cad5e5572c3",
+    "details": {
+      "changes": [
+        {
+          "new": "Khánh Hòa",
+          "old": "Tỉnh Khánh Hòa",
+          "field": "tinh_thanh"
+        }
+      ],
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T08:12:36.772183+00:00"
+  },
+  {
+    "id": "1c43fb95-8bd9-437a-8df8-6afb021e4ce9",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "725bd01e-0594-429d-b79b-0b7f8ee5de59",
+    "details": {
+      "changes": [
+        {
+          "new": "Phú Yên",
+          "old": "Tỉnh Phú Yên",
+          "field": "tinh_thanh"
+        }
+      ],
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T08:12:41.82486+00:00"
+  },
+  {
+    "id": "33020ff0-cf99-4072-a682-117fa40950b5",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "3ea279a7-89af-47bb-bbab-a7f62c4d7443",
+    "details": {
+      "changes": [
+        {
+          "new": "Bình Định",
+          "old": "Tỉnh Bình Định",
+          "field": "tinh_thanh"
+        }
+      ],
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T08:12:46.853986+00:00"
+  },
+  {
+    "id": "b47eb31d-2039-4656-bbbe-2c239851e35f",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "4bc6657d-8430-494a-9d0f-77bcc0670c47",
+    "details": {
+      "changes": [
+        {
+          "new": "Bắc Giang",
+          "old": "Tỉnh Bắc Giang",
+          "field": "tinh_thanh"
+        }
+      ],
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T08:12:51.813103+00:00"
+  },
+  {
+    "id": "378e6aeb-b264-4a28-b6d9-38238075305f",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "cb0682ac-ca04-49cf-b951-8c9a92d4555d",
+    "details": {
+      "changes": [
+        {
+          "new": "Lai Châu",
+          "old": "Tỉnh Lai Châu",
+          "field": "tinh_thanh"
+        }
+      ],
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T08:12:56.738266+00:00"
+  },
+  {
+    "id": "bc32e56e-b540-4ef6-8e2f-e1ce0e84ca91",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "29e0a75a-c56f-4804-ad14-fd8dbd25651e",
+    "details": {
+      "changes": [
+        {
+          "new": "Lâm Đồng",
+          "old": "Tỉnh Lâm Đồng",
+          "field": "tinh_thanh"
+        }
+      ],
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T08:13:01.796116+00:00"
+  },
+  {
+    "id": "0e88ac35-0a4f-44b0-9d30-c75eddb84a23",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "9b0ee1d9-b0e4-48e0-9bad-8621f9e1886d",
+    "details": {
+      "changes": [
+        {
+          "new": "Thành phố Hồ Chí Minh",
+          "old": "Quận 5",
+          "field": "tinh_thanh"
+        }
+      ],
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T08:13:08.274476+00:00"
+  },
+  {
+    "id": "14fb8996-fe1d-430e-b3f8-7c105db3221b",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "cfbf06ca-b369-41e3-b311-a007659ee397",
+    "details": {
+      "changes": [
+        {
+          "new": "Đắk Lắk",
+          "old": "",
+          "field": "tinh_thanh"
+        }
+      ],
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T08:13:25.722972+00:00"
+  },
+  {
+    "id": "e2a7edf5-d4da-44ae-95a1-8ff231204ed7",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "c8c8124a-802e-48df-a5ba-f6419d0a1f1a",
+    "details": {
+      "changes": [
+        {
+          "new": "Thành phố Hồ Chí Minh",
+          "old": "Quận 5",
+          "field": "tinh_thanh"
+        }
+      ],
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T08:13:32.237227+00:00"
+  },
+  {
+    "id": "6175bc2c-bb64-4586-a8c2-9d8b3f298711",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "9069dce2-3df5-4f84-9aca-b495493959a5",
+    "details": {
+      "changes": [
+        {
+          "new": "Thành phố Hồ Chí Minh",
+          "old": "Quận 5",
+          "field": "tinh_thanh"
+        }
+      ],
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T08:13:38.753679+00:00"
+  },
+  {
+    "id": "449ee7bd-e404-45c9-adee-7437ff376c64",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "e74a631f-9974-4a52-9805-670b4206407b",
+    "details": {
+      "changes": [
+        {
+          "new": "Lâm Đồng",
+          "old": "Tỉnh Lâm Đồng",
+          "field": "tinh_thanh"
+        }
+      ],
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T08:13:46.3326+00:00"
+  },
+  {
+    "id": "a9d247e8-3ba5-4700-a21d-120a8edfdcd1",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "e84ae464-f0d4-42c1-a280-ebb658e666ef",
+    "details": {
+      "changes": [
+        {
+          "new": "Bà Rịa - Vũng Tàu",
+          "old": "Tỉnh Bà Rịa - Vũng Tàu",
+          "field": "tinh_thanh"
+        }
+      ],
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T08:13:52.451746+00:00"
+  },
+  {
+    "id": "6d3b3ee3-2ffd-44f8-9f69-114abb70a766",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "aedbb417-27fc-4708-86af-35713a5808c1",
+    "details": {
+      "changes": [
+        {
+          "new": "Thành phố Hồ Chí Minh",
+          "old": "Quận 5",
+          "field": "tinh_thanh"
+        }
+      ],
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T08:14:01.169331+00:00"
+  },
+  {
+    "id": "9db9853f-aa53-4c90-a960-69ae54d47bcb",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "88f8b0c2-72b1-463f-b897-0a98aaa3067a",
+    "details": {
+      "changes": [
+        {
+          "new": "Thành phố Hồ Chí Minh",
+          "old": "Huyện Bình Chánh",
+          "field": "tinh_thanh"
+        }
+      ],
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T08:14:10.827071+00:00"
+  },
+  {
+    "id": "5abe1af3-8380-43c6-bdeb-b4c19d9d9cd5",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "5beae355-1385-403d-ba81-1748ebf90ebb",
+    "details": {
+      "changes": [
+        {
+          "new": "Bình Dương",
+          "old": "Tỉnh Bình Dương",
+          "field": "tinh_thanh"
+        }
+      ],
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T08:14:17.450533+00:00"
+  },
+  {
+    "id": "815bb470-b49d-4716-bf59-72fbce6f313d",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "ĐẠT DOANH SỐ",
+      "role": "KINH_DOANH",
+      "slug": "okr_o_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:31:56.736621+00:00"
+  },
+  {
+    "id": "3f3e4353-c5ff-4311-9eba-676befed7516",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "PHÁT TRIỂN KHÁCH HÀNG MỚI",
+      "role": "KINH_DOANH",
+      "slug": "okr_o_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:32:07.393969+00:00"
+  },
+  {
+    "id": "f39831fa-14aa-475a-90fb-0f6f5a5b4bbd",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "TĂNG DOANH SỐ KHÁCH CŨ",
+      "role": "KINH_DOANH",
+      "slug": "okr_o_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:32:14.106111+00:00"
+  },
+  {
+    "id": "23337fd5-ca69-4b96-8d86-5da79085236b",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "GIẢM MẤT KHÁCH",
+      "role": "KINH_DOANH",
+      "slug": "okr_o_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:32:25.11274+00:00"
+  },
+  {
+    "id": "e560c2d0-9c30-4ac9-99aa-7985f9c955b7",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "TĂNG CƠ HỘI BÁN HÀNG",
+      "role": "KINH_DOANH",
+      "slug": "okr_o_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:32:36.121037+00:00"
+  },
+  {
+    "id": "70e55290-3fcf-4051-958b-45f31fa9f507",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "HỖ TRỢ KINH DOANH HIỆU QUẢ HƠN",
+      "role": "KINH_DOANH",
+      "slug": "okr_o_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:32:53.579495+00:00"
+  },
+  {
+    "id": "cdc711ea-372d-492c-8d5f-8ac00f5a1410",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "TĂNG HIỆU QUẢ NỘI DUNG MARKETING",
+      "role": "KINH_DOANH",
+      "slug": "okr_o_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:33:01.52904+00:00"
+  },
+  {
+    "id": "e63af0cf-5933-465c-a577-b60acc3bcb5a",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "NÂNG CAO CHẤT LƯỢNG THIẾT KẾ",
+      "role": "KINH_DOANH",
+      "slug": "okr_o_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:33:09.376881+00:00"
+  },
+  {
+    "id": "a793f083-c5ae-4a06-86d0-65cbe254ef48",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "QUẢN LÝ TÀI NGUYÊN MARKETING",
+      "role": "KINH_DOANH",
+      "slug": "okr_o_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:33:15.550424+00:00"
+  },
+  {
+    "id": "afe23d16-9402-4ce4-a9da-f7754041e690",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "CẢI TIẾN LIÊN TỤC",
+      "role": "KINH_DOANH",
+      "slug": "okr_o_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:33:21.53201+00:00"
+  },
+  {
+    "id": "3ca444a9-4631-4617-a988-6661b8ab3b76",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "KIỂM SOÁT HÀNG TỒN",
+      "role": "KHO",
+      "slug": "okr_o_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:33:32.599336+00:00"
+  },
+  {
+    "id": "ac58f9e0-a21a-4bff-a056-55dda183a0ad",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "KIỂM SOÁT CHẤT LƯỢNG HÀNG TRONG KHO",
+      "role": "KHO",
+      "slug": "okr_o_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:33:37.21475+00:00"
+  },
+  {
+    "id": "b4eae20b-ff3a-429f-9e9d-f8bf15d43418",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "XUẤT HÀNG NHANH VÀ CHÍNH XÁC",
+      "role": "KHO",
+      "slug": "okr_o_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:33:44.288036+00:00"
+  },
+  {
+    "id": "77608b4e-1b4f-4a97-90be-ddd605079358",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "NÂNG CAO TỔ CHỨC KHO",
+      "role": "KHO",
+      "slug": "okr_o_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:33:52.192532+00:00"
+  },
+  {
+    "id": "89a69275-6357-404c-a678-8a043e08028e",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "XỬ LÝ ĐƠN HÀNG CHÍNH XÁC",
+      "role": "KHO",
+      "slug": "okr_o_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:34:02.915052+00:00"
+  },
+  {
+    "id": "915a38cf-6e17-49c3-974e-60e1a5cba0a6",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "GIẢM LỖI LẶP LẠI",
+      "role": "KHO",
+      "slug": "okr_o_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:34:22.832953+00:00"
+  },
+  {
+    "id": "0508b205-227b-4a24-8020-63eb65320e01",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "NÂNG CAO HIỆU QUẢ PHỐI HỢP",
+      "role": "KHO",
+      "slug": "okr_o_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:34:30.001353+00:00"
+  },
+  {
+    "id": "28dc7c7e-df25-4dc3-98dd-d9d0579cfc9b",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "5 – PHÁT HIỆN VÀ XỬ LÝ VẤN ĐỀ",
+      "slug": "okr_o_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:34:36.639218+00:00"
+  },
+  {
+    "id": "52dfb3bb-def2-40a2-ae04-3954d43de7f1",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "GIẢM ĐIỂM NGHẼN TRONG XỬ LÝ ĐƠN",
+      "role": "KHO",
+      "slug": "okr_o_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:34:45.380214+00:00"
+  },
+  {
+    "id": "3bb80694-3670-40a5-8f7f-cf04232f113f",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "CHỦ ĐỘNG CẢNH BÁO VẤN ĐỀ",
+      "role": "KHO",
+      "slug": "okr_o_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:34:51.649239+00:00"
+  },
+  {
+    "id": "ae3253f2-6930-4a3d-a77b-fe5da198f24e",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "GIẢM TỒN KHO BẢO HÀNH",
+      "role": "KHO",
+      "slug": "okr_o_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:34:58.117473+00:00"
+  },
+  {
+    "id": "5cb472e9-a347-4c64-bc3b-8ea191f841f4",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "PHÁT HIỆN SỚM LỖI SẢN PHẨM",
+      "role": "KHO",
+      "slug": "okr_o_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:35:02.996047+00:00"
+  },
+  {
+    "id": "30ced2f9-943c-4d02-8e30-bd7d938b5d86",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "TĂNG TỐC ĐỘ XỬ LÝ BẢO HÀNH",
+      "role": "KHO",
+      "slug": "okr_o_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:35:08.832191+00:00"
+  },
+  {
+    "id": "d4b66fa9-f467-4ee6-bf81-8ed989bc9e89",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "4 – NÂNG CAO HIỆU QUẢ NHÀ CUNG CẤP",
+      "slug": "okr_o_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:35:13.857684+00:00"
+  },
+  {
+    "id": "fa719a86-16ea-49c1-8ccd-57bc9a03b16c",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "5 – BIẾN DỮ LIỆU BẢO HÀNH THÀNH CẢNH BÁO",
+      "slug": "okr_o_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:35:23.142883+00:00"
+  },
+  {
+    "id": "6a1a7eb5-d05b-4f16-ac25-220b7e8449ef",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "KIỂM SOÁT CÔNG NỢ",
+      "role": "KẾ_TOÁN",
+      "slug": "okr_o_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:35:29.056413+00:00"
+  },
+  {
+    "id": "e2cd4bce-0e5f-4d2d-a61b-7add05b2932a",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "KIỂM SOÁT DÒNG TIỀN",
+      "role": "KẾ_TOÁN",
+      "slug": "okr_o_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:35:35.60136+00:00"
+  },
+  {
+    "id": "2a68762a-7076-497b-b43d-3842f9bf14ba",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "KIỂM SOÁT CHI PHÍ",
+      "role": "KẾ_TOÁN",
+      "slug": "okr_o_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:35:39.396302+00:00"
+  },
+  {
+    "id": "580705cd-7314-415d-8f3f-feedd81eea4b",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "BÁO CÁO NHANH, CHÍNH XÁC, TRỰC QUAN",
+      "role": "KẾ_TOÁN",
+      "slug": "okr_o_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:36:19.393574+00:00"
+  },
+  {
+    "id": "25e0ef03-e077-4a32-8131-b46a81c0378d",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "CẢNH BÁO RỦI RO TÀI CHÍNH",
+      "role": "KẾ_TOÁN",
+      "slug": "okr_o_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:36:26.022187+00:00"
+  },
+  {
+    "id": "e97d734b-ac8b-42a6-bc58-8aaf470b6791",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "PHỤC VỤ CÔNG TÁC AN TOÀN VÀ ĐÚNG GIỜ",
+      "role": "KHO",
+      "slug": "okr_o_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:36:46.045174+00:00"
+  },
+  {
+    "id": "990bead8-e856-445d-9a40-77e5d554b4fe",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "ĐẢM BẢO XE LUÔN SẴN SÀNG",
+      "role": "KHO",
+      "slug": "okr_o_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:36:52.36555+00:00"
+  },
+  {
+    "id": "e679a5bb-7360-4126-8089-5befdafde373",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "QUẢN LÝ XE HIỆU QUẢ",
+      "role": "KHO",
+      "slug": "okr_o_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:36:58.146047+00:00"
+  },
+  {
+    "id": "7fd87b63-9e2c-460f-a8a6-3c4cf4ece9ff",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "4 – SỬ DỤNG HIỆU QUẢ THỜI GIAN KHÔNG CÓ LỊCH XE",
+      "slug": "okr_o_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:37:13.239259+00:00"
+  },
+  {
+    "id": "2841463c-3484-4553-8175-0283a0d3b28c",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "SẴN SÀNG HỖ TRỢ KHO",
+      "role": "KHO",
+      "slug": "okr_o_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:37:53.772412+00:00"
+  },
+  {
+    "id": "ef804d29-9f39-4505-8103-98bdf7b759ed",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Đạt X% kế hoạch.",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:39:10.408806+00:00"
+  },
+  {
+    "id": "06983d3b-36fb-47a5-92ca-2ca2dae22bae",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Đạt doanh số X.",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:39:12.918023+00:00"
+  },
+  {
+    "id": "3a69a194-c111-4464-ab1f-a1e865acbf60",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Gặp trực tiếp X khách hàng.",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:39:22.036217+00:00"
+  },
+  {
+    "id": "7db65142-60b1-4304-a915-acf529774e2f",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Báo giá X khách hàng.",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:39:25.651911+00:00"
+  },
+  {
+    "id": "ed3439fc-3a80-413b-ac4b-0c96f0dd09e4",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Có X khách hàng mua thử.",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:39:30.335483+00:00"
+  },
+  {
+    "id": "106dd438-e31e-447c-a5e8-617e2609abed",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "X% cơ hội được theo đến kết quả.",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:40:10.96388+00:00"
+  },
+  {
+    "id": "dfa9be0d-5283-4bae-891d-a107e3c0a0b5",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "X cơ hội được chuyển thành doanh thu.",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:40:21.313079+00:00"
+  },
+  {
+    "id": "d76d2400-24e0-40a9-a2ba-00c3ab2de651",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Tạo vai trò",
+    "entity_type": "role",
+    "entity_id": null,
+    "details": {
+      "name": "MARKETING",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:40:45.631211+00:00"
+  },
+  {
+    "id": "43e55dcb-9045-4339-a22d-8152685da530",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Tạo vai trò",
+    "entity_type": "role",
+    "entity_id": null,
+    "details": {
+      "name": "LÁI_XE",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:40:56.405395+00:00"
+  },
+  {
+    "id": "60149420-0fc3-4612-9091-b7cff7d2419e",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Tạo vai trò",
+    "entity_type": "role",
+    "entity_id": null,
+    "details": {
+      "name": "TỔNG_HỢP_KHO",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:41:24.114298+00:00"
+  },
+  {
+    "id": "be12c70b-b320-4ac2-bcd8-fbcf1f151fcf",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "TĂNG HIỆU QUẢ NỘI DUNG MARKETING",
+      "role": "MARKETING",
+      "slug": "okr_o_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:41:43.947794+00:00"
+  },
+  {
+    "id": "65415985-9bdf-4b91-853a-e0a1eb9b9e96",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "NÂNG CAO CHẤT LƯỢNG THIẾT KẾ",
+      "role": "MARKETING",
+      "slug": "okr_o_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:41:48.881049+00:00"
+  },
+  {
+    "id": "cbb94d06-69ea-4478-9b4f-a6e480f27033",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "QUẢN LÝ TÀI NGUYÊN MARKETING",
+      "role": "MARKETING",
+      "slug": "okr_o_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:41:54.685184+00:00"
+  },
+  {
+    "id": "578c16de-dc14-4613-b871-140da35a6002",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "CẢI TIẾN LIÊN TỤC",
+      "role": "MARKETING",
+      "slug": "okr_o_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:42:00.18333+00:00"
+  },
+  {
+    "id": "e5c43724-dff7-4317-a4ce-10f2889fd82e",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "XỬ LÝ ĐƠN HÀNG CHÍNH XÁC",
+      "role": "TỔNG_HỢP_KHO",
+      "slug": "okr_o_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:45:46.019614+00:00"
+  },
+  {
+    "id": "b93f7bb5-f026-4e9a-9665-131baaf7012f",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "GIẢM ĐIỂM NGHẼN TRONG XỬ LÝ ĐƠN",
+      "role": "TỔNG_HỢP_KHO",
+      "slug": "okr_o_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:45:52.741896+00:00"
+  },
+  {
+    "id": "98b0335c-a7bb-42ea-9cac-225b719b1b14",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "GIẢM LỖI LẶP LẠI",
+      "role": "TỔNG_HỢP_KHO",
+      "slug": "okr_o_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:45:58.853376+00:00"
+  },
+  {
+    "id": "6be4700f-5100-4606-a6e5-ebfa3259f694",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "NÂNG CAO HIỆU QUẢ PHỐI HỢP",
+      "role": "TỔNG_HỢP_KHO",
+      "slug": "okr_o_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:46:08.708534+00:00"
+  },
+  {
+    "id": "07f49d44-05e8-46d7-828e-83f708b1b4c3",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "CHỦ ĐỘNG CẢNH BÁO VẤN ĐỀ",
+      "role": "TỔNG_HỢP_KHO",
+      "slug": "okr_o_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:46:19.831012+00:00"
+  },
+  {
+    "id": "a6d4f06a-fc15-4660-a79f-5b52c9134fe4",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "CHỦ ĐỘNG CẢNH BÁO VẤN ĐỀ",
+      "slug": "okr_o_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:46:27.703864+00:00"
+  },
+  {
+    "id": "38dd03e7-acdf-499d-b64e-01dc2532d60a",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Tạo vai trò",
+    "entity_type": "role",
+    "entity_id": null,
+    "details": {
+      "name": "BẢO_HÀNH",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:46:48.459496+00:00"
+  },
+  {
+    "id": "deaa4b3a-81fa-4b60-8c36-72dd40cce7d3",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "GIẢM TỒN KHO BẢO HÀNH",
+      "role": "BẢO_HÀNH",
+      "slug": "okr_o_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:47:10.449942+00:00"
+  },
+  {
+    "id": "2e7c4bb7-e2e5-495f-a20c-4fe2b24ce8d6",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "PHÁT HIỆN SỚM LỖI SẢN PHẨM",
+      "role": "BẢO_HÀNH",
+      "slug": "okr_o_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:47:33.572544+00:00"
+  },
+  {
+    "id": "343958ae-5965-4857-8d47-acdad96f56cc",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "TĂNG TỐC ĐỘ XỬ LÝ BẢO HÀNH",
+      "role": "BẢO_HÀNH",
+      "slug": "okr_o_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:47:40.203839+00:00"
+  },
+  {
+    "id": "9e78fa5e-a4c3-42d9-91ba-5cf5a6588f1e",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "PHỤC VỤ CÔNG TÁC AN TOÀN VÀ ĐÚNG GIỜ",
+      "role": "LÁI_XE",
+      "slug": "okr_o_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:48:35.60547+00:00"
+  },
+  {
+    "id": "b7ebe2a7-b700-4fad-b781-0f2837b01ffd",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "ĐẢM BẢO XE LUÔN SẴN SÀNG",
+      "role": "LÁI_XE",
+      "slug": "okr_o_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:48:40.689126+00:00"
+  },
+  {
+    "id": "0ce125ff-2461-43ac-adf4-a12afd88dcb9",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "QUẢN LÝ XE HIỆU QUẢ",
+      "role": "LÁI_XE",
+      "slug": "okr_o_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:48:48.582959+00:00"
+  },
+  {
+    "id": "a91d57c9-d644-4ead-a1fb-ab3f6e82c86a",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "SẴN SÀNG HỖ TRỢ KHO",
+      "role": "LÁI_XE",
+      "slug": "okr_o_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:48:53.526882+00:00"
+  },
+  {
+    "id": "db67e650-a64f-483a-a09b-a861e9fd71ff",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Hoàn thành X tài liệu hỗ trợ bán hàng.",
+      "role": "MARKETING",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:56:40.803107+00:00"
+  },
+  {
+    "id": "b41776ae-f4ab-4e3c-9d07-ef5860a6dc92",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "X% yêu cầu quan trọng được hoàn thành đúng hạn.",
+      "role": "MARKETING",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:56:48.748027+00:00"
+  },
+  {
+    "id": "823259e4-37ba-42fe-a9ce-c578855bf78f",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "X% tài liệu được kinh doanh sử dụng.",
+      "role": "MARKETING",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:56:55.821771+00:00"
+  },
+  {
+    "id": "8b2c1282-2ed8-4229-9dde-09d02dfe3754",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Giảm số lần sửa trung bình X%.",
+      "role": "MARKETING",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:57:01.667919+00:00"
+  },
+  {
+    "id": "f5e02f22-b6c2-4afe-898d-b0ca9b6a7246",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "X tài liệu được cải tiến dựa trên phản hồi thực tế.",
+      "role": "MARKETING",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:57:10.008792+00:00"
+  },
+  {
+    "id": "fd94a1d7-f027-402f-a563-220e1be0c43e",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "X Video được duyệt đăng mỗi tuần",
+      "role": "MARKETING",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:57:45.251682+00:00"
+  },
+  {
+    "id": "0868c09d-96bc-4063-a108-87d069116b21",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Hoàn thành X nội dung.",
+      "role": "MARKETING",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T09:58:02.398375+00:00"
+  },
+  {
+    "id": "47cd9e21-114b-4a2a-b0ce-c07236997a3a",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Tăng lượng tiếp cận X%.",
+      "role": "MARKETING",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:10:41.998664+00:00"
+  },
+  {
+    "id": "a43be666-eeb4-4cf2-8099-482fc3260ee1",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Tăng mức tương tác X%.",
+      "role": "MARKETING",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:10:52.34059+00:00"
+  },
+  {
+    "id": "937cf1c9-f234-4a4f-9311-a23a67e19c71",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Tạo X lượt quan tâm.",
+      "role": "MARKETING",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:11:35.036605+00:00"
+  },
+  {
+    "id": "a12dfb47-ad15-4aa1-ad92-92bc58a53bba",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "X nội dung đạt hiệu quả cao được phân tích.",
+      "role": "MARKETING",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:11:52.963318+00:00"
+  },
+  {
+    "id": "fc0b1d02-218c-4c51-8099-660b087e2e8d",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "X% thiết kế đúng nhận diện.",
+      "role": "MARKETING",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:12:02.08009+00:00"
+  },
+  {
+    "id": "4d3ab02b-101d-4da2-a4a9-1446f524d93f",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Giảm thời gian hoàn thành X%.",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:12:10.697101+00:00"
+  },
+  {
+    "id": "90cddc7a-7dc2-4ab6-b1fc-3886bfd25698",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Giảm số lần sửa lại X%.",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:12:14.675984+00:00"
+  },
+  {
+    "id": "2ed8eae3-addc-4d53-a542-e5a5425a36b8",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "X% yêu cầu có mục tiêu rõ trước khi thiết kế.",
+      "role": "MARKETING",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:12:30.84594+00:00"
+  },
+  {
+    "id": "f612a331-5a8b-4c35-bf7b-92f0d71e4493",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "X thiết kế được sử dụng hiệu quả trong thực tế.",
+      "role": "MARKETING",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:12:39.893661+00:00"
+  },
+  {
+    "id": "d28faf57-a36d-451c-af13-9dc18471a001",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "100% file quan trọng được lưu trữ đúng nơi.",
+      "role": "MARKETING",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:12:49.437699+00:00"
+  },
+  {
+    "id": "f27b0ccc-0d5e-4293-a9b9-0c617af8e026",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "100% tài liệu mới được phân loại.",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:12:55.670896+00:00"
+  },
+  {
+    "id": "ee57d675-7e3e-4d19-83e7-a73736d2a02a",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Giảm thất lạc file xuống X trường hợp.",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:12:59.831944+00:00"
+  },
+  {
+    "id": "c21a186a-ed24-425d-975a-1317d25fe9b8",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "X% tài nguyên có thể tìm thấy nhanh.",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:13:03.825015+00:00"
+  },
+  {
+    "id": "1f5b0163-5c42-41ee-a9e5-544bb08ac67d",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Tổng hợp X phản hồi.",
+      "role": "MARKETING",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:13:13.806416+00:00"
+  },
+  {
+    "id": "72913e90-9407-4d49-9934-f8cd7e922fd0",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Hoàn thiện thư viện tài liệu dùng chung.",
+      "role": "MARKETING",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:13:19.969846+00:00"
+  },
+  {
+    "id": "dd357074-dac9-43a9-b9db-c1cffc1b0760",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Hoàn thiện thư viện tài liệu dùng chung.",
+      "role": "MARKETING",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:13:24.688642+00:00"
+  },
+  {
+    "id": "abadba90-446b-44d8-bdec-0d8cfcd116c0",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "X vấn đề được phát hiện.",
+      "role": "MARKETING",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:13:36.631124+00:00"
+  },
+  {
+    "id": "8a6356f5-25f8-4a5f-b356-5e9c36e796f5",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "X phương án cải tiến được đề xuất.",
+      "role": "MARKETING",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:13:51.625218+00:00"
+  },
+  {
+    "id": "b7c30742-0ed6-4e7f-aeb2-b0c0404e1573",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "X cải tiến được áp dụng.",
+      "role": "MARKETING",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:14:10.245604+00:00"
+  },
+  {
+    "id": "f169664d-4bf0-43b0-b9ed-55c25b8bb21e",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "100% hiệu quả sau cải tiến.",
+      "role": "MARKETING",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:14:45.861856+00:00"
+  },
+  {
+    "id": "f174e133-dd6e-46d2-848c-657aaa1cc10a",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Giảm thời gian tìm hàng X%.",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:15:54.918124+00:00"
+  },
+  {
+    "id": "26675110-e297-43b9-aea0-174e0ebc169e",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "100% khu vực kho có tiêu chuẩn sắp xếp.",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:15:58.000969+00:00"
+  },
+  {
+    "id": "b7243af3-c728-439c-aa56-97456b006339",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "X% đơn được kiểm tra đầy đủ.",
+      "role": "TỔNG_HỢP_KHO",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:16:32.796861+00:00"
+  },
+  {
+    "id": "4fc34fd9-56c2-4f62-9203-f2e69c7dc811",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Giảm lỗi đơn X%.",
+      "role": "TỔNG_HỢP_KHO",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:16:41.713924+00:00"
+  },
+  {
+    "id": "b33a46c2-99a9-499a-84b0-ebad2d2682ee",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Giảm đơn phải sửa lại X%.",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:16:47.066889+00:00"
+  },
+  {
+    "id": "51258c70-3301-4f73-b8d8-32b405f8489a",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "X% đơn hoàn thành đúng thời gian.",
+      "role": "TỔNG_HỢP_KHO",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:16:56.368958+00:00"
+  },
+  {
+    "id": "19a461ae-dcf3-46f0-b31b-74296b271d40",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Giảm sai sót thông tin X%.",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:22:18.193989+00:00"
+  },
+  {
+    "id": "96bf732c-9392-4219-b668-1bae3940d1cf",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Giảm số đơn tồn X%.",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:22:56.401151+00:00"
+  },
+  {
+    "id": "c196a5ea-6242-40a1-8464-40691003c989",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "X điểm nghẽn được cải tiến.",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:22:59.069846+00:00"
+  },
+  {
+    "id": "2655d5cd-d060-45c9-9a73-7ffa28677788",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Giảm phát sinh do thiếu thông tin X%.",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:23:10.440025+00:00"
+  },
+  {
+    "id": "b000a3ba-db0c-40af-900b-bff4bcfb0253",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Giảm công việc phải xử lý lại X%.",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:23:17.815186+00:00"
+  },
+  {
+    "id": "149f8560-26a4-49ee-8ad9-0d5670fe0bb4",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "100% vấn đề quan trọng được ghi nhận.",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:23:21.003507+00:00"
+  },
+  {
+    "id": "c09b6074-42ec-4e40-981a-29495e79d8b0",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "X% vấn đề có người phụ trách.",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:23:25.506684+00:00"
+  },
+  {
+    "id": "c94f625f-d7df-4800-bc76-769cb9795486",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Không để vấn đề lớn chỉ được phát hiện khi đã quá muộn.",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:23:34.190687+00:00"
+  },
+  {
+    "id": "ef93a26e-680e-4c35-b370-67b12f3dfe52",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Giảm giá trị hàng tồn bảo hành X%.",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:23:43.638559+00:00"
+  },
+  {
+    "id": "df9df0ff-4709-4dd2-ab37-916051c8fb5a",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "100% hàng tồn lâu có người phụ trách.",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:23:53.419371+00:00"
+  },
+  {
+    "id": "1b5a5f56-9b0e-48c0-b808-5464bbbdf5b0",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Giảm số trường hợp chậm X%.",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:24:17.432531+00:00"
+  },
+  {
+    "id": "ae7d415f-eab1-468d-aa53-3f7e85cbe74a",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Giảm thời gian chờ X%.",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:24:30.495898+00:00"
+  },
+  {
+    "id": "fc73b03c-4232-4bc1-9492-edc58702f551",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Báo cáo lỗi định kỳ.",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:24:45.667791+00:00"
+  },
+  {
+    "id": "187db94c-28eb-4ba4-93ec-e98a7498f32b",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Báo cáo tồn bảo hành.",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:24:57.71147+00:00"
+  },
+  {
+    "id": "b0f4d723-655e-42b4-b81b-c92ee5f37490",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Phát hiện X trường hợp lỗi bất thường.",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:24:03.329254+00:00"
+  },
+  {
+    "id": "d7ba7803-4ea2-4e36-bf77-7fa47d18f210",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "100% trường hợp chậm có nguyên nhân.",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:24:21.27167+00:00"
+  },
+  {
+    "id": "5e7f2adb-ffa9-4269-92f6-f3cbd5a22f6a",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "X vấn đề được yêu cầu nhà cung cấp cải thiện.",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:24:35.470606+00:00"
+  },
+  {
+    "id": "b9dbb850-860d-4fc3-848d-93af9e30cb6d",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Báo cáo sản phẩm lỗi tăng bất thường.",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:24:49.217591+00:00"
+  },
+  {
+    "id": "502ce916-4caa-4ee2-b1ff-2e08a2855106",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "X cảnh báo được đưa ra trước khi thành vấn đề lớn.",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:25:02.271692+00:00"
+  },
+  {
+    "id": "38c2b6f4-cfe7-4b59-a183-354b48890b4c",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Giảm tỷ lệ lỗi lặp lại X%.",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:24:13.278957+00:00"
+  },
+  {
+    "id": "012a21fa-bf53-4ed9-baee-b0e616630a7c",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "X nhà cung cấp được theo dõi thời gian xử lý.",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:24:24.492831+00:00"
+  },
+  {
+    "id": "f8a41c53-9234-47cf-a16b-45ad6097dd2a",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Có dữ liệu đánh giá định kỳ nhà cung cấp.",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:24:39.855638+00:00"
+  },
+  {
+    "id": "c322c48a-9bb6-4c96-86b9-c0b0130c08fe",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Báo cáo lỗi theo lô.",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:24:54.729637+00:00"
+  },
+  {
+    "id": "e1d28eac-5d9a-4747-892c-5d2dd98f9dbe",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Lập kế hoạch dòng tiền định kỳ.",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:25:25.784332+00:00"
+  },
+  {
+    "id": "e0def767-b78b-429b-b56e-7df3f395ed86",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Theo dõi X% khoản thu dự kiến.",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:25:28.604245+00:00"
+  },
+  {
+    "id": "3fd356b9-a818-4bd5-99f8-7edf50675ba6",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Theo dõi X% khoản chi dự kiến.",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:25:31.628749+00:00"
+  },
+  {
+    "id": "676fa94f-cf1b-4da1-bd07-b77964b0a5e0",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Đo hiệu quả sau cải tiến.",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:25:49.452053+00:00"
+  },
+  {
+    "id": "1747c67f-ff80-4194-84cc-4085de86a38c",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "X% cảnh báo được theo đến hướng xử lý.",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:26:07.295618+00:00"
+  },
+  {
+    "id": "4e99a36b-b8ff-4f0e-935b-6bdb9b4c397c",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "X% chuyến công tác đúng giờ.",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:26:10.864971+00:00"
+  },
+  {
+    "id": "df523236-acd9-4aa0-a24a-fb644564d9a1",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "0 vấn đề do lỗi chủ quan.",
+      "role": "KHO",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:26:25.507133+00:00"
+  },
+  {
+    "id": "3dda702a-6a1d-455d-a084-665c0feddfc2",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "X% yêu cầu đưa đón được đáp ứng đúng kế hoạch.",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:26:33.515963+00:00"
+  },
+  {
+    "id": "3b93684b-b7d9-4576-918d-017c36df9dd8",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Giảm số lần ảnh hưởng công tác do vấn đề xe.",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:26:37.556726+00:00"
+  },
+  {
+    "id": "1adb0d2b-93eb-4400-b094-682bb7ea745b",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Theo dõi nhiên liệu định kỳ.",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:26:51.275943+00:00"
+  },
+  {
+    "id": "ea9e2f58-2f61-4885-b6c0-a52cfe592393",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Xe được kiểm tra định kỳ.",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:26:55.223065+00:00"
+  },
+  {
+    "id": "6ef805d6-4025-4078-bd23-cd3312f545cc",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Chủ động kiểm tra công việc quản lý xe trước khi hỗ trợ kho.",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:27:23.251025+00:00"
+  },
+  {
+    "id": "617288e5-996f-403b-ba34-a7d4925e88bc",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Không để thời gian làm việc bị lãng phí do chờ lịch xe.",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:27:26.570847+00:00"
+  },
+  {
+    "id": "3e69cdf8-a6ef-4c17-bac1-bcb240dda769",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "X% vấn đề được xử lý trước khi gây gián đoạn.",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:27:33.341104+00:00"
+  },
+  {
+    "id": "43843ba2-9b0b-4dbf-9320-6f706aedae03",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "100% rủi ro nghiêm trọng được báo ngay.",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:27:36.696067+00:00"
+  },
+  {
+    "id": "23a83ab4-8d86-4463-a60b-fa8b194e85df",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "X vấn đề được đề xuất hướng xử lý.",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:27:39.658868+00:00"
+  },
+  {
+    "id": "5c3d5097-6d4d-4614-8f76-01990ae5eb9d",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Giảm số sự cố lặp lại X%.",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:27:41.793908+00:00"
+  },
+  {
+    "id": "58d85bd5-c4f2-4147-abef-ebb40fb1e3fa",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "0 vấn đề do lỗi chủ quan.",
+      "role": "LÁI_XE",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:27:50.595434+00:00"
+  },
+  {
+    "id": "c5cf04bc-800b-4591-b964-798baa202f6d",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "X% lịch xe được chuẩn bị trước.",
+      "role": "LÁI_XE",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:28:03.979943+00:00"
+  },
+  {
+    "id": "a2acb14e-9dd3-4118-b98e-b8673454be5f",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "100% lịch bảo dưỡng được theo dõi.",
+      "role": "LÁI_XE",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:28:15.933007+00:00"
+  },
+  {
+    "id": "6f2428d8-66d3-46e9-8651-498bf0f270d5",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "100% đăng kiểm và bảo hiểm được theo dõi.",
+      "role": "LÁI_XE",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:28:21.521652+00:00"
+  },
+  {
+    "id": "14dfcb9f-0df5-440a-93c0-f8af8b4ed1cb",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "X% bảo dưỡng thực hiện đúng hạn.",
+      "role": "LÁI_XE",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:28:27.243607+00:00"
+  },
+  {
+    "id": "f4083a82-ddc8-4a21-93df-f19141d164e5",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "100% dấu hiệu bất thường được báo sớm.",
+      "role": "LÁI_XE",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:28:32.383581+00:00"
+  },
+  {
+    "id": "bab70e15-5b95-4ff5-8edb-c25cf5832cae",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Giảm sự cố xe hỏng đột xuất xuống X.",
+      "role": "LÁI_XE",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:28:42.702639+00:00"
+  },
+  {
+    "id": "92cf6079-1df8-4e80-aab1-3b601d6ea539",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Theo dõi 100% chi phí xe.",
+      "role": "LÁI_XE",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:31:46.816661+00:00"
+  },
+  {
+    "id": "2debb088-bccb-485c-8ecc-39ff4640833e",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Giảm tiêu hao bất thường X%.",
+      "role": "LÁI_XE",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:31:51.568645+00:00"
+  },
+  {
+    "id": "1448eb92-ed01-485d-932a-d35b06af4d6f",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Xe luôn sạch sẽ và đủ điều kiện phục vụ công tác.",
+      "role": "LÁI_XE",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:33:18.469916+00:00"
+  },
+  {
+    "id": "f42d6270-e7cf-4ff2-87dc-4b2c0d41a344",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "100% thời gian không có lịch được chủ động bố trí công việc.",
+      "role": "LÁI_XE",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:33:28.678369+00:00"
+  },
+  {
+    "id": "ac226f2b-271c-44d4-828f-44e33cc5af02",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Hoàn thành X nhiệm vụ hỗ trợ kho.",
+      "role": "LÁI_XE",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:33:34.463277+00:00"
+  },
+  {
+    "id": "5ed85d94-fed3-48cf-bead-453e64d81d9a",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Giảm số lượng tồn bảo hành từ X xuống Y.",
+      "role": "BẢO_HÀNH",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:35:03.95689+00:00"
+  },
+  {
+    "id": "018ba6b2-5794-471a-ab1e-7bb08381df25",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "X% hàng bảo hành được xử lý trong thời gian mục tiêu.",
+      "role": "BẢO_HÀNH",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:35:10.294045+00:00"
+  },
+  {
+    "id": "60a65042-a8f2-481c-b2d5-00aa05ddd4d8",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Giảm số hàng tồn quá X ngày.",
+      "role": "BẢO_HÀNH",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:35:16.693461+00:00"
+  },
+  {
+    "id": "948e277d-930b-4950-af6d-346fe983ba69",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "100% lỗi được ghi nhận theo sản phẩm.",
+      "role": "BẢO_HÀNH",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:35:22.208289+00:00"
+  },
+  {
+    "id": "9c044722-6030-4f2b-91b0-9ef8ddc8dc99",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "100% lỗi nghi ngờ theo lô được cảnh báo.",
+      "role": "BẢO_HÀNH",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:36:23.893245+00:00"
+  },
+  {
+    "id": "98e8914c-3b91-4568-beb3-f3b3ebca1a79",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Tăng trưởng X% so với kỳ trước.",
+      "role": "KINH_DOANH",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:39:36.436355+00:00"
+  },
+  {
+    "id": "95aaff3a-8c04-4b1a-a91a-9d3e2a5ba940",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Tăng doanh số nhóm sản phẩm trọng tâm X%.",
+      "role": "KINH_DOANH",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:39:39.670072+00:00"
+  },
+  {
+    "id": "6f3dc45e-e40a-4e63-9b18-3cd46470a9b6",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Duy trì doanh số tối thiểu X/tháng.",
+      "role": "KINH_DOANH",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:39:43.524246+00:00"
+  },
+  {
+    "id": "af363e46-000c-4cec-adad-f63d5df2b43c",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Tiếp cận X khách hàng mới.",
+      "role": "KINH_DOANH",
+      "slug": "okr_kr_template",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:39:47.552034+00:00"
+  },
+  {
+    "id": "af5efd14-ef15-49dd-91fd-30e985a67ea5",
+    "actor_id": "8bee0a51-da81-4daf-8a63-0cca90b75eca",
+    "action": "Đăng nhập",
+    "entity_type": "auth",
+    "entity_id": null,
+    "details": {
+      "username": "quyetthang",
+      "full_name": "Nguyễn Quyết Thắng"
+    },
+    "created_at": "2026-08-28T10:47:37.164524+00:00"
+  },
+  {
+    "id": "87283404-5f9c-4b78-ae93-fa0c60ca53e5",
+    "actor_id": "8bee0a51-da81-4daf-8a63-0cca90b75eca",
+    "action": "Đăng xuất",
+    "entity_type": "auth",
+    "entity_id": null,
+    "details": {
+      "username": "quyetthang",
+      "full_name": "Nguyễn Quyết Thắng"
+    },
+    "created_at": "2026-08-28T10:51:47.589436+00:00"
+  },
+  {
+    "id": "c04b4922-ba52-45b3-b707-5748021e832c",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Tạo tài khoản",
+    "entity_type": "user",
+    "entity_id": "564058fd-2842-4f7d-bc0d-0580e71470f2",
+    "details": {
+      "username": "viethoan",
+      "full_name": "Nguyễn Viết Hoàn"
+    },
+    "created_at": "2026-08-28T10:52:14.146974+00:00"
+  },
+  {
+    "id": "34ef431a-8d7f-4d1a-af29-1c7a26813626",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Sửa tài khoản",
+    "entity_type": "user",
+    "entity_id": "514c7638-0c38-4fef-b37b-b76aeede3f9e",
+    "details": {
+      "role_id": "d9a2a379-0945-4b2c-8c79-ea4d8add6c34",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-28T10:52:24.352582+00:00"
+  },
+  {
+    "id": "edb96da5-d319-4053-8f0e-25298da3b2bd",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Tạo tài khoản",
+    "entity_type": "user",
+    "entity_id": "7c514547-b169-4bde-b2aa-cbd3e225f817",
+    "details": {
+      "username": "thuyhang",
+      "full_name": "Quản Thúy Hằng"
+    },
+    "created_at": "2026-08-28T10:52:42.676204+00:00"
+  },
+  {
+    "id": "422aae36-aa51-4236-ac0a-1cd19032fe8c",
+    "actor_id": "564058fd-2842-4f7d-bc0d-0580e71470f2",
+    "action": "Đăng nhập",
+    "entity_type": "auth",
+    "entity_id": null,
+    "details": {
+      "username": "viethoan",
+      "full_name": "Nguyễn Viết Hoàn"
+    },
+    "created_at": "2026-08-28T10:53:56.767319+00:00"
+  },
+  {
+    "id": "ef4cef76-c29e-4f0c-9107-ef5a5b8bc358",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Tạo tài khoản",
+    "entity_type": "user",
+    "entity_id": "fc2f8c07-2120-4db9-ab91-b6bfae670260",
+    "details": {
+      "username": "chienmt",
+      "full_name": "Mai Chiên"
+    },
+    "created_at": "2026-08-29T02:26:41.345923+00:00"
+  },
+  {
+    "id": "cc3e5da6-a4ce-4b1e-80f0-cad81fd9e1d9",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Đăng bảng tin",
+    "entity_type": "bulletin",
+    "entity_id": "d00ed9a7-0437-41ca-9069-b2d4e3f80c1a",
+    "details": {
+      "title": "ád",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-29T02:29:33.106919+00:00"
+  },
+  {
+    "id": "d7e471d0-b2d3-4e44-86dc-b722ce7afc93",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Đăng bảng tin",
+    "entity_type": "bulletin",
+    "entity_id": "f696b6b1-6bd5-4a4e-b28e-ff244c07c6fb",
+    "details": {
+      "title": "ádasdf",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-29T02:33:14.976315+00:00"
+  },
+  {
+    "id": "3134b5c4-7d36-4008-90a0-27cf529cd419",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Đăng bảng tin",
+    "entity_type": "bulletin",
+    "entity_id": "ce55c37e-e8cc-4934-b09f-498f1c1446c6",
+    "details": {
+      "title": "qưerqwer",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-29T02:40:00.64969+00:00"
+  },
+  {
+    "id": "67fc9208-5fb5-4b3e-b4ca-cf6099489306",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Lưu cài đặt",
+    "entity_type": "settings",
+    "entity_id": null,
+    "details": {
+      "keys": [
+        "SALES_ALLOWED_NAMES",
+        "SALES_NAME_MAP",
+        "BOT_CHECK_OKR",
+        "BOT_CHECK_KE_HOACH_TUAN",
+        "BOT_CHECK_BAO_CAO_TUAN",
+        "BOT_CHECK_BAO_CAO_KHO",
+        "BOT_CHECK_DANG_NHAP",
+        "BOT_CHECK_TIN_THI_TRUONG",
+        "BOT_CHECK_CHIEN_DICH",
+        "DATE_FORMAT",
+        "APP_NAME",
+        "LOGIN_TITLE",
+        "LOGIN_SUBTITLE",
+        "TEN_DOANH_NGHIEP",
+        "TEN_RUT_GON",
+        "TELEGRAM_BOT_TOKEN",
+        "TELEGRAM_CHAT_ID",
+        "TB_KHACH_HANG_MOI",
+        "TB_TIN_THI_TRUONG_MOI",
+        "TB_COMMENT_MOI",
+        "TB_CAP_NHAT_CHIEN_DICH",
+        "TB_CHIEN_DICH_MOI",
+        "TB_KET_LUAN",
+        "TB_IMPORT",
+        "TIMEZONE",
+        "LOGO_URL"
+      ],
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-29T03:42:30.615597+00:00"
+  },
+  {
+    "id": "e16bf0bc-e014-4e7d-89d4-d1ef3d5037bd",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa bảng tin",
+    "entity_type": "bulletin",
+    "entity_id": "a66339a8-2e2c-4912-8ef1-6d726287c2b3",
+    "details": {
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-29T03:42:49.258415+00:00"
+  },
+  {
+    "id": "4f8d2267-1132-4c17-adf2-d66c7fe2a75a",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Lưu cài đặt",
+    "entity_type": "settings",
+    "entity_id": null,
+    "details": {
+      "keys": [
+        "SALES_ALLOWED_NAMES",
+        "SALES_NAME_MAP",
+        "BOT_CHECK_OKR",
+        "BOT_CHECK_KE_HOACH_TUAN",
+        "BOT_CHECK_BAO_CAO_TUAN",
+        "BOT_CHECK_BAO_CAO_KHO",
+        "BOT_CHECK_DANG_NHAP",
+        "BOT_CHECK_TIN_THI_TRUONG",
+        "BOT_CHECK_CHIEN_DICH",
+        "DATE_FORMAT",
+        "APP_NAME",
+        "LOGIN_TITLE",
+        "LOGIN_SUBTITLE",
+        "TEN_DOANH_NGHIEP",
+        "TEN_RUT_GON",
+        "TELEGRAM_BOT_TOKEN",
+        "TELEGRAM_CHAT_ID",
+        "TB_KHACH_HANG_MOI",
+        "TB_TIN_THI_TRUONG_MOI",
+        "TB_COMMENT_MOI",
+        "TB_CAP_NHAT_CHIEN_DICH",
+        "TB_CHIEN_DICH_MOI",
+        "TB_KET_LUAN",
+        "TB_IMPORT",
+        "TIMEZONE",
+        "LOGO_URL"
+      ],
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-29T03:43:05.326602+00:00"
+  },
+  {
+    "id": "a5262ec3-86be-457d-9134-486200342e8f",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa tài khoản",
+    "entity_type": "user",
+    "entity_id": "ee423566-9458-4ba6-9770-95fd4e0957ab",
+    "details": {
+      "username": "duyhung",
+      "full_name": "Nguyễn Duy Hưng"
+    },
+    "created_at": "2026-08-29T03:55:15.853031+00:00"
+  },
+  {
+    "id": "0e492516-ad44-45ac-9c34-fb0bfb212c6f",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Lưu cài đặt",
+    "entity_type": "settings",
+    "entity_id": null,
+    "details": {
+      "keys": [
+        "SALES_ALLOWED_NAMES",
+        "SALES_NAME_MAP",
+        "BOT_CHECK_OKR",
+        "BOT_CHECK_KE_HOACH_TUAN",
+        "BOT_CHECK_BAO_CAO_TUAN",
+        "BOT_CHECK_BAO_CAO_KHO",
+        "BOT_CHECK_DANG_NHAP",
+        "BOT_CHECK_TIN_THI_TRUONG",
+        "BOT_CHECK_CHIEN_DICH",
+        "DATE_FORMAT",
+        "APP_NAME",
+        "LOGIN_TITLE",
+        "LOGIN_SUBTITLE",
+        "TEN_DOANH_NGHIEP",
+        "TEN_RUT_GON",
+        "TELEGRAM_BOT_TOKEN",
+        "TELEGRAM_CHAT_ID",
+        "TB_KHACH_HANG_MOI",
+        "TB_TIN_THI_TRUONG_MOI",
+        "TB_COMMENT_MOI",
+        "TB_CAP_NHAT_CHIEN_DICH",
+        "TB_CHIEN_DICH_MOI",
+        "TB_KET_LUAN",
+        "TB_IMPORT",
+        "TIMEZONE",
+        "LOGO_URL",
+        "BOT_ROLE_MAP"
+      ],
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-29T04:46:43.190213+00:00"
+  },
+  {
+    "id": "1aeee3fe-79fb-49d7-a877-2932878aa4ba",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa bảng tin",
+    "entity_type": "bulletin",
+    "entity_id": "1d3e1e02-50a0-4cc4-b786-34970f2fb6b0",
+    "details": {
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-29T06:30:18.140859+00:00"
+  },
+  {
+    "id": "c605c0d8-ca30-414f-b82b-5118045f157e",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa bảng tin",
+    "entity_type": "bulletin",
+    "entity_id": "a9139068-efeb-4ad2-9c4d-256cd6d54bc5",
+    "details": {
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-29T06:30:23.517223+00:00"
+  },
+  {
+    "id": "04ec7be9-b907-48a5-aec0-7fb86a9e72e8",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa bảng tin",
+    "entity_type": "bulletin",
+    "entity_id": "8b01f03b-0ff5-454b-a455-238a023aade7",
+    "details": {
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-29T06:30:30.881211+00:00"
+  },
+  {
+    "id": "30e7158d-b074-4c7a-998a-60feac542cd4",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa bảng tin",
+    "entity_type": "bulletin",
+    "entity_id": "ce55c37e-e8cc-4934-b09f-498f1c1446c6",
+    "details": {
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-29T06:30:35.729887+00:00"
+  },
+  {
+    "id": "fda73e68-1d5d-40f7-9bab-de86c143110b",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa bảng tin",
+    "entity_type": "bulletin",
+    "entity_id": "f696b6b1-6bd5-4a4e-b28e-ff244c07c6fb",
+    "details": {
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-29T06:30:40.764333+00:00"
+  },
+  {
+    "id": "98c96cb8-6df0-4ac1-ac70-50b30cc9ae23",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa bảng tin",
+    "entity_type": "bulletin",
+    "entity_id": "d00ed9a7-0437-41ca-9069-b2d4e3f80c1a",
+    "details": {
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-29T06:30:44.357674+00:00"
+  },
+  {
+    "id": "7694caed-513a-4772-8e5f-74770e65a2f7",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Xóa bảng tin",
+    "entity_type": "bulletin",
+    "entity_id": "c26bd152-bf2e-4861-aba2-8fbea5b8194c",
+    "details": {
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-29T06:55:58.321313+00:00"
+  },
+  {
+    "id": "c7de5254-3344-4f03-9313-cc7e43eb4624",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Đăng bảng tin",
+    "entity_type": "bulletin",
+    "entity_id": "14d1126b-4423-4c6c-98d2-7007878019d5",
+    "details": {
+      "title": "📢 THÔNG BÁO ĐÀO TẠO CẢI TIẾN PHƯƠNG PHÁP LÀM VIỆC",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-29T06:57:26.205557+00:00"
+  },
+  {
+    "id": "de8ca0cf-00cf-4fc5-b1f2-7377cc4a705a",
+    "actor_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "action": "Đăng xuất",
+    "entity_type": "auth",
+    "entity_id": null,
+    "details": {
+      "username": "admin",
+      "full_name": "Quản trị viên"
+    },
+    "created_at": "2026-08-29T06:57:45.393642+00:00"
+  },
+  {
+    "id": "73f09355-000b-4fc9-9874-37f194a680d5",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Đăng nhập",
+    "entity_type": "auth",
+    "entity_id": null,
+    "details": {
+      "username": "thanhhau",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-08-29T06:57:52.885349+00:00"
+  },
+  {
+    "id": "79dac638-eec3-4766-b102-53ff29c38fdb",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Xóa bảng tin",
+    "entity_type": "bulletin",
+    "entity_id": "14d1126b-4423-4c6c-98d2-7007878019d5",
+    "details": {
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-08-29T06:58:18.542865+00:00"
+  },
+  {
+    "id": "27bc5ee0-e100-4c47-9c18-618bdd321070",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Đăng bảng tin",
+    "entity_type": "bulletin",
+    "entity_id": "59f1e39e-b27e-4194-aac1-438ec9357a89",
+    "details": {
+      "title": "📢 THÔNG BÁO ĐÀO TẠO CẢI TIẾN PHƯƠNG PHÁP LÀM VIỆC",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-08-29T06:58:20.172574+00:00"
+  },
+  {
+    "id": "29f296fc-4584-4fcd-942c-2e854bcd84f2",
+    "actor_id": "fc2f8c07-2120-4db9-ab91-b6bfae670260",
+    "action": "Đăng nhập",
+    "entity_type": "auth",
+    "entity_id": null,
+    "details": {
+      "username": "chienmt",
+      "full_name": "Mai Chiên"
+    },
+    "created_at": "2026-08-29T07:14:18.148966+00:00"
+  },
+  {
+    "id": "f04d4903-49a9-4788-bd27-80e0b0a1dc40",
+    "actor_id": "fc2f8c07-2120-4db9-ab91-b6bfae670260",
+    "action": "Đăng nhập",
+    "entity_type": "auth",
+    "entity_id": null,
+    "details": {
+      "username": "chienmt",
+      "full_name": "Mai Chiên"
+    },
+    "created_at": "2026-08-29T08:13:44.346355+00:00"
+  },
+  {
+    "id": "8e9dffe1-d15d-4ee7-9d6c-8cc068406fa5",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "XÓA VĨNH VIỄN khách hàng",
+    "entity_type": "customer",
+    "entity_id": "5fa03e73-381d-4b6b-abf8-966b0ab600c9",
+    "details": {
+      "ma_kh": "AUDIT_1788265492993",
+      "ten_kh": "Audit",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-01T16:55:55.758144+00:00"
+  },
+  {
+    "id": "f41728bf-5381-49d4-b284-0460c071404a",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Tạo OKR công ty",
+    "entity_type": "okr",
+    "entity_id": "bf515fc6-a8e6-4f59-8125-940aa8ad25dd",
+    "details": {
+      "tu": "2026-09-01",
+      "den": "2026-12-31",
+      "tu_ngay": "2026-09-01",
+      "den_ngay": "2026-12-31",
+      "full_name": "Nguyễn Thanh Hậu",
+      "objective": "ĐẠT MỤC TIÊU KINH DOANH NĂM"
+    },
+    "created_at": "2026-08-29T09:23:26.616252+00:00"
+  },
+  {
+    "id": "ae67f1a9-3bf7-4b68-85fc-61917180c607",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Tạo OKR công ty",
+    "entity_type": "okr",
+    "entity_id": "0318d47e-01a8-4da6-a59a-abb34a1050da",
+    "details": {
+      "tu": "2026-07-01",
+      "den": "2026-09-30",
+      "tu_ngay": "2026-07-01",
+      "den_ngay": "2026-09-30",
+      "full_name": "Nguyễn Thanh Hậu",
+      "objective": "XÂY DỰNG VĂN HÓA LÀM VIỆC THEO MỤC TIÊU VÀ KẾT QUẢ"
+    },
+    "created_at": "2026-08-29T09:31:44.751301+00:00"
+  },
+  {
+    "id": "7607f132-00b9-4e0d-a0be-d1d789a410be",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Tạo OKR công ty",
+    "entity_type": "okr",
+    "entity_id": "9031e727-241a-4742-a2bf-247da5be0568",
+    "details": {
+      "tu": "2026-07-01",
+      "den": "2026-09-30",
+      "tu_ngay": "2026-07-01",
+      "den_ngay": "2026-09-30",
+      "full_name": "Nguyễn Thanh Hậu",
+      "objective": "ĐẢM BẢO NỀN TẢNG HÀNG HÓA, TÀI CHÍNH ĐỂ PHÁT TRIỂN VÀ TĂNG TRƯỞNG ỔN ĐỊNH"
+    },
+    "created_at": "2026-08-29T09:39:30.069256+00:00"
+  },
+  {
+    "id": "dff25947-997c-48e6-9c69-5b227e26bbcd",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Đăng nhập",
+    "entity_type": "auth",
+    "entity_id": null,
+    "details": {
+      "username": "thanhhau",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-08-29T14:40:45.8259+00:00"
+  },
+  {
+    "id": "4588f89c-f935-4b6b-815a-02cbef5474ca",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Đăng nhập",
+    "entity_type": "auth",
+    "entity_id": null,
+    "details": {
+      "username": "thanhhau",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-08-30T00:48:36.965913+00:00"
+  },
+  {
+    "id": "50726286-8eae-47d5-a3b8-ad3fd4b6a9f7",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Đăng nhập",
+    "entity_type": "auth",
+    "entity_id": null,
+    "details": {
+      "username": "thanhhau",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-08-30T01:52:25.201513+00:00"
+  },
+  {
+    "id": "d6a055d2-f350-465b-bd10-b0cbaa275783",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Lưu cài đặt",
+    "entity_type": "settings",
+    "entity_id": null,
+    "details": {
+      "keys": [
+        "SALES_ALLOWED_NAMES",
+        "SALES_NAME_MAP",
+        "BOT_CHECK_OKR",
+        "BOT_CHECK_KE_HOACH_TUAN",
+        "BOT_CHECK_BAO_CAO_TUAN",
+        "BOT_CHECK_BAO_CAO_KHO",
+        "BOT_CHECK_DANG_NHAP",
+        "BOT_CHECK_TIN_THI_TRUONG",
+        "BOT_CHECK_CHIEN_DICH",
+        "DATE_FORMAT",
+        "APP_NAME",
+        "LOGIN_TITLE",
+        "LOGIN_SUBTITLE",
+        "TEN_DOANH_NGHIEP",
+        "TEN_RUT_GON",
+        "TELEGRAM_BOT_TOKEN",
+        "TELEGRAM_CHAT_ID",
+        "TB_KHACH_HANG_MOI",
+        "TB_TIN_THI_TRUONG_MOI",
+        "TB_COMMENT_MOI",
+        "TB_CAP_NHAT_CHIEN_DICH",
+        "TB_CHIEN_DICH_MOI",
+        "TB_KET_LUAN",
+        "TB_IMPORT",
+        "TIMEZONE",
+        "LOGO_URL",
+        "BOT_ROLE_MAP",
+        "AI_KEY",
+        "AI_ENDPOINT",
+        "AI_MODEL",
+        "AI_FREE_MSG_LIMIT"
+      ],
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-08-30T09:16:47.769693+00:00"
+  },
+  {
+    "id": "06dd799d-24d5-4e18-9756-9f4e201d3851",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Lưu cài đặt",
+    "entity_type": "settings",
+    "entity_id": null,
+    "details": {
+      "keys": [
+        "SALES_ALLOWED_NAMES",
+        "SALES_NAME_MAP",
+        "BOT_CHECK_OKR",
+        "BOT_CHECK_KE_HOACH_TUAN",
+        "BOT_CHECK_BAO_CAO_TUAN",
+        "BOT_CHECK_BAO_CAO_KHO",
+        "BOT_CHECK_DANG_NHAP",
+        "BOT_CHECK_TIN_THI_TRUONG",
+        "BOT_CHECK_CHIEN_DICH",
+        "DATE_FORMAT",
+        "APP_NAME",
+        "LOGIN_TITLE",
+        "LOGIN_SUBTITLE",
+        "TEN_DOANH_NGHIEP",
+        "TEN_RUT_GON",
+        "TELEGRAM_BOT_TOKEN",
+        "TELEGRAM_CHAT_ID",
+        "TB_KHACH_HANG_MOI",
+        "TB_TIN_THI_TRUONG_MOI",
+        "TB_COMMENT_MOI",
+        "TB_CAP_NHAT_CHIEN_DICH",
+        "TB_CHIEN_DICH_MOI",
+        "TB_KET_LUAN",
+        "TB_IMPORT",
+        "TIMEZONE",
+        "LOGO_URL",
+        "BOT_ROLE_MAP",
+        "AI_KEY",
+        "AI_ENDPOINT",
+        "AI_MODEL",
+        "AI_FREE_MSG_LIMIT",
+        "AI_ENABLED"
+      ],
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-08-30T09:16:56.06267+00:00"
+  },
+  {
+    "id": "54e3f0c8-bc8e-471d-a5a2-3b8e7fa5097b",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Lưu cài đặt",
+    "entity_type": "settings",
+    "entity_id": null,
+    "details": {
+      "keys": [
+        "AI_KEY",
+        "AI_ENDPOINT",
+        "AI_MODEL",
+        "AI_FREE_MSG_LIMIT",
+        "AI_ENABLED",
+        "SALES_ALLOWED_NAMES",
+        "SALES_NAME_MAP",
+        "BOT_CHECK_OKR",
+        "BOT_CHECK_KE_HOACH_TUAN",
+        "BOT_CHECK_BAO_CAO_TUAN",
+        "BOT_CHECK_BAO_CAO_KHO",
+        "BOT_CHECK_DANG_NHAP",
+        "BOT_CHECK_TIN_THI_TRUONG",
+        "BOT_CHECK_CHIEN_DICH",
+        "DATE_FORMAT",
+        "APP_NAME",
+        "LOGIN_TITLE",
+        "LOGIN_SUBTITLE",
+        "TEN_DOANH_NGHIEP",
+        "TEN_RUT_GON",
+        "TELEGRAM_BOT_TOKEN",
+        "TELEGRAM_CHAT_ID",
+        "TB_KHACH_HANG_MOI",
+        "TB_TIN_THI_TRUONG_MOI",
+        "TB_COMMENT_MOI",
+        "TB_CAP_NHAT_CHIEN_DICH",
+        "TB_CHIEN_DICH_MOI",
+        "TB_KET_LUAN",
+        "TB_IMPORT",
+        "TIMEZONE",
+        "LOGO_URL",
+        "BOT_ROLE_MAP"
+      ],
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-08-30T12:10:22.378042+00:00"
+  },
+  {
+    "id": "9c77ff0d-6df8-4062-ba72-854ea4f4dfa5",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Lưu cài đặt",
+    "entity_type": "settings",
+    "entity_id": null,
+    "details": {
+      "keys": [
+        "AI_MODEL",
+        "AI_ENDPOINT",
+        "AI_FREE_MSG_LIMIT",
+        "AI_ENABLED",
+        "SALES_ALLOWED_NAMES",
+        "SALES_NAME_MAP",
+        "BOT_CHECK_OKR",
+        "BOT_CHECK_KE_HOACH_TUAN",
+        "BOT_CHECK_BAO_CAO_TUAN",
+        "BOT_CHECK_BAO_CAO_KHO",
+        "BOT_CHECK_DANG_NHAP",
+        "BOT_CHECK_TIN_THI_TRUONG",
+        "BOT_CHECK_CHIEN_DICH",
+        "DATE_FORMAT",
+        "APP_NAME",
+        "LOGIN_TITLE",
+        "LOGIN_SUBTITLE",
+        "TEN_DOANH_NGHIEP",
+        "TEN_RUT_GON",
+        "TELEGRAM_BOT_TOKEN",
+        "TELEGRAM_CHAT_ID",
+        "TB_KHACH_HANG_MOI",
+        "TB_TIN_THI_TRUONG_MOI",
+        "TB_COMMENT_MOI",
+        "TB_CAP_NHAT_CHIEN_DICH",
+        "TB_CHIEN_DICH_MOI",
+        "TB_KET_LUAN",
+        "TB_IMPORT",
+        "TIMEZONE",
+        "LOGO_URL",
+        "BOT_ROLE_MAP",
+        "AI_KEY"
+      ],
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-08-30T13:44:51.97344+00:00"
+  },
+  {
+    "id": "ea296e89-d576-4fcd-ab9b-9dc9ca4c3e4e",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Đăng nhập",
+    "entity_type": "auth",
+    "entity_id": null,
+    "details": {
+      "username": "thanhhau",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-08-31T01:20:06.43124+00:00"
+  },
+  {
+    "id": "59a798aa-5d83-4c1d-885d-48082e310e18",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Đăng nhập",
+    "entity_type": "auth",
+    "entity_id": null,
+    "details": {
+      "username": "thanhhau",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-08-31T03:23:24.672862+00:00"
+  },
+  {
+    "id": "4b365927-8034-439b-9b69-cb71e44faa20",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Tạo OKR cá nhân",
+    "entity_type": "okr",
+    "entity_id": "c650b4f0-1945-4f27-a589-c920ac44a853",
+    "details": {
+      "tu": "2026-07-01",
+      "den": "2026-09-30",
+      "tu_ngay": "2026-07-01",
+      "den_ngay": "2026-09-30",
+      "full_name": "Nguyễn Thanh Hậu",
+      "objective": "KIỂM SOÁT HÀNG TỒN"
+    },
+    "created_at": "2026-08-31T03:35:19.932478+00:00"
+  },
+  {
+    "id": "b1da664b-d13a-4c1d-94c4-af18be713452",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Tạo báo cáo kho",
+    "entity_type": "warehouse_report",
+    "entity_id": "8a3910db-d922-4d93-ab7a-3c3572bbad94",
+    "details": {
+      "ngay": "2026-08-31",
+      "full_name": "Nguyễn Thanh Hậu",
+      "thuc_trang": "Hàng về 9005 nhưng chưa có chân 9006, 9012.",
+      "trang_thai": "Chờ giải quyết",
+      "nhom_van_de_id": "dff9a8ba-dd56-48fc-a319-48025f9f1f86",
+      "product_group_id": "440307fe-2015-41c6-a8f4-632a790277c1"
+    },
+    "created_at": "2026-08-31T03:39:28.878685+00:00"
+  },
+  {
+    "id": "3ea04e21-2c5b-47ba-83bc-84411d957ffc",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Bình luận báo cáo kho",
+    "entity_type": "warehouse_report",
+    "entity_id": "8a3910db-d922-4d93-ab7a-3c3572bbad94",
+    "details": {
+      "full_name": "Nguyễn Thanh Hậu",
+      "comment_id": "aa53a4a2-a10a-46c1-a5d7-4728f14d3138"
+    },
+    "created_at": "2026-08-31T03:40:05.736239+00:00"
+  },
+  {
+    "id": "fffe150d-796d-4222-81f6-3f3c6fe7e2bf",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Sửa báo cáo kho",
+    "entity_type": "warehouse_report",
+    "entity_id": "8a3910db-d922-4d93-ab7a-3c3572bbad94",
+    "details": {
+      "ngay": "2026-08-31",
+      "full_name": "Nguyễn Thanh Hậu",
+      "thuc_trang": "Hàng về 9005 nhưng chưa có chân 9006, 9012.",
+      "trang_thai": "Đã xử lý",
+      "nhom_van_de_id": "dff9a8ba-dd56-48fc-a319-48025f9f1f86",
+      "product_group_id": "440307fe-2015-41c6-a8f4-632a790277c1"
+    },
+    "created_at": "2026-08-31T03:40:30.717908+00:00"
+  },
+  {
+    "id": "d0e4a829-abcc-4b95-85bf-9b4a8ce6ff26",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Tạo báo cáo kho",
+    "entity_type": "warehouse_report",
+    "entity_id": "e4dea998-813f-4c85-b168-b2ba024f80c0",
+    "details": {
+      "ngay": "2026-08-31",
+      "full_name": "Nguyễn Thanh Hậu",
+      "thuc_trang": "F1, 1 số sản phẩm F3 cũ không nhập nữa cần Xuất ra khoiur kho, xuất hủy",
+      "trang_thai": "Chờ giải quyết",
+      "nhom_van_de_id": "79b71fb4-3253-4704-8d7f-5d871cc38514",
+      "product_group_id": null
+    },
+    "created_at": "2026-08-31T03:43:18.712093+00:00"
+  },
+  {
+    "id": "44f080d2-cca8-4a36-afa2-a3c3c0c73019",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Xóa báo cáo kho",
+    "entity_type": "warehouse_report",
+    "entity_id": "8a3910db-d922-4d93-ab7a-3c3572bbad94",
+    "details": {
+      "ngay": "2026-08-31",
+      "full_name": "Nguyễn Thanh Hậu",
+      "thuc_trang": "Hàng về 9005 nhưng chưa có chân 9006, 9012."
+    },
+    "created_at": "2026-08-31T03:55:01.994891+00:00"
+  },
+  {
+    "id": "f8e97d4a-a09b-44c4-8607-1418ff16201c",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "81b2ad99-f0ac-41fe-9145-a7bc5bf79b7e",
+    "details": {
+      "changes": [
+        {
+          "new": "e0ff1857-0ad5-4189-bcf8-0337f4f71eeb",
+          "old": "",
+          "field": "tier_id"
+        }
+      ],
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-08-31T04:30:48.255539+00:00"
+  },
+  {
+    "id": "99278341-ef25-44ca-8d0d-e3e4202e6bfa",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "679460fc-779d-463f-a18b-e294125d2e53",
+    "details": {
+      "changes": [
+        {
+          "new": "Đại lý phân phối, Nội thất ô tô",
+          "old": "",
+          "field": "business_model"
+        },
+        {
+          "new": " nn mn m,b j hbjgjkbjbjhbjhbjhb",
+          "old": "",
+          "field": "sp_ban_yeu"
+        }
+      ],
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-08-31T04:38:13.686711+00:00"
+  },
+  {
+    "id": "c62da04f-9c77-42f6-8cc3-fb2ff69bc5a0",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Tạo chiến dịch",
+    "entity_type": "campaign",
+    "entity_id": null,
+    "details": {
+      "name": "Phtsa triển F3 Ultra 360 tropng 4 tyhangs cuối năm",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-08-31T04:40:42.691669+00:00"
+  },
+  {
+    "id": "d9092a5b-ddb8-49d2-b158-8bfa8a7dda3b",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Cập nhật chiến dịch",
+    "entity_type": "campaign",
+    "entity_id": "786d42b7-ce87-4663-860b-9055c0dde9fe",
+    "details": {
+      "full_name": "Nguyễn Thanh Hậu",
+      "update_id": "64c55ff8-9fd0-450e-a1bb-101ce597ee86"
+    },
+    "created_at": "2026-08-31T04:41:54.999674+00:00"
+  },
+  {
+    "id": "4f119071-dfbc-4d90-87a9-6c2c756c966d",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "5fa03e73-381d-4b6b-abf8-966b0ab600c9",
+    "details": {
+      "changes": [
+        {
+          "new": "8fac3644-9c4b-4c9d-a5ce-0d6e2f312413",
+          "old": "",
+          "field": "status_id"
+        }
+      ],
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-01T16:55:52.385411+00:00"
+  },
+  {
+    "id": "ceb1524f-422f-4494-943a-a674c8a3e429",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Gửi kế hoạch tuần",
+    "entity_type": "weekly_plan",
+    "entity_id": "222230d4-47e4-4a28-9aa2-f7b97356f15e",
+    "details": {
+      "so_viec": 2,
+      "tuan_tu": "2026-08-31",
+      "muc_tieu": "Đi chơi cho vui vẻ còn vè lamnf tiếp",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-08-31T04:45:52.145751+00:00"
+  },
+  {
+    "id": "9fbe5b2b-e04d-42f2-924c-a24e80ff563b",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Gửi báo cáo tuần",
+    "entity_type": "weekly_report",
+    "entity_id": "2606bbba-1c3f-471d-b9f0-6ec2c9530c50",
+    "details": {
+      "tuan_tu": "2026-08-31",
+      "ty_le_ht": "100",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-08-31T04:48:44.383096+00:00"
+  },
+  {
+    "id": "3e943e64-41b5-4d74-9c1d-dc99fc6076f0",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Lưu cài đặt",
+    "entity_type": "settings",
+    "entity_id": null,
+    "details": {
+      "keys": [
+        "AI_MODEL",
+        "AI_ENDPOINT",
+        "AI_FREE_MSG_LIMIT",
+        "AI_ENABLED",
+        "SALES_ALLOWED_NAMES",
+        "SALES_NAME_MAP",
+        "BOT_CHECK_OKR",
+        "BOT_CHECK_KE_HOACH_TUAN",
+        "BOT_CHECK_BAO_CAO_TUAN",
+        "BOT_CHECK_BAO_CAO_KHO",
+        "BOT_CHECK_DANG_NHAP",
+        "BOT_CHECK_TIN_THI_TRUONG",
+        "BOT_CHECK_CHIEN_DICH",
+        "DATE_FORMAT",
+        "APP_NAME",
+        "LOGIN_TITLE",
+        "LOGIN_SUBTITLE",
+        "TEN_DOANH_NGHIEP",
+        "TEN_RUT_GON",
+        "TELEGRAM_BOT_TOKEN",
+        "TELEGRAM_CHAT_ID",
+        "TB_KHACH_HANG_MOI",
+        "TB_TIN_THI_TRUONG_MOI",
+        "TB_COMMENT_MOI",
+        "TB_CAP_NHAT_CHIEN_DICH",
+        "TB_CHIEN_DICH_MOI",
+        "TB_KET_LUAN",
+        "TB_IMPORT",
+        "TIMEZONE",
+        "LOGO_URL",
+        "BOT_ROLE_MAP",
+        "AI_KEY"
+      ],
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-08-31T04:57:40.076445+00:00"
+  },
+  {
+    "id": "989900e7-03a7-47cd-81e0-462c50a9d0ea",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Reset mật khẩu",
+    "entity_type": "user",
+    "entity_id": "ab336e7b-daf2-4254-8ccb-16582d5f33e8",
+    "details": {
+      "to": "123456",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-08-31T04:58:14.164867+00:00"
+  },
+  {
+    "id": "1e1ea00f-7f83-4aa6-aa7c-a696d44f9d97",
+    "actor_id": "28946fe8-583b-4e27-98fe-bc6a2a5ffdb0",
+    "action": "Đăng nhập",
+    "entity_type": "auth",
+    "entity_id": null,
+    "details": {
+      "username": "xuanvu",
+      "full_name": "Nguyễn Xuân Vũ"
+    },
+    "created_at": "2026-08-31T08:38:37.633014+00:00"
+  },
+  {
+    "id": "d4172251-0dc0-40cc-9d19-380bae0e56e4",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Reset mật khẩu",
+    "entity_type": "user",
+    "entity_id": "8bee0a51-da81-4daf-8a63-0cca90b75eca",
+    "details": {
+      "to": "123456",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-08-31T09:01:57.560219+00:00"
+  },
+  {
+    "id": "4a3fd1f8-89f6-499f-bdf3-4ded6498f9c1",
+    "actor_id": "8bee0a51-da81-4daf-8a63-0cca90b75eca",
+    "action": "Đăng nhập",
+    "entity_type": "auth",
+    "entity_id": null,
+    "details": {
+      "username": "quyetthang",
+      "full_name": "Nguyễn Quyết Thắng"
+    },
+    "created_at": "2026-08-31T09:02:12.096098+00:00"
+  },
+  {
+    "id": "7c37976f-30c9-4f34-bf08-abbae447a054",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Reset mật khẩu",
+    "entity_type": "user",
+    "entity_id": "1ff0f20c-ac44-42f0-a973-20d576c685c5",
+    "details": {
+      "to": "123456",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-08-31T09:05:41.167316+00:00"
+  },
+  {
+    "id": "4655e90e-38c1-44ae-aefd-7091d661a0de",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Reset mật khẩu",
+    "entity_type": "user",
+    "entity_id": "564058fd-2842-4f7d-bc0d-0580e71470f2",
+    "details": {
+      "to": "123456",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-08-31T09:06:12.122763+00:00"
+  },
+  {
+    "id": "e98af9b8-f240-45f0-af7c-fcd606d0e718",
+    "actor_id": "1ff0f20c-ac44-42f0-a973-20d576c685c5",
+    "action": "Đăng nhập",
+    "entity_type": "auth",
+    "entity_id": null,
+    "details": {
+      "username": "trungchinh",
+      "full_name": "Nguyễn Trung Chính"
+    },
+    "created_at": "2026-08-31T09:06:49.849966+00:00"
+  },
+  {
+    "id": "925964e0-aca2-4320-ad15-25e13a7f8086",
+    "actor_id": "564058fd-2842-4f7d-bc0d-0580e71470f2",
+    "action": "Đăng nhập",
+    "entity_type": "auth",
+    "entity_id": null,
+    "details": {
+      "username": "viethoan",
+      "full_name": "Nguyễn Viết Hoàn"
+    },
+    "created_at": "2026-08-31T09:16:18.972421+00:00"
+  },
+  {
+    "id": "cd740cc2-42f2-45cc-8702-35a3107572f0",
+    "actor_id": "564058fd-2842-4f7d-bc0d-0580e71470f2",
+    "action": "Đăng nhập",
+    "entity_type": "auth",
+    "entity_id": null,
+    "details": {
+      "username": "viethoan",
+      "full_name": "Nguyễn Viết Hoàn"
+    },
+    "created_at": "2026-08-31T09:17:28.726061+00:00"
+  },
+  {
+    "id": "2cb3ee08-1220-4f93-a614-3b429d525d9a",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "602fe453-855e-4703-89c7-84416bedd7fc",
+    "details": {
+      "changes": [
+        {
+          "new": "ff620881-63b8-4d01-8407-53c25702fcab",
+          "old": "",
+          "field": "tier_id"
+        }
+      ],
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-01T01:13:50.155933+00:00"
+  },
+  {
+    "id": "6fa190f9-51d4-4e06-b497-74eba8f184e1",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "7855b5a5-3438-49b8-b713-edc6f211e455",
+    "details": {
+      "changes": [
+        {
+          "new": "ff620881-63b8-4d01-8407-53c25702fcab",
+          "old": "",
+          "field": "tier_id"
+        }
+      ],
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-01T01:14:26.199491+00:00"
+  },
+  {
+    "id": "b2139d66-190e-4da4-b5a8-ba50e39c551e",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "35a77755-0bd1-49ed-a2a8-4ba450bcdc05",
+    "details": {
+      "changes": [
+        {
+          "new": "ff620881-63b8-4d01-8407-53c25702fcab",
+          "old": "",
+          "field": "tier_id"
+        }
+      ],
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-01T01:14:32.612462+00:00"
+  },
+  {
+    "id": "69bd4782-74ae-4457-a2a1-b0c82bb1d0b5",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "90213932-a795-4aa4-96df-01f936de3d57",
+    "details": {
+      "changes": [
+        {
+          "new": "ff620881-63b8-4d01-8407-53c25702fcab",
+          "old": "",
+          "field": "tier_id"
+        }
+      ],
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-01T01:14:36.603736+00:00"
+  },
+  {
+    "id": "999b68a9-294c-4618-bdf6-f35d9253517e",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "771c2ea8-1f53-4c87-a6b9-bd645807d8f7",
+    "details": {
+      "changes": [
+        {
+          "new": "ff620881-63b8-4d01-8407-53c25702fcab",
+          "old": "",
+          "field": "tier_id"
+        }
+      ],
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-01T01:14:43.471466+00:00"
+  },
+  {
+    "id": "658fac73-eed9-47d6-b475-739af5f46d09",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "9a904dbe-b49f-4041-88b6-414a3a1b5881",
+    "details": {
+      "changes": [
+        {
+          "new": "ff620881-63b8-4d01-8407-53c25702fcab",
+          "old": "",
+          "field": "tier_id"
+        }
+      ],
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-01T01:14:48.666064+00:00"
+  },
+  {
+    "id": "5e1a988a-ba15-4067-b3ab-787cd7106ca3",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "1bfcf3f7-b430-4cc0-8b56-539979aaf42e",
+    "details": {
+      "changes": [
+        {
+          "new": "ff620881-63b8-4d01-8407-53c25702fcab",
+          "old": "",
+          "field": "tier_id"
+        }
+      ],
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-01T01:14:53.489354+00:00"
+  },
+  {
+    "id": "6bf9fe20-693d-482c-a973-c80842c075f8",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Cập nhật chiến dịch",
+    "entity_type": "campaign",
+    "entity_id": "786d42b7-ce87-4663-860b-9055c0dde9fe",
+    "details": {
+      "full_name": "Nguyễn Thanh Hậu",
+      "update_id": "3de02c37-67db-451f-9f97-c765fee7a06b"
+    },
+    "created_at": "2026-09-01T01:31:54.021077+00:00"
+  },
+  {
+    "id": "9f10be3b-4092-41a8-80d7-a44801d7e9bf",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "65121bcd-4520-4ebd-aaa6-bfd75dfc0acc",
+    "details": {
+      "changes": [
+        {
+          "new": "ff620881-63b8-4d01-8407-53c25702fcab",
+          "old": "",
+          "field": "tier_id"
+        }
+      ],
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-01T02:11:52.543925+00:00"
+  },
+  {
+    "id": "9046bf58-80f7-403b-8c5f-68299dce70d2",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Lưu cài đặt",
+    "entity_type": "settings",
+    "entity_id": null,
+    "details": {
+      "keys": [
+        "AI_FREE_MSG_LIMIT",
+        "AI_ENABLED",
+        "SALES_ALLOWED_NAMES",
+        "SALES_NAME_MAP",
+        "BOT_CHECK_OKR",
+        "BOT_CHECK_KE_HOACH_TUAN",
+        "BOT_CHECK_BAO_CAO_TUAN",
+        "BOT_CHECK_BAO_CAO_KHO",
+        "BOT_CHECK_DANG_NHAP",
+        "BOT_CHECK_TIN_THI_TRUONG",
+        "BOT_CHECK_CHIEN_DICH",
+        "DATE_FORMAT",
+        "APP_NAME",
+        "LOGIN_TITLE",
+        "LOGIN_SUBTITLE",
+        "TEN_DOANH_NGHIEP",
+        "TEN_RUT_GON",
+        "TELEGRAM_BOT_TOKEN",
+        "TELEGRAM_CHAT_ID",
+        "TB_KHACH_HANG_MOI",
+        "TB_TIN_THI_TRUONG_MOI",
+        "TB_COMMENT_MOI",
+        "TB_CAP_NHAT_CHIEN_DICH",
+        "TB_CHIEN_DICH_MOI",
+        "TB_KET_LUAN",
+        "TB_IMPORT",
+        "TIMEZONE",
+        "LOGO_URL",
+        "BOT_ROLE_MAP",
+        "AI_KEY",
+        "DEBT_GRACE_DAYS",
+        "DEBT_BASE_DATE",
+        "RECEIVABLE_TK_MAP",
+        "FINANCE_PLAN",
+        "AI_MODEL",
+        "AI_ENDPOINT"
+      ],
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-01T04:41:57.864979+00:00"
+  },
+  {
+    "id": "43c9f17f-725c-40d5-84c6-21e19d2bd62a",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Lưu cài đặt",
+    "entity_type": "settings",
+    "entity_id": null,
+    "details": {
+      "keys": [
+        "DEBT_GRACE_DAYS",
+        "DEBT_BASE_DATE",
+        "RECEIVABLE_TK_MAP",
+        "AI_FREE_MSG_LIMIT",
+        "AI_ENABLED",
+        "FINANCE_PLAN",
+        "AI_MODEL",
+        "AI_ENDPOINT",
+        "SALES_ALLOWED_NAMES",
+        "SALES_NAME_MAP",
+        "BOT_CHECK_OKR",
+        "BOT_CHECK_KE_HOACH_TUAN",
+        "BOT_CHECK_BAO_CAO_TUAN",
+        "BOT_CHECK_BAO_CAO_KHO",
+        "BOT_CHECK_DANG_NHAP",
+        "BOT_CHECK_TIN_THI_TRUONG",
+        "BOT_CHECK_CHIEN_DICH",
+        "DATE_FORMAT",
+        "APP_NAME",
+        "LOGIN_TITLE",
+        "LOGIN_SUBTITLE",
+        "TEN_DOANH_NGHIEP",
+        "TEN_RUT_GON",
+        "TELEGRAM_BOT_TOKEN",
+        "TELEGRAM_CHAT_ID",
+        "TB_KHACH_HANG_MOI",
+        "TB_TIN_THI_TRUONG_MOI",
+        "TB_COMMENT_MOI",
+        "TB_CAP_NHAT_CHIEN_DICH",
+        "TB_CHIEN_DICH_MOI",
+        "TB_KET_LUAN",
+        "TB_IMPORT",
+        "TIMEZONE",
+        "LOGO_URL",
+        "BOT_ROLE_MAP",
+        "AI_KEY"
+      ],
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-01T05:20:45.068352+00:00"
+  },
+  {
+    "id": "f4fde818-4294-4646-81c1-f9cbf7a2ea25",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Đăng xuất",
+    "entity_type": "auth",
+    "entity_id": null,
+    "details": {
+      "username": "thanhhau",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-01T06:32:21.159561+00:00"
+  },
+  {
+    "id": "92012648-a738-4407-acc6-86c7eda0b6c6",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Đăng nhập",
+    "entity_type": "auth",
+    "entity_id": null,
+    "details": {
+      "username": "thanhhau",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-01T06:32:30.423381+00:00"
+  },
+  {
+    "id": "184d720e-c308-4394-85ab-eb864003c390",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Đăng nhập",
+    "entity_type": "auth",
+    "entity_id": null,
+    "details": {
+      "username": "thanhhau",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-01T12:24:22.465819+00:00"
+  },
+  {
+    "id": "095081a9-3d52-419f-8071-7c9d2c2a9f10",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Đăng nhập",
+    "entity_type": "auth",
+    "entity_id": null,
+    "details": {
+      "username": "thanhhau",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-01T12:38:50.218776+00:00"
+  },
+  {
+    "id": "89eac09e-1560-4aac-ba0d-def79b39871c",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Tạo OKR cá nhân",
+    "entity_type": "okr",
+    "entity_id": "74b272f9-7415-4eeb-8d0c-a0d586562819",
+    "details": {
+      "tu": "2026-07-01",
+      "den": "2026-09-30",
+      "tu_ngay": "2026-07-01",
+      "den_ngay": "2026-09-30",
+      "full_name": "Nguyễn Thanh Hậu",
+      "objective": "PHÁT TRIỂN KHÁCH HÀNG MỚI"
+    },
+    "created_at": "2026-09-01T16:40:28.139715+00:00"
+  },
+  {
+    "id": "d4c013fe-3b90-4f20-9fb9-d15d9730913f",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "2b99d164-8b5c-4e3f-9c89-ce65d7ab97c1",
+    "details": {
+      "changes": [
+        {
+          "new": "8fac3644-9c4b-4c9d-a5ce-0d6e2f312413",
+          "old": "",
+          "field": "status_id"
+        }
+      ],
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-01T16:55:40.53279+00:00"
+  },
+  {
+    "id": "c6ef3a94-de71-4405-adc7-b1eb6d9e6c40",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "XÓA VĨNH VIỄN khách hàng",
+    "entity_type": "customer",
+    "entity_id": "2b99d164-8b5c-4e3f-9c89-ce65d7ab97c1",
+    "details": {
+      "ma_kh": "AUDIT_1788267008303",
+      "ten_kh": "Audit",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-01T16:55:45.610805+00:00"
+  },
+  {
+    "id": "787cfeed-43dd-4ec0-97e6-0d6858708152",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "da9204f7-5107-4e8a-a054-2314ca0ff678",
+    "details": {
+      "changes": [
+        {
+          "new": "8fac3644-9c4b-4c9d-a5ce-0d6e2f312413",
+          "old": "",
+          "field": "status_id"
+        }
+      ],
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-01T16:56:04.063305+00:00"
+  },
+  {
+    "id": "2d7ee8df-ef08-41e2-b3b3-d699947a9403",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "XÓA VĨNH VIỄN khách hàng",
+    "entity_type": "customer",
+    "entity_id": "da9204f7-5107-4e8a-a054-2314ca0ff678",
+    "details": {
+      "ma_kh": "AUDIT_1788252678925",
+      "ten_kh": "Audit",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-01T16:56:06.687115+00:00"
+  },
+  {
+    "id": "813ab19d-1f60-4c57-b15f-afab37c013e9",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Trợ lý Check-in hàng tuần",
+      "slug": "tro_ly_phan_he",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T04:03:46.682888+00:00"
+  },
+  {
+    "id": "d34b0a8b-55ae-4a08-b91f-9f43e11ee8e9",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Trợ lý Tổng hợp kho",
+      "slug": "tro_ly_phan_he",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T04:03:58.358775+00:00"
+  },
+  {
+    "id": "f8f69ac1-5d0d-4f93-bf13-b6cf19b41bde",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Trợ lý Bảo hành",
+      "slug": "tro_ly_phan_he",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T04:04:05.232099+00:00"
+  },
+  {
+    "id": "418e05a4-ded8-4cfe-93c9-0c3c1a817e96",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Trợ lý Check-in hàng tuần",
+      "slug": "tro_ly_phan_he",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T11:39:50.146494+00:00"
+  },
+  {
+    "id": "84b500d5-7e13-4f3f-85d1-edfbc6ee863f",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Trợ lý Check-in hàng tuần",
+      "slug": "tro_ly_phan_he",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T11:40:18.213354+00:00"
+  },
+  {
+    "id": "b63feb58-fa79-4f7f-9cb5-42f140e8aa29",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Trợ lý Check-in hàng tuần",
+      "slug": "tro_ly_phan_he",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T11:40:43.388778+00:00"
+  },
+  {
+    "id": "e3bf2edd-8e99-486e-8005-075d94ce8231",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Trợ lý Tổng hợp kho",
+      "slug": "tro_ly_phan_he",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T11:41:08.219463+00:00"
+  },
+  {
+    "id": "26eaedcb-c4d1-4438-a786-734068034d92",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Trợ lý Bảo hành",
+      "slug": "tro_ly_phan_he",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T11:41:21.53586+00:00"
+  },
+  {
+    "id": "9e3e2ff2-5fb5-4d88-83e2-b0b1e656a403",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Khái niệm OKRs",
+      "slug": "tro_ly_nhom",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T11:43:21.038021+00:00"
+  },
+  {
+    "id": "36153fca-7080-4b21-964c-058417579134",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Khái niệm OKRs",
+      "slug": "tro_ly_nhom",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T11:43:54.497368+00:00"
+  },
+  {
+    "id": "3602f40e-56de-44b3-ad9f-cdfbf08715f0",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Cách viết OKRs",
+      "slug": "tro_ly_nhom",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T11:45:26.660522+00:00"
+  },
+  {
+    "id": "b56d64ac-2672-4f0f-bd15-52191308a4cf",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Lưu cài đặt",
+    "entity_type": "settings",
+    "entity_id": null,
+    "details": {
+      "keys": [
+        "SALES_NAME_MAP",
+        "BOT_CHECK_OKR",
+        "BOT_CHECK_KE_HOACH_TUAN",
+        "BOT_CHECK_BAO_CAO_TUAN",
+        "BOT_CHECK_BAO_CAO_KHO",
+        "BOT_CHECK_DANG_NHAP",
+        "BOT_CHECK_TIN_THI_TRUONG",
+        "BOT_CHECK_CHIEN_DICH",
+        "DATE_FORMAT",
+        "APP_NAME",
+        "LOGIN_TITLE",
+        "LOGIN_SUBTITLE",
+        "FINANCE_PLAN",
+        "DEBT_BASE_DATE",
+        "AI_FREE_MSG_LIMIT",
+        "AI_ENABLED",
+        "AI_MODEL",
+        "AI_ENDPOINT",
+        "SALES_ALLOWED_NAMES",
+        "TEN_DOANH_NGHIEP",
+        "TEN_RUT_GON",
+        "TELEGRAM_BOT_TOKEN",
+        "TELEGRAM_CHAT_ID",
+        "TB_KHACH_HANG_MOI",
+        "TB_TIN_THI_TRUONG_MOI",
+        "TB_COMMENT_MOI",
+        "TB_CAP_NHAT_CHIEN_DICH",
+        "TB_CHIEN_DICH_MOI",
+        "TB_KET_LUAN",
+        "TB_IMPORT",
+        "TIMEZONE",
+        "LOGO_URL",
+        "BOT_ROLE_MAP",
+        "AI_KEY",
+        "DEBT_GRACE_DAYS",
+        "RECEIVABLE_TK_MAP"
+      ],
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T11:47:53.588441+00:00"
+  },
+  {
+    "id": "ba31a424-99e7-4fd0-9568-9291b3b83c3c",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Khách cũ",
+      "slug": "tro_ly_nhom",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T12:02:17.599424+00:00"
+  },
+  {
+    "id": "8f95c36e-9ec7-4fa8-bb2c-7f3a02e746bb",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Khách mới",
+      "slug": "tro_ly_nhom",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T12:02:21.797672+00:00"
+  },
+  {
+    "id": "0d272298-e59d-40f5-9460-2810fd705ac7",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Cải tiến",
+      "slug": "tro_ly_nhom",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T12:02:24.22211+00:00"
+  },
+  {
+    "id": "26508c9b-cca1-4076-b991-fe6bcb42180e",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Phát sinh",
+      "slug": "tro_ly_nhom",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T12:02:28.33864+00:00"
+  },
+  {
+    "id": "336a07f0-ade3-4abd-bd99-28bd515bd7c4",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Xe",
+      "slug": "tro_ly_nhom",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T12:02:32.245911+00:00"
+  },
+  {
+    "id": "4ed2d0b6-b781-4390-8001-849b65a869d8",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Thiết kế",
+      "slug": "tro_ly_nhom",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T12:02:34.556066+00:00"
+  },
+  {
+    "id": "93fb1ddb-ecdf-4a09-a320-7a25f7f05def",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Xây KR",
+      "slug": "tro_ly_nhom",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T12:02:40.798291+00:00"
+  },
+  {
+    "id": "2d8858ed-debe-4736-a2bc-c4ba98efd7d8",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Check-in",
+      "slug": "tro_ly_nhom",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T12:02:51.537974+00:00"
+  },
+  {
+    "id": "4bb0c1d3-f5a5-435b-9a2d-79928fc68d1f",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Thay đổi",
+      "slug": "tro_ly_nhom",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T12:02:58.773508+00:00"
+  },
+  {
+    "id": "1a23c7bb-6a04-442f-9b5f-087798b23f85",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Liên kết",
+      "slug": "tro_ly_nhom",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T12:03:02.1199+00:00"
+  },
+  {
+    "id": "d0b7809a-a33e-408a-804f-0c68dbbf2808",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Lập kế hoạch",
+      "slug": "tro_ly_nhom",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T12:04:16.90244+00:00"
+  },
+  {
+    "id": "b3dac4f6-8fc6-47d1-9cc6-7b591cd744f6",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Viết báo cáo",
+      "slug": "tro_ly_nhom",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T12:04:27.764947+00:00"
+  },
+  {
+    "id": "44ec992a-6dc4-41da-b9de-3fcba3b20ff4",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Không hoàn thành",
+      "slug": "tro_ly_nhom",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T12:04:30.961708+00:00"
+  },
+  {
+    "id": "8d88f483-8507-48db-a852-28a036ba0247",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Hiệu quả",
+      "slug": "tro_ly_nhom",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T12:04:34.665104+00:00"
+  },
+  {
+    "id": "3892b182-31bb-4e5c-918f-8961e9683917",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Phân biệt",
+      "slug": "tro_ly_nhom",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T12:04:40.03009+00:00"
+  },
+  {
+    "id": "287af0c0-1757-475c-88bf-d92a0ed211e7",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Đánh giá",
+      "slug": "tro_ly_nhom",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T12:04:42.872379+00:00"
+  },
+  {
+    "id": "ab878342-f0df-4b95-a3d4-f22547da9cb2",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Tần suất",
+      "slug": "tro_ly_nhom",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T12:04:45.866802+00:00"
+  },
+  {
+    "id": "22342d10-f77b-45cb-ae23-96e39252f97f",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Phát hiện",
+      "slug": "tro_ly_nhom",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T12:04:48.958965+00:00"
+  },
+  {
+    "id": "9f18eb41-b80a-49a7-a286-22f4c492fb6f",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Trách nhiệm",
+      "slug": "tro_ly_nhom",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T12:04:51.74311+00:00"
+  },
+  {
+    "id": "71d9bc60-beb4-4ba9-8bf5-f4dbd07822c2",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Đề xuất",
+      "slug": "tro_ly_nhom",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T12:05:07.67955+00:00"
+  },
+  {
+    "id": "ffd33031-7abe-42e0-a709-38c581d0e477",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Theo đến cùng",
+      "slug": "tro_ly_nhom",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T12:05:10.773764+00:00"
+  },
+  {
+    "id": "2f5b09dc-0b3b-49ca-b2f8-780d58728c96",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Mục đích",
+      "slug": "tro_ly_nhom",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T12:05:14.604297+00:00"
+  },
+  {
+    "id": "2d84332a-3cba-4c3c-b4ed-5ff8cdae1fbe",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Thông tin vận hành",
+      "slug": "tro_ly_nhom",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T12:05:20.112777+00:00"
+  },
+  {
+    "id": "4ad61e37-09c7-4031-8a17-33cd776b8c7a",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Khai thác",
+      "slug": "tro_ly_nhom",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T12:05:22.752186+00:00"
+  },
+  {
+    "id": "8edb170c-6751-4fec-aed8-8170c1b1a466",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Phân hạng",
+      "slug": "tro_ly_nhom",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T12:05:25.536986+00:00"
+  },
+  {
+    "id": "b964b587-e043-4766-856e-557ad00f18fe",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Hành động",
+      "slug": "tro_ly_nhom",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T12:05:34.376913+00:00"
+  },
+  {
+    "id": "8036df5a-ae65-4787-bf9f-335cc8db60b8",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Theo dõi",
+      "slug": "tro_ly_nhom",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T12:06:00.301041+00:00"
+  },
+  {
+    "id": "08e5b48c-3f70-41e7-ae0f-f9d42c2a1db5",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Tình huống",
+      "slug": "tro_ly_nhom",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T12:05:28.746106+00:00"
+  },
+  {
+    "id": "e0becc6e-dd15-4525-871d-d693ba961abc",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Nguồn",
+      "slug": "tro_ly_nhom",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T12:05:38.566963+00:00"
+  },
+  {
+    "id": "124a9556-26f6-4176-9767-e7cc3eb4cdd2",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Chiến dịch",
+      "slug": "tro_ly_nhom",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T12:05:48.823419+00:00"
+  },
+  {
+    "id": "64eeb416-915f-4fb3-918c-c1fd26716276",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Khác phân hệ",
+      "slug": "tro_ly_nhom",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T12:05:52.104108+00:00"
+  },
+  {
+    "id": "441ab9e6-c2eb-478c-94d4-4015d48bfe73",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Điều hành",
+      "slug": "tro_ly_nhom",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T12:06:02.946345+00:00"
+  },
+  {
+    "id": "5bd207b4-a6f9-4352-b20d-050b28355601",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Thiếu dữ liệu",
+      "slug": "tro_ly_nhom",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T12:05:31.609875+00:00"
+  },
+  {
+    "id": "29e1eaa8-f03d-426d-828b-673fb64e8d40",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Khác biệt",
+      "slug": "tro_ly_nhom",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T12:05:56.825097+00:00"
+  },
+  {
+    "id": "d41848bb-90a1-4977-9e49-00b6288ed863",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Sản phẩm mới",
+      "slug": "tro_ly_nhom",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T12:06:06.184936+00:00"
+  },
+  {
+    "id": "2828c8a2-d065-4915-8190-901eaf01c001",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Mất khách",
+      "slug": "tro_ly_nhom",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T12:06:09.00435+00:00"
+  },
+  {
+    "id": "1c3217cc-b234-4e6e-bcc9-a68404724bc2",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Hàng hóa",
+      "slug": "tro_ly_nhom",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T12:06:11.64149+00:00"
+  },
+  {
+    "id": "e349dc73-dd90-4d93-bff4-75c6c24f5e01",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Nhập dư",
+      "slug": "tro_ly_nhom",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T12:06:14.111533+00:00"
+  },
+  {
+    "id": "fe0a0508-8a91-468c-95b1-ba32ed076e5c",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Chi phí",
+      "slug": "tro_ly_nhom",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T12:06:16.205268+00:00"
+  },
+  {
+    "id": "45660ded-b439-4f0c-a1a6-17224f36f375",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Dòng tiền",
+      "slug": "tro_ly_nhom",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T12:06:19.969413+00:00"
+  },
+  {
+    "id": "8b16aa7b-a8af-485d-a929-5ba6628e94cd",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Công nợ",
+      "slug": "tro_ly_nhom",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T12:06:23.295321+00:00"
+  },
+  {
+    "id": "4d1402ed-84c8-4b65-a8e1-c8290e75e34b",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Lỗi theo lô",
+      "slug": "tro_ly_nhom",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T12:06:25.460832+00:00"
+  },
+  {
+    "id": "d3f9b26d-b449-41ff-991a-5980f2788e16",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Nhà cung cấp",
+      "slug": "tro_ly_nhom",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T12:06:28.392345+00:00"
+  },
+  {
+    "id": "fefb9220-a538-4c3c-9173-ac048ab918f3",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Đơn sai",
+      "slug": "tro_ly_nhom",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T12:06:30.552435+00:00"
+  },
+  {
+    "id": "719bc39a-0afb-41d3-a2d2-c8299c8ee408",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Mục tiêu",
+      "slug": "tro_ly_nhom",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T12:14:05.759047+00:00"
+  },
+  {
+    "id": "ca3c9873-9d6f-4659-9f26-a65be642cce5",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Tồn kho",
+      "slug": "tro_ly_nhom",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T12:14:09.107553+00:00"
+  },
+  {
+    "id": "142c7396-500a-47c4-9784-aead9126643e",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Sai lệch",
+      "slug": "tro_ly_nhom",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T12:14:14.946313+00:00"
+  },
+  {
+    "id": "742299fd-4a63-4992-ad6a-48a546b34457",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Đơn chậm",
+      "slug": "tro_ly_nhom",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T12:14:18.78463+00:00"
+  },
+  {
+    "id": "1d46af11-82a2-48f3-becb-94959aedc16c",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Thiếu hàng",
+      "slug": "tro_ly_nhom",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T12:14:21.669361+00:00"
+  },
+  {
+    "id": "27ff9e86-4a80-4eeb-ac50-9011f4de4e76",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Thông tin Khách hàng",
+      "slug": "tro_ly_nhom",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T12:14:36.238183+00:00"
+  },
+  {
+    "id": "5f3cfacc-6852-4611-a4b5-be32148680a7",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Kinh doanh",
+      "slug": "tro_ly_nhom",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T12:18:22.205426+00:00"
+  },
+  {
+    "id": "94b655e9-bd31-4766-92c4-02ac671c8651",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Thêm danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Quản lý Kho",
+      "slug": "tro_ly_nhom",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T12:21:18.05022+00:00"
+  },
+  {
+    "id": "83ab9122-45e5-48ff-b863-d4ec1a6b4943",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Thêm danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Tổng hợp Kho",
+      "slug": "tro_ly_nhom",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T12:21:31.641025+00:00"
+  },
+  {
+    "id": "d954f1de-93e6-4b00-82d8-cb52d1de3de0",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Thêm danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Bảo hành",
+      "slug": "tro_ly_nhom",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T12:21:42.597219+00:00"
+  },
+  {
+    "id": "d685890f-7cb5-46ef-a60b-29c0e37e7bf5",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Báo cáo vấn đề",
+      "slug": "tro_ly_nhom",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T15:03:05.281779+00:00"
+  },
+  {
+    "id": "d441c6e5-ff70-43b2-aea8-839816238a4d",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Bảng tin",
+      "slug": "tro_ly_nhom",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T15:10:49.473748+00:00"
+  },
+  {
+    "id": "0db0f1aa-306c-43d8-8cb8-47e3ec4e9629",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Thông tin Thị trường",
+      "slug": "tro_ly_nhom",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T15:12:21.659903+00:00"
+  },
+  {
+    "id": "e75eddfc-7ed8-4b89-9f99-aa35e5ed5933",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Marketing",
+      "slug": "tro_ly_nhom",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T15:13:19.662509+00:00"
+  },
+  {
+    "id": "6376fa78-db42-4c84-8d71-39d3bb62805e",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Trợ lý Marketing & Thiết kế",
+      "slug": "tro_ly_phan_he",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T15:14:30.955968+00:00"
+  },
+  {
+    "id": "1b800beb-a35f-4ae1-8695-12e5c38904bb",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Xóa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Nguyên tắc chung",
+      "slug": "tro_ly_nhom",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T15:15:07.511304+00:00"
+  },
+  {
+    "id": "e4d60b0c-ee07-446f-b8c2-e5dd18933a5c",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Sửa danh mục",
+    "entity_type": "category",
+    "entity_id": null,
+    "details": {
+      "name": "Trợ lý Bảng tin",
+      "slug": "tro_ly_phan_he",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-02T15:26:31.633235+00:00"
+  },
+  {
+    "id": "b7704c2f-f100-48c3-a9a9-54e84799ddae",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Sửa báo cáo kho",
+    "entity_type": "warehouse_report",
+    "entity_id": "e4dea998-813f-4c85-b168-b2ba024f80c0",
+    "details": {
+      "ngay": "2026-08-31",
+      "full_name": "Nguyễn Thanh Hậu",
+      "thuc_trang": "F1, 1 số sản phẩm F3 cũ không nhập nữa cần Xuất ra khoiur kho, xuất hủy",
+      "trang_thai": "Đã xử lý",
+      "nhom_van_de_id": "79b71fb4-3253-4704-8d7f-5d871cc38514",
+      "product_group_id": null
+    },
+    "created_at": "2026-09-02T15:27:50.786535+00:00"
+  },
+  {
+    "id": "90d058cc-ba7f-4216-80d5-cf21078f665b",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Xóa báo cáo kho",
+    "entity_type": "warehouse_report",
+    "entity_id": "e4dea998-813f-4c85-b168-b2ba024f80c0",
+    "details": {
+      "ngay": "2026-08-31",
+      "full_name": "Nguyễn Thanh Hậu",
+      "thuc_trang": "F1, 1 số sản phẩm F3 cũ không nhập nữa cần Xuất ra khoiur kho, xuất hủy"
+    },
+    "created_at": "2026-09-02T15:27:54.999902+00:00"
+  },
+  {
+    "id": "4859a435-1889-4c54-891f-09762722d6f7",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Đăng nhập",
+    "entity_type": "auth",
+    "entity_id": null,
+    "details": {
+      "username": "thanhhau",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-03T08:39:14.472264+00:00"
+  },
+  {
+    "id": "55923206-e748-4d3e-bc20-ee43c5810d9e",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "Sửa hồ sơ",
+    "entity_type": "customer",
+    "entity_id": "7e438dc2-ab87-4b03-9a7a-8072d33bc9be",
+    "details": {
+      "changes": [
+        {
+          "new": "8fac3644-9c4b-4c9d-a5ce-0d6e2f312413",
+          "old": "",
+          "field": "status_id"
+        }
+      ],
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-04T04:58:59.673936+00:00"
+  },
+  {
+    "id": "871493d2-a849-4f1a-ad5d-41fe199c6adc",
+    "actor_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "action": "XÓA VĨNH VIỄN khách hàng",
+    "entity_type": "customer",
+    "entity_id": "7e438dc2-ab87-4b03-9a7a-8072d33bc9be",
+    "details": {
+      "ma_kh": "AUDIT_1788319495363",
+      "ten_kh": "Audit",
+      "full_name": "Nguyễn Thanh Hậu"
+    },
+    "created_at": "2026-09-04T04:59:04.250698+00:00"
+  }
+]

@@ -1,0 +1,6008 @@
+[
+  {
+    "ma_kh": "HKDADG",
+    "ten_kh": "HKD Phụ kiện ô tô ADG",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "HPG-ANHKIÊN",
+    "ten_kh": "HyperGard - Anh Kiên Nghệ An",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "HPG-HIẾU HIẾU",
+    "ten_kh": "HyperGard-NT ô tô Hiếu Hiếu",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "HPG-HOANG ANH",
+    "ten_kh": "HyperGard - Nội thất ô tô Hoàng Anh",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "HPG-KL",
+    "ten_kh": "HyperGard - Khách lẻ",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "HPG-NGUYENXUANVU",
+    "ten_kh": "Hộ kinh doanh phim cách nhiệt HyperGard",
+    "du_no": 50000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "HPG-NGUYỄN ANH",
+    "ten_kh": "HyperGard - Nội thất ô tô Nguyễn Anh",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "HPG-XUÂN PHƯƠNG",
+    "ten_kh": "HyperGard - Nội thất ô tô Xuân Phương",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP - ĐÔNGTÍN",
+    "ten_kh": "Phụ tùng ô tô ĐÔNG TÍN",
+    "du_no": 11500000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP- DILINH",
+    "ten_kh": "KH Điện ô tô Di Linh",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-365VUNGTAU",
+    "ten_kh": "Cửa Hàng Hoàng Tuấn Auto - Auto 365 Vũng Tàu",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-69AUTOBACLIEU",
+    "ten_kh": "KH 69 AUTO BẠC LIÊU",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-99",
+    "ten_kh": "Cửa hàng Thắng My 99",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-AKAUTOSG",
+    "ten_kh": "Cửa Hàng AKauto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-ANGIAPHAT",
+    "ten_kh": "KH Nội thất ô tô An Gia Phát",
+    "du_no": 48165800,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-ANHCUONG",
+    "ten_kh": "Cửa Hàng Ô Tô Hùng - Anh Cường",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-ANHDE",
+    "ten_kh": "Cửa Hàng Phụ Tùng Anh Đệ",
+    "du_no": 5600000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-ANHDIEN",
+    "ten_kh": "Anh Nguyễn Hữu Điền - Buôn Mê Thuột",
+    "du_no": 214991700,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-ANHDUCBD",
+    "ten_kh": "Garage Auto Anh Đức",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-ANHNGHIA",
+    "ten_kh": "Cửa Hàng Kim Ý - Anh Nghĩa",
+    "du_no": 14295000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-ANHPHATQ12",
+    "ten_kh": "Cửa Hàng Phụ Tùng Ô Tô Hoàng Anh Phát",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-ANHTHAO",
+    "ten_kh": "Cửa Hàng Phụ Tùng Ô Tô Anh Thao",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-ANHTHIEN",
+    "ten_kh": "Cửa hàng Ôtô Anh Thiện",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-ANHTHI",
+    "ten_kh": "Nội Thất Ô Tô Anh Thi - Chị Hoa",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-ANHTUAN",
+    "ten_kh": "Cửa Hàng Hoàng Tuấn Auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-ANHTUYEN",
+    "ten_kh": "Cửa hàng Anh Tuyến",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-ANHVU",
+    "ten_kh": "Garage Ô Tô Anh Vũ",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-ANTHUYENAUTO",
+    "ten_kh": "Trung Tâm Chăm Sóc Xe Công Nghệ Nhật Bản An Thuyên",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-ANTHUYEN",
+    "ten_kh": "KH An Thuyên Auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-ANXA AUTO",
+    "ten_kh": "KH ANXA AUTO",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-ATU",
+    "ten_kh": "Cửa Hàng Phụ Tùng Ô Tô A Tư",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-AUTO279",
+    "ten_kh": "Cửa Hàng Auto 279",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-AUTO99",
+    "ten_kh": "Cửa Hàng Độ Xe Chuyên Nghiệp 99 Auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-AUTOCAR",
+    "ten_kh": "Trung Tâm Chăm Sóc Xe Auto Car (Phú Sơn 2)",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-AUTOCHÂUÁ",
+    "ten_kh": "Auto Châu Á Thủ Đức",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-AUTOF1",
+    "ten_kh": "Lanhho auto ( F1 cũ )",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-AUTONGHIEP",
+    "ten_kh": "Phụ tùng Auto Nghiệp",
+    "du_no": 46683000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-AUTONGUYEN",
+    "ten_kh": "KH Auto Nguyễn",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-AUTOPHAMHUNG",
+    "ten_kh": "Salon Auto Phạm Hùng",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-AZ Star",
+    "ten_kh": "Cửa hàng AZ Star Đồng Tháp",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-BAO HAN",
+    "ten_kh": "Cửa hàng Bảo Hân Tiền Giang",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-BAODUY",
+    "ten_kh": "Trung Tâm Phụ Kiện Ô Tô Bảo Duy",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-BAOHUY",
+    "ten_kh": "Trung Tâm Nội Thất Ô Tô Bảo Huy",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-BAONGHI",
+    "ten_kh": "Cửa Hàng Phụ Tùng Ô Tô Bảo Nghi",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-BAYBANG",
+    "ten_kh": "RX Bảy Bằng",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-BAYHAI",
+    "ten_kh": "Garage Ô Tô Bảy Hải",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-BENHEN",
+    "ten_kh": "Garage Bến Hẹn",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-BICHLIEN",
+    "ten_kh": "Cửa Hàng Bích Liên",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-BICHPHUONGAUTO",
+    "ten_kh": "Cửa Hàng Bích Phương Auto",
+    "du_no": 1350600,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-BIENHOACAR",
+    "ten_kh": "Cửa Hàng Biên Hòa Car",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-BKAutocar",
+    "ten_kh": "BK Autocar",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-BONG",
+    "ten_kh": "Garage Ô Tô Bông",
+    "du_no": 11300000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-Bro Auto",
+    "ten_kh": "Bro Auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-C-Clean",
+    "ten_kh": "Chăm sóc xe C-CLEAN",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-CANHNXKL",
+    "ten_kh": "Khách Lẻ - Nguyễn Xuân Cảnh",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-CHAUBINHNAM",
+    "ten_kh": "Cửa Hàng Vinh Hào - Châu Bỉnh Nam",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-CHIHUONG",
+    "ten_kh": "Cửa hàng Hưng Phát - Chị Hương",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-CHINGA",
+    "ten_kh": "Công ty TNHH Thanh Anh - Chị Nga",
+    "du_no": 11889000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-CHINMO",
+    "ten_kh": "Hộ Kinh Doanh Phụ Tùng Ô Tô - Nguyễn Thị Kim Hân",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-CHIPHUONG",
+    "ten_kh": "Chị Phương",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-CHITHAONT",
+    "ten_kh": "Cửa Hàng Ô Tô Bảo Nhân - Chị Thảo",
+    "du_no": 100000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-CHITHAO",
+    "ten_kh": "Cửa Hàng Thanh Nghĩa - Chị Thảo",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-CHITHUYTG",
+    "ten_kh": "Cửa Hàng Phụ Tùng Ô Tô Thủy",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-CHIYEN",
+    "ten_kh": "Cửa Hàng Ô Tô Thành Phát - Chị Yến",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-CHTHANHPHAT",
+    "ten_kh": "Cửa Hàng Thành Phát",
+    "du_no": 3950000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-CHƯƠNGAUTO",
+    "ten_kh": "Chương Auto - Phụ Kiện Đồ Chơi Xe Hơi",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-COBACH",
+    "ten_kh": "Cửa Hàng Phụ Tùng Ô Tô Dũng",
+    "du_no": 3840250,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-CONGTHAM",
+    "ten_kh": "Cửa Hàng Ô Tô Công Thám",
+    "du_no": -2900000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-CUONGBENZ",
+    "ten_kh": "KH Cường Benz",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-CUONGDUNG",
+    "ten_kh": "Cửa hàng phụ Kiện Cường Dung - Chị Dung",
+    "du_no": 6340001,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-CUONGNGA",
+    "ten_kh": "Công ty TNHH Thương Mại Xuất Nhập Khẩu Cường Nga",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-Chitrinh",
+    "ten_kh": "Chợ Dân Sinh - Chị Trinh",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-Cotu",
+    "ten_kh": "Cửa Hàng Cô Tư",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-Custom",
+    "ten_kh": "KH Custom Auto",
+    "du_no": 2150000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-D165",
+    "ten_kh": "Trung tâm CSXH cao cấp D165",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-DAIDUCTRUNG",
+    "ten_kh": "Công ty TNHH Thương Mại Dịch Vụ Đại Đức Trung",
+    "du_no": 9200000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-DAITHANG",
+    "ten_kh": "Đại Thắng Auto",
+    "du_no": -188000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-DAITHANH",
+    "ten_kh": "Cửa Hàng Đại Thành",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-DATMUI",
+    "ten_kh": "Cửa Hàng Phụ Tùng Ô Tô Đất Mũi",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-DOANHPK",
+    "ten_kh": "Công ty TNHH TM-DV Ô Tô Đỗ Anh Auto - Phụ kiện",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-DUCANH",
+    "ten_kh": "Trung tâm chăm sóc ô tô Đức Anh Auto Cần Thơ",
+    "du_no": 3350000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-DUCMINH",
+    "ten_kh": "KH Sửa chữa bảo dưỡng chăm sóc ô tô Đức Minh",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-DUCPHUONG",
+    "ten_kh": "Đức Phượng",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-DUCSANG",
+    "ten_kh": "Cửa Hàng Ô Tô Đức Sang",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-DUCTAI",
+    "ten_kh": "Cửa Hàng Ô Tô Đức Tài",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-DUCVUNG",
+    "ten_kh": "Cửa Hàng Đức Dững",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-DUNGLIEU",
+    "ten_kh": "Cửa hàng phụ kiện Dũng Liễu",
+    "du_no": 2850000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1013",
+    "ten_kh": "Khách lẻ HN",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-DUNGTHONGCR",
+    "ten_kh": "Cửa Hàng Ôtô Dung Thông - Cam Ranh",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-DUNGTHONGNT",
+    "ten_kh": "Cửa Hàng Ôtô Dung Thông - Nha Trang",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-DUNGTHONG",
+    "ten_kh": "Cửa Hàng Ôtô Dung Thông - Đăk Lăk",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-DUONGANHPK",
+    "ten_kh": "Cửa hàng Dương Anh Auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-DUONGAUTOCARE",
+    "ten_kh": "Cửa Hàng Dương Auto Care",
+    "du_no": 3400000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-DUONGGIA",
+    "ten_kh": "Cửa Hàng Dương Gia",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-DUYMANH",
+    "ten_kh": "Cửa hàng ô tô Duy Mạnh- Bình Thạnh",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-Diem",
+    "ten_kh": "NT Diễm",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-Duy",
+    "ten_kh": "Cửa Hàng Ô Tô Duy",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-Duytung",
+    "ten_kh": "Good year autocare Duy Tùng",
+    "du_no": 9879280,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-F11",
+    "ten_kh": "Cửa hàng F11 Auto Care",
+    "du_no": 270000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-GARAHAOHIEP",
+    "ten_kh": "Garage Ô Tô Hào Hiệp",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-GIABAOBT",
+    "ten_kh": "Cửa Hàng Phụ Kiện Ô Tô Gia Bảo",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-GIAPHU",
+    "ten_kh": "Garage Gia Phú",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-GRHITECH",
+    "ten_kh": "GARAGE HITECH",
+    "du_no": -22000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-GRTHẠCH",
+    "ten_kh": "Hộ kinh doanh Garage Thạch",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-GRTUANDUNG",
+    "ten_kh": "Garage Ô Tô Tuấn Dũng",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-HAIANH",
+    "ten_kh": "Cửa Hàng Hải Anh",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-HAICHÂU2",
+    "ten_kh": "Cửa hàng Hải Châu 2",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-HAILUAN",
+    "ten_kh": "Cửa Hàng Hải Luân - Biên Hoà",
+    "du_no": 5760000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-HAITRIEUBCHANH",
+    "ten_kh": "Chi Nhánh Công ty TNHH Vỏ Xe Ô Tô Hải Triều Bình Chánh",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-HAITRIEUBH",
+    "ten_kh": "Lốp Xe Hải Triều (Biên Hòa)",
+    "du_no": 1320000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-HAITRIEUQ10",
+    "ten_kh": "Chi Nhánh Công ty TNHH Vỏ Xe Ô Tô Hải Triều - Quận 10",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-HAITRIEUQ2",
+    "ten_kh": "Công ty TNHH TM XNK Hải Triều",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-HAITRIEUQ7",
+    "ten_kh": "Công Ty TNHH Vỏ Xe Ô Tô Hải Triều - Quận 7",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-HAITRIEUQ9",
+    "ten_kh": "Chi Nhánh Công ty TNHH Vỏ xe ô tô Hải Triều - Quận 9",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-HAITRIEUTC",
+    "ten_kh": "CN Cty TNHH Vỏ Xe Ô Tô Hải Triều - Trường Chinh",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-HAITRIEUTD",
+    "ten_kh": "Công Ty TNHH Vỏ Xe Ô Tô Hải Triều Thủ Đức",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-HAITRIEUTHAODIEN",
+    "ten_kh": "Công ty TNHH TM XNK Hải Triều (Thảo Điền )",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-HAITRIEUTP",
+    "ten_kh": "Chi nhánh Công ty TNHH Vỏ xe ô tô Hải Triều",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-HAPHUONG",
+    "ten_kh": "Cửa Hàng Phụ Tùng Ô Tô Hà Phương",
+    "du_no": 3270000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-HATHY",
+    "ten_kh": "Nội thất ô tô Hà Thy (Hiệp Phát cũ)",
+    "du_no": 2270000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-HIENDIEUPK",
+    "ten_kh": "Công ty TNHH MTV Thương Mại Hiền Diệu - Phụ kiện",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-HIEPTHANH",
+    "ten_kh": "Công ty TNHH ô tô Hiệp Thành",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-HITECHQ2",
+    "ten_kh": "Garage Hitech",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-HOABINHOTO",
+    "ten_kh": "Cửa Hàng Ô Tô Hòa Bình",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-HOADUNG",
+    "ten_kh": "Cửa Hàng Hòa Dũng",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-HOANGANHAUTO",
+    "ten_kh": "Hoàng Anh AutoCare",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-HOANGANH",
+    "ten_kh": "Cửa Hàng Lê Hoàng Anh",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-HOANGBACHAUTO",
+    "ten_kh": "Công ty TNHH Hoàng Bách Auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-HOANGHA",
+    "ten_kh": "Garage Ô Tô Hoàng Hà",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-HOANGHIẾU",
+    "ten_kh": "Hoàng Hiếu Auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-HOANGHUYTG",
+    "ten_kh": "Cửa Hàng  Hoàng Huy Auto",
+    "du_no": 1650000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-HOANGKIMBTAN",
+    "ten_kh": "Công ty TNHH Một Thành Viên Thương Mại Dich Vụ Ô Tô Hoàng Kim",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-HOANGLAM",
+    "ten_kh": "KH Hoàng Lam Auto",
+    "du_no": 4000000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-HOANGPHUC",
+    "ten_kh": "Cửa Hàng Phụ Tùng Ô Tô Hoàng Phúc",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-HOANGSINH2",
+    "ten_kh": "Cửa hàng Phụ Tùng Ôtô Hoàng Sinh 2 - Anh Bé",
+    "du_no": 5100000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-HONG",
+    "ten_kh": "Garage Hồng",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-HOPNGUYEN",
+    "ten_kh": "Cửa hàng Hợp Nguyên",
+    "du_no": 14980000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-HUAPHEN",
+    "ten_kh": "Cửa hàng Phụ Tùng Ô Tô Hứa Phến",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-HUNGAUTO",
+    "ten_kh": "Đại Hùng Auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-HUNGCUONGBP",
+    "ten_kh": "Garage ô tô Hùng Cường",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-HUNGDLPK",
+    "ten_kh": "Cửa Hàng Ôtô Hùng - Đà Lạt (Phụ kiện)",
+    "du_no": -2450000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-HUNGHOANG",
+    "ten_kh": "Cửa Hàng Ôtô Hùng - Anh Hoàng",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-HUNGNT",
+    "ten_kh": "Cửa hàng HT Auto Nha Trang",
+    "du_no": 7850000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-HUNGPHATQ12",
+    "ten_kh": "Công Ty TNHH Tập Đoàn Ô Tô Hùng Phát - Quận 12",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-HUNGTHINHPK",
+    "ten_kh": "Cửa Hàng Phụ Tùng Ô Tô Hưng Thịnh",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-HUNGVUONG",
+    "ten_kh": "Công ty Hưng Vượng",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-HUNG",
+    "ten_kh": "Phụ tùng Ô tô Hùng ( Đồng Nai )",
+    "du_no": 4200000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-HUYAUTO",
+    "ten_kh": "Trung tâm chăm sóc xe chuyên nghiệp Huy Auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-HUYHOANG",
+    "ten_kh": "Trung Tâm Nội Thất Ô Tô Bình Huy Hoàng - Anh Sinh",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-HUYLONG",
+    "ten_kh": "Điện ô tô Huy Long",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-HUYNDAINGOCPHAT",
+    "ten_kh": "HYUNDAI NGỌC PHÁT",
+    "du_no": 850000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-HUY",
+    "ten_kh": "Cửa Hàng Ô Tô Thùy - Đoàn Văn Huy",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-Hainguyen",
+    "ten_kh": "Cửa Hàng Hải Nguyên",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-Hoangmai",
+    "ten_kh": "Cửa Hàng Ô Tô Hoàng Mai",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-Hoangphu",
+    "ten_kh": "Hoàng Phú Auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-Hoangsinh",
+    "ten_kh": "Cửa Hàng Phụ Tùng Ô Tô Hoàng Sinh - Chị Diệp",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-Hoangthanh",
+    "ten_kh": "Hoàng Thành",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-Hungcuong",
+    "ten_kh": "KH Hùng Cường",
+    "du_no": 9000000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-Hungthanh",
+    "ten_kh": "HƯNG THÀNH",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-HÀTUẤNMINH",
+    "ten_kh": "KH Hà Tuấn Minh",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-KCAR",
+    "ten_kh": "Trung Tâm Chăm Sóc Và Nâng Cấp Ô Tô Kcar",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-KHAAI",
+    "ten_kh": "Cửa hàng ôtô Khả Ái",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-KHANGTHANH",
+    "ten_kh": "Cửa hàng phụ kiện ô tô Khang Thành",
+    "du_no": 400000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-KHOADANG",
+    "ten_kh": "Trung Tâm Trang Trí Ô Tô Khoa Đăng",
+    "du_no": 3000000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-KHÔITRIỂN",
+    "ten_kh": "KH Đồ chơi Khôi Triển Auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-KIMCHI",
+    "ten_kh": "Cửa hàng ÔTô Kim Chi",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-KIMMA",
+    "ten_kh": "Mâm Lốp Ô tô Kim Mã",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-KIMTHUDN",
+    "ten_kh": "Cửa Hàng Phụ Tùng Ô Tô Kim Thư",
+    "du_no": 1010000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-KIMTHUY",
+    "ten_kh": "KIM THỦY",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-KLCHINH",
+    "ten_kh": "Khách Lẻ - Nguyễn Trung Chính",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-KLPHUC",
+    "ten_kh": "KL-Ngô Hoàng Phúc SG",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-LACGIA",
+    "ten_kh": "Cửa hàng Lạc Gia",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-LAMHUNG",
+    "ten_kh": "Rửa xe Lâm Hưng",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-LEDAT",
+    "ten_kh": "Garage Lê Đạt",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-LEHAO",
+    "ten_kh": "Cơ Sở Sửa Chữa Và Bảo Dưỡng Ô Tô Lê Hào",
+    "du_no": 2250000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-LEHOANG",
+    "ten_kh": "Cửa Hàng Lê Hoàng",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-LEQUANG",
+    "ten_kh": "Phụ tùng ô tô Lê Quang - Quảng Ngãi",
+    "du_no": 37865004,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-LETRUNGME",
+    "ten_kh": "Lê Trung - Mẹ",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-LIEMTUYET",
+    "ten_kh": "Cửa Hàng Ô Tô Liêm Tuyết",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-LINHAUTO",
+    "ten_kh": "Garage Linh Auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-LINHGIANG",
+    "ten_kh": "Phụ Tùng ô tô Linh Giang",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-LONGBINH",
+    "ten_kh": "Cửa hàng Long Bình ( Hoàng Linh Sơn)",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-LONGTV",
+    "ten_kh": "Trần Văn Long",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-Letrung",
+    "ten_kh": "Lâm PT ô tô-(Phụ Tùng Lê Trung )",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-MANHDOAUTO",
+    "ten_kh": "Cửa Hàng Mạnh Đỗ Auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-MINHCHAUDAUGIAY",
+    "ten_kh": "Cửa Hàng Phụ Tùng Ô Tô Minh Châu - Dầu Giây",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-MINHHUY",
+    "ten_kh": "Cửa Hàng Phụ Tùng Minh Huy",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-MINHPHUOC",
+    "ten_kh": "KH Minh Phước Auto",
+    "du_no": 540000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-MINHTIENPHAT",
+    "ten_kh": "Cửa Hàng Minh Tiến Phát",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-MINHTIEN",
+    "ten_kh": "Cửa hàng phụ kiện ô tô Minh Tiến",
+    "du_no": 48550000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-MINHTUAN",
+    "ten_kh": "PT Ô Tô Minh Tuấn",
+    "du_no": -4072000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-MNG",
+    "ten_kh": "Công ty TNHH Cung Ứng Phụ Tùng MNG",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-MPAUTO",
+    "ten_kh": "MPauto- Trung Tâm Phụ Kiện Xe Hơi Cao Cấp",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-MUOIHUNG",
+    "ten_kh": "Cửa hàng Ôtô Mười Hùng",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-MUOI",
+    "ten_kh": "Cửa hàng Điện Ôtô Mười",
+    "du_no": 10000000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-Minhchau",
+    "ten_kh": "Minh Châu",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-Minhkhai",
+    "ten_kh": "Cửa Hàng Ô Tô Minh Khai - Đặng Xuân Uyên Xuân",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-MẠNHQUÂNSG",
+    "ten_kh": "Mạnh Quân Auto ( SG)",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-NAMHUE",
+    "ten_kh": "Cửa Hàng Phụ Tùng Ô Tô Năm Huế",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-NGOCTHUY",
+    "ten_kh": "NGỌC THÚY",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-NGUYENAUTO",
+    "ten_kh": "Cửa hàng Nguyễn Auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-NGUYENHAI",
+    "ten_kh": "Cửa hàng phụ tùng Nguyễn Hải",
+    "du_no": 4450000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-NGUYEN",
+    "ten_kh": "Cửa hàng phụ kiện Nguyên Audio",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-NICEAUTO",
+    "ten_kh": "Nice Auto Car",
+    "du_no": 2300000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-NOITHAT47",
+    "ten_kh": "Nội thất 47 BMT",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-Ngochanh",
+    "ten_kh": "Ngọc Hạnh",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-Ngocphuoc",
+    "ten_kh": "Ngọc Phước",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-Nhuy",
+    "ten_kh": "Cửa Hàng Đạt Như Ý",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-OTO146",
+    "ten_kh": "Cửa Hàng Phụ Tùng Ô Tô 146",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-OTOBRVT",
+    "ten_kh": "Công Ty Cổ Phần Ô Tô Bà Rịa Vũng Tàu",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-OTOCAR",
+    "ten_kh": "Phụ Tùng Ô Tô Car Thủ Đức",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-OTONGHI",
+    "ten_kh": "Ô tô Nghi",
+    "du_no": 1220000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-OTONHITP",
+    "ten_kh": "Cửa Hàng Phụ Tùng Ô Tô Nhi",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-OTOSAIGON",
+    "ten_kh": "Nội Thất Ô Tô Sài Gòn",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-OTOSO1",
+    "ten_kh": "Cửa Hàng Phụ Tùng Ô Tô Số 1",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-OTOTAM",
+    "ten_kh": "Cửa hàng Ôtô Tâm",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-OTOTUAN",
+    "ten_kh": "Đồ chơi xe hơi Ô Tô Tuấn",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-PHATHUYAUTO",
+    "ten_kh": "Cửa hàng phụ kiện đồ chơi Phát Huy Auto",
+    "du_no": 5450000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-PHIAUTO",
+    "ten_kh": "Cửa hàng Phi Auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-PHONGBON",
+    "ten_kh": "Cửa Hàng Phong Bổn",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-PHONGPHU",
+    "ten_kh": "KH Gara Phong Phú",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-PHONGQN",
+    "ten_kh": "Cửa hàng nội thất Phong Quy Nhơn",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-PHUCGIANGQ5",
+    "ten_kh": "Phúc Giang - Chị Gấm",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-PHUHUNG",
+    "ten_kh": "Công Ty TNHH Ô Tô",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-PHUNGCANH",
+    "ten_kh": "Cửa Hàng Phùng Cảnh Thaco",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-PHUOCLOI",
+    "ten_kh": "Garage Phước Lợi Auto",
+    "du_no": 372000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-PHUOCTHANH",
+    "ten_kh": "Phụ tùng ô tô Phước Thạnh",
+    "du_no": 536000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-PHUONGAUTO",
+    "ten_kh": "Cửa hàng Phương Auto & Car Audio",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-PHUQUANG",
+    "ten_kh": "Cửa Hàng Ô Tô Phú Quang",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-PHUTHINH",
+    "ten_kh": "Gara Phú Thịnh Auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-PHUVINH",
+    "ten_kh": "Cửa hàng phụ tùng ô tô Phú Vinh (Quang Vinh)",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-PHÁTĐẠT",
+    "ten_kh": "Phát Đạt Auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-PROAUTO",
+    "ten_kh": "Công Ty Cổ Phần Thương Mại Dịch Vụ Pro Auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-QUANGDANG",
+    "ten_kh": "Ôtô Quang Đăng",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-QUANGDIEU",
+    "ten_kh": "Cửa hàng Quang Diệu",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-QUANGLY",
+    "ten_kh": "Garage Quang Lý",
+    "du_no": 2550000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-QUANGMINHQ5",
+    "ten_kh": "Quang Minh",
+    "du_no": 17050003,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-QUANGTIEN",
+    "ten_kh": "Cửa hàng Quang Tiến",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-QUOCBINH",
+    "ten_kh": "Cửa hàng Quốc Bình",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-QUOCDIEN",
+    "ten_kh": "Cửa Hàng Quốc Điện",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-QUOCDUNG",
+    "ten_kh": "Tiệm Điện Quốc Dũng",
+    "du_no": 180000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-QUOCHUNGTV",
+    "ten_kh": "KH Quốc Hùng",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-QUYHUNG",
+    "ten_kh": "Cửa hàng Ắc Quy Hùng",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-Quangthai",
+    "ten_kh": "Nội thất o tô Tân Quang Thái",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-RONGVIETPK",
+    "ten_kh": "Công ty TNHH Rồng Việt - Phụ Kiện",
+    "du_no": 2640000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-RX BONBONCS 2",
+    "ten_kh": "KH Rửa xe Bon Bon Cao Đức Lân",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-RXBONBON",
+    "ten_kh": "KH Rửa xe BonBon",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-SACHNHAT",
+    "ten_kh": "Chăm sóc xe SẠCH NHẤT",
+    "du_no": 2,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-SAP75",
+    "ten_kh": "Sạp 75 - chợ Dân Sinh ( chị Thanh Hương)",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-SAUCHIEUPK",
+    "ten_kh": "Phụ Tùng Sáu Chiêu",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-Songthao",
+    "ten_kh": "Rửa xe Sông Thao",
+    "du_no": 3450000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-Store Detailing",
+    "ten_kh": "Hệ thống chăm sóc Store Detailing",
+    "du_no": 4900000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-TAMHO",
+    "ten_kh": "KH Tám Hổ",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-TANDAT",
+    "ten_kh": "Tấn Đạt",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-TANKHOA",
+    "ten_kh": "Cửa Hàng Phụ Kiện Ô Tô Tấn Khoa",
+    "du_no": 2800000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-TAYBAC",
+    "ten_kh": "Công ty cổ phần ô tô Tây Bắc",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-THACHSANH",
+    "ten_kh": "Thạch Sanh",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-THAIDUONG",
+    "ten_kh": "Nội thất ô tô Thái Dương",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-THANHANQ10",
+    "ten_kh": "Cty TNHH MTV TM DV Vỏ xe Thanh An",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-THANHAN",
+    "ten_kh": "TT Võ Xe oto Thanh An",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-THANHBINHCH",
+    "ten_kh": "CỬA HÀNG THANH BÌNH",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-THANHBINHQ5",
+    "ten_kh": "Cửa hàng Thanh bình Auto-HCM",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-THANHBINHQ7",
+    "ten_kh": "Cửa Hàng Thanh Bình Auto Quận 7",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-THANHBINHTD",
+    "ten_kh": "CỬA HÀNG NỘI THẤT Ô TÔ THANH BÌNH AUTO THỦ ĐỨC",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-THANHDAT2",
+    "ten_kh": "Cửa hàng phụ tùng ô tô Thành Đạt 2",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-THANHDATAUTO ( Bỏ )",
+    "ten_kh": "Bỏ để gộp cùng PT Thành Đạt 2",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-THANHHUONG2",
+    "ten_kh": "Cửa Hàng Nội Thất Ô Tô Thanh Hương 2",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-THANHNGUYEN",
+    "ten_kh": "Cửa hàng phụ kiện Thanh Nguyên",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-THANHPHATVT",
+    "ten_kh": "Cửa hàng Thành Phát - Vũng Tàu",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-THANHPHONG",
+    "ten_kh": "Cửa hàng Thanh Phong (Hùng Audio)",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-THANHTIN",
+    "ten_kh": "Cửa hàng Thành Tín",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-THANHTUNGBD",
+    "ten_kh": "Thanh Tùng",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-THANHTU",
+    "ten_kh": "Phụ tùng ô tô Thanh Tú",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-THIENAN",
+    "ten_kh": "Nội Thất Ô Tô Thiên An",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-THIENPHU",
+    "ten_kh": "Cửa hàng ô tô Thiên Phú - Lê Thị Ngọc Phượng",
+    "du_no": 21982000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-THIÊNKIM",
+    "ten_kh": "Thiên Kim Auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-THIỆNAUTO",
+    "ten_kh": "Thiện Auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-THUANSAUHO",
+    "ten_kh": "Cửa Hàng Thuận Sáu Hổ",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-THUY",
+    "ten_kh": "Cửa hàng Ôtô Thùy",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-TICUONG",
+    "ten_kh": "Nội Thất Ô Tô Tí Cường",
+    "du_no": 10508000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-TIENDUNG",
+    "ten_kh": "Cửa hàng phụ tùng ô tô Tiến Dũng",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-TIENICH",
+    "ten_kh": "Cty TNHH Ô tô Tiện Ích",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-TIENLONG",
+    "ten_kh": "Phụ Tùng Ôtô Tân Tiến Long",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-TINPHATBD",
+    "ten_kh": "Garage Tín Phát",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-TONGDUNG",
+    "ten_kh": "Trung Tâm Chăm Sóc Xe Hơi Tòng Dũng Auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-TONTHANH",
+    "ten_kh": "Phụ tùng ô tô Tôn Thành",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-TOYOTADSG",
+    "ten_kh": "TOYOTA ĐÔNG SÀI GÒN",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-TOYOTATANBINH",
+    "ten_kh": "TOYOTA - CN Tân Bình",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-TOYOTATANPHU",
+    "ten_kh": "Toyota Tân Phú",
+    "du_no": 3750000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-TOYOTATN",
+    "ten_kh": "CN Công ty TNHH Toyota Lý Thường Kiệt tại Tây Ninh",
+    "du_no": 239000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-TRANDAT",
+    "ten_kh": "Cửa hàng Ôtô Trần Đạt",
+    "du_no": 7920000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-TRANTAM",
+    "ten_kh": "Trần Tám",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-TRUNGKIENPK",
+    "ten_kh": "Cửa hàng ô tô Trung Kiên- gửi chành Uyên Uyên quận 6",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-TRUNGNGUYÊN",
+    "ten_kh": "Trung Nguyên Auto",
+    "du_no": -1650000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-TRUNGTIN",
+    "ten_kh": "Garage ô tô Trung Tín",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-TRUNGTRUCQN",
+    "ten_kh": "Ô Tô Trung Trực",
+    "du_no": 41390000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-TRUONGPHATLHP",
+    "ten_kh": "Ô Tô Trường Phát",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-TRUONGPHAT",
+    "ten_kh": "Nội thất ôtô Trường Phát",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-TST",
+    "ten_kh": "Cửa Hàng Phụ Tùng Ô Tô T.S.T",
+    "du_no": 5400005,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-TTBIENHOA",
+    "ten_kh": "Trung Tâm nội ngoại thất ô tô Biên Hòa",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-TUANANHAUTO",
+    "ten_kh": "TUẤN ANH AUTO",
+    "du_no": 4700000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-TUANANH",
+    "ten_kh": "Cửa hàng phụ tùng ô tô Tuấn Anh",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-TUANGL",
+    "ten_kh": "KH Ô tô Tuấn Gia Lai",
+    "du_no": 5220000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-TUANHUNG",
+    "ten_kh": "Cửa hàng phụ kiện ô tô Tuấn Hưng",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-TUIBAGANG",
+    "ten_kh": "Cửa Hàng Túi Ba Gang",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-TULE",
+    "ten_kh": "Cửa hàng ô tô Tư Lê",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-TUOI",
+    "ten_kh": "Cửa hàng phụ kiện Ôtô Tươi",
+    "du_no": 54523000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-TUONG",
+    "ten_kh": "Cửa hàng điện ô tô Tương",
+    "du_no": 9900000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-TUTRIEU3",
+    "ten_kh": "Tư Triều 3",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-TUTRIEUCON",
+    "ten_kh": "Ô Tô Tư Triều 2",
+    "du_no": -80000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-TUTRIEUME",
+    "ten_kh": "Phụ Tùng Ô Tô Tư Triều Mẹ",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-TUYENDIAN",
+    "ten_kh": "Nội Thất Ô Tô Tuyến Dĩ An",
+    "du_no": 14150000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-TUYETTHANH",
+    "ten_kh": "Cửa hàng phụ tùng ô tô Tuyết Thanh",
+    "du_no": 16420000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-TYHUNG",
+    "ten_kh": "Cửa hàng ô tô Tý Hưng",
+    "du_no": 2150000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-Tanphat",
+    "ten_kh": "Tấn Phát",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-Tanphu",
+    "ten_kh": "Tân Phú Auto",
+    "du_no": 2270000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-Thanhhuong",
+    "ten_kh": "Ô Tô Thanh Hương",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-Thanhphuong",
+    "ten_kh": "Ô Tô Thành Phương",
+    "du_no": 1620000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-Thuan",
+    "ten_kh": "NT oto Thuấn",
+    "du_no": 4000000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-Thuhuong",
+    "ten_kh": "KH Thu Hương",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-Trunghai",
+    "ten_kh": "TRUNG HẢI",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-Trunghung",
+    "ten_kh": "Ô tô Trung Hưng",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-Tuan",
+    "ten_kh": "Phụ Tùng Ô Tô Tuấn",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-TẤN LỘC",
+    "ten_kh": "KH Công ty phụ tùng ô tô Tấn Lộc",
+    "du_no": -800000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-TẤN PHÚ YÊN",
+    "ten_kh": "Cửa hàng Anh Tấn",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-UTNGUYEN",
+    "ten_kh": "Phụ tùng ô tô Út Nguyễn",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-VANLUCANHLONG",
+    "ten_kh": "CỬA HÀNH VẠN LỰC",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-VANLUCPK",
+    "ten_kh": "Cửa Hàng Phụ Kiện Ô Tô Vạn Lực",
+    "du_no": 4500000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-VANVU",
+    "ten_kh": "Nội thất Ôtô Văn Vũ",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-VINASG",
+    "ten_kh": "Vina sài Gòn",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-VINHPHUONG",
+    "ten_kh": "Vinh Phương",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-VUDIEN",
+    "ten_kh": "Tiệm Điện Vũ",
+    "du_no": 6633000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-VYVYVIỆT",
+    "ten_kh": "KH VY VY VIỆT AUTO",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-Vantran",
+    "ten_kh": "CH. PT Ô Tô Văn Trận",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-VÀNG",
+    "ten_kh": "KH Gara Vàng",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-VUDVD",
+    "ten_kh": "KH Vũ DVD",
+    "du_no": 36687500,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-XEHOIVTPK",
+    "ten_kh": "Xe hơi Vũng Tàu - Phụ Kiện",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-XUANMAVONG",
+    "ten_kh": "Phụ Tùng Ô Tô Xuân - Mã Vòng",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-XUANVT",
+    "ten_kh": "Cửa hàng Ôtô Xuân",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-YENHA",
+    "ten_kh": "Cửa hàng phụ tùng ô tô Yến Hà- KHÔNG GIAO PHIẾU",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-ZULEXPRO",
+    "ten_kh": "Trung tâm phân phối thiệt bị nghe nhìn trên xe hơi ZULEXPRO",
+    "du_no": 19510000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-haixuyen",
+    "ten_kh": "PHỤ TÙNG Ô TÔ HẢI XUYẾN",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-ĐATÍN",
+    "ten_kh": "Gara ô tô Đa Tín",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-Đuctai",
+    "ten_kh": "CH Đức Tài",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP-ĐƯCSĨ",
+    "ten_kh": "KH NT Đức Sĩ",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1000",
+    "ten_kh": "KH: Nghệ Trung Yên",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1001",
+    "ten_kh": "KH Nghệ Long Biên",
+    "du_no": 1500000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1002",
+    "ten_kh": "KHToyota Thái Hòa Từ Liêm",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1003",
+    "ten_kh": "KH:Meta.vn",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1004",
+    "ten_kh": "KH:Anh Thủy",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1005",
+    "ten_kh": "KH Nguyễn Hoàng Phúc",
+    "du_no": 235000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1006",
+    "ten_kh": "Cửa hàng Đại Thắng Auto",
+    "du_no": 5380500,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1007",
+    "ten_kh": "NT ô tô Ngọc Vân (Hà Nội)",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1008",
+    "ten_kh": "KH: Anh Duy",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1009",
+    "ten_kh": "Cửa hàng NT Phương Đông",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1010",
+    "ten_kh": "KH Khôi nguyên",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1011",
+    "ten_kh": "KH Telo.vn",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1014",
+    "ten_kh": "Khách lẻ Viettel",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1015",
+    "ten_kh": "KH Chị Hà Vang",
+    "du_no": 5000000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1016",
+    "ten_kh": "Cửa hàng Phụ tùng Kim Anh",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1017",
+    "ten_kh": "Cửa hàng nội thất ô tô Đông Bắc- không đóng đơn",
+    "du_no": 44325000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1018",
+    "ten_kh": "Đại lý ONL",
+    "du_no": 4800000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1019",
+    "ten_kh": "Cửa hàng Nôi thất ô tô Auto Việt",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1020",
+    "ten_kh": "KH Chị Hòa Móng Cái",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1021",
+    "ten_kh": "Nhân viên kinh doanh: Đặng Phúc Anh",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1022",
+    "ten_kh": "Cửa hàng NT Hiệp Nga( in phiếu giao hàng 2 )",
+    "du_no": 480000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1023",
+    "ten_kh": "Cửa hàng NT Trang Nam",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1024",
+    "ten_kh": "Cửa hàng RX Anh Huy",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1025",
+    "ten_kh": "Cửa hàng NT Hiếu Huyền",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1026",
+    "ten_kh": "Cửa hàng NT Thiên Bảo Anh",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1027",
+    "ten_kh": "Cửa hàng NT Vân Thanh",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1028",
+    "ten_kh": "Cửa hàng NT ô tô Thiên Cúc",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1029",
+    "ten_kh": "Công ty CPDVKT Carman",
+    "du_no": 70086834,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1030",
+    "ten_kh": "Cửa hàng NT Thanh Bình",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1031",
+    "ten_kh": "Cửa hàng NT ô tô Khánh Phát",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1032",
+    "ten_kh": "Cửa hàng Nội thất ô tô Việt Bắc",
+    "du_no": 98865000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1033",
+    "ten_kh": "Cửa hàng NT Tiến Hằng",
+    "du_no": 105985000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1034",
+    "ten_kh": "KH Em Dung ( khách tự lấy hàng )",
+    "du_no": 5650000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1035",
+    "ten_kh": "Cửa hàng NT Thành Công",
+    "du_no": 510000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1036",
+    "ten_kh": "Cửa hàng Nội thất  ( T&T )",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1037",
+    "ten_kh": "Gara Hà Đông",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1038",
+    "ten_kh": "Cửa hàng Nội thất ô tô Hoàn Tất",
+    "du_no": 3675000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1039",
+    "ten_kh": "Cửa hàng PT và NT Thực Lượng",
+    "du_no": 735000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1040",
+    "ten_kh": "Gara oto 191",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1041",
+    "ten_kh": "Cửa hàng NT ô tô HUy Thịnh ( Vẫn còn nợ 365: 9.805.000)",
+    "du_no": 18950000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1042",
+    "ten_kh": "KH Alo Auto",
+    "du_no": -150000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1043",
+    "ten_kh": "Gara Tiến",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1044",
+    "ten_kh": "Cửa hàng NT Ngọc Long",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1045",
+    "ten_kh": "Cửa hàng NT oto Ánh Linh",
+    "du_no": 11100010,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1046",
+    "ten_kh": "Cửa hàng NT Hùng Thanh",
+    "du_no": 4600000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1047",
+    "ten_kh": "Cửa hàng NT ô tô Anh QUân",
+    "du_no": 270000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1048",
+    "ten_kh": "Gara oto HT",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1049",
+    "ten_kh": "Cửa hàng NT ô tô Anh Huy",
+    "du_no": 49350000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1050",
+    "ten_kh": "KH: Việt Phát",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1051",
+    "ten_kh": "Gara Yên Nghĩa",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1052",
+    "ten_kh": "Gara ô tô HZ",
+    "du_no": 11000000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1053",
+    "ten_kh": "Cửa hàng NT Linh Thanh- không phải giao phiếu cho khách",
+    "du_no": 63950000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1054",
+    "ten_kh": "Cửa hàng NT ô tô Việt",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1055",
+    "ten_kh": "Cửa hàng NT Mỹ Thức",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1056",
+    "ten_kh": "Cửa hàng NT Quỳnh Vinh",
+    "du_no": 2280000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1057",
+    "ten_kh": "Cửa hàng NT Hoàng Thông",
+    "du_no": 14250000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1058",
+    "ten_kh": "Cửa hàng Độ xe Cường Thịnh Auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1059",
+    "ten_kh": "Cửa hàng Độ xe CARNET",
+    "du_no": 48385000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1060",
+    "ten_kh": "CÔNG TY TNHH THƯƠNG MẠI VÀ DỊCH VỤ Ô TÔ D&B",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1061",
+    "ten_kh": "PT xe tải Thiên Long- Không giao phiếu bán hàng",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1062",
+    "ten_kh": "KH Lê Minh Tuấn ( không giao phiếu )",
+    "du_no": 34474002,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1063",
+    "ten_kh": "Hyundai Đông Nam",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1064",
+    "ten_kh": "Phụ tùng ô tô Thanh Châu",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1065",
+    "ten_kh": "Cửa hàng Bảo Khánh Auto - Không giao phiếu bán hàng",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1066",
+    "ten_kh": "KH Lộc Auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1067",
+    "ten_kh": "KH AutoTechVina",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1068",
+    "ten_kh": "Garage oto 5 sao",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1069",
+    "ten_kh": "KH: Nguyễn Văn Tuân ( Út)",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1070",
+    "ten_kh": "PT ô tô Đại Phong",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1071",
+    "ten_kh": "Gara ô tô Minh Lý",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1072",
+    "ten_kh": "Cửa hàng NT ô tô Thăng Long",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1073",
+    "ten_kh": "Cửa hàng NT ô tô Hưng Thịnh",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1074",
+    "ten_kh": "KH Dr Tire",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1075",
+    "ten_kh": "Cửa hàng Gương đèn Hương Khởi",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1076",
+    "ten_kh": "Cửa hàng NT ô tô Đà Nẵng",
+    "du_no": 9750000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1077",
+    "ten_kh": "Nhân viên kinh doanh: Mai Đình Chiến",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1078",
+    "ten_kh": "KH Anh Dũng Bắc Kạn",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1079",
+    "ten_kh": "Cửa hàng Thái Cường",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1080",
+    "ten_kh": "Cửa hàng Nội thất ô tô Ngọc Vân ( Điện Biên )",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1081",
+    "ten_kh": "Cửa hàng Nội thất ô tô Đình Đệ",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1082",
+    "ten_kh": "Cửa hàng NT Quang Du",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1083",
+    "ten_kh": "Đại lý ắc qui GS",
+    "du_no": 30000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1084",
+    "ten_kh": "Cửa hàng NT  oto Chuyên An",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1085",
+    "ten_kh": "Cửa hàng NT Hưng Vượng",
+    "du_no": 17150000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1086",
+    "ten_kh": "KH 5S- không đóng đơn",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1087",
+    "ten_kh": "Công ty cơ giới và xây dựng Hòa Bình",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1088",
+    "ten_kh": "Mazda Hải Dương",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1089",
+    "ten_kh": "Gara Mận Quỳnh",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1090",
+    "ten_kh": "NT ô tô Thành Gia",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1091",
+    "ten_kh": "Cửa hàng NT Hoàn Toàn",
+    "du_no": -424000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1092",
+    "ten_kh": "Thanh Auto",
+    "du_no": 1500000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1093",
+    "ten_kh": "Cửa hàng NT Hùng Phương",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1094",
+    "ten_kh": "Cửa hàng Phụ tùng ô tô Mai Tiến",
+    "du_no": 1100000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1095",
+    "ten_kh": "Gara ô tô Bảo Dương",
+    "du_no": 4210000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1096",
+    "ten_kh": "CH THu Hằng",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1097",
+    "ten_kh": "NT ô tô Xuân Phương",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1098",
+    "ten_kh": "Cửa hàng NT ô tô Xuân Trường ( Sóc Sơn )",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1099",
+    "ten_kh": "Nhân viên kinh doanh: Nguyễn Xuân Vũ",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1100",
+    "ten_kh": "Cửa hàng Rửa xe Ngọc Anh",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1101",
+    "ten_kh": "Phụ tùng ô tô Trung Điệu",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1102",
+    "ten_kh": "Garage độ xe TMT",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.022+00:00"
+  },
+  {
+    "ma_kh": "LP1103",
+    "ten_kh": "Cửa hàng NT Quang Giáp ( KHÔNG GIAO PHIẾU )",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1104",
+    "ten_kh": "Gara ô tô Toàn Tâm",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1105",
+    "ten_kh": "Showroom Trọng Thiện",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1106",
+    "ten_kh": "Cửa hàng Nội thất ôtô  Quang Đạt",
+    "du_no": 6200000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1107",
+    "ten_kh": "KH Anh Tuấn Auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1108",
+    "ten_kh": "CH Khang Minh",
+    "du_no": 560000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1109",
+    "ten_kh": "Cửa hàng Điện ô tô Lê Tuyến",
+    "du_no": 4790000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1110",
+    "ten_kh": "Cửa hàng NT ô tô Sáng Vịnh ( KHÔNG GIAO PHIẾU)",
+    "du_no": 87780440,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1111",
+    "ten_kh": "Gara Liên Hùng",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1112",
+    "ten_kh": "Gara ô tô Bắc Hưng Yên",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1113",
+    "ten_kh": "Cửa hàng NT ô tô Thành Lợi",
+    "du_no": 31235000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1114",
+    "ten_kh": "TT chăm sóc xe Nguyễn Phúc",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1115",
+    "ten_kh": "Công ty Việt Đăng",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1116",
+    "ten_kh": "Cửa hàng Điện  ô tô Minh Tuấn",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1117",
+    "ten_kh": "Cửa hàng Nội thất ô tô Ngọc Anh",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1118",
+    "ten_kh": "GR Tuyền Anh",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1119",
+    "ten_kh": "KHKhánh Giang Car",
+    "du_no": 10600000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1120",
+    "ten_kh": "Gara Long Vũ",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1121",
+    "ten_kh": "KH Anh Tuấn Long Biên",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1122",
+    "ten_kh": "Cửa hàng NT oto Tuấn Khang",
+    "du_no": 5400000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1123",
+    "ten_kh": "Cửa hàng NT  Trung Thái ( KHÔNG GIAO PHIẾU )",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1124",
+    "ten_kh": "Cửa hàng PT  Yến Hùng",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1125",
+    "ten_kh": "Cửa hàng NT Ngọc Tiếp",
+    "du_no": 3000000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1126",
+    "ten_kh": "Cửa hàng NT Linh Hiếu",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1127",
+    "ten_kh": "KH Toyota Thái Nguyên",
+    "du_no": 134868100,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1128",
+    "ten_kh": "KH Anh Tùng",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1129",
+    "ten_kh": "TT sửa chữa - Bảo dưỡng oto Tùng Anh",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1130",
+    "ten_kh": "Cửa Hàng Nội thất ô tô Trần Lan",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1131",
+    "ten_kh": "Cửa hàng Thế giới lốp Hưng Phát",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1132",
+    "ten_kh": "Cửa hàng Nội thất Hà Nghĩa",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1133",
+    "ten_kh": "GAra Kiên Cường( QN)",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1134",
+    "ten_kh": "Cửa hàng NT ô tô Mạnh Trung",
+    "du_no": -1110000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1135",
+    "ten_kh": "Cửa hàng NT ô tô Thanh Hải",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1136",
+    "ten_kh": "Cửa hàng NT Hoàng Thủy",
+    "du_no": -4740000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1137",
+    "ten_kh": "Gara oto Mạnh Linh",
+    "du_no": 1600000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1138",
+    "ten_kh": "Cửa hàng RX Hoàng Hà",
+    "du_no": -820000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1139",
+    "ten_kh": "Cửa hàng Lốp Linh Anh",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1140",
+    "ten_kh": "Cửa hàng NT Ngọc Vân ( SL)",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1141",
+    "ten_kh": "Cty An Thái",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1142",
+    "ten_kh": "Cty TNHH Đại Tín",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1143",
+    "ten_kh": "Gara ô tô Xuân Trường(TB)",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1144",
+    "ten_kh": "GR Bình Thơm",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1145",
+    "ten_kh": "Cửa hàng PT Lân Cúc",
+    "du_no": 982000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1146",
+    "ten_kh": "Garra ô tô Đức Hòa",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1147",
+    "ten_kh": "Cửa hàng NT Ngọc Thạch",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1148",
+    "ten_kh": "Cửa hàng Điện lạnh Minh Trí",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1149",
+    "ten_kh": "Cửa hàng NT ô tô Rồng Đỏ",
+    "du_no": 5790000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1150",
+    "ten_kh": "Cửa hàng Gương đèn Quang Huế",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1151",
+    "ten_kh": "Cửa hàng NT Thuận Tâm",
+    "du_no": -3640000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1152",
+    "ten_kh": "Cửa hàng NT Nam Việt",
+    "du_no": 36650007,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1153",
+    "ten_kh": "Cửa hàng NT Hiền Từ",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1154",
+    "ten_kh": "Cửa hàng NT ô tô Đức Lâm",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1155",
+    "ten_kh": "Cửa hàng NT ô tô Minh Tâm",
+    "du_no": 3500000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1156",
+    "ten_kh": "Gương đèn Thành Huế",
+    "du_no": 11900000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1157",
+    "ten_kh": "Cửa hàng NT oto Trường Thắng",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1158",
+    "ten_kh": "KH Anh Tuấn(BN)",
+    "du_no": 8650000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1159",
+    "ten_kh": "Cửa hàng NT Quang Phú",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1160",
+    "ten_kh": "Cửa hàng NT oto Hay Huế",
+    "du_no": 1250000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1161",
+    "ten_kh": "Gara oto Việt Đoàn Hưng",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1163",
+    "ten_kh": "Cửa hàng Nội thất ô tô Anh Vinh",
+    "du_no": 42096250,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1164",
+    "ten_kh": "Cửa hàng Nội thất ô tô Quang Tuyển",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1165",
+    "ten_kh": "KH Gương đèn Tuấn BN",
+    "du_no": 1900000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1166",
+    "ten_kh": "Cửa hàng NT Bảo Nam",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1167",
+    "ten_kh": "Công ty cổ phần ô tô Bắc Ninh",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1168",
+    "ten_kh": "Cửa hàng NT Hoàng Cường",
+    "du_no": 7140000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1169",
+    "ten_kh": "Cửa hàng Phụ tùng ô tô Cô Liễu",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1170",
+    "ten_kh": "Gara Đức Huy",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1171",
+    "ten_kh": "Cửa hàng NT Đức Cảnh",
+    "du_no": 21350000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1172",
+    "ten_kh": "Cửa hàng NT Văn Linh",
+    "du_no": 1650000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1173",
+    "ten_kh": "Cửa hàng NT oto Dũng Mai",
+    "du_no": 41430000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1174",
+    "ten_kh": "Cửa hàng NT Anh Tuấn(ST)",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1175",
+    "ten_kh": "Cửa hàng Phụ tùng Thanh Chắt",
+    "du_no": 12700000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1176",
+    "ten_kh": "KH: Mạc Lốp",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1177",
+    "ten_kh": "Nội thất ô tô Hoàng Anh- KHÔNG GỬI PHIẾU",
+    "du_no": 39349680,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1178",
+    "ten_kh": "Nhân viên kinh doanh: Đinh Anh Chi",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1179",
+    "ten_kh": "Cửa hàng NT Sơn Hiệp",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1180",
+    "ten_kh": "Cửa hàng Gương Đèn Quang",
+    "du_no": 7600000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1181",
+    "ten_kh": "Gara ô tô Tâm Thông",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1182",
+    "ten_kh": "KH:Anh Hiếu( HT)",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1183",
+    "ten_kh": "Cửa hàng NT ô tô Hoàng Thành",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1184",
+    "ten_kh": "Cửa hàng NT Minh Thông",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1185",
+    "ten_kh": "Cửa hàng Nội thất Việt Anh( HT)",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1186",
+    "ten_kh": "Cửa hàng NT ô tô Nguyễn Anh",
+    "du_no": 22850000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1187",
+    "ten_kh": "Cửa hàng Nội thất ô tô Việt Hưng",
+    "du_no": 22050000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1188",
+    "ten_kh": "Cửa hàng Nội thất ô tô Nam Bà Triệu",
+    "du_no": 15552501,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1189",
+    "ten_kh": "Cửa hàng  Dũng đèn",
+    "du_no": 27900000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1190",
+    "ten_kh": "Gara Thuần",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1191",
+    "ten_kh": "Công ty THK",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1192",
+    "ten_kh": "Gara oto BMT",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1193",
+    "ten_kh": "Cửa hàng Điện ô tô Hùng",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1194",
+    "ten_kh": "Cửa hàng Nội thất Nhật Cường",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1195",
+    "ten_kh": "KH Em Thành Hòa Bình",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1196",
+    "ten_kh": "Gara Cầu Vua",
+    "du_no": 10350000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1197",
+    "ten_kh": "GĐ Hòa Long",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1198",
+    "ten_kh": "KH A Kee - Lào",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1199",
+    "ten_kh": "Cửa hàng Nội thất ô tô Ngọc Hà",
+    "du_no": 1272000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1200",
+    "ten_kh": "Cửa hàng Phụ tùng ô tô Hương Thủy",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1201",
+    "ten_kh": "Cửa hàng Nội thất ô tô Hiền Vân",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1202",
+    "ten_kh": "Cửa hàng Nội thất ô tô Thăng Long ( NA)",
+    "du_no": 970000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1203",
+    "ten_kh": "Cửa hàng NT Chế Linh",
+    "du_no": 20725160,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1204",
+    "ten_kh": "KH:Em Tài",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1205",
+    "ten_kh": "Cửa hàng NT Thành Vinh",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1206",
+    "ten_kh": "Cửa hàng NT Thành Nam",
+    "du_no": 2600000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1207",
+    "ten_kh": "KH Anh Kiên NA",
+    "du_no": 7350000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1208",
+    "ten_kh": "Cửa hàng Rửa xe Xuân Cương",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1209",
+    "ten_kh": "Gương đèn Cường Huế",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1210",
+    "ten_kh": "Cửa hàng NT ô tô Trường Sơn",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1211",
+    "ten_kh": "Cửa hàng Nội thất ô tô 360",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1212",
+    "ten_kh": "Cửa hàng NT ô tô Anh Khoa",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1213",
+    "ten_kh": "Cửa hàng NT Dương Lợi",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1214",
+    "ten_kh": "Cửa hàng Phụ tùng ô tô Bích Thủy",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1215",
+    "ten_kh": "Cửa hàng Nội thất ô tô Hà Tuấn",
+    "du_no": 10800000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1216",
+    "ten_kh": "Cửa hàng NT ô tô Sơn Râu 2",
+    "du_no": 12100000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1217",
+    "ten_kh": "Cửa hàng Điện ô tô Cường Nga",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1218",
+    "ten_kh": "KH Đại Lốp",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1219",
+    "ten_kh": "Gara oto An Phúc",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1220",
+    "ten_kh": "Cửa hàng Nội thất ô tô Giang Tuyến",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1221",
+    "ten_kh": "Cửa hàng Tài Khánh Auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1222",
+    "ten_kh": "Cửa hàng NT Minh Thành (cơ sở 1)",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1223",
+    "ten_kh": "Cửa hàng Rửa xe Duy Linh",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1224",
+    "ten_kh": "Cửa hàng Nội thất ô tô   Hải Nghĩa",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1225",
+    "ten_kh": "Cửa hàng NT Dũng Yến",
+    "du_no": 5100000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1226",
+    "ten_kh": "Cửa hàng NT oto Ngọc Lĩnh",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1227",
+    "ten_kh": "CH Hằng Thành",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1228",
+    "ten_kh": "Cửa hàng Phụ tùng oto Thanh Liêm",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1229",
+    "ten_kh": "Cửa hàng Nội thất ô tô Ngọc Trai",
+    "du_no": 20443200,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1230",
+    "ten_kh": "Cửa hàng Nội thất ô tô Dũng Còi",
+    "du_no": 4450000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1231",
+    "ten_kh": "Cửa hàng Phụ tùng ô tô Phúc Lâm",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1232",
+    "ten_kh": "Cửa hàng NT ô tô Thành Dương",
+    "du_no": 2860000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1233",
+    "ten_kh": "Gương đèn Tuấn Nho",
+    "du_no": 188400000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1234",
+    "ten_kh": "Cửa hàng NT auto Hà Lâm",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1235",
+    "ten_kh": "KH Anh Tuyến Tuyên Quang",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1236",
+    "ten_kh": "Cửa hàng NT Việt Hoàng - không gửi phiếu",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1237",
+    "ten_kh": "KH Nguyễn Cường Auto ( X auto )- Không gửi phiếu",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1238",
+    "ten_kh": "Cửa hàng NT oto Hoàng Lân",
+    "du_no": 21650000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1239",
+    "ten_kh": "Cửa hàng NT oto Ngọc Quý",
+    "du_no": 1500000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1240",
+    "ten_kh": "Cửa hàng Rửa xe ô tô Nguyễn Trọng",
+    "du_no": 1900000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1241",
+    "ten_kh": "Cửa hàng NT Mạnh Hùng",
+    "du_no": 6340000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1242",
+    "ten_kh": "Cửa hàng NT Hải Đăng",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1243",
+    "ten_kh": "Cửa hàng Lốp Thắng Lan",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1244",
+    "ten_kh": "Cửa hàng Nội thất ô tô Hải Hóa",
+    "du_no": 28000000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1245",
+    "ten_kh": "Cửa hàng NT Trần Kiên",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1246",
+    "ten_kh": "Công ty Cổ phần Lifepro Auto",
+    "du_no": -2400000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1247",
+    "ten_kh": "Công ty TNHH thiết bị phụ tùng và dịch vụ kỹ thuật Mast",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1248",
+    "ten_kh": "Công ty cổ phần phụ tùng và phụ kiện ô tô Mast Sài Gòn",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1249",
+    "ten_kh": "Mast Sài Gòn hàng đặt theo lô",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1250",
+    "ten_kh": "Thanh lý",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1251",
+    "ten_kh": "Công ty TNHH Công nghệ điện tử TCK",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1290",
+    "ten_kh": "Cửa hàng Gương đèn Thuần Huế",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1291",
+    "ten_kh": "Cửa hàng Hiển Đèn",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1292",
+    "ten_kh": "Cty TNHH Trung Thịnh",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1293",
+    "ten_kh": "KH:MD Auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1294",
+    "ten_kh": "Cửa hàng Hà yến FixAuto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1295",
+    "ten_kh": "Cửa hàng Gương đèn Quang Ninh Thuận",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1296",
+    "ten_kh": "KH: Nguyễn Quốc Cường",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1297",
+    "ten_kh": "Gara Đức Phượng",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1298",
+    "ten_kh": "Cửa hàng NT Duy Tuấn",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1299",
+    "ten_kh": "Cửa hàng Nội thất Ô Tô Hoàng Phú",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1300",
+    "ten_kh": "Công ty Ahagara",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1301",
+    "ten_kh": "KH: CARVIET",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1302",
+    "ten_kh": "NT Tuấn Hùng",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1303",
+    "ten_kh": "KH Tuấn Led",
+    "du_no": 850000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1304",
+    "ten_kh": "CTY LEGO AUTO",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1305",
+    "ten_kh": "Cửa hàng Thuấn auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1306",
+    "ten_kh": "Cửa hàng Tiến Hoa Auto",
+    "du_no": 6750000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1307",
+    "ten_kh": "Cửa hàng Lốp Hồng Quang",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1308",
+    "ten_kh": "Cửa hàng Nội thất ô tô Thế Dũng",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1309",
+    "ten_kh": "KH Út Đaklak",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1310",
+    "ten_kh": "Cửa hàng Gương đèn Lộc Huệ",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1311",
+    "ten_kh": "KH Đức Cường auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1312",
+    "ten_kh": "Gara Đông Liên",
+    "du_no": 1500000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1313",
+    "ten_kh": "Gara Huy",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1314",
+    "ten_kh": "Cửa hàng Phụ tùng Duy Trang",
+    "du_no": 17055000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1315",
+    "ten_kh": "Cửa hàng NT Việt Anh (VP)",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1316",
+    "ten_kh": "Cửa hàng Nội thất ô tô Trường Giang",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1317",
+    "ten_kh": "Cửa hàng NT ô tô Việt Anh ( HN)",
+    "du_no": 25379000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1318",
+    "ten_kh": "KH Auto ô tô Lộc Bình",
+    "du_no": 78600004,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1319",
+    "ten_kh": "Auto ô tô  Xuân Quyền",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1320",
+    "ten_kh": "Atom Auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1321",
+    "ten_kh": "GR ô tô Quý Dũng",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1322",
+    "ten_kh": "Cửa hàng GĐC Vũ Huế",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1323",
+    "ten_kh": "Cửa hàng Auto Linh Nguyễn",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1324",
+    "ten_kh": "Cửa hàng NT Việt Anh ( Phú Thọ)",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1325",
+    "ten_kh": "Cửa hàng Khang Điền",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1326",
+    "ten_kh": "Cửa hàng Phạm Quốc auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1327",
+    "ten_kh": "CTCP Nội thất ô tô Đại Thắng QN",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1328",
+    "ten_kh": "Cửa hàng Auto 75 Huế",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1329",
+    "ten_kh": "Khách hàng  Cửa hàng Độ Auto- KHÔNG ĐÓNG ĐƠN",
+    "du_no": 25000000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1330",
+    "ten_kh": "Gara ô tô Hải Yến",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1331",
+    "ten_kh": "Cửa hàng Gương đèn Viết Lãm",
+    "du_no": -50000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1332",
+    "ten_kh": "Cửa hàng Huy Hoàng Auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1333",
+    "ten_kh": "Cửa hàng NT ô tô Tân Phát",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1334",
+    "ten_kh": "Cửa hàng Phụ tùng ô tô Phú Cường- Không giao phiếu",
+    "du_no": -2100000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1335",
+    "ten_kh": "Tiệm đèn Gia Phú",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1336",
+    "ten_kh": "Lê Duẩn Auto",
+    "du_no": -9,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1337",
+    "ten_kh": "Cửa hàng Nội thất ô tô Tạo",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1338",
+    "ten_kh": "Garage Thành Công",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1339",
+    "ten_kh": "Cửa hàng Rambo auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1340",
+    "ten_kh": "Cửa hàng Nội thất ô tô Bảo Hà",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1341",
+    "ten_kh": "Hoàng Phúc Auto ( ko giao phiếu ,khách Chiến )",
+    "du_no": 109351920,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1342",
+    "ten_kh": "Cửa hàng Phụ tùng Phương Kim",
+    "du_no": 260000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1343",
+    "ten_kh": "Dũng Cường Auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1344",
+    "ten_kh": "Cửa hàng NT ô tô Quỳnh Ngân",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1345",
+    "ten_kh": "Cửa hàng PT ô tô Cường Nga",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1346",
+    "ten_kh": "Cửa hàng NT Kiên Cường",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1347",
+    "ten_kh": "Cửa hàng NT Thiên Phú",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1348",
+    "ten_kh": "KH Khánh Tân Auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1349",
+    "ten_kh": "Gara Doanh Việt",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1350",
+    "ten_kh": "Cửa hàng NT ô tô Tiến Đạt",
+    "du_no": 7000000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1351",
+    "ten_kh": "Cửa hàng Nội thất ô tô Tuấn",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1352",
+    "ten_kh": "Vinh Ha Auto Spa",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1353",
+    "ten_kh": "Cửa hàng Độ xe ô tô Đức Chung",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1354",
+    "ten_kh": "Minh Nhật Auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1355",
+    "ten_kh": "Cửa hàng nội thất ô tô đồ chơi Văn Quý",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1356",
+    "ten_kh": "Cửa hàng Gara ô tô Tuấn Dương",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1357",
+    "ten_kh": "Cửa hàng Auto 89",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1358",
+    "ten_kh": "Cửa hàng Sơn Phạm Auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1359",
+    "ten_kh": "Cửa hàng Quỳnh Auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1360",
+    "ten_kh": "Cửa hàng nội thất ô tô Chương Dương",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1361",
+    "ten_kh": "Trung tâm chăm sóc xe Phạm Thành",
+    "du_no": 3575000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1363",
+    "ten_kh": "Cửa hàng Độ xe Hay",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1364",
+    "ten_kh": "Cửa hàng Auto Toản Oai",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1365",
+    "ten_kh": "Cửa hàng Cường Auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1366",
+    "ten_kh": "Cửa hàng Vĩnh Hải Auto",
+    "du_no": 3500000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1367",
+    "ten_kh": "SHOWROOM TOÀN TIẾN",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1368",
+    "ten_kh": "Minh Thắng",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1369",
+    "ten_kh": "KH Cường Đèn VT",
+    "du_no": 1800000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1370",
+    "ten_kh": "PT ô tô Hoàng Nam",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1371",
+    "ten_kh": "KH PT ô tô Ích Lợi",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1372",
+    "ten_kh": "Cửa hàng Trung Lốp",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1373",
+    "ten_kh": "Gara ô tô Hưởng Huy",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1374",
+    "ten_kh": "Phụ tùng Xa Huế",
+    "du_no": 1800000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1375",
+    "ten_kh": "NT oto Toàn Phát",
+    "du_no": 60500000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1376",
+    "ten_kh": "KH  Bình Minh Auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1377",
+    "ten_kh": "KH Vũ Hưởng Auto",
+    "du_no": 10125000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1385",
+    "ten_kh": "Gương đèn Thi Huế",
+    "du_no": 1400000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1388",
+    "ten_kh": "KH : Chị Phương Anh - Phụ tùng T2 ( Thạt Luổng )",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1389",
+    "ten_kh": "Cửa hàng Độ xe quang sơn",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1390",
+    "ten_kh": "Khách hàng Nội thất ô tô Hiếu Hiếu",
+    "du_no": 33600001,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1391",
+    "ten_kh": "Cửa hàng gương đèn ô tô Tuyết Đèn",
+    "du_no": 12900000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1392",
+    "ten_kh": "MYCARVN",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1393",
+    "ten_kh": "KH Nội thất ô tô Thu Hiền",
+    "du_no": 230000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1394",
+    "ten_kh": "KH Độ xe Tocar",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1395",
+    "ten_kh": "KH Gara Thành Tây",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1396",
+    "ten_kh": "Gương đèn Hướng Huế",
+    "du_no": 700000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1397",
+    "ten_kh": "KH WAXCO",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1398",
+    "ten_kh": "KH Hưng Auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1399",
+    "ten_kh": "KH Thảo Nghĩa Auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1400",
+    "ten_kh": "KH Nội Thất Ô Tô Duy Phúc",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1401",
+    "ten_kh": "KH Mạnh Quân Auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1402",
+    "ten_kh": "NT ô tô Hoàng Anh ( Hải Dương )",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1403",
+    "ten_kh": "Gương đèn ô tô Hoàng Thái",
+    "du_no": 1300000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1404",
+    "ten_kh": "KH Mạnh Trung Auto ( HN)",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1405",
+    "ten_kh": "KH Gara Nam Hậu",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1406",
+    "ten_kh": "NT ô tô Văn Minh",
+    "du_no": 2500000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1407",
+    "ten_kh": "KH Gương đèn Dũng Huế",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1408",
+    "ten_kh": "KH Auto 1989 Nam Định",
+    "du_no": 47285000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1409",
+    "ten_kh": "KH Độ xe sài gòn",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1410",
+    "ten_kh": "KH Đức Anh Auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1411",
+    "ten_kh": "KH Thành Chung Auto",
+    "du_no": 11450000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1412",
+    "ten_kh": "Gara xe hơi AZ",
+    "du_no": 6050000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1413",
+    "ten_kh": "KH NT  Hiếu Điện ô tô",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1414",
+    "ten_kh": "KH Anh Giang Hạ Long",
+    "du_no": 511300,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1415",
+    "ten_kh": "KH Thuần Nguyễn Auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1416",
+    "ten_kh": "DNTN dịch vụ Hoàng Thắng",
+    "du_no": -784080,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1417",
+    "ten_kh": "KH Auto 888",
+    "du_no": 2800000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1418",
+    "ten_kh": "TTCS xe chuyên nghiêp  Hoàng Sinh",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1419",
+    "ten_kh": "Lộc Vinh Auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1420",
+    "ten_kh": "KH NT ô tô Đức Mạnh",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1421",
+    "ten_kh": "Nội thất ô tô Auto Play",
+    "du_no": 28845000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1422",
+    "ten_kh": "Nội thất ô tô Đức Thiện ( In phiếu giao hàng 2 )",
+    "du_no": 2300000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1423",
+    "ten_kh": "KH Nội thất ô tô Ngọc Sơn",
+    "du_no": 24800000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1424",
+    "ten_kh": "Cửa hàng Thanh Bình Auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1425",
+    "ten_kh": "KH Hào Quang Auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1426",
+    "ten_kh": "KH Đặng Quế Auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1427",
+    "ten_kh": "KH NT ô tô Thạch Anh",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1428",
+    "ten_kh": "KH NT ô tô Xuân Tính",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1429",
+    "ten_kh": "KH Gara Phương Quý",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1430",
+    "ten_kh": "Cửa hàng phụ tùng Kiên Trung",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1431",
+    "ten_kh": "KH Gara 286 Công Bàng",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1432",
+    "ten_kh": "KH Đức Trọng Auto",
+    "du_no": 39650000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1433",
+    "ten_kh": "Công ty TNHH Auto Thái Nguyên",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1434",
+    "ten_kh": "Phụ tùng 3T",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1435",
+    "ten_kh": "Hà Trung Audio",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1436",
+    "ten_kh": "Văn Cường Auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1437",
+    "ten_kh": "KH Phụ Tùng Trần Lan",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1438",
+    "ten_kh": "KH Linh Long Thành",
+    "du_no": 5740000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1439",
+    "ten_kh": "Công ty Nhất Tín Nhất Tâm",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1440",
+    "ten_kh": "Đức Bảo Auto Spa Pro",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1441",
+    "ten_kh": "Hà Đông Auto ( CS2)",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1442",
+    "ten_kh": "Công ty TNHH Skyauto Vietnam",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1443",
+    "ten_kh": "TTCS xe ô tô Tô Đồng",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1444",
+    "ten_kh": "CHĂM SÓC XE HƠI NHÂN KIỆT CAR CARE & DETALING",
+    "du_no": 2750000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1445",
+    "ten_kh": "Lốp An Tâm",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1446",
+    "ten_kh": "KH Ngọc Duy Auto",
+    "du_no": 3865002,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1447",
+    "ten_kh": "Lê Vang Auto",
+    "du_no": 23550000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1448",
+    "ten_kh": "KH Hoản Nội thất ô tô",
+    "du_no": 1600000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1449",
+    "ten_kh": "Caron Long Biên",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1450",
+    "ten_kh": "Phụ tùng ô tô Anh Sơn",
+    "du_no": 11790000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1836",
+    "ten_kh": "Hà Đông Auto VP",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LPSEPHUNGBINH",
+    "ten_kh": "Sếp Hùng Sếp Bình lấy hàng",
+    "du_no": 1480000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "NĐT",
+    "ten_kh": "Nguyễn Đức Thuận",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "ONLINEMK",
+    "ten_kh": "Khách hàng bán Online marketing",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "RECCi",
+    "ten_kh": "MAXCO (HK)HOLDINGS CO.,LIMITED (RECCI)",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "TIKTOK",
+    "ten_kh": "Khách lẻ ( Tiktok)",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "TLDAC",
+    "ten_kh": "TL-Đinh Anh Chi",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "TLDPA",
+    "ten_kh": "TL-Đặng Phúc Anh",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "TLMDC",
+    "ten_kh": "TL-MAI ĐÌNH CHIẾN",
+    "du_no": 1800000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "TLNTCSG",
+    "ten_kh": "TL-NGUYỄN TRUNG CHÍNH",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "TLNXCSG",
+    "ten_kh": "TL- NGUYỄN XUÂN CẢNH",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "TLNXV",
+    "ten_kh": "TL- Nguyễn Xuân Vũ",
+    "du_no": 70000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "VETC",
+    "ten_kh": "Công ty TNHH Thu phí tự động VETC",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "YujinRMB",
+    "ten_kh": "YuJin Xiamen Plastic Manufacturing Co., Ltd (RMB)",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-ESCARSPA",
+    "ten_kh": "Trung tâm chăm sóc xe E.S Car Spa",
+    "du_no": 600000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-DOXE97",
+    "ten_kh": "Độ xe 97",
+    "du_no": 3060000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1451",
+    "ten_kh": "Ô tô Tuấn- Chi nhánh Bình Dương",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-T97Car",
+    "ten_kh": "T97Car",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-AUTO NGHIỆP KIẾNĐỨC",
+    "ten_kh": "Auto nghiệp Kiến Đức",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1452",
+    "ten_kh": "KH BQT Auto",
+    "du_no": 9650000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1453",
+    "ten_kh": "Hiếu độ Auto",
+    "du_no": 9200000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-XE ÔM",
+    "ten_kh": "Xe Ôm Shop",
+    "du_no": 22200000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-TH AUTO",
+    "ten_kh": "TH Auto Car",
+    "du_no": 1000000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-PTMRVUI",
+    "ten_kh": "Phụ tùng Mr Vui",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1454",
+    "ten_kh": "Cửa hàng Quyết Lốp",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-GIAMINH",
+    "ten_kh": "Phụ tùng ô tô Gia Minh",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1455",
+    "ten_kh": "KH Triệu Độ Đèn",
+    "du_no": 145665000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-K NGUYỄN AUTO",
+    "ten_kh": "K-NGUYỄN AUTO",
+    "du_no": 10950000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1456",
+    "ten_kh": "KH Đức Anh Auto Sơn Tây",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-HAITRIEUAUTO",
+    "ten_kh": "Hải Triều Auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1457",
+    "ten_kh": "Ecopark Auto Car",
+    "du_no": 12710000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-VNPERFORMANCE",
+    "ten_kh": "VN Performance",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-TÂM AUTO",
+    "ten_kh": "Tâm Auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-TRUNGNGUYEN",
+    "ten_kh": "TRUNG NGUYEN AUTO",
+    "du_no": 4100000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-HTAUTO",
+    "ten_kh": "HT Auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-GRANPHUC2",
+    "ten_kh": "Garage An Phúc 2",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-NGUYỄN GIA",
+    "ten_kh": "CÔNG TY TNHH THƯƠNG MẠI DỊCH VỤ Ô TÔ NGUYỄN GIA",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1458",
+    "ten_kh": "Gara oto Hải Long",
+    "du_no": 8700000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1459",
+    "ten_kh": "Gara Lốp Yến Hùng",
+    "du_no": 10000000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-PHÚC ĐỨC",
+    "ten_kh": "Phúc Đức Auto",
+    "du_no": 3880000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-ANTWORKSHOP",
+    "ten_kh": "AntWorkshop",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-Alacar Care Auto",
+    "ten_kh": "Alacar Care Auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-001 CENTER",
+    "ten_kh": "001 Center",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-HICAR",
+    "ten_kh": "Công ty TNHH thương mại dịch vụ HICAR",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-HOÀNG THÀNH SG",
+    "ten_kh": "Công ty TNHH Trang Trí Ô Tô Hoàng Thành",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-MY CAR",
+    "ten_kh": "CÔNG TY TNHH THƯƠNG MẠI DỊCH VỤ MP CAR",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-HOANGKHAI",
+    "ten_kh": "Hoàng Khải Auto",
+    "du_no": 3500000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1460",
+    "ten_kh": "Hoàng Long Auto Spa",
+    "du_no": 76612000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-NGỌC LOAN",
+    "ten_kh": "Phụ tùng Ngọc Loan",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-Trần Sáng",
+    "ten_kh": "Đồ chơi ô tô Trần Sáng",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1461",
+    "ten_kh": "Gara ô tô Tuấn Hải",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-TUYETKHA",
+    "ten_kh": "Cửa hàng Tuyết Kha",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-ĐỨC HIẾU",
+    "ten_kh": "NT ô tô Đức Hiếu",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-MINHPHAT",
+    "ten_kh": "Trung tâm chăm sóc xe Minh Phát",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-LONGAUTO",
+    "ten_kh": "Long Auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-HẢI TRIỀU HHN",
+    "ten_kh": "Hải Triều Hoàng Hữu Nam",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-Q7",
+    "ten_kh": "Q7 City Car",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-VŨNGTÀUAUTO",
+    "ten_kh": "CÔNG TY TNHH VŨNG TÀU AUTO",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1462",
+    "ten_kh": "Bikershop",
+    "du_no": 1700000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1463",
+    "ten_kh": "365 Moto",
+    "du_no": 3650000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1464",
+    "ten_kh": "Độ ô tô Tiến Thủy",
+    "du_no": -16500000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1465",
+    "ten_kh": "V Seven Auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-TIẾN MẠNH",
+    "ten_kh": "Tiến Mạnh Auto",
+    "du_no": 1750000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-LUXURY CAR",
+    "ten_kh": "CÔNG TY CỔ PHẦN TM DV ĐẦU TƯ LUXURY CAR",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1466",
+    "ten_kh": "Trịnh Tuấn Auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-PUC",
+    "ten_kh": "CÔNG TY TNHH ĐẦU TƯ VÀ SẢN XUẤT PUC",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1467",
+    "ten_kh": "Duy Việt Car Spa - Cơ Sở 1",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-THAIDUONGAUTO",
+    "ten_kh": "Hộ kinh doanh Thái Dương Auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-TTAUTO",
+    "ten_kh": "TT Auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1468",
+    "ten_kh": "Gara Ngọc Khánh",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1469",
+    "ten_kh": "Anh Thắng Auto",
+    "du_no": 15290000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-TTL",
+    "ten_kh": "TTL Auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1470",
+    "ten_kh": "Gara oto Thúy Bảy",
+    "du_no": 6410000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-ANPHU",
+    "ten_kh": "An Phú Auto",
+    "du_no": -1569000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1471",
+    "ten_kh": "Quang Auto",
+    "du_no": 21045000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-AUTO DETAILLING",
+    "ten_kh": "111 AuTo Detailling",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "2S VINFAST",
+    "ten_kh": "2S Vinfast",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-FUJI",
+    "ten_kh": "Fuji auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-HOÀNG SƠN",
+    "ten_kh": "Hoàng Sơn",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-ANH KHÔI AUTO",
+    "ten_kh": "Anh Khôi Auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-ĐÔNG HÒA",
+    "ten_kh": "1CAR GARA ĐÔNG HÒA",
+    "du_no": 12200000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-TRỌNG HIẾU",
+    "ten_kh": "Ô tô Trọng Hiếu",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-A&K",
+    "ten_kh": "Cửa hàng A&K",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-ĐÔNG ANH",
+    "ten_kh": "Đông Anh Auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-NGÔ GIA",
+    "ten_kh": "Ngô Gia Auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-Hana",
+    "ten_kh": "Hana Auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-DAO",
+    "ten_kh": "Trung tâm đồ chơi xe hơi DAO auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-HOÀNG THIÊN PHÚ",
+    "ten_kh": "Auto Hoàng Thiên Phú",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-KIMBINH",
+    "ten_kh": "Auto Châu Á Thủ Đức",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-AUTO SPA",
+    "ten_kh": "Chiến Thắng AUTO SPA",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-HOÀNG YẾN",
+    "ten_kh": "Auto Hoàng Yến",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-MINH LÝ",
+    "ten_kh": "Gara Minh Lý",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-VIỆT ANH",
+    "ten_kh": "Việt Anh Auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-THANH HẢI AUTO",
+    "ten_kh": "Chăm sóc Thanh Hải Auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-93 AUTO",
+    "ten_kh": "93 Auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "HN0951",
+    "ten_kh": "Hồ Văn Huy",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1838",
+    "ten_kh": "Ngọc Huyền",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "VINFAST2S - Phụ kiện",
+    "ten_kh": "VINFAST2S - Phụ kiện (Sáng phụ trách)",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-HIFAST",
+    "ten_kh": "Công ty TNHH Hifast auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-SA DEC CARSPA",
+    "ten_kh": "Hộ kinh doanh Sadec Carspa",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-TG AUTO9",
+    "ten_kh": "HỘ KINH DOANH TG AUTO 9",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-BẢO LONG",
+    "ten_kh": "CÔNG TY TNHH TM DV NGỌC BẢO LONG",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-81 Auto",
+    "ten_kh": "81 Auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1650",
+    "ten_kh": "Quang Auto Plus",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP- MINH QUÂN",
+    "ten_kh": "Minh Quân Auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-BR AUTO",
+    "ten_kh": "Trung Tâm Chăm Sóc Xe Ô Tô Br Auto Care",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP1378",
+    "ten_kh": "Auto Play cơ sở Thanh Trì",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "HN0170",
+    "ten_kh": "2S Vinfast",
+    "du_no": 25550000,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LIFEPRO",
+    "ten_kh": "LIFEPRO",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "HN1076",
+    "ten_kh": "VINFAST2S - Phụ kiện (Sáng phụ trách)",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "BV0001",
+    "ten_kh": "Trung Tâm Chăm Sóc Xe Ô Tô Br Auto Care",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-NGHIACHINH",
+    "ten_kh": "Nội thất ô tô Nghĩa Chinh",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  },
+  {
+    "ma_kh": "LP-1993",
+    "ten_kh": "1993 Auto",
+    "du_no": 0,
+    "ngay_moc": "2026-01-01",
+    "updated_at": "2026-09-01T05:14:38.023+00:00"
+  }
+]

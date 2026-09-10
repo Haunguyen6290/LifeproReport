@@ -1,0 +1,47 @@
+[
+  {
+    "user_id": "8bee0a51-da81-4daf-8a63-0cca90b75eca",
+    "kind": "bulletin",
+    "last_viewed_at": "2026-08-31T09:04:00.464+00:00"
+  },
+  {
+    "user_id": "1ff0f20c-ac44-42f0-a973-20d576c685c5",
+    "kind": "bulletin",
+    "last_viewed_at": "2026-08-31T09:07:20.863+00:00"
+  },
+  {
+    "user_id": "564058fd-2842-4f7d-bc0d-0580e71470f2",
+    "kind": "bulletin",
+    "last_viewed_at": "2026-08-31T09:17:30.012+00:00"
+  },
+  {
+    "user_id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "kind": "bulletin",
+    "last_viewed_at": "2026-08-29T06:54:12.414+00:00"
+  },
+  {
+    "user_id": "28946fe8-583b-4e27-98fe-bc6a2a5ffdb0",
+    "kind": "bulletin",
+    "last_viewed_at": "2026-09-01T02:13:55.242+00:00"
+  },
+  {
+    "user_id": "fc2f8c07-2120-4db9-ab91-b6bfae670260",
+    "kind": "bulletin",
+    "last_viewed_at": "2026-08-29T08:21:56.034+00:00"
+  },
+  {
+    "user_id": "fc2f8c07-2120-4db9-ab91-b6bfae670260",
+    "kind": "campaign",
+    "last_viewed_at": "2026-08-29T08:46:18.374+00:00"
+  },
+  {
+    "user_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "kind": "bulletin",
+    "last_viewed_at": "2026-09-04T07:44:12.325+00:00"
+  },
+  {
+    "user_id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "kind": "campaign",
+    "last_viewed_at": "2026-09-04T09:11:33.954+00:00"
+  }
+]

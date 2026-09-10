@@ -1,0 +1,22 @@
+[
+  {
+    "id": "f249b9a2-d42a-4b71-a31c-6f9d67433dec",
+    "plan_id": "222230d4-47e4-4a28-9aa2-f7b97356f15e",
+    "cong_viec": "Đòi hết nợ. thu đủ tiền",
+    "kq_can_dat": "Đòi hết nợ. thu đủ tiền",
+    "ngay_list": "T2,T3",
+    "uu_tien": "Cao",
+    "kr_id": null,
+    "sort_order": 0
+  },
+  {
+    "id": "e8864fa5-0d4c-48e6-836d-408d479af298",
+    "plan_id": "222230d4-47e4-4a28-9aa2-f7b97356f15e",
+    "cong_viec": "đi du lịcbn",
+    "kq_can_dat": "vui vẻ",
+    "ngay_list": "T4,T5,T6,T7",
+    "uu_tien": "Trung bình",
+    "kr_id": null,
+    "sort_order": 1
+  }
+]

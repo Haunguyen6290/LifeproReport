@@ -1,0 +1,1712 @@
+[
+  {
+    "id": "QA-0014",
+    "phan_he": "Trợ lý OKRs",
+    "nhom_chu_de": "Khái niệm",
+    "cau_hoi": "KR là gì?",
+    "tra_loi_chuan": "KR là Kết quả then chốt dùng để chứng minh mục tiêu đang đạt đến đâu.",
+    "vi_du": "KR: Giảm tồn trên 6 tháng từ 2 tỷ xuống 1 tỷ.",
+    "cau_hoi_tiep_theo": "Bạn đo kết quả bằng chỉ số nào?",
+    "hanh_dong": "Kiểm tra KR.",
+    "phan_he_lien_quan": [
+      "OKRs"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'chốt':9 'chứng':12 'dùng':10 'gì':3 'khái':20 'kr':1,4 'kết':6 'là':2,5 'minh':13 'mục':14 'niệm':21 'quả':7 'then':8 'tiêu':15 'đang':16 'đâu':19 'đạt':17 'đến':18 'để':11"
+  },
+  {
+    "id": "QA-0006",
+    "phan_he": "Bộ não chung công ty",
+    "nhom_chu_de": "Kiểm tra",
+    "cau_hoi": "Vì sao nhân sự phải học cách diễn giải?",
+    "tra_loi_chuan": "Người quản lý không nhìn thấy suy nghĩ trong đầu nhân viên. Thông tin phải được diễn giải đủ rõ để phối hợp và ra quyết định.",
+    "vi_du": "“Hàng tồn nhiều” chưa đủ; cần số lượng, thời gian tồn, ảnh hưởng và đề xuất.",
+    "cau_hoi_tiep_theo": "Bạn có thể mô tả hiện trạng bằng số liệu không?",
+    "hanh_dong": "Yêu cầu bổ sung thông tin.",
+    "phan_he_lien_quan": [
+      "OKRs",
+      "Báo cáo vấn đề"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'cách':7 'diễn':8,26 'giải':9,27 'học':6 'hợp':32 'không':13 'kiểm':37 'lý':12 'nghĩ':17 'người':10 'nhân':3,20 'nhìn':14 'phải':5,24 'phối':31 'quyết':35 'quản':11 'ra':34 'rõ':29 'sao':2 'suy':16 'sự':4 'thông':22 'thấy':15 'tin':23 'tra':38 'trong':18 'viên':21 'và':33 'vì':1 'được':25 'đầu':19 'để':30 'định':36 'đủ':28"
+  },
+  {
+    "id": "QA-0005",
+    "phan_he": "Bộ não chung công ty",
+    "nhom_chu_de": "Kiểm tra",
+    "cau_hoi": "Vì sao nhân sự cần học cách làm việc mới?",
+    "tra_loi_chuan": "Vì cách làm cũ thường là nhận việc → làm → xong. Cách làm mới đòi hỏi suy nghĩ mục tiêu, kết quả, nguyên nhân và phương án.",
+    "vi_du": "Kho không chỉ xuất hàng mà phải nghĩ xem tồn lâu, hàng xuống cấp và rủi ro đang ở đâu.",
+    "cau_hoi_tiep_theo": "Bạn đang bí ở bước suy nghĩ nào?",
+    "hanh_dong": "Dẫn về 7 câu hỏi cốt lõi.",
+    "phan_he_lien_quan": [
+      "OKRs"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'cách':7,12,21 'cũ':14 'cần':5 'học':6 'hỏi':25 'kiểm':37 'kết':30 'là':16 'làm':8,13,19,22 'mới':10,23 'mục':28 'nghĩ':27 'nguyên':32 'nhân':3,33 'nhận':17 'phương':35 'quả':31 'sao':2 'suy':26 'sự':4 'thường':15 'tiêu':29 'tra':38 'việc':9,18 'và':34 'vì':1,11 'xong':20 'án':36 'đòi':24"
+  },
+  {
+    "id": "QA-0008",
+    "phan_he": "Trợ lý Kế hoạch",
+    "nhom_chu_de": "Lập kế hoạch",
+    "cau_hoi": "Tại sao đã có OKRs rồi còn Kế hoạch?",
+    "tra_loi_chuan": "OKRs là đích đến; Kế hoạch là những việc sẽ làm để đi đến đích.",
+    "vi_du": "OKR: giảm tồn lâu từ 2 tỷ xuống 1 tỷ. Kế hoạch: thống kê, phân loại, phối hợp kinh doanh.",
+    "cau_hoi_tiep_theo": "Bạn đang lập kế hoạch cho KR nào?",
+    "hanh_dong": "Gắn kế hoạch với KR.",
+    "phan_he_lien_quan": [
+      "OKRs",
+      "Kế hoạch"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'còn':7 'có':4 'hoạch':9,15,27 'kế':8,14,26 'là':11,16 'làm':20 'lập':25 'những':17 'okrs':5,10 'rồi':6 'sao':2 'sẽ':19 'tại':1 'việc':18 'đi':22 'đã':3 'đích':12,24 'đến':13,23 'để':21"
+  },
+  {
+    "id": "QA-0009",
+    "phan_he": "Trợ lý Báo cáo tuần",
+    "nhom_chu_de": "Viết báo cáo",
+    "cau_hoi": "Tại sao có Kế hoạch rồi còn Báo cáo tuần?",
+    "tra_loi_chuan": "Kế hoạch là dự kiến; Báo cáo tuần là thực tế đã làm và kết quả đã đạt.",
+    "vi_du": "Kế hoạch: tiếp cận 30 khách. Báo cáo: thực tế 25 khách, 7 quan tâm, 2 mua.",
+    "cau_hoi_tiep_theo": "Bạn đã có số thực tế chưa?",
+    "hanh_dong": "Chuyển sang báo cáo.",
+    "phan_he_lien_quan": [
+      "Báo cáo tuần"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'báo':8,16,30 'cáo':9,17,31 'còn':7 'có':3 'dự':14 'hoạch':5,12 'kiến':15 'kế':4,11 'kết':25 'là':13,19 'làm':23 'quả':26 'rồi':6 'sao':2 'thực':20 'tuần':10,18 'tại':1 'tế':21 'viết':29 'và':24 'đã':22,27 'đạt':28"
+  },
+  {
+    "id": "QA-0012",
+    "phan_he": "Trợ lý OKRs",
+    "nhom_chu_de": "Khái niệm",
+    "cau_hoi": "OKRs là gì?",
+    "tra_loi_chuan": "OKRs là cách xác định mục tiêu và các kết quả then chốt để biết mục tiêu đang được thực hiện và đạt đến đâu. O là Mục tiêu; KR là Kết quả then chốt.",
+    "vi_du": "O: Giảm hàng tồn lâu. KR: Giảm hàng tồn trên 6 tháng từ 2 tỷ xuống 1 tỷ.",
+    "cau_hoi_tiep_theo": "Bạn muốn xây OKRs cho vị trí nào?",
+    "hanh_dong": "Gợi ý theo vị trí.",
+    "phan_he_lien_quan": [
+      "OKRs"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'biết':18 'chốt':16,38 'các':12 'cách':6 'gì':3 'hiện':24 'khái':39 'kr':33 'kết':13,35 'là':2,5,30,34 'mục':9,19,31 'niệm':40 'o':29 'okrs':1,4 'quả':14,36 'then':15,37 'thực':23 'tiêu':10,20,32 'và':11,25 'xác':7 'đang':21 'đâu':28 'được':22 'đạt':26 'đến':27 'để':17 'định':8"
+  },
+  {
+    "id": "QA-0015",
+    "phan_he": "Trợ lý OKRs",
+    "nhom_chu_de": "Xây O",
+    "cau_hoi": "O có nên là công việc không?",
+    "tra_loi_chuan": "Không nên. O là kết quả mong muốn, không phải danh sách việc phải làm.",
+    "vi_du": "“Gọi 30 khách” là hoạt động; “Phát triển khách hàng mới” là mục tiêu.",
+    "cau_hoi_tiep_theo": "Mục tiêu này có phải kết quả mong muốn chưa?",
+    "hanh_dong": "Chuyển hoạt động sang mục tiêu.",
+    "phan_he_lien_quan": [
+      "Kế hoạch"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'có':2 'công':5 'danh':18 'không':7,8,16 'kết':12 'là':4,11 'làm':22 'mong':14 'muốn':15 'nên':3,9 'o':1,10,24 'phải':17,21 'quả':13 'sách':19 'việc':6,20 'xây':23"
+  },
+  {
+    "id": "QA-0016",
+    "phan_he": "Trợ lý OKRs",
+    "nhom_chu_de": "Xây O",
+    "cau_hoi": "KR có cần số không?",
+    "tra_loi_chuan": "Ưu tiên có số hoặc tiêu chí rõ để kiểm chứng.",
+    "vi_du": "100% hàng tồn lâu được thống kê; giảm tồn trên 6 tháng xuống 1 tỷ.",
+    "cau_hoi_tiep_theo": "KR này kiểm chứng bằng gì?",
+    "hanh_dong": "Gợi ý cách đo.",
+    "phan_he_lien_quan": [
+      "Check-in hàng tuần"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'chí':12 'chứng':16 'có':2,8 'cần':3 'hoặc':10 'không':5 'kiểm':15 'kr':1 'o':18 'rõ':13 'số':4,9 'tiên':7 'tiêu':11 'xây':17 'để':14 'ưu':6"
+  },
+  {
+    "id": "QA-0011",
+    "phan_he": "Trợ lý Chiến dịch",
+    "nhom_chu_de": "Chiến dịch",
+    "cau_hoi": "Báo cáo thị trường khác Chiến dịch thế nào?",
+    "tra_loi_chuan": "Thông tin thị trường ghi nhận điều đang xảy ra bên ngoài; Chiến dịch là chương trình công ty chủ động triển khai để đạt một mục tiêu cụ thể.",
+    "vi_du": "Đối thủ giảm giá 10% là thông tin thị trường; thử bán sản phẩm A cho 50 gara là chiến dịch.",
+    "cau_hoi_tiep_theo": "Thông tin này có dẫn tới một chương trình hành động không?",
+    "hanh_dong": "Liên kết sang chiến dịch nếu có.",
+    "phan_he_lien_quan": [
+      "Trợ lý Thị trường kinh doanh",
+      "Trợ lý Chiến dịch"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'báo':1 'bên':20 'chiến':6,22,40 'chương':25 'chủ':29 'cáo':2 'công':27 'cụ':38 'dịch':7,23,41 'ghi':14 'khai':32 'khác':5 'là':24 'một':35 'mục':36 'ngoài':21 'nhận':15 'nào':9 'ra':19 'thông':10 'thế':8 'thể':39 'thị':3,12 'tin':11 'tiêu':37 'triển':31 'trình':26 'trường':4,13 'ty':28 'xảy':18 'đang':17 'điều':16 'đạt':34 'để':33 'động':30"
+  },
+  {
+    "id": "QA-0090",
+    "phan_he": "Trợ lý OKRs",
+    "nhom_chu_de": "Khái niệm",
+    "cau_hoi": "5 câu hỏi cốt lõi để tự xây OKRs là gì?",
+    "tra_loi_chuan": "1) Tôi muốn đạt điều gì? 2) Làm sao biết đã đạt? 3) Hiện tại ở đâu? 4) Muốn đạt phải làm gì? 5) Điều gì có thể khiến không đạt? 6) Nếu không đạt tôi biết từ khi nào? 7) Nếu phát hiện không đạt tôi làm gì?",
+    "vi_du": "Các câu hỏi dẫn từ vấn đề thực tế tới Mục tiêu, Kết quả, Số liệu, Kế hoạch, Check-in và Đề xuất xử lý.",
+    "cau_hoi_tiep_theo": "Bạn muốn áp dụng cho bộ phận nào?",
+    "hanh_dong": "Dùng bộ câu hỏi theo vị trí.",
+    "phan_he_lien_quan": [
+      "OKRs",
+      "Kế hoạch",
+      "Check-in hàng tuần",
+      "Báo cáo vấn đề"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'1':12 '2':18 '3':24 '4':29 '5':1,35 '6':43 '7':52 'biết':21,48 'câu':2 'có':38 'cốt':4 'gì':11,17,34,37,60 'hiện':25,55 'hỏi':3 'khi':50 'khiến':40 'khái':61 'không':41,45,56 'là':10 'làm':19,33,59 'lõi':5 'muốn':14,30 'niệm':62 'nào':51 'nếu':44,53 'okrs':9 'phát':54 'phải':32 'sao':20 'thể':39 'tôi':13,47,58 'tại':26 'từ':49 'tự':7 'xây':8 'điều':16,36 'đâu':28 'đã':22 'đạt':15,23,31,42,46,57 'để':6 'ở':27"
+  },
+  {
+    "id": "QA-0091",
+    "phan_he": "Trợ lý OKRs",
+    "nhom_chu_de": "Khái niệm",
+    "cau_hoi": "Vì sao 7 câu hỏi lại giúp hiểu OKRs dễ hơn?",
+    "tra_loi_chuan": "Vì nhân viên tự suy nghĩ từ công việc thật thay vì học định nghĩa trước. Khi tự tìm mục tiêu, cách đo và cách làm, họ sẽ thấy đó chính là OKRs.",
+    "vi_du": "Kho: vấn đề tồn lâu → ảnh hưởng → giảm tồn → đo giá trị tồn >6 tháng → thống kê/phân loại/phối hợp/xử lý.",
+    "cau_hoi_tiep_theo": "Bạn muốn làm thử một ví dụ?",
+    "hanh_dong": "Dẫn bài tập theo vị trí.",
+    "phan_he_lien_quan": [
+      "OKRs"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'7':3 'chính':42 'cách':33,36 'câu':4 'công':19 'dễ':10 'giúp':7 'hiểu':8 'hơn':11 'họ':38 'học':24 'hỏi':5 'khi':28 'khái':45 'là':43 'làm':37 'lại':6 'mục':31 'nghĩ':17 'nghĩa':26 'nhân':13 'niệm':46 'okrs':9,44 'sao':2 'suy':16 'sẽ':39 'thay':22 'thấy':40 'thật':21 'tiêu':32 'trước':27 'tìm':30 'từ':18 'tự':15,29 'viên':14 'việc':20 'và':35 'vì':1,12,23 'đo':34 'đó':41 'định':25"
+  },
+  {
+    "id": "QA-0020",
+    "phan_he": "Trợ lý OKRs",
+    "nhom_chu_de": "Khái niệm",
+    "cau_hoi": "OKRs cá nhân liên quan mục tiêu công ty thế nào?",
+    "tra_loi_chuan": "Mỗi người cần hiểu công việc của mình đóng góp vào mục tiêu nào của công ty.",
+    "vi_du": "Doanh thu 45 tỷ → Kinh doanh tạo doanh thu; Mua hàng đảm bảo hàng; Kho đảm bảo xuất hàng.",
+    "cau_hoi_tiep_theo": "Bạn đang đóng góp vào O nào?",
+    "hanh_dong": "Kiểm tra liên kết.",
+    "phan_he_lien_quan": [
+      "OKRs",
+      "Kế hoạch"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'cá':2 'công':8,16,27 'cần':14 'của':18,26 'góp':21 'hiểu':15 'khái':29 'liên':4 'mình':19 'mỗi':12 'mục':6,23 'người':13 'nhân':3 'niệm':30 'nào':11,25 'okrs':1 'quan':5 'thế':10 'tiêu':7,24 'ty':9,28 'việc':17 'vào':22 'đóng':20"
+  },
+  {
+    "id": "QA-0018",
+    "phan_he": "Trợ lý OKRs",
+    "nhom_chu_de": "Check-in",
+    "cau_hoi": "Check-in hàng tuần là gì?",
+    "tra_loi_chuan": "Là lần rà soát ngắn để đánh giá O/KR đang đi đúng hướng hay không, khả năng đạt mục tiêu thế nào và có cần thay đổi hành động không.",
+    "vi_du": "Tốt = đúng hướng; Ổn = có nguy cơ nhưng còn cứu được; Tệ = lệch mạnh.",
+    "cau_hoi_tiep_theo": "O/KR nào bạn muốn check-in?",
+    "hanh_dong": "Mở check-in.",
+    "phan_he_lien_quan": [
+      "Check-in hàng tuần"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'check':2,39 'check-in':1,38 'có':31 'cần':32 'giá':15 'gì':7 'hay':21 'hàng':4 'hành':35 'hướng':20 'in':3,40 'không':22,37 'khả':23 'là':6,8 'lần':9 'mục':26 'ngắn':12 'nào':29 'năng':24 'o/kr':16 'rà':10 'soát':11 'thay':33 'thế':28 'tiêu':27 'tuần':5 'và':30 'đang':17 'đi':18 'đánh':14 'đúng':19 'đạt':25 'để':13 'đổi':34 'động':36"
+  },
+  {
+    "id": "QA-0021",
+    "phan_he": "Trợ lý Kế hoạch",
+    "nhom_chu_de": "Lập kế hoạch",
+    "cau_hoi": "Kế hoạch tốt cần có gì?",
+    "tra_loi_chuan": "Việc cụ thể, người phụ trách, thời hạn, kết quả mong muốn và sự phụ thuộc nếu có.",
+    "vi_du": "Liên hệ 20 khách, phụ trách A, trước thứ Sáu, mục tiêu 5 khách phản hồi.",
+    "cau_hoi_tiep_theo": "Việc này ai làm và bao giờ xong?",
+    "hanh_dong": "Bổ sung người và hạn.",
+    "phan_he_lien_quan": [
+      "Kế hoạch"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'có':5,24 'cần':4 'cụ':8 'gì':6 'hoạch':2,27 'hạn':14 'kế':1,26 'kết':15 'lập':25 'mong':17 'muốn':18 'người':10 'nếu':23 'phụ':11,21 'quả':16 'sự':20 'thuộc':22 'thể':9 'thời':13 'trách':12 'tốt':3 'việc':7 'và':19"
+  },
+  {
+    "id": "QA-0022",
+    "phan_he": "Trợ lý Kế hoạch",
+    "nhom_chu_de": "Lập kế hoạch",
+    "cau_hoi": "Có nên đưa tất cả việc trong ngày vào kế hoạch không?",
+    "tra_loi_chuan": "Không. Tập trung việc quan trọng có tác động tới mục tiêu.",
+    "vi_du": "Kế hoạch tuần ưu tiên việc kéo KR, không phải nhật ký mọi thao tác.",
+    "cau_hoi_tiep_theo": "Việc này tác động KR nào?",
+    "hanh_dong": "Gắn với KR.",
+    "phan_he_lien_quan": [
+      "OKRs"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'có':1,19 'cả':5 'hoạch':11,27 'không':12,13 'kế':10,26 'lập':25 'mục':23 'ngày':8 'nên':2 'quan':17 'tiêu':24 'trong':7 'trung':15 'trọng':18 'tác':20 'tất':4 'tập':14 'tới':22 'việc':6,16 'vào':9 'đưa':3 'động':21"
+  },
+  {
+    "id": "QA-0013",
+    "phan_he": "Trợ lý OKRs",
+    "nhom_chu_de": "Khái niệm",
+    "cau_hoi": "O là gì?",
+    "tra_loi_chuan": "O là Mục tiêu: điều quan trọng muốn đạt trong một giai đoạn.",
+    "vi_du": "O: Kiểm soát hàng tồn kho hiệu quả hơn.",
+    "cau_hoi_tiep_theo": "Mục tiêu bạn đang viết là gì?",
+    "hanh_dong": "Kiểm tra O.",
+    "phan_he_lien_quan": [
+      "OKRs"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'giai':15 'gì':3 'khái':17 'là':2,5 'muốn':11 'một':14 'mục':6 'niệm':18 'o':1,4 'quan':9 'tiêu':7 'trong':13 'trọng':10 'điều':8 'đoạn':16 'đạt':12"
+  },
+  {
+    "id": "QA-0017",
+    "phan_he": "Trợ lý OKRs",
+    "nhom_chu_de": "Xây O",
+    "cau_hoi": "KR “Theo dõi khách hàng” có tốt không?",
+    "tra_loi_chuan": "Chưa tốt vì đây là hoạt động. Nên chuyển thành kết quả như số khách mua lại, doanh thu khách cũ hoặc số khách được kích hoạt.",
+    "vi_du": "5 khách cũ tăng doanh số rõ hơn “theo dõi khách hàng”.",
+    "cau_hoi_tiep_theo": "Bạn muốn đo kết quả nào?",
+    "hanh_dong": "Đề xuất KR.",
+    "phan_he_lien_quan": [
+      "Kinh doanh"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'chuyển':17 'chưa':9 'có':6 'cũ':29 'doanh':26 'dõi':3 'hoạt':14,35 'hoặc':30 'hàng':5 'khách':4,23,28,32 'không':8 'kr':1 'kích':34 'kết':19 'là':13 'lại':25 'mua':24 'như':21 'nên':16 'o':37 'quả':20 'số':22,31 'theo':2 'thu':27 'thành':18 'tốt':7,10 'vì':11 'xây':36 'đây':12 'được':33 'động':15"
+  },
+  {
+    "id": "QA-0023",
+    "phan_he": "Trợ lý Kế hoạch",
+    "nhom_chu_de": "Lập kế hoạch",
+    "cau_hoi": "Nếu kế hoạch không hoàn thành thì làm gì?",
+    "tra_loi_chuan": "Nêu nguyên nhân, ảnh hưởng, việc tiếp theo và thời hạn mới. Không chỉ ghi “chưa xong”.",
+    "vi_du": "Chưa hoàn thành vì thiếu dữ liệu từ Mua hàng; dự kiến nhận trước ngày X.",
+    "cau_hoi_tiep_theo": "Nguyên nhân và việc tiếp theo?",
+    "hanh_dong": "Cập nhật lại.",
+    "phan_he_lien_quan": [
+      "Báo cáo tuần"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'chưa':25 'chỉ':23 'ghi':24 'gì':9 'hoàn':5 'hoạch':3,29 'hưởng':14 'hạn':20 'không':4,22 'kế':2,28 'làm':8 'lập':27 'mới':21 'nguyên':11 'nhân':12 'nêu':10 'nếu':1 'theo':17 'thành':6 'thì':7 'thời':19 'tiếp':16 'việc':15 'và':18 'xong':26 'ảnh':13"
+  },
+  {
+    "id": "QA-0053",
+    "phan_he": "Trợ lý Kho",
+    "nhom_chu_de": "Quản lý Kho",
+    "cau_hoi": "Kho hiệu quả là gì?",
+    "tra_loi_chuan": "Không chỉ xuất hết đơn; còn phải xuất đúng, nhanh, chính xác, kiểm soát tồn kho, phát hiện hàng thiếu phẩm chất và cảnh báo rủi ro.",
+    "vi_du": "Tồn trên 6 tháng 2 tỷ → phải theo dõi và đề xuất.",
+    "cau_hoi_tiep_theo": "Hàng tồn lâu hiện bao nhiêu?",
+    "hanh_dong": "Kiểm tra báo cáo kho.",
+    "phan_he_lien_quan": [
+      "Kho"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'báo':30 'chính':16 'chất':27 'chỉ':7 'còn':11 'cảnh':29 'gì':5 'hiện':23 'hiệu':2 'hàng':24 'hết':9 'kho':1,21,35 'không':6 'kiểm':18 'là':4 'lý':34 'nhanh':15 'phát':22 'phải':12 'phẩm':26 'quả':3 'quản':33 'ro':32 'rủi':31 'soát':19 'thiếu':25 'tồn':20 'và':28 'xuất':8,13 'xác':17 'đúng':14 'đơn':10"
+  },
+  {
+    "id": "QA-0026",
+    "phan_he": "Trợ lý Báo cáo tuần",
+    "nhom_chu_de": "Viết báo cáo",
+    "cau_hoi": "Báo cáo tuần có cần số liệu không?",
+    "tra_loi_chuan": "Có, đặc biệt với kết quả quan trọng. Nếu chưa có số tuyệt đối thì phải có bằng chứng hoặc tiêu chí rõ.",
+    "vi_du": "Không chỉ “đã chăm sóc khách”; cần số khách, kết quả, doanh thu hoặc phản hồi.",
+    "cau_hoi_tiep_theo": "Bạn có số liệu chứng minh chưa?",
+    "hanh_dong": "Bổ sung.",
+    "phan_he_lien_quan": [
+      "Báo cáo tuần"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'biệt':11 'báo':1,33 'bằng':26 'chí':30 'chưa':18 'chứng':27 'cáo':2,34 'có':4,9,19,25 'cần':5 'hoặc':28 'không':8 'kết':13 'liệu':7 'nếu':17 'phải':24 'quan':15 'quả':14 'rõ':31 'số':6,20 'thì':23 'tiêu':29 'trọng':16 'tuyệt':21 'tuần':3 'viết':32 'với':12 'đặc':10 'đối':22"
+  },
+  {
+    "id": "QA-0032",
+    "phan_he": "Trợ lý Báo cáo vấn đề",
+    "nhom_chu_de": "Phát hiện",
+    "cau_hoi": "Khi nào nên tạo Báo cáo vấn đề?",
+    "tra_loi_chuan": "Khi có điều đang cản trở mục tiêu, có nguy cơ gây ảnh hưởng hoặc một lỗi cần người khác phối hợp xử lý.",
+    "vi_du": "Hàng tồn lâu tăng liên tục, nhà cung cấp chậm bảo hành, công nợ tăng bất thường.",
+    "cau_hoi_tiep_theo": "Vấn đề ảnh hưởng mục tiêu nào?",
+    "hanh_dong": "Tạo báo cáo vấn đề.",
+    "phan_he_lien_quan": [
+      "OKRs"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'báo':5 'cáo':6 'có':10,17 'cơ':19 'cản':13 'cần':26 'gây':20 'hiện':34 'hoặc':23 'hưởng':22 'hợp':30 'khi':1,9 'khác':28 'lý':32 'lỗi':25 'một':24 'mục':15 'nguy':18 'người':27 'nào':2 'nên':3 'phát':33 'phối':29 'tiêu':16 'trở':14 'tạo':4 'vấn':7 'xử':31 'đang':12 'điều':11 'đề':8 'ảnh':21"
+  },
+  {
+    "id": "QA-0019",
+    "phan_he": "Trợ lý OKRs",
+    "nhom_chu_de": "Xây O",
+    "cau_hoi": "Có được thay đổi KR giữa chu kỳ không?",
+    "tra_loi_chuan": "Có thể khi dữ liệu chứng minh KR không còn phù hợp hoặc cách đo không hữu ích. Phải nêu lý do và không đổi chỉ để làm đẹp kết quả.",
+    "vi_du": "KR đặt sai cách đo ngay từ đầu có thể sửa để phản ánh đúng mục tiêu.",
+    "cau_hoi_tiep_theo": "Vì sao cần thay đổi?",
+    "hanh_dong": "Ghi lý do.",
+    "phan_he_lien_quan": [
+      "OKRs"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'chu':7 'chỉ':35 'chứng':15 'cách':23 'còn':19 'có':1,10 'do':31 'dữ':13 'giữa':6 'hoặc':22 'hợp':21 'hữu':26 'khi':12 'không':9,18,25,33 'kr':5,17 'kết':39 'kỳ':8 'liệu':14 'làm':37 'lý':30 'minh':16 'nêu':29 'o':42 'phù':20 'phải':28 'quả':40 'thay':3 'thể':11 'và':32 'xây':41 'ích':27 'đo':24 'được':2 'đẹp':38 'để':36 'đổi':4,34"
+  },
+  {
+    "id": "QA-0029",
+    "phan_he": "Trợ lý Check-in hàng tuần",
+    "nhom_chu_de": "Check-in",
+    "cau_hoi": "Khi nào chọn Ổn?",
+    "tra_loi_chuan": "Khi mục tiêu vẫn còn khả năng đạt nhưng tốc độ hoặc một yếu tố cản trở cần điều chỉnh.",
+    "vi_du": "Doanh thu đạt nhưng tốc độ thấp hơn kế hoạch 10%.",
+    "cau_hoi_tiep_theo": "Điều gì cần thay đổi?",
+    "hanh_dong": "Đề xuất điều chỉnh.",
+    "phan_he_lien_quan": [
+      "Check-in hàng tuần"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'check':26 'check-in':25 'chỉnh':24 'chọn':3 'còn':9 'cản':20 'cần':22 'hoặc':16 'in':27 'khi':1,5 'khả':10 'một':17 'mục':6 'nhưng':13 'nào':2 'năng':11 'tiêu':7 'trở':21 'tố':19 'tốc':14 'vẫn':8 'yếu':18 'điều':23 'đạt':12 'độ':15 'ổn':4"
+  },
+  {
+    "id": "QA-0030",
+    "phan_he": "Trợ lý Check-in hàng tuần",
+    "nhom_chu_de": "Check-in",
+    "cau_hoi": "Khi nào chọn Tệ?",
+    "tra_loi_chuan": "Khi kết quả lệch đáng kể và nếu giữ cách làm hiện tại thì khả năng đạt mục tiêu thấp.",
+    "vi_du": "Mục tiêu 2 tỷ nhưng đã đi gần hết chu kỳ mới đạt 600 triệu.",
+    "cau_hoi_tiep_theo": "Nguyên nhân và phương án?",
+    "hanh_dong": "Mở Báo cáo vấn đề nếu cần.",
+    "phan_he_lien_quan": [
+      "Check-in hàng tuần",
+      "Báo cáo vấn đề"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'check':26 'check-in':25 'chọn':3 'cách':14 'giữ':13 'hiện':16 'in':27 'khi':1,5 'khả':19 'kết':6 'kể':10 'làm':15 'lệch':8 'mục':22 'nào':2 'năng':20 'nếu':12 'quả':7 'thì':18 'thấp':24 'tiêu':23 'tại':17 'tệ':4 'và':11 'đáng':9 'đạt':21"
+  },
+  {
+    "id": "QA-0031",
+    "phan_he": "Trợ lý Check-in hàng tuần",
+    "nhom_chu_de": "Check-in",
+    "cau_hoi": "Check-in thực hiện khi nào?",
+    "tra_loi_chuan": "Hàng tuần theo lịch chung của công ty, tập trung vào khả năng đạt mục tiêu.",
+    "vi_du": "Mỗi cuối tuần nhân viên cập nhật trạng thái O/KR.",
+    "cau_hoi_tiep_theo": "Tuần này khả năng đạt mục tiêu thế nào?",
+    "hanh_dong": "Thực hiện check-in hàng tuần.",
+    "phan_he_lien_quan": [
+      "OKRs"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'check':2,25 'check-in':1,24 'chung':12 'công':14 'của':13 'hiện':5 'hàng':8 'in':3,26 'khi':6 'khả':19 'lịch':11 'mục':22 'nào':7 'năng':20 'theo':10 'thực':4 'tiêu':23 'trung':17 'tuần':9 'ty':15 'tập':16 'vào':18 'đạt':21"
+  },
+  {
+    "id": "QA-0027",
+    "phan_he": "Trợ lý Báo cáo tuần",
+    "nhom_chu_de": "Viết báo cáo",
+    "cau_hoi": "Báo cáo tuần khác Check-in hàng tuần thế nào?",
+    "tra_loi_chuan": "Báo cáo tuần đi vào chi tiết; Check-in hàng tuần nhìn sức khỏe của OKRs.",
+    "vi_du": "Báo cáo: đã gọi 30 khách. Check-in: khả năng đạt doanh thu có còn tốt không?",
+    "cau_hoi_tiep_theo": "Bạn cần chi tiết hay đánh giá khả năng đạt?",
+    "hanh_dong": "Chọn đúng chức năng.",
+    "phan_he_lien_quan": [
+      "Check-in hàng tuần"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'báo':1,12,30 'check':6,20 'check-in':5,19 'chi':17 'cáo':2,13,31 'của':27 'hàng':8,22 'in':7,21 'khác':4 'khỏe':26 'nhìn':24 'nào':11 'okrs':28 'sức':25 'thế':10 'tiết':18 'tuần':3,9,14,23 'viết':29 'vào':16 'đi':15"
+  },
+  {
+    "id": "QA-0033",
+    "phan_he": "Trợ lý Báo cáo vấn đề",
+    "nhom_chu_de": "Trách nhiệm",
+    "cau_hoi": "“Không phải việc của tôi” thì sao?",
+    "tra_loi_chuan": "Không cần làm thay người khác nhưng không nên bỏ mặc. Đưa vấn đề đến đúng người và theo dõi.",
+    "vi_du": "Kho thấy hàng tồn lâu → báo người phụ trách và theo dõi.",
+    "cau_hoi_tiep_theo": "Ai là người có trách nhiệm trực tiếp?",
+    "hanh_dong": "Gán người xử lý.",
+    "phan_he_lien_quan": [],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'bỏ':17 'cần':9 'của':4 'dõi':27 'khác':13 'không':1,8,15 'làm':10 'mặc':18 'người':12,24 'nhiệm':29 'nhưng':14 'nên':16 'phải':2 'sao':7 'thay':11 'theo':26 'thì':6 'trách':28 'tôi':5 'việc':3 'và':25 'vấn':20 'đúng':23 'đưa':19 'đến':22 'đề':21"
+  },
+  {
+    "id": "QA-0034",
+    "phan_he": "Trợ lý Báo cáo vấn đề",
+    "nhom_chu_de": "Trách nhiệm",
+    "cau_hoi": "“Tôi đã báo rồi” có đủ chưa?",
+    "tra_loi_chuan": "Chưa. Nếu vấn đề còn tồn tại, cần kiểm tra trạng thái, nhắc lại, bổ sung thông tin hoặc đề xuất phương án.",
+    "vi_du": "Đã báo hàng bảo hành chậm nhưng chưa có phản hồi.",
+    "cau_hoi_tiep_theo": "Vấn đề hiện đã được xử lý chưa?",
+    "hanh_dong": "Cập nhật theo dõi.",
+    "phan_he_lien_quan": [],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'báo':3 'bổ':22 'chưa':7,8 'còn':12 'có':5 'cần':15 'hoặc':26 'kiểm':16 'lại':21 'nhiệm':32 'nhắc':20 'nếu':9 'phương':29 'rồi':4 'sung':23 'thái':19 'thông':24 'tin':25 'tra':17 'trách':31 'trạng':18 'tôi':1 'tại':14 'tồn':13 'vấn':10 'xuất':28 'án':30 'đã':2 'đề':11,27 'đủ':6"
+  },
+  {
+    "id": "QA-0035",
+    "phan_he": "Trợ lý Báo cáo vấn đề",
+    "nhom_chu_de": "Trách nhiệm",
+    "cau_hoi": "“Tôi đã nói nhiều lần mà không ai giải quyết” thì làm gì?",
+    "tra_loi_chuan": "Không dừng lại. Làm rõ ảnh hưởng, đề xuất phương án, xác định người có quyền xử lý và đưa lên cấp cao hơn khi cần.",
+    "vi_du": "Vấn đề ảnh hưởng doanh thu và kéo dài → đưa lên quản lý/CEO kèm dữ liệu.",
+    "cau_hoi_tiep_theo": "Ai có quyền quyết định?",
+    "hanh_dong": "Chuyển cấp xử lý khi cần.",
+    "phan_he_lien_quan": [],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'ai':8 'cao':36 'có':28 'cấp':35 'cần':39 'dừng':15 'giải':9 'gì':13 'hơn':37 'hưởng':20 'khi':38 'không':7,14 'làm':12,17 'lên':34 'lý':31 'lại':16 'lần':5 'mà':6 'người':27 'nhiều':4 'nhiệm':41 'nói':3 'phương':23 'quyết':10 'quyền':29 'rõ':18 'thì':11 'trách':40 'tôi':1 'và':32 'xuất':22 'xác':25 'xử':30 'án':24 'đã':2 'đưa':33 'đề':21 'định':26 'ảnh':19"
+  },
+  {
+    "id": "QA-0036",
+    "phan_he": "Trợ lý Báo cáo vấn đề",
+    "nhom_chu_de": "Đề xuất",
+    "cau_hoi": "Báo cáo vấn đề cần những gì?",
+    "tra_loi_chuan": "Vấn đề, số liệu/thực tế, ảnh hưởng, nguyên nhân dự kiến, việc đã thử, đề xuất, người cần hỗ trợ, thời hạn và cách kiểm tra kết quả.",
+    "vi_du": "Hàng tồn 500 sản phẩm, 300 trên 6 tháng; đề xuất rà 20 khách và thử 2 tuần.",
+    "cau_hoi_tiep_theo": "Đề xuất của bạn là gì?",
+    "hanh_dong": "Hoàn thiện báo cáo.",
+    "phan_he_lien_quan": [],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'/th':12 'báo':1 'cách':33 'cáo':2 'cần':5,27 'dự':19 'gì':7 'hưởng':16 'hạn':31 'hỗ':28 'kiến':20 'kiểm':34 'kết':36 'liệu':11 'nguyên':17 'người':26 'nhân':18 'những':6 'quả':37 'số':10 'thời':30 'thử':23 'tra':35 'trợ':29 'tế':14 'việc':21 'và':32 'vấn':3,8 'xuất':25,39 'đã':22 'đề':4,9,24,38 'ảnh':15 'ực':13"
+  },
+  {
+    "id": "QA-0037",
+    "phan_he": "Trợ lý Báo cáo vấn đề",
+    "nhom_chu_de": "Đề xuất",
+    "cau_hoi": "Đề xuất “đề nghị công ty xử lý” có đạt không?",
+    "tra_loi_chuan": "Chưa. Đó là yêu cầu chung chung. Cần nêu phương án cụ thể và lý do.",
+    "vi_du": "Đề xuất rà khách, thử gói bán và dừng nhập thêm trong thời gian kiểm tra.",
+    "cau_hoi_tiep_theo": "Bạn có thể nêu phương án cụ thể không?",
+    "hanh_dong": "Yêu cầu bổ sung.",
+    "phan_he_lien_quan": [],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'chung':17,18 'chưa':12 'có':9 'công':5 'cần':19 'cầu':16 'cụ':23 'do':27 'không':11 'là':14 'lý':8,26 'nghị':4 'nêu':20 'phương':21 'thể':24 'ty':6 'và':25 'xuất':2,29 'xử':7 'yêu':15 'án':22 'đó':13 'đạt':10 'đề':1,3,28"
+  },
+  {
+    "id": "QA-0038",
+    "phan_he": "Trợ lý Báo cáo vấn đề",
+    "nhom_chu_de": "Theo đến cùng",
+    "cau_hoi": "Lãnh đạo chưa giải quyết ngay thì sao?",
+    "tra_loi_chuan": "Vấn đề chưa xong. Tiếp tục theo dõi, nhắc, bổ sung dữ liệu, đề xuất lại hoặc tìm người có thẩm quyền hơn khi phù hợp.",
+    "vi_du": "Đã báo dòng tiền nhưng chưa có quyết định → cập nhật mức ảnh hưởng mới.",
+    "cau_hoi_tiep_theo": "Lần theo dõi tiếp theo là khi nào?",
+    "hanh_dong": "Đặt lịch theo dõi.",
+    "phan_he_lien_quan": [],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'bổ':18 'chưa':3,11 'có':28 'cùng':37 'dõi':16 'dữ':20 'giải':4 'hoặc':25 'hơn':31 'hợp':34 'khi':32 'liệu':21 'lãnh':1 'lại':24 'ngay':6 'người':27 'nhắc':17 'phù':33 'quyết':5 'quyền':30 'sao':8 'sung':19 'theo':15,35 'thì':7 'thẩm':29 'tiếp':13 'tìm':26 'tục':14 'vấn':9 'xong':12 'xuất':23 'đạo':2 'đến':36 'đề':10,22"
+  },
+  {
+    "id": "QA-0040",
+    "phan_he": "Trợ lý Khách hàng",
+    "nhom_chu_de": "Chất lượng",
+    "cau_hoi": "Thông tin vận hành của khách gồm gì?",
+    "tra_loi_chuan": "Cách khách kinh doanh, sản phẩm đang bán, nhà cung cấp, giá, sản lượng, tần suất nhập, cách bán và vấn đề họ gặp.",
+    "vi_du": "Gara bán camera, lấy hàng từ 3 nguồn, bán khoảng 50 bộ/tháng.",
+    "cau_hoi_tiep_theo": "Bạn biết khách đang bán gì và mua từ ai chưa?",
+    "hanh_dong": "Gợi ý câu hỏi tiếp theo.",
+    "phan_he_lien_quan": [
+      "Kinh doanh"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'bán':16,27 'chất':33 'cung':18 'cách':9,26 'cấp':19 'của':5 'doanh':12 'giá':20 'gì':8 'gặp':32 'gồm':7 'hành':4 'họ':31 'khách':6,10 'kinh':11 'lượng':22,34 'nhà':17 'nhập':25 'phẩm':14 'suất':24 'sản':13,21 'thông':1 'tin':2 'tần':23 'và':28 'vấn':29 'vận':3 'đang':15 'đề':30"
+  },
+  {
+    "id": "QA-0042",
+    "phan_he": "Trợ lý Khách hàng",
+    "nhom_chu_de": "Chất lượng",
+    "cau_hoi": "Khách đang mua từ ai?",
+    "tra_loi_chuan": "Ghi nhà cung cấp/đối thủ, sản phẩm, giá và điều kiện mua nếu biết để tìm khoảng trống bán.",
+    "vi_du": "Khách mua camera X từ nhà cung cấp B với giá 900 nghìn.",
+    "cau_hoi_tiep_theo": "Giá và sản lượng đã xác nhận chưa?",
+    "hanh_dong": "Bổ sung nếu có.",
+    "phan_he_lien_quan": [
+      "Thị trường kinh doanh"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'ai':5 'biết':20 'bán':25 'chất':26 'cung':8 'cấp':9 'ghi':6 'giá':14 'khoảng':23 'khách':1 'kiện':17 'lượng':27 'mua':3,18 'nhà':7 'nếu':19 'phẩm':13 'sản':12 'thủ':11 'trống':24 'tìm':22 'từ':4 'và':15 'đang':2 'điều':16 'để':21 'đối':10"
+  },
+  {
+    "id": "QA-0043",
+    "phan_he": "Trợ lý Khách hàng",
+    "nhom_chu_de": "Chất lượng",
+    "cau_hoi": "Làm sao tìm cơ hội bán thêm?",
+    "tra_loi_chuan": "Nhìn 3 thứ: khách đang bán gì, khách mua gì từ người khác và khách chưa bán gì nhưng có khả năng bán.",
+    "vi_du": "Khách bán camera nhưng chưa bán cảm biến áp suất lốp.",
+    "cau_hoi_tiep_theo": "Khách đang thiếu nhóm sản phẩm nào?",
+    "hanh_dong": "Đề xuất sản phẩm thử.",
+    "phan_he_lien_quan": [
+      "Kinh doanh"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'3':9 'bán':6,13,24,30 'chưa':23 'chất':31 'có':27 'cơ':4 'gì':14,17,25 'hội':5 'khác':20 'khách':11,15,22 'khả':28 'làm':1 'lượng':32 'mua':16 'người':19 'nhìn':8 'nhưng':26 'năng':29 'sao':2 'thêm':7 'thứ':10 'tìm':3 'từ':18 'và':21 'đang':12"
+  },
+  {
+    "id": "QA-0044",
+    "phan_he": "Trợ lý Khách hàng",
+    "nhom_chu_de": "Chất lượng",
+    "cau_hoi": "Phân hạng khách để làm gì?",
+    "tra_loi_chuan": "Để ưu tiên thời gian và cách chăm sóc. Phải dựa trên dữ liệu, không chỉ cảm giác.",
+    "vi_du": "Khách tiềm năng: quy mô tốt, mua ít nhưng còn dư địa lớn.",
+    "cau_hoi_tiep_theo": "Dữ liệu đã đủ chưa?",
+    "hanh_dong": "Kiểm tra hồ sơ.",
+    "phan_he_lien_quan": [
+      "Kinh doanh"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'chăm':14 'chất':25 'chỉ':22 'cách':13 'cảm':23 'dữ':19 'dựa':17 'gian':11 'giác':24 'gì':6 'hạng':2 'khách':3 'không':21 'liệu':20 'làm':5 'lượng':26 'phân':1 'phải':16 'sóc':15 'thời':10 'tiên':9 'trên':18 'và':12 'để':4,7 'ưu':8"
+  },
+  {
+    "id": "QA-0046",
+    "phan_he": "Trợ lý Khách hàng",
+    "nhom_chu_de": "Chất lượng",
+    "cau_hoi": "Khách nói không quan tâm sản phẩm thì hỏi gì?",
+    "tra_loi_chuan": "Hỏi lý do: giá, đang dùng thương hiệu khác, chưa có nhu cầu, chưa tin, chưa hiểu, chưa có khách hỏi hoặc chưa rõ.",
+    "vi_du": "Khách không quan tâm vì giá cao hơn 10%.",
+    "cau_hoi_tiep_theo": "Bạn đã thử phương án nào?",
+    "hanh_dong": "Gợi ý bước tiếp theo.",
+    "phan_he_lien_quan": [
+      "Kinh doanh"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'chưa':20,24,26,28,33 'chất':35 'có':21,29 'cầu':23 'do':13 'dùng':16 'giá':14 'gì':10 'hiểu':27 'hiệu':18 'hoặc':32 'hỏi':9,11,31 'khác':19 'khách':1,30 'không':3 'lý':12 'lượng':36 'nhu':22 'nói':2 'phẩm':7 'quan':4 'rõ':34 'sản':6 'thì':8 'thương':17 'tin':25 'tâm':5 'đang':15"
+  },
+  {
+    "id": "QA-0047",
+    "phan_he": "Trợ lý Khách hàng",
+    "nhom_chu_de": "Chất lượng",
+    "cau_hoi": "Hồ sơ khách chưa đủ thì sao?",
+    "tra_loi_chuan": "Không cố kết luận khi thiếu dữ liệu quan trọng. Chỉ ra thông tin thiếu và dẫn nhân viên bổ sung.",
+    "vi_du": "Thiếu nhà cung cấp và sản lượng/tháng → chưa đủ để đánh giá cơ hội.",
+    "cau_hoi_tiep_theo": "Thông tin nào còn thiếu?",
+    "hanh_dong": "Bổ sung hồ sơ.",
+    "phan_he_lien_quan": [],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'bổ':27 'chưa':4 'chất':29 'chỉ':18 'cố':9 'dẫn':24 'dữ':14 'hồ':1 'khi':12 'khách':3 'không':8 'kết':10 'liệu':15 'luận':11 'lượng':30 'nhân':25 'quan':16 'ra':19 'sao':7 'sung':28 'sơ':2 'thiếu':13,22 'thì':6 'thông':20 'tin':21 'trọng':17 'viên':26 'và':23 'đủ':5"
+  },
+  {
+    "id": "QA-0085",
+    "phan_he": "Trợ lý Thị trường kinh doanh",
+    "nhom_chu_de": "Phân hệ",
+    "cau_hoi": "Thông tin thị trường tốt cần gì?",
+    "tra_loi_chuan": "Nguồn, thời điểm, đối tượng, nội dung cụ thể, số trường hợp và mức độ tin cậy.",
+    "vi_du": "18/30 khách miền Bắc phản ánh cùng một vấn đề.",
+    "cau_hoi_tiep_theo": "Có thể xác nhận thêm không?",
+    "hanh_dong": "Thu thập thêm.",
+    "phan_he_lien_quan": [
+      "Thị trường kinh doanh"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'cần':6 'cậy':24 'cụ':15 'dung':14 'gì':7 'hệ':26 'hợp':19 'mức':21 'nguồn':8 'nội':13 'phân':25 'số':17 'thông':1 'thể':16 'thị':3 'thời':9 'tin':2,23 'trường':4,18 'tượng':12 'tốt':5 'và':20 'điểm':10 'đối':11 'độ':22"
+  },
+  {
+    "id": "QA-0054",
+    "phan_he": "Trợ lý Kho",
+    "nhom_chu_de": "Quản lý Kho",
+    "cau_hoi": "Hàng tồn lâu cần làm gì?",
+    "tra_loi_chuan": "Thống kê → phân loại → nguyên nhân → báo bộ phận liên quan → đề xuất → theo dõi.",
+    "vi_du": "300 sản phẩm trên 6 tháng.",
+    "cau_hoi_tiep_theo": "Phương án xử lý là gì?",
+    "hanh_dong": "Tạo báo cáo vấn đề.",
+    "phan_he_lien_quan": [
+      "Kho"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'báo':13 'bộ':14 'cần':4 'dõi':21 'gì':6 'hàng':1 'kho':24 'kê':8 'liên':16 'loại':10 'làm':5 'lâu':3 'lý':23 'nguyên':11 'nhân':12 'phân':9 'phận':15 'quan':17 'quản':22 'theo':20 'thống':7 'tồn':2 'xuất':19 'đề':18"
+  },
+  {
+    "id": "QA-0039",
+    "phan_he": "Trợ lý Khách hàng",
+    "nhom_chu_de": "Chất lượng",
+    "cau_hoi": "Trợ lý Khách hàng dùng để làm gì?",
+    "tra_loi_chuan": "Giúp nhân viên thu thập thông tin khách, hiểu cách khách vận hành, khai thác cơ hội bán hàng, phân hạng khách và xác định hành động tiếp theo.",
+    "vi_du": "Khách đang bán camera của đối thủ nhưng chưa bán sản phẩm A → xác định cơ hội thử A.",
+    "cau_hoi_tiep_theo": "Bạn đang tạo mới hay khai thác khách đã có?",
+    "hanh_dong": "Đi theo luồng phù hợp.",
+    "phan_he_lien_quan": [],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'bán':26 'chất':38 'cách':18 'cơ':24 'dùng':5 'giúp':9 'gì':8 'hiểu':17 'hàng':4,27 'hành':21,34 'hạng':29 'hội':25 'khai':22 'khách':3,16,19,30 'làm':7 'lý':2 'lượng':39 'nhân':10 'phân':28 'theo':37 'thu':12 'thác':23 'thông':14 'thập':13 'tin':15 'tiếp':36 'trợ':1 'viên':11 'và':31 'vận':20 'xác':32 'để':6 'định':33 'động':35"
+  },
+  {
+    "id": "QA-0055",
+    "phan_he": "Trợ lý Kho",
+    "nhom_chu_de": "Quản lý Kho",
+    "cau_hoi": "Hàng thiếu phẩm chất có phải báo một lần?",
+    "tra_loi_chuan": "Không. Cần ghi nhận, cảnh báo, xác định người xử lý và theo dõi đến khi có kết quả.",
+    "vi_du": "50 sản phẩm bao bì kém.",
+    "cau_hoi_tiep_theo": "Ai quyết định?",
+    "hanh_dong": "Theo dõi.",
+    "phan_he_lien_quan": [
+      "Kho"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'báo':7,15 'chất':4 'có':5,26 'cảnh':14 'cần':11 'dõi':23 'ghi':12 'hàng':1 'khi':25 'kho':31 'không':10 'kết':27 'lý':20,30 'lần':9 'một':8 'người':18 'nhận':13 'phải':6 'phẩm':3 'quả':28 'quản':29 'theo':22 'thiếu':2 'và':21 'xác':16 'xử':19 'đến':24 'định':17"
+  },
+  {
+    "id": "QA-0056",
+    "phan_he": "Trợ lý Kho",
+    "nhom_chu_de": "Quản lý Kho",
+    "cau_hoi": "Chênh lệch tồn kho xử lý thế nào?",
+    "tra_loi_chuan": "Kiểm tra chứng từ, kiểm kê, tìm nguyên nhân và đề xuất ngăn lặp lại.",
+    "vi_du": "Mã A lệch 20 chiếc.",
+    "cau_hoi_tiep_theo": "Nguyên nhân đã rõ chưa?",
+    "hanh_dong": "Báo vấn đề nếu lặp lại.",
+    "phan_he_lien_quan": [
+      "Kho"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'chênh':1 'chứng':11 'kho':4,26 'kiểm':9,13 'kê':14 'lý':6,25 'lại':23 'lặp':22 'lệch':2 'nguyên':16 'ngăn':21 'nhân':17 'nào':8 'quản':24 'thế':7 'tra':10 'tìm':15 'tồn':3 'từ':12 'và':18 'xuất':20 'xử':5 'đề':19"
+  },
+  {
+    "id": "QA-0057",
+    "phan_he": "Trợ lý Tổng hợp kho",
+    "nhom_chu_de": "Tổng hợp Kho",
+    "cau_hoi": "Tổng hợp kho hiệu quả là gì?",
+    "tra_loi_chuan": "Không chỉ in và ký phiếu; phải giúp dòng đơn hàng chạy nhanh, đúng, ít lỗi và nhìn thấy điểm nghẽn.",
+    "vi_du": "20 đơn phải sửa trong tuần → tìm nguyên nhân.",
+    "cau_hoi_tiep_theo": "Đơn sai tập trung ở đâu?",
+    "hanh_dong": "Báo vấn đề/cải tiến.",
+    "phan_he_lien_quan": [
+      "Tổng hợp kho"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'chạy':19 'chỉ':9 'dòng':16 'giúp':15 'gì':7 'hiệu':4 'hàng':18 'hợp':2,30 'in':10 'kho':3,31 'không':8 'ký':12 'là':6 'lỗi':23 'nghẽn':28 'nhanh':20 'nhìn':25 'phiếu':13 'phải':14 'quả':5 'thấy':26 'tổng':1,29 'và':11,24 'ít':22 'điểm':27 'đúng':21 'đơn':17"
+  },
+  {
+    "id": "QA-0058",
+    "phan_he": "Trợ lý Tổng hợp kho",
+    "nhom_chu_de": "Tổng hợp Kho",
+    "cau_hoi": "Đơn thường xuyên sai xử lý thế nào?",
+    "tra_loi_chuan": "Thống kê lỗi, xác định nguyên nhân, trao đổi bộ phận liên quan và thay đổi cách làm.",
+    "vi_du": "Sai mã 12 lần.",
+    "cau_hoi_tiep_theo": "Nguyên nhân là gì?",
+    "hanh_dong": "Tạo báo cáo vấn đề.",
+    "phan_he_lien_quan": [
+      "Tổng hợp kho"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'bộ':18 'cách':25 'hợp':28 'kho':29 'kê':10 'liên':20 'làm':26 'lý':6 'lỗi':11 'nguyên':14 'nhân':15 'nào':8 'phận':19 'quan':21 'sai':4 'thay':23 'thường':2 'thế':7 'thống':9 'trao':16 'tổng':27 'và':22 'xuyên':3 'xác':12 'xử':5 'đơn':1 'định':13 'đổi':17,24"
+  },
+  {
+    "id": "QA-0059",
+    "phan_he": "Trợ lý Tổng hợp kho",
+    "nhom_chu_de": "Tổng hợp Kho",
+    "cau_hoi": "Đơn chậm nên báo gì?",
+    "tra_loi_chuan": "Thời gian chờ, công đoạn tắc, người/bộ phận liên quan và đề xuất tháo điểm nghẽn.",
+    "vi_du": "Đơn vào 9h nhưng kho nhận 14h.",
+    "cau_hoi_tiep_theo": "Điểm nghẽn nằm đâu?",
+    "hanh_dong": "Báo cáo vấn đề.",
+    "phan_he_lien_quan": [
+      "Tổng hợp kho"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'/b':13 'báo':4 'chậm':2 'chờ':8 'công':9 'gian':7 'gì':5 'hợp':25 'kho':26 'liên':16 'nghẽn':23 'người':12 'nên':3 'phận':15 'quan':17 'tháo':21 'thời':6 'tắc':11 'tổng':24 'và':18 'xuất':20 'điểm':22 'đoạn':10 'đơn':1 'đề':19 'ộ':14"
+  },
+  {
+    "id": "QA-0060",
+    "phan_he": "Trợ lý Bảo hành",
+    "nhom_chu_de": "Bảo hành",
+    "cau_hoi": "Bảo hành hiệu quả là gì?",
+    "tra_loi_chuan": "Xử lý nhanh, tồn bảo hành thấp, phát hiện lỗi theo sản phẩm/lô, cảnh báo nhà cung cấp và cung cấp dữ liệu cho quyết định mua.",
+    "vi_du": "Tồn bảo hành tăng từ 20 lên 60.",
+    "cau_hoi_tiep_theo": "Tồn đang tăng hay giảm?",
+    "hanh_dong": "Cảnh báo.",
+    "phan_he_lien_quan": [
+      "Bảo hành"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'/l':20 'báo':23 'bảo':1,11,36 'cho':32 'cung':25,28 'cảnh':22 'cấp':26,29 'dữ':30 'gì':6 'hiện':15 'hiệu':3 'hành':2,12,37 'liệu':31 'là':5 'lý':8 'lỗi':16 'mua':35 'nhanh':9 'nhà':24 'phát':14 'phẩm':19 'quyết':33 'quả':4 'sản':18 'theo':17 'thấp':13 'tồn':10 'và':27 'xử':7 'ô':21 'định':34"
+  },
+  {
+    "id": "QA-0063",
+    "phan_he": "Trợ lý Kế toán",
+    "nhom_chu_de": "Hiệu quả",
+    "cau_hoi": "Kế toán hiệu quả là gì?",
+    "tra_loi_chuan": "Không chỉ ghi nhận chính xác mà còn giúp nhìn thấy công nợ, dòng tiền, chi phí và rủi ro sớm.",
+    "vi_du": "Công nợ tăng liên tục nhưng phải cảnh báo trước nguy cơ.",
+    "cau_hoi_tiep_theo": "Rủi ro nào đang tăng?",
+    "hanh_dong": "Tạo cảnh báo.",
+    "phan_he_lien_quan": [
+      "Kế toán"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'chi':22 'chính':11 'chỉ':8 'còn':14 'công':18 'dòng':20 'ghi':9 'giúp':15 'gì':6 'hiệu':3,28 'không':7 'kế':1 'là':5 'mà':13 'nhìn':16 'nhận':10 'nợ':19 'phí':23 'quả':4,29 'ro':26 'rủi':25 'sớm':27 'thấy':17 'tiền':21 'toán':2 'và':24 'xác':12"
+  },
+  {
+    "id": "QA-0064",
+    "phan_he": "Trợ lý Kế toán",
+    "nhom_chu_de": "Công nợ",
+    "cau_hoi": "Công nợ nên theo dõi gì?",
+    "tra_loi_chuan": "Số dư, tuổi nợ, xu hướng, lịch sử trả chậm và khoản có nguy cơ khó thu.",
+    "vi_du": "Khách A nợ 180 triệu, tăng từ 50 triệu.",
+    "cau_hoi_tiep_theo": "Khoản này có rủi ro không?",
+    "hanh_dong": "Báo cáo rủi ro.",
+    "phan_he_lien_quan": [
+      "Kế toán"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'chậm':16 'có':19 'công':1,24 'cơ':21 'dõi':5 'dư':8 'gì':6 'hướng':12 'khoản':18 'khó':22 'lịch':13 'nguy':20 'nên':3 'nợ':2,10,25 'số':7 'sử':14 'theo':4 'thu':23 'trả':15 'tuổi':9 'và':17 'xu':11"
+  },
+  {
+    "id": "QA-0065",
+    "phan_he": "Trợ lý Kế toán",
+    "nhom_chu_de": "Dòng tiền",
+    "cau_hoi": "Dòng tiền cần theo dõi thế nào?",
+    "tra_loi_chuan": "So sánh tiền vào/ra dự kiến với thực tế, khoản đến hạn và cảnh báo thiếu tiền trước khi xảy ra.",
+    "vi_du": "Tuần sau phải trả 800 triệu nhưng dự kiến thu 500 triệu.",
+    "cau_hoi_tiep_theo": "Khoảng thiếu bao nhiêu?",
+    "hanh_dong": "Báo cáo vấn đề.",
+    "phan_he_lien_quan": [
+      "Kế toán"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'/ra':12 'báo':23 'cảnh':22 'cần':3 'dòng':1,30 'dõi':5 'dự':13 'hạn':20 'khi':27 'khoản':18 'kiến':14 'nào':7 'ra':29 'so':8 'sánh':9 'theo':4 'thiếu':24 'thế':6 'thực':16 'tiền':2,10,25,31 'trước':26 'tế':17 'và':21 'vào':11 'với':15 'xảy':28 'đến':19"
+  },
+  {
+    "id": "QA-0066",
+    "phan_he": "Trợ lý Kế toán",
+    "nhom_chu_de": "Chi phí",
+    "cau_hoi": "Chi phí bất thường là gì?",
+    "tra_loi_chuan": "Khoản chi tăng đáng kể so với kế hoạch hoặc xu hướng bình thường và cần giải thích nguyên nhân.",
+    "vi_du": "Chi phí vận chuyển tăng 30%.",
+    "cau_hoi_tiep_theo": "Tăng do đâu?",
+    "hanh_dong": "Tạo cảnh báo.",
+    "phan_he_lien_quan": [
+      "Kế toán"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'bình':19 'bất':3 'chi':1,8,27 'cần':22 'giải':23 'gì':6 'hoạch':15 'hoặc':16 'hướng':18 'khoản':7 'kế':14 'kể':11 'là':5 'nguyên':25 'nhân':26 'phí':2,28 'so':12 'thích':24 'thường':4,20 'tăng':9 'và':21 'với':13 'xu':17 'đáng':10"
+  },
+  {
+    "id": "QA-0067",
+    "phan_he": "Trợ lý Mua hàng",
+    "nhom_chu_de": "Hiệu quả",
+    "cau_hoi": "Mua hàng hiệu quả là gì?",
+    "tra_loi_chuan": "Đủ hàng, đúng thời điểm, chất lượng ổn định, giá/điều kiện phù hợp và lượng nhập không tạo tồn quá mức.",
+    "vi_du": "Hàng bán tốt không thiếu; hàng chậm không nhập thêm vô kiểm soát.",
+    "cau_hoi_tiep_theo": "Nhóm hàng nào đang thiếu/rủi ro tồn?",
+    "hanh_dong": "Kiểm tra báo cáo.",
+    "phan_he_lien_quan": [
+      "Mua hàng"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'chất':12 'giá':16 'gì':6 'hiệu':3,29 'hàng':2,8 'hợp':20 'không':24 'kiện':18 'là':5 'lượng':13,22 'mua':1 'mức':28 'nhập':23 'phù':19 'quá':27 'quả':4,30 'thời':10 'tạo':25 'tồn':26 'và':21 'điều':17 'điểm':11 'đúng':9 'định':15 'đủ':7 'ổn':14"
+  },
+  {
+    "id": "QA-0068",
+    "phan_he": "Trợ lý Mua hàng",
+    "nhom_chu_de": "Thiếu hàng",
+    "cau_hoi": "Phát hiện thiếu hàng thế nào?",
+    "tra_loi_chuan": "Theo dõi tồn, nhu cầu bán, đơn chờ và thời gian hàng về; cảnh báo trước khi nguy hiểm.",
+    "vi_du": "Mã A còn 20, nhu cầu 100, hàng về 20 ngày.",
+    "cau_hoi_tiep_theo": "Có cần đặt ngay không?",
+    "hanh_dong": "Tạo kế hoạch mua.",
+    "phan_he_lien_quan": [
+      "Mua hàng"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'bán':12 'báo':21 'chờ':14 'cảnh':20 'cầu':11 'dõi':8 'gian':17 'hiểm':25 'hiện':2 'hàng':4,18,27 'khi':23 'nguy':24 'nhu':10 'nào':6 'phát':1 'theo':7 'thiếu':3,26 'thế':5 'thời':16 'trước':22 'tồn':9 'và':15 'về':19 'đơn':13"
+  },
+  {
+    "id": "QA-0062",
+    "phan_he": "Trợ lý Bảo hành",
+    "nhom_chu_de": "Bảo hành",
+    "cau_hoi": "Nhà cung cấp xử lý bảo hành chậm thì sao?",
+    "tra_loi_chuan": "Theo dõi cam kết, nhắc, ghi nhận chậm và tổng hợp để đánh giá.",
+    "vi_du": "Hẹn 7 ngày nhưng 20 ngày chưa trả.",
+    "cau_hoi_tiep_theo": "Đã quá hạn bao nhiêu?",
+    "hanh_dong": "Theo dõi và báo cấp.",
+    "phan_he_lien_quan": [
+      "Bảo hành"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'bảo':6,25 'cam':13 'chậm':8,18 'cung':2 'cấp':3 'dõi':12 'ghi':16 'giá':24 'hành':7,26 'hợp':21 'kết':14 'lý':5 'nhà':1 'nhận':17 'nhắc':15 'sao':10 'theo':11 'thì':9 'tổng':20 'và':19 'xử':4 'đánh':23 'để':22"
+  },
+  {
+    "id": "QA-0071",
+    "phan_he": "Trợ lý Marketing & Thiết kế",
+    "nhom_chu_de": "Bắt bệnh",
+    "cau_hoi": "Marketing hiệu quả là gì?",
+    "tra_loi_chuan": "Không chỉ làm nhiều bài/ảnh; phải phục vụ mục tiêu thương hiệu, bán hàng, sản phẩm và khách hàng, có kết quả để đo.",
+    "vi_du": "20 banner không được dùng không bằng 5 tài liệu được dùng hiệu quả.",
+    "cau_hoi_tiep_theo": "Tài liệu này tạo kết quả gì?",
+    "hanh_dong": "Xác định KR.",
+    "phan_he_lien_quan": [
+      "Marketing"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'bài':10 'bán':19 'bắt':31 'bệnh':32 'chỉ':7 'có':26 'gì':5 'hiệu':2,18 'hàng':20,25 'khách':24 'không':6 'kết':27 'là':4 'làm':8 'marketing':1 'mục':15 'nhiều':9 'phải':12 'phẩm':22 'phục':13 'quả':3,28 'sản':21 'thương':17 'tiêu':16 'và':23 'vụ':14 'đo':30 'để':29 'ảnh':11"
+  },
+  {
+    "id": "QA-0069",
+    "phan_he": "Trợ lý Mua hàng",
+    "nhom_chu_de": "Nhập dư",
+    "cau_hoi": "Khi tồn cao có nên nhập tiếp?",
+    "tra_loi_chuan": "Không mặc định. Xem tốc độ bán, tồn và kế hoạch tiêu thụ.",
+    "vi_du": "Tồn 6 tháng vẫn đặt thêm → cần đánh giá.",
+    "cau_hoi_tiep_theo": "Đã có phương án xử lý tồn chưa?",
+    "hanh_dong": "Báo vấn đề.",
+    "phan_he_lien_quan": [
+      "Mua hàng"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'bán':14 'cao':3 'có':4 'dư':22 'hoạch':18 'khi':1 'không':8 'kế':17 'mặc':9 'nhập':6,21 'nên':5 'thụ':20 'tiêu':19 'tiếp':7 'tốc':12 'tồn':2,15 'và':16 'xem':11 'định':10 'độ':13"
+  },
+  {
+    "id": "QA-0070",
+    "phan_he": "Trợ lý Mua hàng",
+    "nhom_chu_de": "Nhà cung cấp",
+    "cau_hoi": "Đánh giá nhà cung cấp bằng gì?",
+    "tra_loi_chuan": "Giá, chất lượng, giao hàng, phản hồi và xử lý vấn đề.",
+    "vi_du": "A giao đúng 95%, B đúng 70%.",
+    "cau_hoi_tiep_theo": "Nguồn nào rủi ro?",
+    "hanh_dong": "Tổng hợp đánh giá.",
+    "phan_he_lien_quan": [
+      "Mua hàng"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'bằng':6 'chất':9 'cung':4,21 'cấp':5,22 'giao':11 'giá':2,8 'gì':7 'hàng':12 'hồi':14 'lý':17 'lượng':10 'nhà':3,20 'phản':13 'và':15 'vấn':18 'xử':16 'đánh':1 'đề':19"
+  },
+  {
+    "id": "QA-0074",
+    "phan_he": "Trợ lý Phát triển sản phẩm",
+    "nhom_chu_de": "Mục tiêu",
+    "cau_hoi": "Phát triển sản phẩm hiệu quả là gì?",
+    "tra_loi_chuan": "Không phải làm nhiều mẫu; phải giải quyết nhu cầu thật, thử nghiệm có căn cứ, phản hồi rõ và tạo sản phẩm có khả năng bán.",
+    "vi_du": "1 mẫu có 5 khách thử có giá trị hơn 5 mẫu không ai thử.",
+    "cau_hoi_tiep_theo": "Sản phẩm đang giải quyết nhu cầu gì?",
+    "hanh_dong": "Xác định giả thuyết.",
+    "phan_he_lien_quan": [
+      "Phát triển sản phẩm"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'bán':35 'có':22,32 'căn':23 'cầu':18 'cứ':24 'giải':15 'gì':8 'hiệu':5 'hồi':26 'không':9 'khả':33 'là':7 'làm':11 'mẫu':13 'mục':36 'nghiệm':21 'nhiều':12 'nhu':17 'năng':34 'phát':1 'phải':10,14 'phản':25 'phẩm':4,31 'quyết':16 'quả':6 'rõ':27 'sản':3,30 'thật':19 'thử':20 'tiêu':37 'triển':2 'tạo':29 'và':28"
+  },
+  {
+    "id": "QA-0041",
+    "phan_he": "Trợ lý Khách hàng",
+    "nhom_chu_de": "Chất lượng",
+    "cau_hoi": "Khách đang bán gì?",
+    "tra_loi_chuan": "Ghi nhóm sản phẩm, thương hiệu, mã, sản phẩm bán tốt/chậm và nhóm khách họ phục vụ.",
+    "vi_du": "Camera, màn hình, cảm biến; camera A bán tốt.",
+    "cau_hoi_tiep_theo": "Bạn có giá và sản lượng không?",
+    "hanh_dong": "Bổ sung dữ liệu.",
+    "phan_he_lien_quan": [
+      "Kinh doanh"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'/ch':16 'bán':3,14 'chất':24 'ghi':5 'gì':4 'hiệu':10 'họ':21 'khách':1,20 'lượng':25 'mã':11 'nhóm':6,19 'phẩm':8,13 'phục':22 'sản':7,12 'thương':9 'tốt':15 'và':18 'vụ':23 'đang':2 'ậm':17"
+  },
+  {
+    "id": "QA-0003",
+    "phan_he": "Bộ não chung công ty",
+    "nhom_chu_de": "Kiểm tra",
+    "cau_hoi": "Đề xuất xử lý để làm gì?",
+    "tra_loi_chuan": "Để thể hiện người báo đã suy nghĩ về cách giải quyết, giúp lãnh đạo có cơ sở quyết định và tránh báo xong rồi để đó.",
+    "vi_du": "Đề xuất: rà 20 khách đang bán sản phẩm tương tự để thử bán mã A trong 2 tuần.",
+    "cau_hoi_tiep_theo": "Bạn đang đề xuất phương án nào?",
+    "hanh_dong": "Yêu cầu bổ sung đề xuất cụ thể.",
+    "phan_he_lien_quan": [
+      "Báo cáo vấn đề"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'báo':12,30 'cách':17 'có':23 'cơ':24 'giúp':20 'giải':18 'gì':7 'hiện':10 'kiểm':35 'làm':6 'lãnh':21 'lý':4 'nghĩ':15 'người':11 'quyết':19,26 'rồi':32 'suy':14 'sở':25 'thể':9 'tra':36 'tránh':29 'và':28 'về':16 'xong':31 'xuất':2 'xử':3 'đã':13 'đó':34 'đạo':22 'đề':1 'để':5,8,33 'định':27"
+  },
+  {
+    "id": "QA-0048",
+    "phan_he": "Trợ lý Khách hàng",
+    "nhom_chu_de": "Chất lượng",
+    "cau_hoi": "Sau khi cập nhật khách cần làm gì tiếp?",
+    "tra_loi_chuan": "Xác định một hành động cụ thể: giới thiệu, báo giá, nhập thử, gặp trực tiếp, hỏi thêm thông tin hoặc đưa vào chiến dịch.",
+    "vi_du": "Khách có nhu cầu camera → đề nghị nhập thử 20 bộ.",
+    "cau_hoi_tiep_theo": "Bước tiếp theo và hạn nào?",
+    "hanh_dong": "Tạo kế hoạch.",
+    "phan_he_lien_quan": [
+      "Kế hoạch",
+      "Chiến dịch"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'báo':19 'chiến':33 'chất':35 'cần':6 'cập':3 'cụ':15 'dịch':34 'giá':20 'giới':17 'gì':8 'gặp':23 'hoặc':30 'hành':13 'hỏi':26 'khi':2 'khách':5 'làm':7 'lượng':36 'một':12 'nhập':21 'nhật':4 'sau':1 'thiệu':18 'thêm':27 'thông':28 'thể':16 'thử':22 'tin':29 'tiếp':9,25 'trực':24 'vào':32 'xác':10 'đưa':31 'định':11 'động':14"
+  },
+  {
+    "id": "QA-0089",
+    "phan_he": "Trợ lý Bảng tin",
+    "nhom_chu_de": "Không có lịch lái",
+    "cau_hoi": "Có nên đăng báo cáo vấn đề nghiệp vụ lên Bảng tin?",
+    "tra_loi_chuan": "Không nếu vấn đề thuộc phân hệ riêng. Bảng tin chỉ đưa thông tin chung mà toàn công ty cần biết hoặc hành động.",
+    "vi_du": "Vấn đề bảo hành chi tiết nằm ở Báo cáo vấn đề; quyết định chung mới lên Bảng tin.",
+    "cau_hoi_tiep_theo": "Thông tin có cần toàn công ty biết không?",
+    "hanh_dong": "Phân loại.",
+    "phan_he_lien_quan": [
+      "Báo cáo vấn đề"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'biết':33 'báo':4 'bảng':11,21 'chung':27 'chỉ':23 'cáo':5 'có':1,38 'công':30 'cần':32 'hoặc':34 'hành':35 'hệ':19 'không':13,37 'lái':40 'lên':10 'lịch':39 'mà':28 'nghiệp':8 'nên':2 'nếu':14 'phân':18 'riêng':20 'thuộc':17 'thông':25 'tin':12,22,26 'toàn':29 'ty':31 'vấn':6,15 'vụ':9 'đăng':3 'đưa':24 'đề':7,16 'động':36"
+  },
+  {
+    "id": "QA-0049",
+    "phan_he": "Trợ lý Kinh doanh",
+    "nhom_chu_de": "Đào tạo",
+    "cau_hoi": "Kinh doanh hiệu quả là gì?",
+    "tra_loi_chuan": "Không chỉ gọi nhiều khách; phải tạo doanh thu, khách mới, khách mua lại, khách tăng doanh số và phát hiện khách giảm mua.",
+    "vi_du": "30 cuộc gọi nhưng 0 đơn chưa phải kết quả bán hàng tốt.",
+    "cau_hoi_tiep_theo": "KR đang đo doanh thu hay chỉ hoạt động?",
+    "hanh_dong": "Chuyển sang kết quả.",
+    "phan_he_lien_quan": [
+      "Kinh doanh"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'chỉ':8 'doanh':2,14,23 'giảm':29 'gì':6 'gọi':9 'hiện':27 'hiệu':3 'khách':11,16,18,21,28 'không':7 'kinh':1 'là':5 'lại':20 'mua':19,30 'mới':17 'nhiều':10 'phát':26 'phải':12 'quả':4 'số':24 'thu':15 'tăng':22 'tạo':13,32 'và':25 'đào':31"
+  },
+  {
+    "id": "QA-0001",
+    "phan_he": "Bộ não chung công ty",
+    "nhom_chu_de": "Kiểm tra",
+    "cau_hoi": "Phần mềm này dùng để làm gì?",
+    "tra_loi_chuan": "Phần mềm giúp công ty nhìn mục tiêu, lập kế hoạch, theo dõi kết quả, phát hiện vấn đề, đề xuất xử lý và cải tiến.",
+    "vi_du": "Mục tiêu → Kế hoạch → Thực hiện → Báo cáo tuần → Check-in hàng tuần → Vấn đề → Đề xuất → Theo đến kết quả → Cải tiến.",
+    "cau_hoi_tiep_theo": "Bạn đang cần hỗ trợ ở bước nào?",
+    "hanh_dong": "Hướng người dùng tới đúng phân hệ.",
+    "phan_he_lien_quan": [
+      "OKRs",
+      "Kế hoạch",
+      "Báo cáo tuần",
+      "Check-in hàng tuần",
+      "Báo cáo vấn đề"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'công':11 'cải':32 'dõi':20 'dùng':4 'giúp':10 'gì':7 'hiện':24 'hoạch':18 'kiểm':34 'kế':17 'kết':21 'làm':6 'lý':30 'lập':16 'mềm':2,9 'mục':14 'nhìn':13 'này':3 'phát':23 'phần':1,8 'quả':22 'theo':19 'tiêu':15 'tiến':33 'tra':35 'ty':12 'và':31 'vấn':25 'xuất':28 'xử':29 'đề':26,27 'để':5"
+  },
+  {
+    "id": "QA-0086",
+    "phan_he": "Trợ lý Bảng tin",
+    "nhom_chu_de": "Không có lịch lái",
+    "cau_hoi": "Bảng tin dùng để làm gì?",
+    "tra_loi_chuan": "Truyền đạt thông tin chung: thông báo điều hành, kế hoạch hàng hóa, thông báo toàn công ty, hoạt động chung, định hướng và ghi nhận.",
+    "vi_du": "Thông báo đào tạo hoặc kế hoạch hàng về.",
+    "cau_hoi_tiep_theo": "Thông tin này có cần toàn công ty biết không?",
+    "hanh_dong": "Chọn loại tin.",
+    "phan_he_lien_quan": [
+      "Bảng tin"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'báo':13,21 'bảng':1 'chung':11,27 'có':34 'công':23 'dùng':3 'ghi':31 'gì':6 'hoạch':17 'hoạt':25 'hàng':18 'hành':15 'hóa':19 'hướng':29 'không':33 'kế':16 'làm':5 'lái':36 'lịch':35 'nhận':32 'thông':9,12,20 'tin':2,10 'toàn':22 'truyền':7 'ty':24 'và':30 'điều':14 'đạt':8 'để':4 'định':28 'động':26"
+  },
+  {
+    "id": "QA-0002",
+    "phan_he": "Bộ não chung công ty",
+    "nhom_chu_de": "Kiểm tra",
+    "cau_hoi": "Đã báo vấn đề thì có được coi là xong không?",
+    "tra_loi_chuan": "Không. Báo cáo là điểm bắt đầu của quá trình xử lý. Nếu vấn đề vẫn còn, cần theo dõi, nhắc lại, bổ sung thông tin, đề xuất hoặc tìm người có thẩm quyền.",
+    "vi_du": "Đã báo hàng tồn lâu nhưng hàng vẫn không giảm thì chưa thể coi là xong.",
+    "cau_hoi_tiep_theo": "Vấn đề hiện đã được xử lý chưa?",
+    "hanh_dong": "Yêu cầu cập nhật trạng thái và việc tiếp theo.",
+    "phan_he_lien_quan": [
+      "Báo cáo vấn đề"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'báo':2,13 'bắt':17 'bổ':34 'coi':8 'cáo':14 'còn':28 'có':6,43 'cần':29 'của':19 'dõi':31 'hoặc':40 'không':11,12 'kiểm':46 'là':9,15 'lý':23 'lại':33 'người':42 'nhắc':32 'nếu':24 'quyền':45 'quá':20 'sung':35 'theo':30 'thì':5 'thông':36 'thẩm':44 'tin':37 'tra':47 'trình':21 'tìm':41 'vấn':3,25 'vẫn':27 'xong':10 'xuất':39 'xử':22 'điểm':16 'đã':1 'được':7 'đầu':18 'đề':4,26,38"
+  },
+  {
+    "id": "QA-0088",
+    "phan_he": "Trợ lý Bảng tin",
+    "nhom_chu_de": "Không có lịch lái",
+    "cau_hoi": "Kế hoạch hàng hóa nên đăng gì?",
+    "tra_loi_chuan": "Hàng sắp về, hàng mới, thay đổi sản phẩm hoặc thông tin hàng hóa liên quan nhiều bộ phận.",
+    "vi_du": "500 sản phẩm A dự kiến về 05/09.",
+    "cau_hoi_tiep_theo": "Bộ phận nào cần chuẩn bị?",
+    "hanh_dong": "Đăng thông tin.",
+    "phan_he_lien_quan": [
+      "Bảng tin"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'bộ':25 'có':28 'gì':7 'hoạch':2 'hoặc':17 'hàng':3,8,11,20 'hóa':4,21 'không':27 'kế':1 'liên':22 'lái':30 'lịch':29 'mới':12 'nhiều':24 'nên':5 'phẩm':16 'phận':26 'quan':23 'sản':15 'sắp':9 'thay':13 'thông':18 'tin':19 'về':10 'đăng':6 'đổi':14"
+  },
+  {
+    "id": "QA-0061",
+    "phan_he": "Trợ lý Bảo hành",
+    "nhom_chu_de": "Bảo hành",
+    "cau_hoi": "Làm sao phát hiện lỗi theo lô?",
+    "tra_loi_chuan": "Gắn lỗi với sản phẩm, lô, thời điểm và nhà cung cấp; nếu tỷ lệ bất thường thì cảnh báo.",
+    "vi_du": "10/12 lỗi cùng lô A.",
+    "cau_hoi_tiep_theo": "Cùng lô còn bao nhiêu hàng?",
+    "hanh_dong": "Báo vấn đề.",
+    "phan_he_lien_quan": [
+      "Bảo hành"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'báo':27 'bảo':28 'bất':23 'cung':18 'cảnh':26 'cấp':19 'gắn':8 'hiện':4 'hành':29 'làm':1 'lô':7,13 'lệ':22 'lỗi':5,9 'nhà':17 'nếu':20 'phát':3 'phẩm':12 'sao':2 'sản':11 'theo':6 'thì':25 'thường':24 'thời':14 'tỷ':21 'và':16 'với':10 'điểm':15"
+  },
+  {
+    "id": "QA-0004",
+    "phan_he": "Bộ não chung công ty",
+    "nhom_chu_de": "Kiểm tra",
+    "cau_hoi": "Thế nào là đề xuất có tính xây dựng?",
+    "tra_loi_chuan": "Đề xuất phải cụ thể, có căn cứ, có lý do, có cách thực hiện và kết quả mong muốn; không viết cho đủ trường thông tin.",
+    "vi_du": "Không nên viết “Đề nghị xử lý”; nên viết rõ việc, người, thời hạn và kết quả.",
+    "cau_hoi_tiep_theo": "Bạn có thể nêu 1–3 phương án không?",
+    "hanh_dong": "Gợi ý cấu trúc đề xuất.",
+    "phan_he_lien_quan": [
+      "Báo cáo vấn đề"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'cho':32 'cách':22 'có':6,15,18,21 'căn':16 'cụ':13 'cứ':17 'do':20 'dựng':9 'hiện':24 'không':30 'kiểm':37 'kết':26 'là':3 'lý':19 'mong':28 'muốn':29 'nào':2 'phải':12 'quả':27 'thông':35 'thế':1 'thể':14 'thực':23 'tin':36 'tra':38 'trường':34 'tính':7 'viết':31 'và':25 'xuất':5,11 'xây':8 'đề':4,10 'đủ':33"
+  },
+  {
+    "id": "QA-0025",
+    "phan_he": "Trợ lý Báo cáo tuần",
+    "nhom_chu_de": "Viết báo cáo",
+    "cau_hoi": "Báo cáo tuần để làm gì?",
+    "tra_loi_chuan": "Để phản ánh công việc đã thực hiện, kết quả đạt được, phần chưa đạt và vấn đề phát sinh trong tuần.",
+    "vi_du": "Đã tiếp cận 30 khách; 8 quan tâm; 3 mua thử; doanh thu 80 triệu.",
+    "cau_hoi_tiep_theo": "Bạn muốn báo cáo kết quả nào?",
+    "hanh_dong": "Gợi ý cấu trúc.",
+    "phan_he_lien_quan": [
+      "Báo cáo tuần"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'báo':1,30 'chưa':20 'cáo':2,31 'công':10 'gì':6 'hiện':14 'kết':15 'làm':5 'phát':25 'phản':8 'phần':19 'quả':16 'sinh':26 'thực':13 'trong':27 'tuần':3,28 'viết':29 'việc':11 'và':22 'vấn':23 'ánh':9 'đã':12 'được':18 'đạt':17,21 'đề':24 'để':4,7"
+  },
+  {
+    "id": "QA-0007",
+    "phan_he": "Bộ não chung công ty",
+    "nhom_chu_de": "Kiểm tra",
+    "cau_hoi": "Tại sao phải làm việc bằng kết quả?",
+    "tra_loi_chuan": "Hoàn thành nhiều đầu việc chưa đồng nghĩa với hiệu quả. Công ty cần biết công việc đã làm thay đổi doanh thu, tồn kho, thời gian, chất lượng, khách hàng hoặc rủi ro như thế nào.",
+    "vi_du": "Gọi 30 khách nhưng không có khách mua vẫn chưa phải kết quả bán hàng tốt.",
+    "cau_hoi_tiep_theo": "Kết quả cuối cùng của việc này là gì?",
+    "hanh_dong": "Chuyển từ hoạt động sang kết quả.",
+    "phan_he_lien_quan": [
+      "OKRs",
+      "Báo cáo tuần"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'biết':23 'bằng':6 'chưa':14 'chất':36 'công':20,24 'cần':22 'doanh':30 'gian':35 'hiệu':18 'hoàn':9 'hoặc':40 'hàng':39 'kho':33 'khách':38 'kiểm':46 'kết':7 'làm':4,27 'lượng':37 'nghĩa':16 'nhiều':11 'như':43 'nào':45 'phải':3 'quả':8,19 'ro':42 'rủi':41 'sao':2 'thay':28 'thu':31 'thành':10 'thế':44 'thời':34 'tra':47 'ty':21 'tại':1 'tồn':32 'việc':5,13,25 'với':17 'đã':26 'đầu':12 'đồng':15 'đổi':29"
+  },
+  {
+    "id": "QA-0010",
+    "phan_he": "Trợ lý Check-in hàng tuần",
+    "nhom_chu_de": "Check-in",
+    "cau_hoi": "Tại sao có Báo cáo tuần rồi còn Check-in hàng tuần?",
+    "tra_loi_chuan": "Báo cáo tuần đi vào chi tiết; Check-in hàng tuần nhìn tổng thể xem OKRs còn khả năng đạt hay không.",
+    "vi_du": "Báo cáo: đã gặp 8 khách. Check-in: tốc độ doanh thu đang chậm nên mục tiêu có nguy cơ.",
+    "cau_hoi_tiep_theo": "Bạn đang cần chi tiết hay đánh giá khả năng đạt?",
+    "hanh_dong": "Đi tới đúng chức năng.",
+    "phan_he_lien_quan": [
+      "Check-in hàng tuần"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'báo':4,14 'check':10,22,38 'check-in':9,21,37 'chi':19 'cáo':5,15 'còn':8,31 'có':3 'hay':35 'hàng':12,24 'in':11,23,39 'không':36 'khả':32 'nhìn':26 'năng':33 'okrs':30 'rồi':7 'sao':2 'thể':28 'tiết':20 'tuần':6,13,16,25 'tại':1 'tổng':27 'vào':18 'xem':29 'đi':17 'đạt':34"
+  },
+  {
+    "id": "QA-0050",
+    "phan_he": "Trợ lý Kinh doanh",
+    "nhom_chu_de": "Đào tạo",
+    "cau_hoi": "Muốn phát triển khách mới làm gì?",
+    "tra_loi_chuan": "Rà đúng khách → tiếp cận → tìm nhu cầu → giới thiệu → báo giá → theo dõi → thử → mua lần đầu → mua lại.",
+    "vi_du": "30 tiếp cận → 10 trao đổi → 5 thử → 3 mua.",
+    "cau_hoi_tiep_theo": "Thiếu ở bước nào?",
+    "hanh_dong": "Lập kế hoạch.",
+    "phan_he_lien_quan": [
+      "Kinh doanh"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'báo':18 'cầu':15 'cận':12 'dõi':21 'giá':19 'giới':16 'gì':7 'khách':4,10 'làm':6 'lại':27 'lần':24 'mua':23,26 'muốn':1 'mới':5 'nhu':14 'phát':2 'rà':8 'theo':20 'thiệu':17 'thử':22 'tiếp':11 'triển':3 'tìm':13 'tạo':29 'đào':28 'đúng':9 'đầu':25"
+  },
+  {
+    "id": "QA-0051",
+    "phan_he": "Trợ lý Kinh doanh",
+    "nhom_chu_de": "Đào tạo",
+    "cau_hoi": "Làm sao tăng doanh số khách cũ?",
+    "tra_loi_chuan": "Xem khách giảm, khách có dư địa và sản phẩm chưa mua; chọn khách ưu tiên và hành động cụ thể.",
+    "vi_du": "Khách mua camera nhưng chưa mua cảm biến.",
+    "cau_hoi_tiep_theo": "Khách nào có cơ hội tăng?",
+    "hanh_dong": "Tạo kế hoạch.",
+    "phan_he_lien_quan": [
+      "Kinh doanh"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'chưa':18 'chọn':20 'có':12 'cũ':7 'cụ':27 'doanh':4 'dư':13 'giảm':10 'hành':25 'khách':6,9,11,21 'làm':1 'mua':19 'phẩm':17 'sao':2 'sản':16 'số':5 'thể':28 'tiên':23 'tăng':3 'tạo':30 'và':15,24 'xem':8 'đào':29 'địa':14 'động':26 'ưu':22"
+  },
+  {
+    "id": "QA-0052",
+    "phan_he": "Trợ lý Kinh doanh",
+    "nhom_chu_de": "Đào tạo",
+    "cau_hoi": "Khách giảm mua cần làm gì?",
+    "tra_loi_chuan": "Xác định nguyên nhân trước: giá, chất lượng, thiếu hàng, công nợ, đối thủ, quan hệ hoặc nhu cầu thay đổi.",
+    "vi_du": "Doanh số khách giảm 35% và chuyển một phần sang đối thủ.",
+    "cau_hoi_tiep_theo": "Nguyên nhân đã rõ chưa?",
+    "hanh_dong": "Tạo báo cáo vấn đề nếu cần.",
+    "phan_he_lien_quan": [
+      "Kinh doanh"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'chất':13 'công':17 'cần':4 'cầu':25 'giá':12 'giảm':2 'gì':6 'hoặc':23 'hàng':16 'hệ':22 'khách':1 'làm':5 'lượng':14 'mua':3 'nguyên':9 'nhu':24 'nhân':10 'nợ':18 'quan':21 'thay':26 'thiếu':15 'thủ':20 'trước':11 'tạo':29 'xác':7 'đào':28 'định':8 'đối':19 'đổi':27"
+  },
+  {
+    "id": "QA-0075",
+    "phan_he": "Trợ lý Phát triển sản phẩm",
+    "nhom_chu_de": "Cải tiến",
+    "cau_hoi": "Khi nào nên cải tiến sản phẩm cũ?",
+    "tra_loi_chuan": "Khi dữ liệu bán hàng, phản hồi khách hoặc chất lượng cho thấy vấn đề/cơ hội đáng xử lý.",
+    "vi_du": "Nhiều khách phản ánh khó lắp.",
+    "cau_hoi_tiep_theo": "Phản hồi xuất hiện bao nhiêu lần?",
+    "hanh_dong": "Tổng hợp dữ liệu.",
+    "phan_he_lien_quan": [
+      "Phát triển sản phẩm"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'/c':24 'bán':12 'cho':20 'chất':18 'cũ':8 'cải':4,30 'dữ':10 'hoặc':17 'hàng':13 'hồi':15 'hội':26 'khi':1,9 'khách':16 'liệu':11 'lý':29 'lượng':19 'nào':2 'nên':3 'phản':14 'phẩm':7 'sản':6 'thấy':21 'tiến':5,31 'vấn':22 'xử':28 'đáng':27 'đề':23 'ơ':25"
+  },
+  {
+    "id": "QA-0076",
+    "phan_he": "Trợ lý Phát triển sản phẩm",
+    "nhom_chu_de": "Sản phẩm mới",
+    "cau_hoi": "Các bước phát triển sản phẩm mới?",
+    "tra_loi_chuan": "Nhu cầu → cơ hội → nghiên cứu → mẫu → thử nghiệm → phản hồi → cải tiến → bán thử → đo kết quả.",
+    "vi_du": "10 khách thử, 7 khách chấp nhận.",
+    "cau_hoi_tiep_theo": "Đang ở bước nào?",
+    "hanh_dong": "Cập nhật dự án.",
+    "phan_he_lien_quan": [
+      "Phát triển sản phẩm"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'bán':21 'bước':2 'các':1 'cơ':10 'cải':19 'cầu':9 'cứu':13 'hồi':18 'hội':11 'kết':24 'mẫu':14 'mới':7,28 'nghiên':12 'nghiệm':16 'nhu':8 'phát':3 'phản':17 'phẩm':6,27 'quả':25 'sản':5,26 'thử':15,22 'tiến':20 'triển':4 'đo':23"
+  },
+  {
+    "id": "QA-0087",
+    "phan_he": "Trợ lý Bảng tin",
+    "nhom_chu_de": "Không có lịch lái",
+    "cau_hoi": "Thông báo điều hành là gì?",
+    "tra_loi_chuan": "Quyết định hoặc thay đổi cách làm mà toàn công ty cần biết.",
+    "vi_du": "Từ 01/09 áp dụng quy trình mới.",
+    "cau_hoi_tiep_theo": "Ai cần biết và từ khi nào?",
+    "hanh_dong": "Đăng thông báo.",
+    "phan_he_lien_quan": [
+      "Bảng tin"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'biết':19 'báo':2 'cách':12 'có':21 'công':16 'cần':18 'gì':6 'hoặc':9 'hành':4 'không':20 'là':5 'làm':13 'lái':23 'lịch':22 'mà':14 'quyết':7 'thay':10 'thông':1 'toàn':15 'ty':17 'điều':3 'định':8 'đổi':11"
+  },
+  {
+    "id": "QA-0028",
+    "phan_he": "Trợ lý Check-in hàng tuần",
+    "nhom_chu_de": "Check-in",
+    "cau_hoi": "Khi nào chọn Tốt?",
+    "tra_loi_chuan": "Khi kết quả và tốc độ hiện tại cho thấy mục tiêu có khả năng đạt nếu tiếp tục đúng hướng.",
+    "vi_du": "Doanh thu đang đúng nhịp và đơn hàng tăng ổn định.",
+    "cau_hoi_tiep_theo": "Có nguy cơ mới không?",
+    "hanh_dong": "Tiếp tục theo dõi.",
+    "phan_he_lien_quan": [
+      "Check-in hàng tuần"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'check':27 'check-in':26 'cho':13 'chọn':3 'có':17 'hiện':11 'hướng':25 'in':28 'khi':1,5 'khả':18 'kết':6 'mục':15 'nào':2 'năng':19 'nếu':21 'quả':7 'thấy':14 'tiêu':16 'tiếp':22 'tại':12 'tốc':9 'tốt':4 'tục':23 'và':8 'đúng':24 'đạt':20 'độ':10"
+  },
+  {
+    "id": "QA-0024",
+    "phan_he": "Trợ lý Kế hoạch",
+    "nhom_chu_de": "Lập kế hoạch",
+    "cau_hoi": "Việc phát sinh ngoài kế hoạch thì sao?",
+    "tra_loi_chuan": "Đánh giá mức độ quan trọng và ảnh hưởng đến mục tiêu. Nếu quan trọng, bổ sung kế hoạch; nếu làm lệch mục tiêu, phải nêu rõ.",
+    "vi_du": "Đơn gấp có thể thêm nhưng phải biết việc nào bị ảnh hưởng.",
+    "cau_hoi_tiep_theo": "Việc phát sinh có làm trễ mục tiêu không?",
+    "hanh_dong": "Điều chỉnh kế hoạch.",
+    "phan_he_lien_quan": [
+      "OKRs"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'bổ':24 'giá':10 'hoạch':6,27,38 'hưởng':17 'kế':5,26,37 'làm':29 'lập':36 'lệch':30 'mục':19,31 'mức':11 'ngoài':4 'nêu':34 'nếu':21,28 'phát':2 'phải':33 'quan':13,22 'rõ':35 'sao':8 'sinh':3 'sung':25 'thì':7 'tiêu':20,32 'trọng':14,23 'việc':1 'và':15 'đánh':9 'đến':18 'độ':12 'ảnh':16"
+  },
+  {
+    "id": "QA-0072",
+    "phan_he": "Trợ lý Marketing & Thiết kế",
+    "nhom_chu_de": "Bắt bệnh",
+    "cau_hoi": "Thiết kế tốt đo thế nào?",
+    "tra_loi_chuan": "Đúng mục tiêu, đối tượng, thông tin và nhận diện; được sử dụng và hạn chế sửa lặp lại.",
+    "vi_du": "Bộ tài liệu được 8 nhân viên dùng và giảm thời gian chuẩn bị.",
+    "cau_hoi_tiep_theo": "Sửa nhiều vì sao?",
+    "hanh_dong": "Cải tiến đầu vào.",
+    "phan_he_lien_quan": [
+      "Marketing"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'bắt':26 'bệnh':27 'chế':22 'diện':16 'dụng':19 'hạn':21 'kế':2 'lại':25 'lặp':24 'mục':8 'nhận':15 'nào':6 'sử':18 'sửa':23 'thiết':1 'thông':12 'thế':5 'tin':13 'tiêu':9 'tượng':11 'tốt':3 'và':14,20 'đo':4 'đúng':7 'được':17 'đối':10"
+  },
+  {
+    "id": "QA-0080",
+    "phan_he": "Trợ lý Chiến dịch",
+    "nhom_chu_de": "Chiến dịch",
+    "cau_hoi": "Chiến dịch là gì?",
+    "tra_loi_chuan": "Là chương trình có mục tiêu, phạm vi, thời gian, đối tượng, người phụ trách và kết quả riêng.",
+    "vi_du": "Thử bán sản phẩm A cho 50 gara trong tháng 9.",
+    "cau_hoi_tiep_theo": "Mục tiêu và hạn nào?",
+    "hanh_dong": "Tạo chiến dịch.",
+    "phan_he_lien_quan": [
+      "Chiến dịch"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'chiến':1,24 'chương':6 'có':8 'dịch':2,25 'gian':14 'gì':4 'kết':21 'là':3,5 'mục':9 'người':17 'phạm':11 'phụ':18 'quả':22 'riêng':23 'thời':13 'tiêu':10 'trách':19 'trình':7 'tượng':16 'vi':12 'và':20 'đối':15"
+  },
+  {
+    "id": "QA-0081",
+    "phan_he": "Trợ lý Chiến dịch",
+    "nhom_chu_de": "Chiến dịch",
+    "cau_hoi": "Chiến dịch nên theo dõi gì?",
+    "tra_loi_chuan": "Tiến độ, hoạt động, kết quả, phản hồi, chi phí nếu có và vấn đề phát sinh.",
+    "vi_du": "30/50 khách, 6 khách thử.",
+    "cau_hoi_tiep_theo": "Điểm nghẽn là gì?",
+    "hanh_dong": "Cập nhật chiến dịch.",
+    "phan_he_lien_quan": [
+      "Chiến dịch"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'chi':15 'chiến':1,24 'có':18 'dõi':5 'dịch':2,25 'gì':6 'hoạt':9 'hồi':14 'kết':11 'nên':3 'nếu':17 'phát':22 'phí':16 'phản':13 'quả':12 'sinh':23 'theo':4 'tiến':7 'và':19 'vấn':20 'đề':21 'độ':8 'động':10"
+  },
+  {
+    "id": "QA-0077",
+    "phan_he": "Trợ lý Lái xe",
+    "nhom_chu_de": "Hiệu quả",
+    "cau_hoi": "Lái xe hiệu quả là gì?",
+    "tra_loi_chuan": "Đưa nhân sự đi công tác an toàn, đúng giờ; xe luôn sẵn sàng; quản lý bảo dưỡng, bảo hiểm, đăng kiểm và hỗ trợ Kho khi không có lịch.",
+    "vi_du": "Xe không hỏng đột xuất vì đã phát hiện và xử lý dấu hiệu sớm.",
+    "cau_hoi_tiep_theo": "Lịch bảo dưỡng nào sắp đến?",
+    "hanh_dong": "Kiểm tra lịch xe.",
+    "phan_he_lien_quan": [
+      "Lái xe"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'an':13 'bảo':23,25 'có':35 'công':11 'dưỡng':24 'giờ':16 'gì':6 'hiểm':26 'hiệu':3,37 'hỗ':30 'khi':33 'kho':32 'không':34 'kiểm':28 'luôn':18 'là':5 'lái':1 'lý':22 'lịch':36 'nhân':8 'quả':4,38 'quản':21 'sàng':20 'sẵn':19 'sự':9 'toàn':14 'trợ':31 'tác':12 'và':29 'xe':2,17 'đi':10 'đúng':15 'đăng':27 'đưa':7"
+  },
+  {
+    "id": "QA-0078",
+    "phan_he": "Trợ lý Lái xe",
+    "nhom_chu_de": "Xe",
+    "cau_hoi": "Quản lý xe gồm gì?",
+    "tra_loi_chuan": "Tình trạng, bảo dưỡng, đăng kiểm, bảo hiểm, nhiên liệu, sửa chữa và chi phí.",
+    "vi_du": "Xe có tiếng lạ → không chờ hỏng mới báo.",
+    "cau_hoi_tiep_theo": "Có dấu hiệu bất thường không?",
+    "hanh_dong": "Tạo cảnh báo.",
+    "phan_he_lien_quan": [
+      "Lái xe"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'bảo':8,12 'chi':19 'chữa':17 'dưỡng':9 'gì':5 'gồm':4 'hiểm':13 'kiểm':11 'liệu':15 'lý':2 'nhiên':14 'phí':20 'quản':1 'sửa':16 'trạng':7 'tình':6 'và':18 'xe':3,21 'đăng':10"
+  },
+  {
+    "id": "QA-0079",
+    "phan_he": "Trợ lý Lái xe",
+    "nhom_chu_de": "Không có lịch lái",
+    "cau_hoi": "Không có lịch lái xe thì làm gì?",
+    "tra_loi_chuan": "Ưu tiên kiểm tra và quản lý xe; sau đó hỗ trợ Kho theo phân công.",
+    "vi_du": "Không có chuyến → kiểm tra xe và hỗ trợ Kho.",
+    "cau_hoi_tiep_theo": "Kho cần hỗ trợ gì?",
+    "hanh_dong": "Tạo kế hoạch.",
+    "phan_he_lien_quan": [
+      "Kho",
+      "Lái xe"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'có':2,26 'công':24 'gì':8 'hỗ':19 'kho':21 'không':1,25 'kiểm':11 'làm':7 'lái':4,28 'lý':15 'lịch':3,27 'phân':23 'quản':14 'sau':17 'theo':22 'thì':6 'tiên':10 'tra':12 'trợ':20 'và':13 'xe':5,16 'đó':18 'ưu':9"
+  },
+  {
+    "id": "QA-0073",
+    "phan_he": "Trợ lý Marketing & Thiết kế",
+    "nhom_chu_de": "Bắt bệnh",
+    "cau_hoi": "Có nên báo số bài đăng là kết quả?",
+    "tra_loi_chuan": "Số bài là hoạt động. Cần thêm kết quả như tiếp cận, quan tâm, cơ hội, khách hoặc hiệu quả chi phí tùy chiến dịch.",
+    "vi_du": "10 bài tạo 20 khách quan tâm tốt hơn 50 bài không tạo phản hồi.",
+    "cau_hoi_tiep_theo": "Chiến dịch có KR gì?",
+    "hanh_dong": "Liên kết chiến dịch.",
+    "phan_he_lien_quan": [
+      "Chiến dịch"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'bài':5,11 'báo':3 'bắt':35 'bệnh':36 'chi':30 'chiến':33 'có':1 'cơ':24 'cần':15 'cận':21 'dịch':34 'hiệu':28 'hoạt':13 'hoặc':27 'hội':25 'khách':26 'kết':8,17 'là':7,12 'như':19 'nên':2 'phí':31 'quan':22 'quả':9,18,29 'số':4,10 'thêm':16 'tiếp':20 'tâm':23 'tùy':32 'đăng':6 'động':14"
+  },
+  {
+    "id": "QA-0082",
+    "phan_he": "Trợ lý Chiến dịch",
+    "nhom_chu_de": "Chiến dịch",
+    "cau_hoi": "Khi nào dùng Chiến dịch thay vì công việc thường ngày?",
+    "tra_loi_chuan": "Khi cần một chương trình có mục tiêu và thời gian riêng, có nhiều hoạt động phối hợp.",
+    "vi_du": "Thử nghiệm bán một dòng mới cho nhóm gara cụ thể.",
+    "cau_hoi_tiep_theo": "Có mục tiêu và thời hạn riêng không?",
+    "hanh_dong": "Tạo chiến dịch.",
+    "phan_he_lien_quan": [
+      "Kế hoạch",
+      "OKRs"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'chiến':4,30 'chương':15 'có':17,24 'công':8 'cần':13 'dùng':3 'dịch':5,31 'gian':22 'hoạt':26 'hợp':29 'khi':1,12 'một':14 'mục':18 'ngày':11 'nhiều':25 'nào':2 'phối':28 'riêng':23 'thay':6 'thường':10 'thời':21 'tiêu':19 'trình':16 'việc':9 'và':20 'vì':7 'động':27"
+  },
+  {
+    "id": "QA-0083",
+    "phan_he": "Trợ lý Thị trường kinh doanh",
+    "nhom_chu_de": "Phân hệ",
+    "cau_hoi": "Báo cáo thông tin thị trường dùng để làm gì?",
+    "tra_loi_chuan": "Ghi nhận thông tin về khách hàng, đối thủ, giá, nhu cầu, xu hướng, sản phẩm và cơ hội mà công ty cần biết để ra quyết định.",
+    "vi_du": "18/30 khách phản ánh đối thủ giảm giá.",
+    "cau_hoi_tiep_theo": "Thông tin đến từ bao nhiêu khách?",
+    "hanh_dong": "Ghi nguồn và bằng chứng.",
+    "phan_he_lien_quan": [
+      "Thị trường kinh doanh"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'biết':34 'báo':1 'cáo':2 'công':31 'cơ':28 'cần':33 'cầu':22 'dùng':7 'ghi':11 'giá':20 'gì':10 'hàng':17 'hướng':24 'hệ':40 'hội':29 'khách':16 'làm':9 'mà':30 'nhu':21 'nhận':12 'phân':39 'phẩm':26 'quyết':37 'ra':36 'sản':25 'thông':3,13 'thị':5 'thủ':19 'tin':4,14 'trường':6 'ty':32 'và':27 'về':15 'xu':23 'để':8,35 'định':38 'đối':18"
+  },
+  {
+    "id": "QA-0084",
+    "phan_he": "Trợ lý Thị trường kinh doanh",
+    "nhom_chu_de": "Phân hệ",
+    "cau_hoi": "Thông tin thị trường khác Báo cáo tuần thế nào?",
+    "tra_loi_chuan": "Báo cáo tuần nói công việc và kết quả; thông tin thị trường nói điều đang xảy ra ngoài thị trường.",
+    "vi_du": "“Tôi gọi 30 khách” = báo cáo tuần; “18 khách nói đối thủ giảm giá” = thị trường.",
+    "cau_hoi_tiep_theo": "Thông tin có tính xu hướng không?",
+    "hanh_dong": "Tổng hợp.",
+    "phan_he_lien_quan": [
+      "Báo cáo tuần"
+    ],
+    "vai_tro": "Tất cả",
+    "muc_do": "Cơ bản",
+    "uu_tien": "Cao",
+    "du_lieu_can_co": "",
+    "khong_tu_doan": "Không tự bịa số liệu hoặc thông tin chưa có trong hệ thống.",
+    "search_text": "'báo':6,11 'cáo':7,12 'công':15 'hệ':33 'khác':5 'kết':18 'ngoài':29 'nào':10 'nói':14,24 'phân':32 'quả':19 'ra':28 'thông':1,20 'thế':9 'thị':3,22,30 'tin':2,21 'trường':4,23,31 'tuần':8,13 'việc':16 'và':17 'xảy':27 'đang':26 'điều':25"
+  }
+]

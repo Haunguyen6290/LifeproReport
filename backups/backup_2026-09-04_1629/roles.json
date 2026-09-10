@@ -1,0 +1,155 @@
+[
+  {
+    "id": "d181c131-a2c4-4c12-9645-1013971e17af",
+    "name": "KHO",
+    "description": "Kho — báo cáo kho",
+    "permissions": [
+      "bao_cao_kho",
+      "xem_okr"
+    ],
+    "is_system": false,
+    "created_at": "2026-08-25T09:22:15.490358+00:00"
+  },
+  {
+    "id": "6216410b-25af-4ec1-8108-7a0f2bc64a40",
+    "name": "TỔNG_HỢP_KHO",
+    "description": "",
+    "permissions": [
+      "bao_cao_kho",
+      "xem_okr"
+    ],
+    "is_system": false,
+    "created_at": "2026-08-28T09:41:23.813354+00:00"
+  },
+  {
+    "id": "ab9ba9c0-970c-4467-915b-3dd42aff3c2d",
+    "name": "LÁI_XE",
+    "description": "",
+    "permissions": [
+      "bao_cao_kho",
+      "xem_okr"
+    ],
+    "is_system": false,
+    "created_at": "2026-08-28T09:40:56.094418+00:00"
+  },
+  {
+    "id": "d9a2a379-0945-4b2c-8c79-ea4d8add6c34",
+    "name": "BẢO_HÀNH",
+    "description": "",
+    "permissions": [
+      "bao_cao_kho",
+      "xem_okr"
+    ],
+    "is_system": false,
+    "created_at": "2026-08-28T09:46:48.101263+00:00"
+  },
+  {
+    "id": "7c549232-b4a4-42d1-8be7-402913dc5234",
+    "name": "KINH_DOANH",
+    "description": "",
+    "permissions": [
+      "xem_log",
+      "xem_okr",
+      "bao_cao_tuan",
+      "bao_cao_kho",
+      "bao_cao_ban_hang"
+    ],
+    "is_system": false,
+    "created_at": "2026-08-25T04:21:28.262074+00:00"
+  },
+  {
+    "id": "bac6bd96-933a-47ad-9f88-aaae4541097f",
+    "name": "SALES",
+    "description": "Nhân viên kinh doanh",
+    "permissions": [
+      "bao_cao_tuan",
+      "xem_log",
+      "xem_okr",
+      "bao_cao_kho",
+      "bao_cao_ban_hang"
+    ],
+    "is_system": true,
+    "created_at": "2026-08-25T09:13:17.783781+00:00"
+  },
+  {
+    "id": "d3ea6f8f-2b2d-4b84-8464-661fd1d2220c",
+    "name": "MARKETING",
+    "description": "",
+    "permissions": [
+      "xem_log",
+      "xem_okr",
+      "bao_cao_tuan",
+      "bao_cao_kho",
+      "bao_cao_ban_hang"
+    ],
+    "is_system": false,
+    "created_at": "2026-08-28T09:40:45.324867+00:00"
+  },
+  {
+    "id": "75e91aa9-ecac-44b2-b2fd-7c92d83cef88",
+    "name": "ADMIN",
+    "description": "Quản trị viên — toàn quyền",
+    "permissions": [
+      "bao_cao_kho",
+      "bao_cao_tuan",
+      "chuyen_khach_hang_loat",
+      "import_khach",
+      "ket_luan",
+      "quan_ly_cai_dat",
+      "quan_ly_chien_dich",
+      "quan_ly_danh_muc",
+      "quan_ly_nguoi_dung",
+      "quan_ly_okr",
+      "sua_khach_bat_ky",
+      "xem_log",
+      "xem_okr",
+      "xoa_khach",
+      "xem_khach_hang",
+      "bao_cao_ban_hang",
+      "xem_tai_chinh"
+    ],
+    "is_system": true,
+    "created_at": "2026-08-25T09:13:17.783781+00:00"
+  },
+  {
+    "id": "f2c3b315-66a6-4aba-b725-e14a39b5c976",
+    "name": "GIÁM_ĐỐC",
+    "description": "",
+    "permissions": [
+      "xem_khach_hang",
+      "chuyen_khach_hang_loat",
+      "xoa_khach",
+      "import_khach",
+      "ket_luan",
+      "quan_ly_chien_dich",
+      "quan_ly_danh_muc",
+      "quan_ly_cai_dat",
+      "quan_ly_nguoi_dung",
+      "xem_log",
+      "quan_ly_okr",
+      "xem_okr",
+      "bao_cao_tuan",
+      "bao_cao_kho",
+      "bao_cao_ban_hang",
+      "sua_khach_bat_ky",
+      "xem_tai_chinh"
+    ],
+    "is_system": false,
+    "created_at": "2026-08-25T14:36:48.421665+00:00"
+  },
+  {
+    "id": "87b8c039-02a6-4365-8b9c-d647189cf662",
+    "name": "KẾ_TOÁN",
+    "description": "",
+    "permissions": [
+      "xem_log",
+      "xem_okr",
+      "bao_cao_tuan",
+      "bao_cao_kho",
+      "bao_cao_ban_hang",
+      "xem_tai_chinh"
+    ],
+    "is_system": false,
+    "created_at": "2026-08-25T14:37:18.530249+00:00"
+  }
+]

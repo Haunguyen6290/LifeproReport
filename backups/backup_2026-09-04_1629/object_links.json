@@ -1,0 +1,16 @@
+[
+  {
+    "id": "d1ff340b-013f-4de9-aa3c-9f348d56fec2",
+    "owner_type": "campaign_update",
+    "owner_id": "3de02c37-67db-451f-9f97-c765fee7a06b",
+    "target_type": "customer",
+    "target_id": "c29b6410-f11a-42e3-9ae9-e21772e6fa1f"
+  },
+  {
+    "id": "41002c9f-ae1f-41ea-9808-56b573f4961d",
+    "owner_type": "campaign_update",
+    "owner_id": "3de02c37-67db-451f-9f97-c765fee7a06b",
+    "target_type": "product",
+    "target_id": "440307fe-2015-41c6-a8f4-632a790277c1"
+  }
+]

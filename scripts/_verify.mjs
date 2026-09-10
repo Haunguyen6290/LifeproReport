@@ -1,0 +1,12 @@
+import { createClient } from '@supabase/supabase-js';
+const DST=['https://ddeoednaxmzsjdxjnqmm.supabase.co','sb_secret_g55Zayxa-ek45krun4R-Tw_igm5iHLQ'];
+const dst=createClient(DST[0],DST[1],{auth:{persistSession:false}});
+const {count}=await dst.from('customers').select('id',{count:'exact',head:true});
+console.log('Tong khach ben dich:', count);
+const {data:sample}=await dst.from('customers').select('ma_kh,ten_kh,tier_id,status_id,scale_id,assigned_to').limit(5);
+console.log('5 khach dau:', sample?.map(c=>`${c.ma_kh} - ${c.ten_kh} | phanhang:${c.tier_id?'OK':'trống'} tt:${c.status_id?'OK':'trống'}`));
+const {data:withTier}=await dst.from('customers').select('id',{count:'exact',head:true}).not('tier_id','is',null);
+const {data:withSd}=await dst.from('customers').select('id',{count:'exact',head:true}).not('status_id','is',null);
+console.log('Khach co phan hang:', withTier, ' | co trang thai:', withSd);
+const {data:cats}=await dst.from('category_items').select('id',{count:'exact',head:true});
+console.log('Tong muc danh muc ben dich:', cats);

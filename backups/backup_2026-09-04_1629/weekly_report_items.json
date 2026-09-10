@@ -1,0 +1,22 @@
+[
+  {
+    "id": "0b3ac69d-e586-406f-beb5-bebbd7770ade",
+    "report_id": "2606bbba-1c3f-471d-b9f0-6ec2c9530c50",
+    "plan_item_id": "f249b9a2-d42a-4b71-a31c-6f9d67433dec",
+    "viec_da_lam": "thu đủ tiền",
+    "phan_tram": 100,
+    "tu_danh_gia": "Hoàn thành",
+    "nguyen_nhan": "",
+    "sort_order": 0
+  },
+  {
+    "id": "eec3402d-0bf9-4c60-bd9d-87b437d120ae",
+    "report_id": "2606bbba-1c3f-471d-b9f0-6ec2c9530c50",
+    "plan_item_id": "e8864fa5-0d4c-48e6-836d-408d479af298",
+    "viec_da_lam": "đi chơi rất vui",
+    "phan_tram": 100,
+    "tu_danh_gia": "Hoàn thành",
+    "nguyen_nhan": "",
+    "sort_order": 1
+  }
+]

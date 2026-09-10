@@ -1,0 +1,4095 @@
+[
+  {
+    "id": "be38d872-e862-48cc-aab7-1e0080a9d0e5",
+    "category_id": "77302391-16fe-41a1-99ba-b0b9d7eb3296",
+    "code": "",
+    "name": "Nội thất ô tô",
+    "description": "Cửa hàng chuyên nội thất: thảm, ghế, trần, vô lăng…",
+    "sort_order": 1,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "670f5b5b-9ace-419a-bb6f-407018baedfa",
+    "category_id": "77302391-16fe-41a1-99ba-b0b9d7eb3296",
+    "code": "",
+    "name": "Gương đèn ô tô",
+    "description": "Chuyên gương, đèn, bóng LED, bi gầm…",
+    "sort_order": 2,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "febecb39-7996-42ff-880f-e66054185250",
+    "category_id": "77302391-16fe-41a1-99ba-b0b9d7eb3296",
+    "code": "",
+    "name": "Cửa hàng",
+    "description": "Bán lẻ phụ kiện tổng hợp",
+    "sort_order": 3,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "287c5af7-3575-4c6f-ab80-402783f0ecb5",
+    "category_id": "77302391-16fe-41a1-99ba-b0b9d7eb3296",
+    "code": "",
+    "name": "Đại lý phân phối",
+    "description": "Nhập số lượng lớn, phân phối lại cho điểm bán",
+    "sort_order": 4,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "59d18622-d6fb-4864-b312-77e742a2dddc",
+    "category_id": "77302391-16fe-41a1-99ba-b0b9d7eb3296",
+    "code": "",
+    "name": "Gara sửa chữa",
+    "description": "Gara tổng hợp, lắp phụ kiện kèm dịch vụ",
+    "sort_order": 5,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "50cf0f82-ac1e-4e9d-a5ef-7884538ea5fa",
+    "category_id": "77302391-16fe-41a1-99ba-b0b9d7eb3296",
+    "code": "",
+    "name": "Gara chuyên lốp",
+    "description": "Chuyên lốp, mâm",
+    "sort_order": 6,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "38acda7c-cdbc-4b58-8a3a-30b98b43d9fc",
+    "category_id": "77302391-16fe-41a1-99ba-b0b9d7eb3296",
+    "code": "",
+    "name": "Chăm sóc, rửa xe",
+    "description": "Detailing, rửa xe, chăm sóc xe",
+    "sort_order": 7,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "d96dd7e6-dab2-49e9-9cfe-0145f74c5a38",
+    "category_id": "5ae659bd-d179-4b6d-91c9-aca6ed0b6bce",
+    "code": "A+",
+    "name": "Khách hàng Chiến lược",
+    "description": "Doanh số lớn, ảnh hưởng thị trường; cần CEO/chủ động chăm sóc.",
+    "sort_order": 1,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "f9d497e4-ee26-40ad-8f75-4ede5bf4b79c",
+    "category_id": "5ae659bd-d179-4b6d-91c9-aca6ed0b6bce",
+    "code": "A",
+    "name": "Khách hàng Thân thiết",
+    "description": "Quan hệ tốt, mua ổn định, ủng hộ sản phẩm mới.",
+    "sort_order": 2,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "e0ff1857-0ad5-4189-bcf8-0337f4f71eeb",
+    "category_id": "5ae659bd-d179-4b6d-91c9-aca6ed0b6bce",
+    "code": "B+",
+    "name": "Khách hàng Tăng trưởng",
+    "description": "Đang mua đều và tăng nhanh; mục tiêu nâng lên thân thiết.",
+    "sort_order": 3,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "ff620881-63b8-4d01-8407-53c25702fcab",
+    "category_id": "5ae659bd-d179-4b6d-91c9-aca6ed0b6bce",
+    "code": "B",
+    "name": "Khách hàng Cơ bản",
+    "description": "Mua không đều, song song nhiều NCC, nhạy cảm giá.",
+    "sort_order": 4,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "1223f190-8f18-48f7-8850-650c443b3c4c",
+    "category_id": "5ae659bd-d179-4b6d-91c9-aca6ed0b6bce",
+    "code": "C",
+    "name": "Khách hàng Tiềm năng",
+    "description": "Chưa mua nhưng cơ hội cao, nhu cầu rõ.",
+    "sort_order": 5,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "04d5c7bf-55a6-4dd3-803c-5ecd3955a191",
+    "category_id": "5ae659bd-d179-4b6d-91c9-aca6ed0b6bce",
+    "code": "D",
+    "name": "Khách hàng Rủi ro",
+    "description": "Công nợ chậm, khiếu nại nhiều, lợi nhuận thấp.",
+    "sort_order": 6,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "531b5784-3ee7-4ca1-9226-34eec49bd5fc",
+    "category_id": "3956d627-3bd3-4f24-9eaa-2433d39de9fc",
+    "code": "",
+    "name": "Đang theo dõi",
+    "description": "",
+    "sort_order": 1,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "8fac3644-9c4b-4c9d-a5ce-0d6e2f312413",
+    "category_id": "3956d627-3bd3-4f24-9eaa-2433d39de9fc",
+    "code": "",
+    "name": "Ngừng theo dõi",
+    "description": "Không xóa khách — chỉ chuyển sang trạng thái này",
+    "sort_order": 2,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "6bf9c5db-a87f-4b1e-b340-aa7746f04002",
+    "category_id": "886ca59f-6545-4eca-952b-5c37e66b0406",
+    "code": "",
+    "name": "Nhỏ (<100tr/tháng)",
+    "description": "",
+    "sort_order": 1,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "055938b9-f448-4c9a-a6f6-1944b2d9fc9a",
+    "category_id": "886ca59f-6545-4eca-952b-5c37e66b0406",
+    "code": "",
+    "name": "Trung (100–500tr/tháng)",
+    "description": "",
+    "sort_order": 2,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "31e79aa9-f874-4df6-8613-5e7a76a163d8",
+    "category_id": "886ca59f-6545-4eca-952b-5c37e66b0406",
+    "code": "",
+    "name": "Lớn (>500tr/tháng)",
+    "description": "",
+    "sort_order": 3,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "fda7a45f-c43a-4d65-9aeb-b55e4ad3a9a1",
+    "category_id": "55bc02d3-a562-417c-8381-e9abd00fbc71",
+    "code": "",
+    "name": "Xe dịch vụ",
+    "description": "",
+    "sort_order": 1,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "ff77030b-0780-43f9-bafa-01d50b097fcc",
+    "category_id": "55bc02d3-a562-417c-8381-e9abd00fbc71",
+    "code": "",
+    "name": "Xe gia đình tầm trung",
+    "description": "",
+    "sort_order": 2,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "972076c9-b86a-47b0-a3c0-a9eaab02a8b6",
+    "category_id": "55bc02d3-a562-417c-8381-e9abd00fbc71",
+    "code": "",
+    "name": "Xe cao cấp",
+    "description": "",
+    "sort_order": 3,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "cc6af391-928d-47d8-a988-7c468fcbc1b8",
+    "category_id": "55bc02d3-a562-417c-8381-e9abd00fbc71",
+    "code": "",
+    "name": "Xe tải, bán tải",
+    "description": "",
+    "sort_order": 4,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "c9461081-14bb-4b52-be64-22fbd6805b96",
+    "category_id": "a277b3b1-af8c-4e71-9fdd-ae2d6d23ff33",
+    "code": "",
+    "name": "🛒 Khách hỏi mua",
+    "description": "",
+    "sort_order": 1,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "f4b3f1f0-d41c-44e3-b173-97142038855b",
+    "category_id": "a277b3b1-af8c-4e71-9fdd-ae2d6d23ff33",
+    "code": "",
+    "name": "💬 Phản hồi sản phẩm",
+    "description": "",
+    "sort_order": 2,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "65ddae1f-db16-49fe-b9ba-33d3961a3f30",
+    "category_id": "a277b3b1-af8c-4e71-9fdd-ae2d6d23ff33",
+    "code": "",
+    "name": "🏷️ Giá thị trường",
+    "description": "",
+    "sort_order": 3,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "a4ca8004-8820-4aaf-975a-0ba44210774f",
+    "category_id": "a277b3b1-af8c-4e71-9fdd-ae2d6d23ff33",
+    "code": "",
+    "name": "🆚 Đối thủ làm gì",
+    "description": "",
+    "sort_order": 4,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "587e7b4a-6a74-4709-996e-50e9a5c32cde",
+    "category_id": "a277b3b1-af8c-4e71-9fdd-ae2d6d23ff33",
+    "code": "",
+    "name": "📦 Sản phẩm mới thị trường",
+    "description": "",
+    "sort_order": 5,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "3f7a5996-26e8-438c-9b06-a358c34c8932",
+    "category_id": "a277b3b1-af8c-4e71-9fdd-ae2d6d23ff33",
+    "code": "",
+    "name": "❓ Nhu cầu chưa được đáp ứng",
+    "description": "",
+    "sort_order": 6,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "d91adfb2-45f4-4ddc-9d46-40e52543cc71",
+    "category_id": "a277b3b1-af8c-4e71-9fdd-ae2d6d23ff33",
+    "code": "",
+    "name": "💡 Ý tưởng bán hàng",
+    "description": "",
+    "sort_order": 7,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "e956c44d-d99d-45ed-8bad-e44f731aacf8",
+    "category_id": "a277b3b1-af8c-4e71-9fdd-ae2d6d23ff33",
+    "code": "",
+    "name": "🔎 Khách hàng tiềm năng",
+    "description": "Có thể tạo nhanh khách hàng hạng C từ tin loại này",
+    "sort_order": 8,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "e1b1ac4b-f730-4df3-b177-f917c414256e",
+    "category_id": "a277b3b1-af8c-4e71-9fdd-ae2d6d23ff33",
+    "code": "",
+    "name": "📊 Xu hướng thị trường",
+    "description": "",
+    "sort_order": 9,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "953c8c32-5529-40e2-a5f5-39e9c9f0cf9f",
+    "category_id": "210e7015-ca68-4f0f-9aea-eb9b008039d7",
+    "code": "",
+    "name": "TPMS",
+    "description": "",
+    "sort_order": 4,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "76473ea9-34ae-4480-b5f5-6ea346c9d607",
+    "category_id": "210e7015-ca68-4f0f-9aea-eb9b008039d7",
+    "code": "",
+    "name": "Camera lùi",
+    "description": "",
+    "sort_order": 5,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "17786e66-fce1-4d46-9d05-a947e9a017a7",
+    "category_id": "210e7015-ca68-4f0f-9aea-eb9b008039d7",
+    "code": "",
+    "name": "Khác",
+    "description": "",
+    "sort_order": 7,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "22212645-8d76-4f44-9bb7-30f48402de70",
+    "category_id": "a489c4f8-ec7a-40e2-a005-1fb45b0cf4d2",
+    "code": "",
+    "name": "🔴 Rất quan trọng — báo ngay",
+    "description": "",
+    "sort_order": 1,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "a69f7efb-405a-4534-8f71-47ce241c04fe",
+    "category_id": "a489c4f8-ec7a-40e2-a005-1fb45b0cf4d2",
+    "code": "",
+    "name": "🟠 Quan trọng — đưa vào họp tuần",
+    "description": "",
+    "sort_order": 2,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "9f780a00-4370-4ebc-a662-c7c86ce7eb98",
+    "category_id": "a489c4f8-ec7a-40e2-a005-1fb45b0cf4d2",
+    "code": "",
+    "name": "🟡 Tham khảo — lưu lại",
+    "description": "",
+    "sort_order": 3,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "1c532268-0de6-4a6f-a515-d5a4d87bf779",
+    "category_id": "acb1cf85-6b67-4e91-9e9e-12e112af7c1c",
+    "code": "",
+    "name": "Dự án mới",
+    "description": "",
+    "sort_order": 1,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "af6145da-c72c-451b-a77a-603f30b54bf1",
+    "category_id": "acb1cf85-6b67-4e91-9e9e-12e112af7c1c",
+    "code": "",
+    "name": "Sản phẩm mới",
+    "description": "",
+    "sort_order": 2,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "c6e2553e-4f2e-468d-9a62-54da8d358f13",
+    "category_id": "acb1cf85-6b67-4e91-9e9e-12e112af7c1c",
+    "code": "",
+    "name": "Khách hàng tiềm năng",
+    "description": "",
+    "sort_order": 3,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "0ffbf38d-4199-439d-9ed9-cb290a67447c",
+    "category_id": "5046d34f-cedf-4f55-a42f-3790a2e2e2c2",
+    "code": "",
+    "name": "Đón nhận sản phẩm",
+    "description": "",
+    "sort_order": 1,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "204ebebd-3f83-4c40-9606-c006698eab73",
+    "category_id": "5046d34f-cedf-4f55-a42f-3790a2e2e2c2",
+    "code": "",
+    "name": "Phản hồi khách hàng",
+    "description": "",
+    "sort_order": 2,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "75c5f917-546e-4f6a-b27e-17429ed2420c",
+    "category_id": "5046d34f-cedf-4f55-a42f-3790a2e2e2c2",
+    "code": "",
+    "name": "Doanh số",
+    "description": "",
+    "sort_order": 3,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "36261521-b3d3-4e6c-8a42-724e5019d6ee",
+    "category_id": "5046d34f-cedf-4f55-a42f-3790a2e2e2c2",
+    "code": "",
+    "name": "Vấn đề phát sinh",
+    "description": "",
+    "sort_order": 4,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "650b5f28-432c-459b-85b9-6a5a121b21e6",
+    "category_id": "5046d34f-cedf-4f55-a42f-3790a2e2e2c2",
+    "code": "",
+    "name": "Khác",
+    "description": "",
+    "sort_order": 5,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "b7016443-d177-4f61-aa34-ef3da0652428",
+    "category_id": "f903700d-8c48-4587-bcad-e45c8b9f8261",
+    "code": "",
+    "name": "Chuẩn bị",
+    "description": "",
+    "sort_order": 1,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "9ee96098-12c0-44a0-8bf7-98c13573badd",
+    "category_id": "f903700d-8c48-4587-bcad-e45c8b9f8261",
+    "code": "",
+    "name": "Đang chạy",
+    "description": "",
+    "sort_order": 2,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "653ae217-4028-4934-baa2-2a77194f150d",
+    "category_id": "f903700d-8c48-4587-bcad-e45c8b9f8261",
+    "code": "",
+    "name": "Đã kết thúc",
+    "description": "",
+    "sort_order": 3,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "8072f3cb-a73f-481f-88d1-3bdc12942c52",
+    "category_id": "d83a77c1-f0b5-4e1a-9bd4-abd778390d94",
+    "code": "",
+    "name": "An Giang",
+    "description": "",
+    "sort_order": 1,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "32e2558f-5817-4c39-8af0-a0cd87bf0219",
+    "category_id": "d83a77c1-f0b5-4e1a-9bd4-abd778390d94",
+    "code": "",
+    "name": "Bà Rịa - Vũng Tàu",
+    "description": "",
+    "sort_order": 2,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "7604f7b8-23a0-4985-91a8-5b75cb00dc20",
+    "category_id": "d83a77c1-f0b5-4e1a-9bd4-abd778390d94",
+    "code": "",
+    "name": "Bắc Giang",
+    "description": "",
+    "sort_order": 3,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "ad1a94d5-94bf-4953-962a-2abc06fbcd3d",
+    "category_id": "d83a77c1-f0b5-4e1a-9bd4-abd778390d94",
+    "code": "",
+    "name": "Bắc Kạn",
+    "description": "",
+    "sort_order": 4,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "fc26c6fa-7cb6-4f35-9962-d873a2104d2e",
+    "category_id": "d83a77c1-f0b5-4e1a-9bd4-abd778390d94",
+    "code": "",
+    "name": "Bạc Liêu",
+    "description": "",
+    "sort_order": 5,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "c4c722c3-4e42-40bc-b567-e36df919f7a5",
+    "category_id": "d83a77c1-f0b5-4e1a-9bd4-abd778390d94",
+    "code": "",
+    "name": "Bắc Ninh",
+    "description": "",
+    "sort_order": 6,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "f29f35f5-a3b6-4eff-af8f-72cd6c90dc7e",
+    "category_id": "d83a77c1-f0b5-4e1a-9bd4-abd778390d94",
+    "code": "",
+    "name": "Bến Tre",
+    "description": "",
+    "sort_order": 7,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "9aca8a91-d8c5-43f0-840a-e4015991cc59",
+    "category_id": "d83a77c1-f0b5-4e1a-9bd4-abd778390d94",
+    "code": "",
+    "name": "Bình Dương",
+    "description": "",
+    "sort_order": 8,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "581a15c5-f9bf-4d8b-b6b4-a148776ac651",
+    "category_id": "d83a77c1-f0b5-4e1a-9bd4-abd778390d94",
+    "code": "",
+    "name": "Bình Định",
+    "description": "",
+    "sort_order": 9,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "ba7deccb-4e86-4843-a95b-df13bf83cb04",
+    "category_id": "d83a77c1-f0b5-4e1a-9bd4-abd778390d94",
+    "code": "",
+    "name": "Bình Phước",
+    "description": "",
+    "sort_order": 10,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "cf50ce36-bcd8-4cac-ab95-d43d23e45447",
+    "category_id": "d83a77c1-f0b5-4e1a-9bd4-abd778390d94",
+    "code": "",
+    "name": "Bình Thuận",
+    "description": "",
+    "sort_order": 11,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "97c389e3-1891-4045-9987-fdbe25149476",
+    "category_id": "d83a77c1-f0b5-4e1a-9bd4-abd778390d94",
+    "code": "",
+    "name": "Cà Mau",
+    "description": "",
+    "sort_order": 12,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "1127c8bd-7dfb-41a8-90c3-f62ac5ce3657",
+    "category_id": "d83a77c1-f0b5-4e1a-9bd4-abd778390d94",
+    "code": "",
+    "name": "Cao Bằng",
+    "description": "",
+    "sort_order": 13,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "893eb1ba-d016-41c8-9457-1a119c1b97f6",
+    "category_id": "d83a77c1-f0b5-4e1a-9bd4-abd778390d94",
+    "code": "",
+    "name": "Cần Thơ",
+    "description": "",
+    "sort_order": 14,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "c1f09a0b-22fc-4a2d-bdce-545800da0f60",
+    "category_id": "d83a77c1-f0b5-4e1a-9bd4-abd778390d94",
+    "code": "",
+    "name": "Đà Nẵng",
+    "description": "",
+    "sort_order": 15,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "d8040307-11e4-4df7-bf82-58e583ba576a",
+    "category_id": "d83a77c1-f0b5-4e1a-9bd4-abd778390d94",
+    "code": "",
+    "name": "Đắk Lắk",
+    "description": "",
+    "sort_order": 16,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "dd50c106-817b-4b61-89b5-a522421adf28",
+    "category_id": "d83a77c1-f0b5-4e1a-9bd4-abd778390d94",
+    "code": "",
+    "name": "Đắk Nông",
+    "description": "",
+    "sort_order": 17,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "aebc32d0-590a-4f8d-bcfd-edddc8ee1429",
+    "category_id": "d83a77c1-f0b5-4e1a-9bd4-abd778390d94",
+    "code": "",
+    "name": "Điện Biên",
+    "description": "",
+    "sort_order": 18,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "b15eadca-488c-4a50-8fb0-a50f814e3aca",
+    "category_id": "d83a77c1-f0b5-4e1a-9bd4-abd778390d94",
+    "code": "",
+    "name": "Đồng Nai",
+    "description": "",
+    "sort_order": 19,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "c37bed7c-68b5-47c0-951f-04dc1da62eab",
+    "category_id": "d83a77c1-f0b5-4e1a-9bd4-abd778390d94",
+    "code": "",
+    "name": "Đồng Tháp",
+    "description": "",
+    "sort_order": 20,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "0c18221d-ae50-48c2-b404-8ab46972d3fd",
+    "category_id": "d83a77c1-f0b5-4e1a-9bd4-abd778390d94",
+    "code": "",
+    "name": "Gia Lai",
+    "description": "",
+    "sort_order": 21,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "a3415458-c363-4a89-a628-53588337ca58",
+    "category_id": "d83a77c1-f0b5-4e1a-9bd4-abd778390d94",
+    "code": "",
+    "name": "Hà Giang",
+    "description": "",
+    "sort_order": 22,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "c7423541-d4fc-4388-a81f-d4c832f8d3b2",
+    "category_id": "d83a77c1-f0b5-4e1a-9bd4-abd778390d94",
+    "code": "",
+    "name": "Hà Nam",
+    "description": "",
+    "sort_order": 23,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "151b5a11-df90-4005-bdd4-f28f4bf8d01f",
+    "category_id": "210e7015-ca68-4f0f-9aea-eb9b008039d7",
+    "code": "",
+    "name": "Bóng LED S55 3 màu",
+    "description": "",
+    "sort_order": 2,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "892b477a-5f78-4b4d-8aef-6805003313c3",
+    "category_id": "210e7015-ca68-4f0f-9aea-eb9b008039d7",
+    "code": "",
+    "name": "Bi gầm F9 Blackhawk",
+    "description": "",
+    "sort_order": 3,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "d2083ba5-4a48-4d6d-98fc-5f71d571cb8e",
+    "category_id": "210e7015-ca68-4f0f-9aea-eb9b008039d7",
+    "code": "",
+    "name": "Bi Gầm AZ100",
+    "description": "",
+    "sort_order": 6,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "7fa55956-3806-4e58-94af-2e8288fc29be",
+    "category_id": "d83a77c1-f0b5-4e1a-9bd4-abd778390d94",
+    "code": "",
+    "name": "Hà Nội",
+    "description": "",
+    "sort_order": 24,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "4362bddf-f751-48d5-b1aa-c4653e12fef7",
+    "category_id": "d83a77c1-f0b5-4e1a-9bd4-abd778390d94",
+    "code": "",
+    "name": "Hà Tĩnh",
+    "description": "",
+    "sort_order": 25,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "3c03f4d2-d993-4f6d-a6da-74e28a17a7af",
+    "category_id": "d83a77c1-f0b5-4e1a-9bd4-abd778390d94",
+    "code": "",
+    "name": "Hải Dương",
+    "description": "",
+    "sort_order": 26,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "8e77143a-f6b2-421a-af0a-d3e335c36229",
+    "category_id": "d83a77c1-f0b5-4e1a-9bd4-abd778390d94",
+    "code": "",
+    "name": "Hải Phòng",
+    "description": "",
+    "sort_order": 27,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "a77c0a5f-d057-4609-80b8-5b5acb614d88",
+    "category_id": "d83a77c1-f0b5-4e1a-9bd4-abd778390d94",
+    "code": "",
+    "name": "Hậu Giang",
+    "description": "",
+    "sort_order": 28,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "924636ce-7d93-46fa-8cd4-fe60254a326b",
+    "category_id": "d83a77c1-f0b5-4e1a-9bd4-abd778390d94",
+    "code": "",
+    "name": "Hòa Bình",
+    "description": "",
+    "sort_order": 29,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "440307fe-2015-41c6-a8f4-632a790277c1",
+    "category_id": "210e7015-ca68-4f0f-9aea-eb9b008039d7",
+    "code": "",
+    "name": "Bóng LED F3 Ultra",
+    "description": "",
+    "sort_order": 1,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "9dd8d109-2627-4b55-aa44-6ee81f6cc6dc",
+    "category_id": "d83a77c1-f0b5-4e1a-9bd4-abd778390d94",
+    "code": "",
+    "name": "Hưng Yên",
+    "description": "",
+    "sort_order": 31,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "df17b9f1-5a5c-4880-80c0-21d2e1a547e1",
+    "category_id": "d83a77c1-f0b5-4e1a-9bd4-abd778390d94",
+    "code": "",
+    "name": "Khánh Hòa",
+    "description": "",
+    "sort_order": 32,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "e422fb33-f201-4b30-a0cd-2f84ac7a61bc",
+    "category_id": "d83a77c1-f0b5-4e1a-9bd4-abd778390d94",
+    "code": "",
+    "name": "Kiên Giang",
+    "description": "",
+    "sort_order": 33,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "28ad3a2c-9791-4214-8a71-17ede4afdb85",
+    "category_id": "d83a77c1-f0b5-4e1a-9bd4-abd778390d94",
+    "code": "",
+    "name": "Kon Tum",
+    "description": "",
+    "sort_order": 34,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "b8ad662e-20c6-47ce-8739-bb1a50734cb8",
+    "category_id": "d83a77c1-f0b5-4e1a-9bd4-abd778390d94",
+    "code": "",
+    "name": "Lai Châu",
+    "description": "",
+    "sort_order": 35,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "5c214b98-878e-427c-867c-d2e0905a49b9",
+    "category_id": "d83a77c1-f0b5-4e1a-9bd4-abd778390d94",
+    "code": "",
+    "name": "Lâm Đồng",
+    "description": "",
+    "sort_order": 36,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "35587ace-9ce1-4314-bf74-dcc3fe415b36",
+    "category_id": "d83a77c1-f0b5-4e1a-9bd4-abd778390d94",
+    "code": "",
+    "name": "Lạng Sơn",
+    "description": "",
+    "sort_order": 37,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "693036c2-3415-401a-8f8f-3b928d2cf27c",
+    "category_id": "d83a77c1-f0b5-4e1a-9bd4-abd778390d94",
+    "code": "",
+    "name": "Lào Cai",
+    "description": "",
+    "sort_order": 38,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "e4b7996c-75d2-4afc-ac52-750d638b946c",
+    "category_id": "d83a77c1-f0b5-4e1a-9bd4-abd778390d94",
+    "code": "",
+    "name": "Long An",
+    "description": "",
+    "sort_order": 39,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "249073ba-008a-4613-8cfa-7a77a160f972",
+    "category_id": "d83a77c1-f0b5-4e1a-9bd4-abd778390d94",
+    "code": "",
+    "name": "Nam Định",
+    "description": "",
+    "sort_order": 40,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "6e217dd3-0479-4d55-a859-d084b416ce35",
+    "category_id": "d83a77c1-f0b5-4e1a-9bd4-abd778390d94",
+    "code": "",
+    "name": "Nghệ An",
+    "description": "",
+    "sort_order": 41,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "c4ceb4ef-900f-4026-9964-8948041ca1b7",
+    "category_id": "d83a77c1-f0b5-4e1a-9bd4-abd778390d94",
+    "code": "",
+    "name": "Ninh Bình",
+    "description": "",
+    "sort_order": 42,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "a12e3b06-09b4-4061-a897-71fe9a9c7583",
+    "category_id": "d83a77c1-f0b5-4e1a-9bd4-abd778390d94",
+    "code": "",
+    "name": "Ninh Thuận",
+    "description": "",
+    "sort_order": 43,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "e3f4a52d-afe8-452c-809e-f286135c31aa",
+    "category_id": "d83a77c1-f0b5-4e1a-9bd4-abd778390d94",
+    "code": "",
+    "name": "Phú Thọ",
+    "description": "",
+    "sort_order": 44,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "7b840a86-9711-4fef-ad0d-d0ec6dc0203c",
+    "category_id": "d83a77c1-f0b5-4e1a-9bd4-abd778390d94",
+    "code": "",
+    "name": "Phú Yên",
+    "description": "",
+    "sort_order": 45,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "758cfd21-9a13-42c4-bb44-8ec98a7d3759",
+    "category_id": "d83a77c1-f0b5-4e1a-9bd4-abd778390d94",
+    "code": "",
+    "name": "Quảng Bình",
+    "description": "",
+    "sort_order": 46,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "4a115ecf-ee5c-479e-8c2c-ae251fc88b89",
+    "category_id": "d83a77c1-f0b5-4e1a-9bd4-abd778390d94",
+    "code": "",
+    "name": "Quảng Nam",
+    "description": "",
+    "sort_order": 47,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "65ec1ae4-1699-4408-981b-b9b5298058f4",
+    "category_id": "d83a77c1-f0b5-4e1a-9bd4-abd778390d94",
+    "code": "",
+    "name": "Quảng Ngãi",
+    "description": "",
+    "sort_order": 48,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "981e1851-6df3-48db-9c01-6fd62fd8cc72",
+    "category_id": "d83a77c1-f0b5-4e1a-9bd4-abd778390d94",
+    "code": "",
+    "name": "Quảng Ninh",
+    "description": "",
+    "sort_order": 49,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "6a2afc52-52d3-483d-9e53-ab5467415cff",
+    "category_id": "d83a77c1-f0b5-4e1a-9bd4-abd778390d94",
+    "code": "",
+    "name": "Quảng Trị",
+    "description": "",
+    "sort_order": 50,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "126da610-d923-4b60-b173-ab02fa4cc79c",
+    "category_id": "d83a77c1-f0b5-4e1a-9bd4-abd778390d94",
+    "code": "",
+    "name": "Sóc Trăng",
+    "description": "",
+    "sort_order": 51,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "17997089-9251-4adb-a336-a6735fa1d66b",
+    "category_id": "d83a77c1-f0b5-4e1a-9bd4-abd778390d94",
+    "code": "",
+    "name": "Sơn La",
+    "description": "",
+    "sort_order": 52,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "53d26591-a64b-4903-b877-967f00e638c4",
+    "category_id": "d83a77c1-f0b5-4e1a-9bd4-abd778390d94",
+    "code": "",
+    "name": "Tây Ninh",
+    "description": "",
+    "sort_order": 53,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "e71231ff-af71-4181-8778-16605580dacd",
+    "category_id": "d83a77c1-f0b5-4e1a-9bd4-abd778390d94",
+    "code": "",
+    "name": "Thái Bình",
+    "description": "",
+    "sort_order": 54,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "79306595-5005-480a-9626-4f29345f6a08",
+    "category_id": "d83a77c1-f0b5-4e1a-9bd4-abd778390d94",
+    "code": "",
+    "name": "Thái Nguyên",
+    "description": "",
+    "sort_order": 55,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "8932f3fc-1490-45f4-8fe5-05fbb4baa17f",
+    "category_id": "d83a77c1-f0b5-4e1a-9bd4-abd778390d94",
+    "code": "",
+    "name": "Thanh Hóa",
+    "description": "",
+    "sort_order": 56,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "07e64a42-8bd5-4b8f-8714-bde5b42aa18a",
+    "category_id": "d83a77c1-f0b5-4e1a-9bd4-abd778390d94",
+    "code": "",
+    "name": "Thừa Thiên Huế",
+    "description": "",
+    "sort_order": 57,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "483fef10-96b2-411d-ac04-51603034cd9d",
+    "category_id": "d83a77c1-f0b5-4e1a-9bd4-abd778390d94",
+    "code": "",
+    "name": "Tiền Giang",
+    "description": "",
+    "sort_order": 58,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "4a7655bc-4a6e-4d9e-9d91-ce1e3e3be027",
+    "category_id": "d83a77c1-f0b5-4e1a-9bd4-abd778390d94",
+    "code": "",
+    "name": "Trà Vinh",
+    "description": "",
+    "sort_order": 59,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "6180b21b-68d5-4a44-8afb-b3b2b779ef50",
+    "category_id": "d83a77c1-f0b5-4e1a-9bd4-abd778390d94",
+    "code": "",
+    "name": "Tuyên Quang",
+    "description": "",
+    "sort_order": 60,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "628a0da8-2fe3-4507-9b0f-b873590b7254",
+    "category_id": "d83a77c1-f0b5-4e1a-9bd4-abd778390d94",
+    "code": "",
+    "name": "Vĩnh Long",
+    "description": "",
+    "sort_order": 61,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "a2db6306-33d7-4681-b4dc-bca54e484c3f",
+    "category_id": "d83a77c1-f0b5-4e1a-9bd4-abd778390d94",
+    "code": "",
+    "name": "Vĩnh Phúc",
+    "description": "",
+    "sort_order": 62,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "766a5cad-8d2d-44d4-b127-e2658c527862",
+    "category_id": "d83a77c1-f0b5-4e1a-9bd4-abd778390d94",
+    "code": "",
+    "name": "Yên Bái",
+    "description": "",
+    "sort_order": 63,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "d24aabc4-ec4a-4f37-b8f0-b26073483d15",
+    "category_id": "d83a77c1-f0b5-4e1a-9bd4-abd778390d94",
+    "code": "",
+    "name": "Thành phố Hồ Chí Minh",
+    "description": "",
+    "sort_order": 30,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "614bb288-ad49-416d-993f-9305d76cd2cc",
+    "category_id": "ad886b9b-a25f-4df8-918a-1465ef2c150f",
+    "code": "",
+    "name": "Thiếu vỏ hộp",
+    "description": "",
+    "sort_order": 1,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "c5521378-9953-4b1b-b87d-ff5f250d9769",
+    "category_id": "ad886b9b-a25f-4df8-918a-1465ef2c150f",
+    "code": "",
+    "name": "Hộp xấu",
+    "description": "",
+    "sort_order": 2,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "dff9a8ba-dd56-48fc-a319-48025f9f1f86",
+    "category_id": "ad886b9b-a25f-4df8-918a-1465ef2c150f",
+    "code": "",
+    "name": "Thiếu linh kiện",
+    "description": "",
+    "sort_order": 3,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "9b779fd1-a00a-48a4-9d21-ef0f04019724",
+    "category_id": "ad886b9b-a25f-4df8-918a-1465ef2c150f",
+    "code": "",
+    "name": "Hàng lâu ngày",
+    "description": "",
+    "sort_order": 4,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "bac36922-a6c7-474f-850f-98151b15f155",
+    "category_id": "ad886b9b-a25f-4df8-918a-1465ef2c150f",
+    "code": "",
+    "name": "Hàng trả lại",
+    "description": "",
+    "sort_order": 5,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "83b092d3-64a3-442e-a642-95e2a9056fbd",
+    "category_id": "ad886b9b-a25f-4df8-918a-1465ef2c150f",
+    "code": "",
+    "name": "Hàng đề xuất thanh lý",
+    "description": "",
+    "sort_order": 6,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "f32e5e8e-adf4-4e24-bb05-e97e73b60670",
+    "category_id": "210e7015-ca68-4f0f-9aea-eb9b008039d7",
+    "code": "",
+    "name": "Bi gầm AZ100 Laser",
+    "description": "",
+    "sort_order": 7,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "54c0a01b-f2ea-46e2-9e76-bbcb904f39d5",
+    "category_id": "210e7015-ca68-4f0f-9aea-eb9b008039d7",
+    "code": "",
+    "name": "Bi Gầm AZ50 2.0 inch",
+    "description": "",
+    "sort_order": 8,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "e75cc13e-af32-492f-bf35-8e7b84b39c68",
+    "category_id": "210e7015-ca68-4f0f-9aea-eb9b008039d7",
+    "code": "",
+    "name": "Bi Gầm AZ50 Laser",
+    "description": "",
+    "sort_order": 9,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "ccaf73ad-4a73-4d4c-b19d-5bc315bdde67",
+    "category_id": "210e7015-ca68-4f0f-9aea-eb9b008039d7",
+    "code": "",
+    "name": "Bóng LED VF35 Ultra 360",
+    "description": "",
+    "sort_order": 10,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "d51bac0d-73b3-4f03-b275-b1257139f687",
+    "category_id": "210e7015-ca68-4f0f-9aea-eb9b008039d7",
+    "code": "",
+    "name": "Khiển cửa",
+    "description": "",
+    "sort_order": 11,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "0c4bbd9d-8424-4ec7-98bb-e1401db11098",
+    "category_id": "210e7015-ca68-4f0f-9aea-eb9b008039d7",
+    "code": "",
+    "name": "Bóng LED F3 cũ",
+    "description": "",
+    "sort_order": 12,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "bff4a1ca-74a1-4c79-9706-38eb72be0e19",
+    "category_id": "210e7015-ca68-4f0f-9aea-eb9b008039d7",
+    "code": "",
+    "name": "Bóng LED S85 PRO",
+    "description": "",
+    "sort_order": 13,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "79b71fb4-3253-4704-8d7f-5d871cc38514",
+    "category_id": "ad886b9b-a25f-4df8-918a-1465ef2c150f",
+    "code": "",
+    "name": "Hàng bảo hành",
+    "description": "",
+    "sort_order": 6,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "45242dde-c34f-407e-82c1-5b6d7d135f35",
+    "category_id": "a277b3b1-af8c-4e71-9fdd-ae2d6d23ff33",
+    "code": "",
+    "name": "🏠 Thông tin Nội bộ",
+    "description": "",
+    "sort_order": 9,
+    "active": true,
+    "extra": {}
+  },
+  {
+    "id": "95a904c8-b8e8-4a8a-a012-274d92cb72b3",
+    "category_id": "3680ac4e-a46c-4296-8c46-2050a46a1ee0",
+    "code": "",
+    "name": "HỖ TRỢ KINH DOANH HIỆU QUẢ HƠN",
+    "description": "V. MARKETING KIÊM THIẾT KẾ",
+    "sort_order": 31,
+    "active": true,
+    "extra": {
+      "role": "MARKETING",
+      "group": "MARKETING_KIEM_THIET_KE",
+      "roleGroup": "MARKETING_KIEM_THIET_KE",
+      "groupLabel": "V. MARKETING KIÊM THIẾT KẾ"
+    }
+  },
+  {
+    "id": "51fab966-1048-45d6-b939-56de0d1bc0c2",
+    "category_id": "a2c67d9a-970f-4cb9-af30-0b2e362a2fee",
+    "code": "quanlykho",
+    "name": "Quản lý Kho",
+    "description": "",
+    "sort_order": 13,
+    "active": true,
+    "extra": {
+      "key": "Quản lý Kho"
+    }
+  },
+  {
+    "id": "6c17bcf5-db37-4b5d-a6c9-c77cd1e06687",
+    "category_id": "3680ac4e-a46c-4296-8c46-2050a46a1ee0",
+    "code": "",
+    "name": "PHÁT TRIỂN KHÁCH HÀNG MỚI",
+    "description": "",
+    "sort_order": 7,
+    "active": true,
+    "extra": {
+      "role": "KINH_DOANH",
+      "group": "NHAN_VIEN_KINH_DOANH",
+      "roleGroup": "NHAN_VIEN_KINH_DOANH",
+      "groupLabel": "V. NHÂN VIÊN KINH DOANH"
+    }
+  },
+  {
+    "id": "7060dd2a-5ba3-41e3-b6f0-75ec0ed13881",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "Tăng trưởng X% so với kỳ trước.",
+    "description": "",
+    "sort_order": 4,
+    "active": true,
+    "extra": {
+      "role": "KINH_DOANH",
+      "group": "NHAN_VIEN_KINH_DOANH",
+      "objective": "1 – ĐẠT DOANH SỐ",
+      "roleGroup": "NHAN_VIEN_KINH_DOANH",
+      "groupLabel": "V. NHÂN VIÊN KINH DOANH"
+    }
+  },
+  {
+    "id": "8f9bc3ca-d621-4a5f-8f4a-e9a148ed6cee",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "Tăng doanh số nhóm sản phẩm trọng tâm X%.",
+    "description": "",
+    "sort_order": 5,
+    "active": true,
+    "extra": {
+      "role": "KINH_DOANH",
+      "group": "NHAN_VIEN_KINH_DOANH",
+      "objective": "1 – ĐẠT DOANH SỐ",
+      "roleGroup": "NHAN_VIEN_KINH_DOANH",
+      "groupLabel": "V. NHÂN VIÊN KINH DOANH"
+    }
+  },
+  {
+    "id": "dc5d4220-9759-4cd8-94ed-7ef449307632",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "Duy trì doanh số tối thiểu X/tháng.",
+    "description": "",
+    "sort_order": 6,
+    "active": true,
+    "extra": {
+      "role": "KINH_DOANH",
+      "group": "NHAN_VIEN_KINH_DOANH",
+      "objective": "1 – ĐẠT DOANH SỐ",
+      "roleGroup": "NHAN_VIEN_KINH_DOANH",
+      "groupLabel": "V. NHÂN VIÊN KINH DOANH"
+    }
+  },
+  {
+    "id": "939281d8-a340-44da-b40f-395eb3c0e0fb",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "Tiếp cận X khách hàng mới.",
+    "description": "",
+    "sort_order": 8,
+    "active": true,
+    "extra": {
+      "role": "KINH_DOANH",
+      "group": "NHAN_VIEN_KINH_DOANH",
+      "objective": "2 – PHÁT TRIỂN KHÁCH HÀNG MỚI",
+      "roleGroup": "NHAN_VIEN_KINH_DOANH",
+      "groupLabel": "V. NHÂN VIÊN KINH DOANH"
+    }
+  },
+  {
+    "id": "4415fdb0-90e4-4153-8247-93994bd1175d",
+    "category_id": "a2c67d9a-970f-4cb9-af30-0b2e362a2fee",
+    "code": "tonghopkho",
+    "name": "Tổng hợp Kho",
+    "description": "",
+    "sort_order": 14,
+    "active": true,
+    "extra": {
+      "key": "Tổng hợp Kho"
+    }
+  },
+  {
+    "id": "8f0e4b3d-a0d9-432b-8e67-bfea62ee206c",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "Có X khách hàng mới phát sinh doanh thu.",
+    "description": "2 – PHÁT TRIỂN KHÁCH HÀNG MỚI · V. NHÂN VIÊN KINH DOANH",
+    "sort_order": 12,
+    "active": true,
+    "extra": {
+      "role": "KINH_DOANH",
+      "group": "NHAN_VIEN_KINH_DOANH",
+      "objective": "2 – PHÁT TRIỂN KHÁCH HÀNG MỚI",
+      "roleGroup": "NHAN_VIEN_KINH_DOANH",
+      "groupLabel": "V. NHÂN VIÊN KINH DOANH"
+    }
+  },
+  {
+    "id": "6e1e64c2-fc78-4e78-8970-a97f023b97c8",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "X khách hàng được chăm sóc định kỳ.",
+    "description": "3 – TĂNG DOANH SỐ KHÁCH CŨ · V. NHÂN VIÊN KINH DOANH",
+    "sort_order": 14,
+    "active": true,
+    "extra": {
+      "role": "KINH_DOANH",
+      "group": "NHAN_VIEN_KINH_DOANH",
+      "objective": "3 – TĂNG DOANH SỐ KHÁCH CŨ",
+      "roleGroup": "NHAN_VIEN_KINH_DOANH",
+      "groupLabel": "V. NHÂN VIÊN KINH DOANH"
+    }
+  },
+  {
+    "id": "565a4fd2-22c0-4bec-a154-12d411c371f5",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "X khách hàng tăng doanh số.",
+    "description": "3 – TĂNG DOANH SỐ KHÁCH CŨ · V. NHÂN VIÊN KINH DOANH",
+    "sort_order": 15,
+    "active": true,
+    "extra": {
+      "role": "KINH_DOANH",
+      "group": "NHAN_VIEN_KINH_DOANH",
+      "objective": "3 – TĂNG DOANH SỐ KHÁCH CŨ",
+      "roleGroup": "NHAN_VIEN_KINH_DOANH",
+      "groupLabel": "V. NHÂN VIÊN KINH DOANH"
+    }
+  },
+  {
+    "id": "1bccbf5a-1565-4275-a019-7b4d4b1c7bb9",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "Tăng doanh thu khách cũ X%.",
+    "description": "3 – TĂNG DOANH SỐ KHÁCH CŨ · V. NHÂN VIÊN KINH DOANH",
+    "sort_order": 16,
+    "active": true,
+    "extra": {
+      "role": "KINH_DOANH",
+      "group": "NHAN_VIEN_KINH_DOANH",
+      "objective": "3 – TĂNG DOANH SỐ KHÁCH CŨ",
+      "roleGroup": "NHAN_VIEN_KINH_DOANH",
+      "groupLabel": "V. NHÂN VIÊN KINH DOANH"
+    }
+  },
+  {
+    "id": "1d62090d-39e3-4a7a-87e9-66c71cb8b3c8",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "X khách hàng mua thêm sản phẩm mới.",
+    "description": "3 – TĂNG DOANH SỐ KHÁCH CŨ · V. NHÂN VIÊN KINH DOANH",
+    "sort_order": 17,
+    "active": true,
+    "extra": {
+      "role": "KINH_DOANH",
+      "group": "NHAN_VIEN_KINH_DOANH",
+      "objective": "3 – TĂNG DOANH SỐ KHÁCH CŨ",
+      "roleGroup": "NHAN_VIEN_KINH_DOANH",
+      "groupLabel": "V. NHÂN VIÊN KINH DOANH"
+    }
+  },
+  {
+    "id": "594bcc17-5880-4744-9334-90d144af34ff",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "X% khách hàng trọng điểm duy trì mua hàng.",
+    "description": "3 – TĂNG DOANH SỐ KHÁCH CŨ · V. NHÂN VIÊN KINH DOANH",
+    "sort_order": 18,
+    "active": true,
+    "extra": {
+      "role": "KINH_DOANH",
+      "group": "NHAN_VIEN_KINH_DOANH",
+      "objective": "3 – TĂNG DOANH SỐ KHÁCH CŨ",
+      "roleGroup": "NHAN_VIEN_KINH_DOANH",
+      "groupLabel": "V. NHÂN VIÊN KINH DOANH"
+    }
+  },
+  {
+    "id": "c2423491-e511-4744-8432-25530e03edee",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "100% khách giảm doanh số được xác định nguyên nhân.",
+    "description": "4 – GIẢM MẤT KHÁCH · V. NHÂN VIÊN KINH DOANH",
+    "sort_order": 20,
+    "active": true,
+    "extra": {
+      "role": "KINH_DOANH",
+      "group": "NHAN_VIEN_KINH_DOANH",
+      "objective": "4 – GIẢM MẤT KHÁCH",
+      "roleGroup": "NHAN_VIEN_KINH_DOANH",
+      "groupLabel": "V. NHÂN VIÊN KINH DOANH"
+    }
+  },
+  {
+    "id": "9ca2c021-3a47-431a-817c-aae9d97d1e11",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "X khách hàng có nguy cơ ngừng mua được xử lý.",
+    "description": "4 – GIẢM MẤT KHÁCH · V. NHÂN VIÊN KINH DOANH",
+    "sort_order": 21,
+    "active": true,
+    "extra": {
+      "role": "KINH_DOANH",
+      "group": "NHAN_VIEN_KINH_DOANH",
+      "objective": "4 – GIẢM MẤT KHÁCH",
+      "roleGroup": "NHAN_VIEN_KINH_DOANH",
+      "groupLabel": "V. NHÂN VIÊN KINH DOANH"
+    }
+  },
+  {
+    "id": "5686076d-ae98-4d69-b938-468c95cda078",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "X khách hàng được khôi phục.",
+    "description": "4 – GIẢM MẤT KHÁCH · V. NHÂN VIÊN KINH DOANH",
+    "sort_order": 22,
+    "active": true,
+    "extra": {
+      "role": "KINH_DOANH",
+      "group": "NHAN_VIEN_KINH_DOANH",
+      "objective": "4 – GIẢM MẤT KHÁCH",
+      "roleGroup": "NHAN_VIEN_KINH_DOANH",
+      "groupLabel": "V. NHÂN VIÊN KINH DOANH"
+    }
+  },
+  {
+    "id": "297285a8-8c4e-4f2d-a91f-65068a81d550",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "Giảm số khách ngừng mua X%.",
+    "description": "4 – GIẢM MẤT KHÁCH · V. NHÂN VIÊN KINH DOANH",
+    "sort_order": 23,
+    "active": true,
+    "extra": {
+      "role": "KINH_DOANH",
+      "group": "NHAN_VIEN_KINH_DOANH",
+      "objective": "4 – GIẢM MẤT KHÁCH",
+      "roleGroup": "NHAN_VIEN_KINH_DOANH",
+      "groupLabel": "V. NHÂN VIÊN KINH DOANH"
+    }
+  },
+  {
+    "id": "e3e588a1-dafc-467b-a4b1-ef1cbf2038e4",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "100% nguyên nhân mất khách quan trọng được báo cáo.",
+    "description": "4 – GIẢM MẤT KHÁCH · V. NHÂN VIÊN KINH DOANH",
+    "sort_order": 24,
+    "active": true,
+    "extra": {
+      "role": "KINH_DOANH",
+      "group": "NHAN_VIEN_KINH_DOANH",
+      "objective": "4 – GIẢM MẤT KHÁCH",
+      "roleGroup": "NHAN_VIEN_KINH_DOANH",
+      "groupLabel": "V. NHÂN VIÊN KINH DOANH"
+    }
+  },
+  {
+    "id": "f123cf83-081f-4ba0-845e-c2a016307374",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "X cơ hội bán hàng được ghi nhận.",
+    "description": "5 – KÍCH HOẠT CƠ HỘI BÁN HÀNG · V. NHÂN VIÊN KINH DOANH",
+    "sort_order": 26,
+    "active": true,
+    "extra": {
+      "role": "KINH_DOANH",
+      "group": "NHAN_VIEN_KINH_DOANH",
+      "objective": "5 – KÍCH HOẠT CƠ HỘI BÁN HÀNG",
+      "roleGroup": "NHAN_VIEN_KINH_DOANH",
+      "groupLabel": "V. NHÂN VIÊN KINH DOANH"
+    }
+  },
+  {
+    "id": "364be190-f563-41c4-bdaf-6a5e901a7f10",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "X% khách hàng quan tâm được phản hồi đúng hạn.",
+    "description": "5 – KÍCH HOẠT CƠ HỘI BÁN HÀNG · V. NHÂN VIÊN KINH DOANH",
+    "sort_order": 28,
+    "active": true,
+    "extra": {
+      "role": "KINH_DOANH",
+      "group": "NHAN_VIEN_KINH_DOANH",
+      "objective": "5 – KÍCH HOẠT CƠ HỘI BÁN HÀNG",
+      "roleGroup": "NHAN_VIEN_KINH_DOANH",
+      "groupLabel": "V. NHÂN VIÊN KINH DOANH"
+    }
+  },
+  {
+    "id": "803e1d3a-a3d2-4bff-808a-3f46caceea51",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "X đề xuất nhu cầu khách hàng được gửi về công ty.",
+    "description": "5 – KÍCH HOẠT CƠ HỘI BÁN HÀNG · V. NHÂN VIÊN KINH DOANH",
+    "sort_order": 29,
+    "active": true,
+    "extra": {
+      "role": "KINH_DOANH",
+      "group": "NHAN_VIEN_KINH_DOANH",
+      "objective": "5 – KÍCH HOẠT CƠ HỘI BÁN HÀNG",
+      "roleGroup": "NHAN_VIEN_KINH_DOANH",
+      "groupLabel": "V. NHÂN VIÊN KINH DOANH"
+    }
+  },
+  {
+    "id": "9dbf52c0-4ab6-419f-a432-7b9b669beb4d",
+    "category_id": "3680ac4e-a46c-4296-8c46-2050a46a1ee0",
+    "code": "",
+    "name": "GIẢM MẤT KHÁCH",
+    "description": "",
+    "sort_order": 19,
+    "active": true,
+    "extra": {
+      "role": "KINH_DOANH",
+      "group": "NHAN_VIEN_KINH_DOANH",
+      "roleGroup": "NHAN_VIEN_KINH_DOANH",
+      "groupLabel": "V. NHÂN VIÊN KINH DOANH"
+    }
+  },
+  {
+    "id": "bfb217ca-1d7f-4511-a870-49ba9a239434",
+    "category_id": "3680ac4e-a46c-4296-8c46-2050a46a1ee0",
+    "code": "",
+    "name": "TĂNG CƠ HỘI BÁN HÀNG",
+    "description": "V. NHÂN VIÊN KINH DOANH",
+    "sort_order": 25,
+    "active": true,
+    "extra": {
+      "role": "KINH_DOANH",
+      "group": "NHAN_VIEN_KINH_DOANH",
+      "roleGroup": "NHAN_VIEN_KINH_DOANH",
+      "groupLabel": "V. NHÂN VIÊN KINH DOANH"
+    }
+  },
+  {
+    "id": "1f77c7d2-d496-4e1e-8d00-a26116eed51e",
+    "category_id": "3680ac4e-a46c-4296-8c46-2050a46a1ee0",
+    "code": "",
+    "name": "NÂNG CAO CHẤT LƯỢNG THIẾT KẾ",
+    "description": "V. MARKETING KIÊM THIẾT KẾ",
+    "sort_order": 43,
+    "active": true,
+    "extra": {
+      "role": "MARKETING",
+      "group": "MARKETING_KIEM_THIET_KE",
+      "roleGroup": "MARKETING_KIEM_THIET_KE",
+      "groupLabel": "V. MARKETING KIÊM THIẾT KẾ"
+    }
+  },
+  {
+    "id": "7dc48de3-d1d5-43b9-96d7-9aa44fc56883",
+    "category_id": "3680ac4e-a46c-4296-8c46-2050a46a1ee0",
+    "code": "",
+    "name": "QUẢN LÝ TÀI NGUYÊN MARKETING",
+    "description": "V. MARKETING KIÊM THIẾT KẾ",
+    "sort_order": 49,
+    "active": true,
+    "extra": {
+      "role": "MARKETING",
+      "group": "MARKETING_KIEM_THIET_KE",
+      "roleGroup": "MARKETING_KIEM_THIET_KE",
+      "groupLabel": "V. MARKETING KIÊM THIẾT KẾ"
+    }
+  },
+  {
+    "id": "3a1799a2-39ee-49a7-8c00-a1ee0bdcb5bd",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "X% tài liệu được kinh doanh sử dụng.",
+    "description": "",
+    "sort_order": 34,
+    "active": true,
+    "extra": {
+      "role": "MARKETING",
+      "group": "MARKETING_KIEM_THIET_KE",
+      "objective": "1 – HỖ TRỢ KINH DOANH HIỆU QUẢ HƠN",
+      "roleGroup": "MARKETING_KIEM_THIET_KE",
+      "groupLabel": "V. MARKETING KIÊM THIẾT KẾ"
+    }
+  },
+  {
+    "id": "f13a09b7-6234-4c1c-9cc4-1e094b162401",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "Hoàn thành X nội dung.",
+    "description": "",
+    "sort_order": 38,
+    "active": true,
+    "extra": {
+      "role": "MARKETING",
+      "group": "MARKETING_KIEM_THIET_KE",
+      "objective": "2 – TĂNG HIỆU QUẢ NỘI DUNG MARKETING",
+      "roleGroup": "MARKETING_KIEM_THIET_KE",
+      "groupLabel": "V. MARKETING KIÊM THIẾT KẾ"
+    }
+  },
+  {
+    "id": "694e20d3-51eb-4181-b188-df6f624304a7",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "X tài liệu được cải tiến dựa trên phản hồi thực tế.",
+    "description": "",
+    "sort_order": 36,
+    "active": true,
+    "extra": {
+      "role": "MARKETING",
+      "group": "MARKETING_KIEM_THIET_KE",
+      "objective": "1 – HỖ TRỢ KINH DOANH HIỆU QUẢ HƠN",
+      "roleGroup": "MARKETING_KIEM_THIET_KE",
+      "groupLabel": "V. MARKETING KIÊM THIẾT KẾ"
+    }
+  },
+  {
+    "id": "d64d1243-248e-4b1f-87eb-955dc99ee9ff",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "X Video được duyệt đăng mỗi tuần",
+    "description": "",
+    "sort_order": 35,
+    "active": true,
+    "extra": {
+      "role": "MARKETING",
+      "group": "MARKETING_KIEM_THIET_KE",
+      "objective": "1 – HỖ TRỢ KINH DOANH HIỆU QUẢ HƠN",
+      "roleGroup": "MARKETING_KIEM_THIET_KE",
+      "groupLabel": "V. MARKETING KIÊM THIẾT KẾ"
+    }
+  },
+  {
+    "id": "4db0c4f5-26da-43e4-9065-0f7c047e1555",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "Tạo X lượt quan tâm.",
+    "description": "",
+    "sort_order": 41,
+    "active": true,
+    "extra": {
+      "role": "MARKETING",
+      "group": "MARKETING_KIEM_THIET_KE",
+      "objective": "2 – TĂNG HIỆU QUẢ NỘI DUNG MARKETING",
+      "roleGroup": "MARKETING_KIEM_THIET_KE",
+      "groupLabel": "V. MARKETING KIÊM THIẾT KẾ"
+    }
+  },
+  {
+    "id": "5347024b-67fe-449b-a026-54b742c51ad7",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "X nội dung đạt hiệu quả cao được phân tích.",
+    "description": "",
+    "sort_order": 42,
+    "active": true,
+    "extra": {
+      "role": "MARKETING",
+      "group": "MARKETING_KIEM_THIET_KE",
+      "objective": "2 – TĂNG HIỆU QUẢ NỘI DUNG MARKETING",
+      "roleGroup": "MARKETING_KIEM_THIET_KE",
+      "groupLabel": "V. MARKETING KIÊM THIẾT KẾ"
+    }
+  },
+  {
+    "id": "a9682a32-52af-4f4b-8a6e-6774a8278ad3",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "X% thiết kế đúng nhận diện.",
+    "description": "",
+    "sort_order": 44,
+    "active": true,
+    "extra": {
+      "role": "MARKETING",
+      "group": "MARKETING_KIEM_THIET_KE",
+      "objective": "3 – NÂNG CAO CHẤT LƯỢNG THIẾT KẾ",
+      "roleGroup": "MARKETING_KIEM_THIET_KE",
+      "groupLabel": "V. MARKETING KIÊM THIẾT KẾ"
+    }
+  },
+  {
+    "id": "98296794-cfdb-4eb3-9b1e-454d8e3abec3",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "X% yêu cầu có mục tiêu rõ trước khi thiết kế.",
+    "description": "",
+    "sort_order": 47,
+    "active": true,
+    "extra": {
+      "role": "MARKETING",
+      "group": "MARKETING_KIEM_THIET_KE",
+      "objective": "3 – NÂNG CAO CHẤT LƯỢNG THIẾT KẾ",
+      "roleGroup": "MARKETING_KIEM_THIET_KE",
+      "groupLabel": "V. MARKETING KIÊM THIẾT KẾ"
+    }
+  },
+  {
+    "id": "fd019582-fdd8-42ec-a569-888714cac223",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "X thiết kế được sử dụng hiệu quả trong thực tế.",
+    "description": "",
+    "sort_order": 48,
+    "active": true,
+    "extra": {
+      "role": "MARKETING",
+      "group": "MARKETING_KIEM_THIET_KE",
+      "objective": "3 – NÂNG CAO CHẤT LƯỢNG THIẾT KẾ",
+      "roleGroup": "MARKETING_KIEM_THIET_KE",
+      "groupLabel": "V. MARKETING KIÊM THIẾT KẾ"
+    }
+  },
+  {
+    "id": "1229aaa1-e125-4247-8f22-cf155b34b31c",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "X% yêu cầu quan trọng được hoàn thành đúng hạn.",
+    "description": "",
+    "sort_order": 33,
+    "active": true,
+    "extra": {
+      "role": "MARKETING",
+      "group": "MARKETING_KIEM_THIET_KE",
+      "objective": "1 – HỖ TRỢ KINH DOANH HIỆU QUẢ HƠN",
+      "roleGroup": "MARKETING_KIEM_THIET_KE",
+      "groupLabel": "V. MARKETING KIÊM THIẾT KẾ"
+    }
+  },
+  {
+    "id": "36356c78-21c0-4858-a142-f5b65afbccd3",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "Tăng lượng tiếp cận X%.",
+    "description": "",
+    "sort_order": 39,
+    "active": true,
+    "extra": {
+      "role": "MARKETING",
+      "group": "MARKETING_KIEM_THIET_KE",
+      "objective": "2 – TĂNG HIỆU QUẢ NỘI DUNG MARKETING",
+      "roleGroup": "MARKETING_KIEM_THIET_KE",
+      "groupLabel": "V. MARKETING KIÊM THIẾT KẾ"
+    }
+  },
+  {
+    "id": "8a7b4399-847b-4399-af0b-e1a2b888b412",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "Tăng mức tương tác X%.",
+    "description": "",
+    "sort_order": 40,
+    "active": true,
+    "extra": {
+      "role": "MARKETING",
+      "group": "MARKETING_KIEM_THIET_KE",
+      "objective": "2 – TĂNG HIỆU QUẢ NỘI DUNG MARKETING",
+      "roleGroup": "MARKETING_KIEM_THIET_KE",
+      "groupLabel": "V. MARKETING KIÊM THIẾT KẾ"
+    }
+  },
+  {
+    "id": "695555a0-11f6-4060-b977-060ce20d2da4",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "100% file quan trọng được lưu trữ đúng nơi.",
+    "description": "",
+    "sort_order": 50,
+    "active": true,
+    "extra": {
+      "role": "MARKETING",
+      "group": "MARKETING_KIEM_THIET_KE",
+      "objective": "4 – QUẢN LÝ TÀI NGUYÊN MARKETING",
+      "roleGroup": "MARKETING_KIEM_THIET_KE",
+      "groupLabel": "V. MARKETING KIÊM THIẾT KẾ"
+    }
+  },
+  {
+    "id": "8c68521d-30ce-4652-bb2d-d62f1d9e9a15",
+    "category_id": "a2c67d9a-970f-4cb9-af30-0b2e362a2fee",
+    "code": "baohanh",
+    "name": "Bảo hành",
+    "description": "",
+    "sort_order": 15,
+    "active": true,
+    "extra": {
+      "key": "Bảo hành"
+    }
+  },
+  {
+    "id": "58415306-fc1b-41fb-abf5-61f133ec0742",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "Hoàn thành X tài liệu hỗ trợ bán hàng.",
+    "description": "",
+    "sort_order": 32,
+    "active": true,
+    "extra": {
+      "role": "MARKETING",
+      "group": "MARKETING_KIEM_THIET_KE",
+      "objective": "1 – HỖ TRỢ KINH DOANH HIỆU QUẢ HƠN",
+      "roleGroup": "MARKETING_KIEM_THIET_KE",
+      "groupLabel": "V. MARKETING KIÊM THIẾT KẾ"
+    }
+  },
+  {
+    "id": "ebce50fc-f8b1-4d8d-928c-1eeca2f57537",
+    "category_id": "a2c67d9a-970f-4cb9-af30-0b2e362a2fee",
+    "code": "bangtin",
+    "name": "Bảng tin",
+    "description": "Phân hệ gốc: Trợ lý Lái xe",
+    "sort_order": 54,
+    "active": true,
+    "extra": {
+      "key": "Không có lịch lái"
+    }
+  },
+  {
+    "id": "23e2eff6-fc31-4fb8-b3cf-842dcd8b3e53",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "X phương án cải tiến được đề xuất.",
+    "description": "5 – CẢI TIẾN LIÊN TỤC · V. MARKETING KIÊM THIẾT KẾ",
+    "sort_order": 58,
+    "active": true,
+    "extra": {
+      "role": "MARKETING",
+      "group": "MARKETING_KIEM_THIET_KE",
+      "objective": "5 – CẢI TIẾN LIÊN TỤC",
+      "roleGroup": "MARKETING_KIEM_THIET_KE",
+      "groupLabel": "V. MARKETING KIÊM THIẾT KẾ"
+    }
+  },
+  {
+    "id": "cb8f06d2-6072-4880-9392-2286a315d2e4",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "X vấn đề được phát hiện.",
+    "description": "",
+    "sort_order": 57,
+    "active": true,
+    "extra": {
+      "role": "MARKETING",
+      "group": "MARKETING_KIEM_THIET_KE",
+      "objective": "5 – CẢI TIẾN LIÊN TỤC",
+      "roleGroup": "MARKETING_KIEM_THIET_KE",
+      "groupLabel": "V. MARKETING KIÊM THIẾT KẾ"
+    }
+  },
+  {
+    "id": "d891b3a1-4fb2-44e9-9508-b4cbe282d848",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "X cải tiến được áp dụng.",
+    "description": "",
+    "sort_order": 59,
+    "active": true,
+    "extra": {
+      "role": "MARKETING",
+      "group": "MARKETING_KIEM_THIET_KE",
+      "objective": "5 – CẢI TIẾN LIÊN TỤC",
+      "roleGroup": "MARKETING_KIEM_THIET_KE",
+      "groupLabel": "V. MARKETING KIÊM THIẾT KẾ"
+    }
+  },
+  {
+    "id": "f9070547-bf10-4e2f-98b4-6f8d0003892c",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "Tổng hợp X phản hồi.",
+    "description": "5 – CẢI TIẾN LIÊN TỤC · V. MARKETING KIÊM THIẾT KẾ",
+    "sort_order": 56,
+    "active": true,
+    "extra": {
+      "role": "MARKETING",
+      "group": "MARKETING_KIEM_THIET_KE",
+      "objective": "5 – CẢI TIẾN LIÊN TỤC",
+      "roleGroup": "MARKETING_KIEM_THIET_KE",
+      "groupLabel": "V. MARKETING KIÊM THIẾT KẾ"
+    }
+  },
+  {
+    "id": "4dad9af5-5e6c-4dfe-a732-6d0f4ab39ddd",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "Hoàn thiện thư viện tài liệu dùng chung.",
+    "description": "",
+    "sort_order": 54,
+    "active": true,
+    "extra": {
+      "role": "MARKETING",
+      "group": "MARKETING_KIEM_THIET_KE",
+      "objective": "4 – QUẢN LÝ TÀI NGUYÊN MARKETING",
+      "roleGroup": "MARKETING_KIEM_THIET_KE",
+      "groupLabel": "V. MARKETING KIÊM THIẾT KẾ"
+    }
+  },
+  {
+    "id": "c6517ea4-c8bf-4b97-bd14-c480c351062f",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "X% đơn xuất đúng.",
+    "description": "1 – XUẤT HÀNG NHANH VÀ CHÍNH XÁC · VI. KHO",
+    "sort_order": 62,
+    "active": true,
+    "extra": {
+      "role": "KHO",
+      "group": "KHO",
+      "objective": "1 – XUẤT HÀNG NHANH VÀ CHÍNH XÁC",
+      "roleGroup": "KHO",
+      "groupLabel": "VI. KHO"
+    }
+  },
+  {
+    "id": "7b2d079d-0de9-4085-945c-200eec50bdef",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "Giảm lỗi xuất nhầm X%.",
+    "description": "1 – XUẤT HÀNG NHANH VÀ CHÍNH XÁC · VI. KHO",
+    "sort_order": 63,
+    "active": true,
+    "extra": {
+      "role": "KHO",
+      "group": "KHO",
+      "objective": "1 – XUẤT HÀNG NHANH VÀ CHÍNH XÁC",
+      "roleGroup": "KHO",
+      "groupLabel": "VI. KHO"
+    }
+  },
+  {
+    "id": "5bf2ddb6-cac9-4260-8287-f7804c2f5cb3",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "X% đơn xuất đúng thời gian.",
+    "description": "1 – XUẤT HÀNG NHANH VÀ CHÍNH XÁC · VI. KHO",
+    "sort_order": 64,
+    "active": true,
+    "extra": {
+      "role": "KHO",
+      "group": "KHO",
+      "objective": "1 – XUẤT HÀNG NHANH VÀ CHÍNH XÁC",
+      "roleGroup": "KHO",
+      "groupLabel": "VI. KHO"
+    }
+  },
+  {
+    "id": "e0835c4a-ae78-44be-b5ad-e9714bf33e8d",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "Giảm số đơn bị xử lý lại X%.",
+    "description": "1 – XUẤT HÀNG NHANH VÀ CHÍNH XÁC · VI. KHO",
+    "sort_order": 65,
+    "active": true,
+    "extra": {
+      "role": "KHO",
+      "group": "KHO",
+      "objective": "1 – XUẤT HÀNG NHANH VÀ CHÍNH XÁC",
+      "roleGroup": "KHO",
+      "groupLabel": "VI. KHO"
+    }
+  },
+  {
+    "id": "865bbb78-971e-4131-a777-1243f41935e2",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "X% hàng xuất được kiểm tra đầy đủ.",
+    "description": "1 – XUẤT HÀNG NHANH VÀ CHÍNH XÁC · VI. KHO",
+    "sort_order": 66,
+    "active": true,
+    "extra": {
+      "role": "KHO",
+      "group": "KHO",
+      "objective": "1 – XUẤT HÀNG NHANH VÀ CHÍNH XÁC",
+      "roleGroup": "KHO",
+      "groupLabel": "VI. KHO"
+    }
+  },
+  {
+    "id": "a18c8a19-2598-4a78-b39b-a8d488805228",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "100% hiệu quả sau cải tiến.",
+    "description": "",
+    "sort_order": 60,
+    "active": true,
+    "extra": {
+      "role": "MARKETING",
+      "group": "MARKETING_KIEM_THIET_KE",
+      "objective": "5 – CẢI TIẾN LIÊN TỤC",
+      "roleGroup": "MARKETING_KIEM_THIET_KE",
+      "groupLabel": "V. MARKETING KIÊM THIẾT KẾ"
+    }
+  },
+  {
+    "id": "2175cd6e-a4f4-4b02-9982-b8f754c98898",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "100% hàng tồn lâu được thống kê.",
+    "description": "2 – KIỂM SOÁT HÀNG TỒN · VI. KHO",
+    "sort_order": 68,
+    "active": true,
+    "extra": {
+      "role": "KHO",
+      "group": "KHO",
+      "objective": "2 – KIỂM SOÁT HÀNG TỒN",
+      "roleGroup": "KHO",
+      "groupLabel": "VI. KHO"
+    }
+  },
+  {
+    "id": "f62d5da9-479c-45ad-898e-94a964e4fccc",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "100% hàng tồn lâu được cảnh báo.",
+    "description": "2 – KIỂM SOÁT HÀNG TỒN · VI. KHO",
+    "sort_order": 69,
+    "active": true,
+    "extra": {
+      "role": "KHO",
+      "group": "KHO",
+      "objective": "2 – KIỂM SOÁT HÀNG TỒN",
+      "roleGroup": "KHO",
+      "groupLabel": "VI. KHO"
+    }
+  },
+  {
+    "id": "d0488d52-0855-4c43-9409-2b2402287c2f",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "X% hàng tồn lâu có hướng xử lý.",
+    "description": "2 – KIỂM SOÁT HÀNG TỒN · VI. KHO",
+    "sort_order": 70,
+    "active": true,
+    "extra": {
+      "role": "KHO",
+      "group": "KHO",
+      "objective": "2 – KIỂM SOÁT HÀNG TỒN",
+      "roleGroup": "KHO",
+      "groupLabel": "VI. KHO"
+    }
+  },
+  {
+    "id": "e5597afc-6635-4acf-b02a-454e17c1d149",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "Giảm giá trị hàng tồn lâu X%.",
+    "description": "2 – KIỂM SOÁT HÀNG TỒN · VI. KHO",
+    "sort_order": 71,
+    "active": true,
+    "extra": {
+      "role": "KHO",
+      "group": "KHO",
+      "objective": "2 – KIỂM SOÁT HÀNG TỒN",
+      "roleGroup": "KHO",
+      "groupLabel": "VI. KHO"
+    }
+  },
+  {
+    "id": "7f476d73-4be2-4ba4-970e-addf70384c3d",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "Không để hàng tồn nghiêm trọng không được báo cáo.",
+    "description": "2 – KIỂM SOÁT HÀNG TỒN · VI. KHO",
+    "sort_order": 72,
+    "active": true,
+    "extra": {
+      "role": "KHO",
+      "group": "KHO",
+      "objective": "2 – KIỂM SOÁT HÀNG TỒN",
+      "roleGroup": "KHO",
+      "groupLabel": "VI. KHO"
+    }
+  },
+  {
+    "id": "87256802-82c2-4385-919f-e5c78266a016",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "100% hàng thiếu phẩm chất được ghi nhận.",
+    "description": "3 – KIỂM SOÁT CHẤT LƯỢNG HÀNG TRONG KHO · VI. KHO",
+    "sort_order": 74,
+    "active": true,
+    "extra": {
+      "role": "KHO",
+      "group": "KHO",
+      "objective": "3 – KIỂM SOÁT CHẤT LƯỢNG HÀNG TRONG KHO",
+      "roleGroup": "KHO",
+      "groupLabel": "VI. KHO"
+    }
+  },
+  {
+    "id": "68f8e5a2-b1bd-417a-a8e4-bb480578e46b",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "X% hàng có dấu hiệu xuống cấp được phát hiện sớm.",
+    "description": "3 – KIỂM SOÁT CHẤT LƯỢNG HÀNG TRONG KHO · VI. KHO",
+    "sort_order": 75,
+    "active": true,
+    "extra": {
+      "role": "KHO",
+      "group": "KHO",
+      "objective": "3 – KIỂM SOÁT CHẤT LƯỢNG HÀNG TRONG KHO",
+      "roleGroup": "KHO",
+      "groupLabel": "VI. KHO"
+    }
+  },
+  {
+    "id": "92ed7302-5cc8-4c14-ab09-a9f2fd1004d9",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "Giảm hàng hỏng trong kho X%.",
+    "description": "3 – KIỂM SOÁT CHẤT LƯỢNG HÀNG TRONG KHO · VI. KHO",
+    "sort_order": 76,
+    "active": true,
+    "extra": {
+      "role": "KHO",
+      "group": "KHO",
+      "objective": "3 – KIỂM SOÁT CHẤT LƯỢNG HÀNG TRONG KHO",
+      "roleGroup": "KHO",
+      "groupLabel": "VI. KHO"
+    }
+  },
+  {
+    "id": "46e552df-bf55-4440-8717-6562b810ae37",
+    "category_id": "3680ac4e-a46c-4296-8c46-2050a46a1ee0",
+    "code": "",
+    "name": "KIỂM SOÁT HÀNG TỒN",
+    "description": "VI. KHO",
+    "sort_order": 67,
+    "active": true,
+    "extra": {
+      "role": "KHO",
+      "group": "KHO",
+      "roleGroup": "KHO",
+      "groupLabel": "VI. KHO"
+    }
+  },
+  {
+    "id": "b0c9d44d-83a0-4779-a64f-ec69a02b86ac",
+    "category_id": "3680ac4e-a46c-4296-8c46-2050a46a1ee0",
+    "code": "",
+    "name": "KIỂM SOÁT CHẤT LƯỢNG HÀNG TRONG KHO",
+    "description": "VI. KHO",
+    "sort_order": 73,
+    "active": true,
+    "extra": {
+      "role": "KHO",
+      "group": "KHO",
+      "roleGroup": "KHO",
+      "groupLabel": "VI. KHO"
+    }
+  },
+  {
+    "id": "0275fa62-4513-4170-a339-dead1517ab7e",
+    "category_id": "3680ac4e-a46c-4296-8c46-2050a46a1ee0",
+    "code": "",
+    "name": "XUẤT HÀNG NHANH VÀ CHÍNH XÁC",
+    "description": "VI. KHO",
+    "sort_order": 61,
+    "active": true,
+    "extra": {
+      "role": "KHO",
+      "group": "KHO",
+      "roleGroup": "KHO",
+      "groupLabel": "VI. KHO"
+    }
+  },
+  {
+    "id": "66b412b3-0849-4948-89b1-f2fa3baa2999",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "X vấn đề chất lượng được cảnh báo.",
+    "description": "3 – KIỂM SOÁT CHẤT LƯỢNG HÀNG TRONG KHO · VI. KHO",
+    "sort_order": 77,
+    "active": true,
+    "extra": {
+      "role": "KHO",
+      "group": "KHO",
+      "objective": "3 – KIỂM SOÁT CHẤT LƯỢNG HÀNG TRONG KHO",
+      "roleGroup": "KHO",
+      "groupLabel": "VI. KHO"
+    }
+  },
+  {
+    "id": "9dc2a214-524f-47ac-9433-daf13089e56a",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "100% hàng bất thường có hướng xử lý.",
+    "description": "3 – KIỂM SOÁT CHẤT LƯỢNG HÀNG TRONG KHO · VI. KHO",
+    "sort_order": 78,
+    "active": true,
+    "extra": {
+      "role": "KHO",
+      "group": "KHO",
+      "objective": "3 – KIỂM SOÁT CHẤT LƯỢNG HÀNG TRONG KHO",
+      "roleGroup": "KHO",
+      "groupLabel": "VI. KHO"
+    }
+  },
+  {
+    "id": "8db17f5a-9115-4024-ad41-35ff8000321e",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "Thống kê 100% đơn chậm.",
+    "description": "2 – GIẢM ĐIỂM NGHẼN TRONG XỬ LÝ ĐƠN · VII. TỔNG HỢP KHO",
+    "sort_order": 98,
+    "active": true,
+    "extra": {
+      "role": "TỔNG_HỢP_KHO",
+      "group": "TONG_HOP_KHO",
+      "objective": "2 – GIẢM ĐIỂM NGHẼN TRONG XỬ LÝ ĐƠN",
+      "roleGroup": "TONG_HOP_KHO",
+      "groupLabel": "VII. TỔNG HỢP KHO"
+    }
+  },
+  {
+    "id": "3ce816c2-790c-4803-a0ed-00d1b146f586",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "X% hàng được sắp xếp đúng vị trí.",
+    "description": "4 – NÂNG CAO TỔ CHỨC KHO · VI. KHO",
+    "sort_order": 80,
+    "active": true,
+    "extra": {
+      "role": "KHO",
+      "group": "KHO",
+      "objective": "4 – NÂNG CAO TỔ CHỨC KHO",
+      "roleGroup": "KHO",
+      "groupLabel": "VI. KHO"
+    }
+  },
+  {
+    "id": "f3be3a54-484a-4f48-92e2-b1286c0caf89",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "Xác định nguyên nhân X% đơn chậm.",
+    "description": "2 – GIẢM ĐIỂM NGHẼN TRONG XỬ LÝ ĐƠN · VII. TỔNG HỢP KHO",
+    "sort_order": 99,
+    "active": true,
+    "extra": {
+      "role": "TỔNG_HỢP_KHO",
+      "group": "TONG_HOP_KHO",
+      "objective": "2 – GIẢM ĐIỂM NGHẼN TRONG XỬ LÝ ĐƠN",
+      "roleGroup": "TONG_HOP_KHO",
+      "groupLabel": "VII. TỔNG HỢP KHO"
+    }
+  },
+  {
+    "id": "b8f79e3d-e8c6-4414-b228-f8756aee1427",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "Giảm thời gian xử lý đơn X%.",
+    "description": "2 – GIẢM ĐIỂM NGHẼN TRONG XỬ LÝ ĐƠN · VII. TỔNG HỢP KHO",
+    "sort_order": 100,
+    "active": true,
+    "extra": {
+      "role": "TỔNG_HỢP_KHO",
+      "group": "TONG_HOP_KHO",
+      "objective": "2 – GIẢM ĐIỂM NGHẼN TRONG XỬ LÝ ĐƠN",
+      "roleGroup": "TONG_HOP_KHO",
+      "groupLabel": "VII. TỔNG HỢP KHO"
+    }
+  },
+  {
+    "id": "2a3d79bb-9e32-40ee-bb41-e87d5c9f2faf",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "X lần kiểm tra kho đạt yêu cầu.",
+    "description": "4 – NÂNG CAO TỔ CHỨC KHO · VI. KHO",
+    "sort_order": 83,
+    "active": true,
+    "extra": {
+      "role": "KHO",
+      "group": "KHO",
+      "objective": "4 – NÂNG CAO TỔ CHỨC KHO",
+      "roleGroup": "KHO",
+      "groupLabel": "VI. KHO"
+    }
+  },
+  {
+    "id": "1e59fbb6-d63b-4efc-8523-329ffc9ce711",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "X cải tiến bố trí được áp dụng.",
+    "description": "4 – NÂNG CAO TỔ CHỨC KHO · VI. KHO",
+    "sort_order": 84,
+    "active": true,
+    "extra": {
+      "role": "KHO",
+      "group": "KHO",
+      "objective": "4 – NÂNG CAO TỔ CHỨC KHO",
+      "roleGroup": "KHO",
+      "groupLabel": "VI. KHO"
+    }
+  },
+  {
+    "id": "8e03ea14-a4d0-44fc-8971-d2e793019d2c",
+    "category_id": "44da0eb0-60ed-4379-9b9e-aeed2fcebc50",
+    "code": "",
+    "name": "Bộ não chung công ty",
+    "description": "Hiện ở mọi trang chưa cấu hình phân hệ riêng",
+    "sort_order": 1,
+    "active": true,
+    "extra": {
+      "routes": [],
+      "mac_dinh": true
+    }
+  },
+  {
+    "id": "f49725ff-17be-4828-8055-8ab23c652f60",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "X vấn đề được phát hiện chủ động.",
+    "description": "5 – PHÁT HIỆN VÀ XỬ LÝ VẤN ĐỀ · VI. KHO",
+    "sort_order": 86,
+    "active": true,
+    "extra": {
+      "role": "KHO",
+      "group": "KHO",
+      "objective": "5 – PHÁT HIỆN VÀ XỬ LÝ VẤN ĐỀ",
+      "roleGroup": "KHO",
+      "groupLabel": "VI. KHO"
+    }
+  },
+  {
+    "id": "de98754c-b735-49b3-b48f-df68820bfb15",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "100% vấn đề nghiêm trọng được báo kịp thời.",
+    "description": "5 – PHÁT HIỆN VÀ XỬ LÝ VẤN ĐỀ · VI. KHO",
+    "sort_order": 87,
+    "active": true,
+    "extra": {
+      "role": "KHO",
+      "group": "KHO",
+      "objective": "5 – PHÁT HIỆN VÀ XỬ LÝ VẤN ĐỀ",
+      "roleGroup": "KHO",
+      "groupLabel": "VI. KHO"
+    }
+  },
+  {
+    "id": "e0524d2e-bd49-41ef-a7b7-d602aba973c0",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "X% vấn đề được theo đến kết quả.",
+    "description": "5 – PHÁT HIỆN VÀ XỬ LÝ VẤN ĐỀ · VI. KHO",
+    "sort_order": 88,
+    "active": true,
+    "extra": {
+      "role": "KHO",
+      "group": "KHO",
+      "objective": "5 – PHÁT HIỆN VÀ XỬ LÝ VẤN ĐỀ",
+      "roleGroup": "KHO",
+      "groupLabel": "VI. KHO"
+    }
+  },
+  {
+    "id": "342ee4eb-2e6f-40c1-b398-997b4625e0c1",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "Giảm vấn đề lặp lại X%.",
+    "description": "5 – PHÁT HIỆN VÀ XỬ LÝ VẤN ĐỀ · VI. KHO",
+    "sort_order": 89,
+    "active": true,
+    "extra": {
+      "role": "KHO",
+      "group": "KHO",
+      "objective": "5 – PHÁT HIỆN VÀ XỬ LÝ VẤN ĐỀ",
+      "roleGroup": "KHO",
+      "groupLabel": "VI. KHO"
+    }
+  },
+  {
+    "id": "c90b3a40-30ba-4cef-9227-ddd299146e84",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "X đề xuất cải tiến được áp dụng.",
+    "description": "5 – PHÁT HIỆN VÀ XỬ LÝ VẤN ĐỀ · VI. KHO",
+    "sort_order": 90,
+    "active": true,
+    "extra": {
+      "role": "KHO",
+      "group": "KHO",
+      "objective": "5 – PHÁT HIỆN VÀ XỬ LÝ VẤN ĐỀ",
+      "roleGroup": "KHO",
+      "groupLabel": "VI. KHO"
+    }
+  },
+  {
+    "id": "0bb85d5c-5e65-43b7-8500-6c8fccfa488b",
+    "category_id": "44da0eb0-60ed-4379-9b9e-aeed2fcebc50",
+    "code": "",
+    "name": "Trợ lý Kho",
+    "description": "",
+    "sort_order": 9,
+    "active": true,
+    "extra": {
+      "routes": [
+        "/bao-cao-kho"
+      ],
+      "mac_dinh": false
+    }
+  },
+  {
+    "id": "07ca9b8c-88da-42f5-a72e-546bea60163e",
+    "category_id": "44da0eb0-60ed-4379-9b9e-aeed2fcebc50",
+    "code": "",
+    "name": "Trợ lý Mua hàng",
+    "description": "",
+    "sort_order": 13,
+    "active": true,
+    "extra": {
+      "routes": [],
+      "mac_dinh": false
+    }
+  },
+  {
+    "id": "96ec11c4-eb24-418e-bea7-d6ae471664a7",
+    "category_id": "44da0eb0-60ed-4379-9b9e-aeed2fcebc50",
+    "code": "",
+    "name": "Trợ lý Chiến dịch",
+    "description": "",
+    "sort_order": 17,
+    "active": true,
+    "extra": {
+      "routes": [
+        "/chien-dich"
+      ],
+      "mac_dinh": false
+    }
+  },
+  {
+    "id": "cf88c75d-c174-4a57-b0bf-aac4db44e426",
+    "category_id": "a2c67d9a-970f-4cb9-af30-0b2e362a2fee",
+    "code": "marketing",
+    "name": "Marketing",
+    "description": "Phân hệ gốc: Bộ não chung công ty",
+    "sort_order": 2,
+    "active": true,
+    "extra": {
+      "key": "Bắt bệnh"
+    }
+  },
+  {
+    "id": "546ebb2b-2b6d-4520-b67b-c21468db9426",
+    "category_id": "3680ac4e-a46c-4296-8c46-2050a46a1ee0",
+    "code": "",
+    "name": "XỬ LÝ ĐƠN HÀNG CHÍNH XÁC",
+    "description": "VII. TỔNG HỢP KHO",
+    "sort_order": 91,
+    "active": true,
+    "extra": {
+      "role": "TỔNG_HỢP_KHO",
+      "group": "TONG_HOP_KHO",
+      "roleGroup": "TONG_HOP_KHO",
+      "groupLabel": "VII. TỔNG HỢP KHO"
+    }
+  },
+  {
+    "id": "c04447ce-fff1-4735-a327-783f027ebc29",
+    "category_id": "3680ac4e-a46c-4296-8c46-2050a46a1ee0",
+    "code": "",
+    "name": "GIẢM ĐIỂM NGHẼN TRONG XỬ LÝ ĐƠN",
+    "description": "VII. TỔNG HỢP KHO",
+    "sort_order": 97,
+    "active": true,
+    "extra": {
+      "role": "TỔNG_HỢP_KHO",
+      "group": "TONG_HOP_KHO",
+      "roleGroup": "TONG_HOP_KHO",
+      "groupLabel": "VII. TỔNG HỢP KHO"
+    }
+  },
+  {
+    "id": "a00bfcbc-1fe1-43f1-acce-0660fcc0fcb9",
+    "category_id": "3680ac4e-a46c-4296-8c46-2050a46a1ee0",
+    "code": "",
+    "name": "GIẢM LỖI LẶP LẠI",
+    "description": "VII. TỔNG HỢP KHO",
+    "sort_order": 103,
+    "active": true,
+    "extra": {
+      "role": "TỔNG_HỢP_KHO",
+      "group": "TONG_HOP_KHO",
+      "roleGroup": "TONG_HOP_KHO",
+      "groupLabel": "VII. TỔNG HỢP KHO"
+    }
+  },
+  {
+    "id": "7463876c-438b-4d57-bc0a-2102cd8a1f87",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "X% đơn được kiểm tra đầy đủ.",
+    "description": "1 – XỬ LÝ ĐƠN HÀNG CHÍNH XÁC · VII. TỔNG HỢP KHO",
+    "sort_order": 92,
+    "active": true,
+    "extra": {
+      "role": "TỔNG_HỢP_KHO",
+      "group": "TONG_HOP_KHO",
+      "objective": "1 – XỬ LÝ ĐƠN HÀNG CHÍNH XÁC",
+      "roleGroup": "TONG_HOP_KHO",
+      "groupLabel": "VII. TỔNG HỢP KHO"
+    }
+  },
+  {
+    "id": "ecaafbec-1e06-48ea-a972-2e5e7ab3740c",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "Giảm lỗi đơn X%.",
+    "description": "1 – XỬ LÝ ĐƠN HÀNG CHÍNH XÁC · VII. TỔNG HỢP KHO",
+    "sort_order": 93,
+    "active": true,
+    "extra": {
+      "role": "TỔNG_HỢP_KHO",
+      "group": "TONG_HOP_KHO",
+      "objective": "1 – XỬ LÝ ĐƠN HÀNG CHÍNH XÁC",
+      "roleGroup": "TONG_HOP_KHO",
+      "groupLabel": "VII. TỔNG HỢP KHO"
+    }
+  },
+  {
+    "id": "d301fda7-9af1-4ec6-8e15-f03258fcd530",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "X% đơn hoàn thành đúng thời gian.",
+    "description": "1 – XỬ LÝ ĐƠN HÀNG CHÍNH XÁC · VII. TỔNG HỢP KHO",
+    "sort_order": 95,
+    "active": true,
+    "extra": {
+      "role": "TỔNG_HỢP_KHO",
+      "group": "TONG_HOP_KHO",
+      "objective": "1 – XỬ LÝ ĐƠN HÀNG CHÍNH XÁC",
+      "roleGroup": "TONG_HOP_KHO",
+      "groupLabel": "VII. TỔNG HỢP KHO"
+    }
+  },
+  {
+    "id": "7b286cd3-e8b6-4990-924e-d18e86b35f7e",
+    "category_id": "a2c67d9a-970f-4cb9-af30-0b2e362a2fee",
+    "code": "VietOKR",
+    "name": "Cách viết OKRs",
+    "description": "Phân hệ gốc: Trợ lý OKRs",
+    "sort_order": 6,
+    "active": true,
+    "extra": {
+      "key": "Xây O"
+    }
+  },
+  {
+    "id": "e8e9145a-1238-42b5-ae0e-4a9060dad5db",
+    "category_id": "44da0eb0-60ed-4379-9b9e-aeed2fcebc50",
+    "code": "check-in",
+    "name": "Trợ lý Check-in hàng tuần",
+    "description": "",
+    "sort_order": 5,
+    "active": true,
+    "extra": {
+      "routes": [
+        "/okr"
+      ],
+      "mac_dinh": false
+    }
+  },
+  {
+    "id": "8cc83fcd-277d-414b-991a-12c48c94a9e2",
+    "category_id": "44da0eb0-60ed-4379-9b9e-aeed2fcebc50",
+    "code": "",
+    "name": "Trợ lý OKRs",
+    "description": "",
+    "sort_order": 2,
+    "active": true,
+    "extra": {
+      "routes": [
+        "/okr"
+      ],
+      "mac_dinh": false
+    }
+  },
+  {
+    "id": "535ddd21-77c2-42e4-874e-267a65ddaa30",
+    "category_id": "44da0eb0-60ed-4379-9b9e-aeed2fcebc50",
+    "code": "",
+    "name": "Trợ lý Báo cáo vấn đề",
+    "description": "",
+    "sort_order": 6,
+    "active": true,
+    "extra": {
+      "routes": [
+        "/bao-cao-kho"
+      ],
+      "mac_dinh": false
+    }
+  },
+  {
+    "id": "f7c584d6-a23a-4043-b778-4f4a347ed10c",
+    "category_id": "44da0eb0-60ed-4379-9b9e-aeed2fcebc50",
+    "code": "",
+    "name": "Trợ lý Thị trường kinh doanh",
+    "description": "",
+    "sort_order": 18,
+    "active": true,
+    "extra": {
+      "routes": [
+        "/thi-truong"
+      ],
+      "mac_dinh": false
+    }
+  },
+  {
+    "id": "4b6dcc70-f9e6-4301-8a60-a8ea0bb09001",
+    "category_id": "44da0eb0-60ed-4379-9b9e-aeed2fcebc50",
+    "code": "tonghopkho",
+    "name": "Trợ lý Tổng hợp kho",
+    "description": "",
+    "sort_order": 10,
+    "active": true,
+    "extra": {
+      "routes": [
+        "/bao-cao-kho"
+      ],
+      "mac_dinh": false
+    }
+  },
+  {
+    "id": "1594ae9c-6bc0-482e-9237-63acd545075b",
+    "category_id": "a2c67d9a-970f-4cb9-af30-0b2e362a2fee",
+    "code": "thongtinthitruong",
+    "name": "Thông tin Thị trường",
+    "description": "Phân hệ gốc: Bộ não chung công ty",
+    "sort_order": 3,
+    "active": true,
+    "extra": {
+      "key": "Phân hệ"
+    }
+  },
+  {
+    "id": "5e99cc58-ebfb-494e-a264-510587f15142",
+    "category_id": "44da0eb0-60ed-4379-9b9e-aeed2fcebc50",
+    "code": "",
+    "name": "Trợ lý Marketing & Thiết kế",
+    "description": "",
+    "sort_order": 14,
+    "active": true,
+    "extra": {
+      "routes": [
+        "/bao-cao-tuan"
+      ],
+      "mac_dinh": false
+    }
+  },
+  {
+    "id": "7a9740cf-3e47-46f3-8851-61b89952367c",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "Thống kê X nhóm lỗi.",
+    "description": "3 – GIẢM LỖI LẶP LẠI · VII. TỔNG HỢP KHO",
+    "sort_order": 104,
+    "active": true,
+    "extra": {
+      "role": "TỔNG_HỢP_KHO",
+      "group": "TONG_HOP_KHO",
+      "objective": "3 – GIẢM LỖI LẶP LẠI",
+      "roleGroup": "TONG_HOP_KHO",
+      "groupLabel": "VII. TỔNG HỢP KHO"
+    }
+  },
+  {
+    "id": "5b53b62a-b1c1-4555-8227-7bc16a54b2e9",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "Xác định nguyên nhân X% lỗi lặp lại.",
+    "description": "3 – GIẢM LỖI LẶP LẠI · VII. TỔNG HỢP KHO",
+    "sort_order": 105,
+    "active": true,
+    "extra": {
+      "role": "TỔNG_HỢP_KHO",
+      "group": "TONG_HOP_KHO",
+      "objective": "3 – GIẢM LỖI LẶP LẠI",
+      "roleGroup": "TONG_HOP_KHO",
+      "groupLabel": "VII. TỔNG HỢP KHO"
+    }
+  },
+  {
+    "id": "16315cc9-2ddd-4323-a79e-9b57286e0ef8",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "X giải pháp phòng ngừa được áp dụng.",
+    "description": "3 – GIẢM LỖI LẶP LẠI · VII. TỔNG HỢP KHO",
+    "sort_order": 106,
+    "active": true,
+    "extra": {
+      "role": "TỔNG_HỢP_KHO",
+      "group": "TONG_HOP_KHO",
+      "objective": "3 – GIẢM LỖI LẶP LẠI",
+      "roleGroup": "TONG_HOP_KHO",
+      "groupLabel": "VII. TỔNG HỢP KHO"
+    }
+  },
+  {
+    "id": "cda772be-8cb0-4d24-8de0-8d4d867480e1",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "Giảm lỗi lặp lại X%.",
+    "description": "3 – GIẢM LỖI LẶP LẠI · VII. TỔNG HỢP KHO",
+    "sort_order": 107,
+    "active": true,
+    "extra": {
+      "role": "TỔNG_HỢP_KHO",
+      "group": "TONG_HOP_KHO",
+      "objective": "3 – GIẢM LỖI LẶP LẠI",
+      "roleGroup": "TONG_HOP_KHO",
+      "groupLabel": "VII. TỔNG HỢP KHO"
+    }
+  },
+  {
+    "id": "81489b99-a767-4972-aa0f-0c03d6dbc6e8",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "X% thông tin đơn hàng được chuyển đúng và đủ.",
+    "description": "4 – NÂNG CAO HIỆU QUẢ PHỐI HỢP · VII. TỔNG HỢP KHO",
+    "sort_order": 110,
+    "active": true,
+    "extra": {
+      "role": "TỔNG_HỢP_KHO",
+      "group": "TONG_HOP_KHO",
+      "objective": "4 – NÂNG CAO HIỆU QUẢ PHỐI HỢP",
+      "roleGroup": "TONG_HOP_KHO",
+      "groupLabel": "VII. TỔNG HỢP KHO"
+    }
+  },
+  {
+    "id": "7ee96efc-14cd-4630-9e3d-0900ce2e82ab",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "X vấn đề liên phòng ban được cảnh báo.",
+    "description": "4 – NÂNG CAO HIỆU QUẢ PHỐI HỢP · VII. TỔNG HỢP KHO",
+    "sort_order": 112,
+    "active": true,
+    "extra": {
+      "role": "TỔNG_HỢP_KHO",
+      "group": "TONG_HOP_KHO",
+      "objective": "4 – NÂNG CAO HIỆU QUẢ PHỐI HỢP",
+      "roleGroup": "TONG_HOP_KHO",
+      "groupLabel": "VII. TỔNG HỢP KHO"
+    }
+  },
+  {
+    "id": "7f5140f5-bf89-4169-adc1-4c1adbd071d9",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "X% vấn đề được phản hồi đúng hạn.",
+    "description": "4 – NÂNG CAO HIỆU QUẢ PHỐI HỢP · VII. TỔNG HỢP KHO",
+    "sort_order": 113,
+    "active": true,
+    "extra": {
+      "role": "TỔNG_HỢP_KHO",
+      "group": "TONG_HOP_KHO",
+      "objective": "4 – NÂNG CAO HIỆU QUẢ PHỐI HỢP",
+      "roleGroup": "TONG_HOP_KHO",
+      "groupLabel": "VII. TỔNG HỢP KHO"
+    }
+  },
+  {
+    "id": "b2b8e1fb-a462-4720-9457-5cdac6b61175",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "X vấn đề lặp lại được cải tiến.",
+    "description": "5 – CHỦ ĐỘNG CẢNH BÁO VẤN ĐỀ · VII. TỔNG HỢP KHO",
+    "sort_order": 119,
+    "active": true,
+    "extra": {
+      "role": "TỔNG_HỢP_KHO",
+      "group": "TONG_HOP_KHO",
+      "objective": "5 – CHỦ ĐỘNG CẢNH BÁO VẤN ĐỀ",
+      "roleGroup": "TONG_HOP_KHO",
+      "groupLabel": "VII. TỔNG HỢP KHO"
+    }
+  },
+  {
+    "id": "2d6be55d-4095-4645-b253-28fcfcbd7825",
+    "category_id": "44da0eb0-60ed-4379-9b9e-aeed2fcebc50",
+    "code": "",
+    "name": "Trợ lý Kế hoạch",
+    "description": "",
+    "sort_order": 3,
+    "active": true,
+    "extra": {
+      "routes": [
+        "/bao-cao-tuan"
+      ],
+      "mac_dinh": false
+    }
+  },
+  {
+    "id": "bc2120b8-a950-4083-a27f-ea6413e6f957",
+    "category_id": "44da0eb0-60ed-4379-9b9e-aeed2fcebc50",
+    "code": "",
+    "name": "Trợ lý Khách hàng",
+    "description": "",
+    "sort_order": 7,
+    "active": true,
+    "extra": {
+      "routes": [
+        "/khach-hang"
+      ],
+      "mac_dinh": false
+    }
+  },
+  {
+    "id": "3b9b11b8-a1eb-46a2-95f1-8d246e42c53f",
+    "category_id": "44da0eb0-60ed-4379-9b9e-aeed2fcebc50",
+    "code": "",
+    "name": "Trợ lý Phát triển sản phẩm",
+    "description": "",
+    "sort_order": 15,
+    "active": true,
+    "extra": {
+      "routes": [],
+      "mac_dinh": false
+    }
+  },
+  {
+    "id": "f9b05a02-7017-4d80-b258-683bce1bb6ac",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "Giảm số lượng tồn bảo hành từ X xuống Y.",
+    "description": "1 – GIẢM TỒN KHO BẢO HÀNH · VIII. BẢO HÀNH",
+    "sort_order": 122,
+    "active": true,
+    "extra": {
+      "role": "BẢO_HÀNH",
+      "group": "BAO_HANH",
+      "objective": "1 – GIẢM TỒN KHO BẢO HÀNH",
+      "roleGroup": "BAO_HANH",
+      "groupLabel": "VIII. BẢO HÀNH"
+    }
+  },
+  {
+    "id": "a3a9e4d4-2ffa-4e6f-88f5-4f94e11f22a0",
+    "category_id": "3680ac4e-a46c-4296-8c46-2050a46a1ee0",
+    "code": "",
+    "name": "GIẢM TỒN KHO BẢO HÀNH",
+    "description": "VIII. BẢO HÀNH",
+    "sort_order": 121,
+    "active": true,
+    "extra": {
+      "role": "BẢO_HÀNH",
+      "group": "BAO_HANH",
+      "roleGroup": "BAO_HANH",
+      "groupLabel": "VIII. BẢO HÀNH"
+    }
+  },
+  {
+    "id": "cee70bd5-e5c2-40a2-8048-5b20794ac140",
+    "category_id": "3680ac4e-a46c-4296-8c46-2050a46a1ee0",
+    "code": "",
+    "name": "PHÁT HIỆN SỚM LỖI SẢN PHẨM",
+    "description": "VIII. BẢO HÀNH",
+    "sort_order": 127,
+    "active": true,
+    "extra": {
+      "role": "BẢO_HÀNH",
+      "group": "BAO_HANH",
+      "roleGroup": "BAO_HANH",
+      "groupLabel": "VIII. BẢO HÀNH"
+    }
+  },
+  {
+    "id": "f450d22a-d0b0-4cf5-a5ea-905478f112be",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "X% hàng bảo hành được xử lý trong thời gian mục tiêu.",
+    "description": "1 – GIẢM TỒN KHO BẢO HÀNH · VIII. BẢO HÀNH",
+    "sort_order": 124,
+    "active": true,
+    "extra": {
+      "role": "BẢO_HÀNH",
+      "group": "BAO_HANH",
+      "objective": "1 – GIẢM TỒN KHO BẢO HÀNH",
+      "roleGroup": "BAO_HANH",
+      "groupLabel": "VIII. BẢO HÀNH"
+    }
+  },
+  {
+    "id": "408a8f16-8662-4e07-964d-e47279c40569",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "Giảm số hàng tồn quá X ngày.",
+    "description": "1 – GIẢM TỒN KHO BẢO HÀNH · VIII. BẢO HÀNH",
+    "sort_order": 125,
+    "active": true,
+    "extra": {
+      "role": "BẢO_HÀNH",
+      "group": "BAO_HANH",
+      "objective": "1 – GIẢM TỒN KHO BẢO HÀNH",
+      "roleGroup": "BAO_HANH",
+      "groupLabel": "VIII. BẢO HÀNH"
+    }
+  },
+  {
+    "id": "fc379756-e214-4076-bd18-145fcc30a5e6",
+    "category_id": "44da0eb0-60ed-4379-9b9e-aeed2fcebc50",
+    "code": "baohanh",
+    "name": "Trợ lý Bảo hành",
+    "description": "",
+    "sort_order": 11,
+    "active": true,
+    "extra": {
+      "routes": [
+        "/bao-cao-kho"
+      ],
+      "mac_dinh": false
+    }
+  },
+  {
+    "id": "ff463017-f65b-409b-91c1-7a2174cba9ce",
+    "category_id": "a2c67d9a-970f-4cb9-af30-0b2e362a2fee",
+    "code": "kinhdoanh",
+    "name": "Kinh doanh",
+    "description": "Phân hệ gốc: Bộ não chung công ty",
+    "sort_order": 4,
+    "active": true,
+    "extra": {
+      "key": "Đào tạo"
+    }
+  },
+  {
+    "id": "e6196367-84cb-44e5-9476-a4c212e3d1b1",
+    "category_id": "44da0eb0-60ed-4379-9b9e-aeed2fcebc50",
+    "code": "",
+    "name": "Trợ lý Bảng tin",
+    "description": "",
+    "sort_order": 19,
+    "active": true,
+    "extra": {
+      "routes": [
+        "/"
+      ],
+      "mac_dinh": false
+    }
+  },
+  {
+    "id": "85164bd3-bc34-4346-b7b2-8213439eee47",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "X% lỗi lặp lại được báo cho bộ phận liên quan.",
+    "description": "2 – PHÁT HIỆN SỚM LỖI SẢN PHẨM · VIII. BẢO HÀNH",
+    "sort_order": 131,
+    "active": true,
+    "extra": {
+      "role": "BẢO_HÀNH",
+      "group": "BAO_HANH",
+      "objective": "2 – PHÁT HIỆN SỚM LỖI SẢN PHẨM",
+      "roleGroup": "BAO_HANH",
+      "groupLabel": "VIII. BẢO HÀNH"
+    }
+  },
+  {
+    "id": "ddf6eb6b-1217-4329-8147-f19b3494859b",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "Giảm thời gian xử lý trung bình từ X xuống Y.",
+    "description": "3 – TĂNG TỐC ĐỘ XỬ LÝ BẢO HÀNH · VIII. BẢO HÀNH",
+    "sort_order": 134,
+    "active": true,
+    "extra": {
+      "role": "BẢO_HÀNH",
+      "group": "BAO_HANH",
+      "objective": "3 – TĂNG TỐC ĐỘ XỬ LÝ BẢO HÀNH",
+      "roleGroup": "BAO_HANH",
+      "groupLabel": "VIII. BẢO HÀNH"
+    }
+  },
+  {
+    "id": "71ec5dcb-6381-458f-aeeb-38abbb381cb8",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "X% trường hợp xử lý đúng hạn.",
+    "description": "3 – TĂNG TỐC ĐỘ XỬ LÝ BẢO HÀNH · VIII. BẢO HÀNH",
+    "sort_order": 135,
+    "active": true,
+    "extra": {
+      "role": "BẢO_HÀNH",
+      "group": "BAO_HANH",
+      "objective": "3 – TĂNG TỐC ĐỘ XỬ LÝ BẢO HÀNH",
+      "roleGroup": "BAO_HANH",
+      "groupLabel": "VIII. BẢO HÀNH"
+    }
+  },
+  {
+    "id": "836edf47-bca6-4d98-a904-5eea46267906",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "X% vấn đề chậm được cải tiến.",
+    "description": "3 – TĂNG TỐC ĐỘ XỬ LÝ BẢO HÀNH · VIII. BẢO HÀNH",
+    "sort_order": 138,
+    "active": true,
+    "extra": {
+      "role": "BẢO_HÀNH",
+      "group": "BAO_HANH",
+      "objective": "3 – TĂNG TỐC ĐỘ XỬ LÝ BẢO HÀNH",
+      "roleGroup": "BAO_HANH",
+      "groupLabel": "VIII. BẢO HÀNH"
+    }
+  },
+  {
+    "id": "60d9a77d-2f45-4169-95ec-d2c13b7225a8",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "X% yêu cầu bảo hành được phản hồi đúng hạn.",
+    "description": "4 – NÂNG CAO HIỆU QUẢ NHÀ CUNG CẤP · VIII. BẢO HÀNH",
+    "sort_order": 141,
+    "active": true,
+    "extra": {
+      "role": "BẢO_HÀNH",
+      "group": "BAO_HANH",
+      "objective": "4 – NÂNG CAO HIỆU QUẢ NHÀ CUNG CẤP",
+      "roleGroup": "BAO_HANH",
+      "groupLabel": "VIII. BẢO HÀNH"
+    }
+  },
+  {
+    "id": "5aaedbe1-678d-4d9a-969a-245c118423c2",
+    "category_id": "44da0eb0-60ed-4379-9b9e-aeed2fcebc50",
+    "code": "",
+    "name": "Trợ lý Báo cáo tuần",
+    "description": "",
+    "sort_order": 4,
+    "active": true,
+    "extra": {
+      "routes": [
+        "/bao-cao-tuan"
+      ],
+      "mac_dinh": false
+    }
+  },
+  {
+    "id": "8ff0c80c-fb02-4701-957f-efb903523c42",
+    "category_id": "44da0eb0-60ed-4379-9b9e-aeed2fcebc50",
+    "code": "",
+    "name": "Trợ lý Kinh doanh",
+    "description": "",
+    "sort_order": 8,
+    "active": true,
+    "extra": {
+      "routes": [
+        "/bao-cao-ban-hang"
+      ],
+      "mac_dinh": false
+    }
+  },
+  {
+    "id": "07493c20-9962-4020-978c-85ffbfdec1d2",
+    "category_id": "44da0eb0-60ed-4379-9b9e-aeed2fcebc50",
+    "code": "",
+    "name": "Trợ lý Kế toán",
+    "description": "",
+    "sort_order": 12,
+    "active": true,
+    "extra": {
+      "routes": [],
+      "mac_dinh": false
+    }
+  },
+  {
+    "id": "579f7fd6-226d-4507-a7ae-912fd52520ca",
+    "category_id": "44da0eb0-60ed-4379-9b9e-aeed2fcebc50",
+    "code": "",
+    "name": "Trợ lý Lái xe",
+    "description": "",
+    "sort_order": 16,
+    "active": true,
+    "extra": {
+      "routes": [],
+      "mac_dinh": false
+    }
+  },
+  {
+    "id": "6170df16-51ee-4bb8-9cc7-2d60264a167c",
+    "category_id": "a2c67d9a-970f-4cb9-af30-0b2e362a2fee",
+    "code": "KhainiemOKR",
+    "name": "Khái niệm OKRs",
+    "description": "",
+    "sort_order": 5,
+    "active": true,
+    "extra": {
+      "key": "Khái niệm"
+    }
+  },
+  {
+    "id": "c17991f0-79a3-4dc8-bf80-0665ac0d85f0",
+    "category_id": "3680ac4e-a46c-4296-8c46-2050a46a1ee0",
+    "code": "",
+    "name": "KIỂM SOÁT CÔNG NỢ",
+    "description": "IX. KẾ TOÁN",
+    "sort_order": 151,
+    "active": true,
+    "extra": {
+      "role": "KẾ_TOÁN",
+      "group": "KE_TOAN",
+      "roleGroup": "KE_TOAN",
+      "groupLabel": "IX. KẾ TOÁN"
+    }
+  },
+  {
+    "id": "78b7fbb2-6d3c-47ce-b794-6ec1ba7e9b9b",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "100% lỗi được ghi nhận theo sản phẩm.",
+    "description": "2 – PHÁT HIỆN SỚM LỖI SẢN PHẨM · VIII. BẢO HÀNH",
+    "sort_order": 128,
+    "active": true,
+    "extra": {
+      "role": "BẢO_HÀNH",
+      "group": "BAO_HANH",
+      "objective": "2 – PHÁT HIỆN SỚM LỖI SẢN PHẨM",
+      "roleGroup": "BAO_HANH",
+      "groupLabel": "VIII. BẢO HÀNH"
+    }
+  },
+  {
+    "id": "96b03310-83ef-4635-9e0a-b9174970fdc2",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "100% lỗi nghi ngờ theo lô được cảnh báo.",
+    "description": "2 – PHÁT HIỆN SỚM LỖI SẢN PHẨM · VIII. BẢO HÀNH",
+    "sort_order": 130,
+    "active": true,
+    "extra": {
+      "role": "BẢO_HÀNH",
+      "group": "BAO_HANH",
+      "objective": "2 – PHÁT HIỆN SỚM LỖI SẢN PHẨM",
+      "roleGroup": "BAO_HANH",
+      "groupLabel": "VIII. BẢO HÀNH"
+    }
+  },
+  {
+    "id": "a6b40f8d-6e18-46ab-9301-9402f1e2399f",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "Giảm công nợ quá hạn X%.",
+    "description": "1 – KIỂM SOÁT CÔNG NỢ · IX. KẾ TOÁN",
+    "sort_order": 152,
+    "active": true,
+    "extra": {
+      "role": "KẾ_TOÁN",
+      "group": "KE_TOAN",
+      "objective": "1 – KIỂM SOÁT CÔNG NỢ",
+      "roleGroup": "KE_TOAN",
+      "groupLabel": "IX. KẾ TOÁN"
+    }
+  },
+  {
+    "id": "ff8d943d-8fb5-4ff2-8b29-538dbab4fada",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "X% khách hàng quá hạn được cảnh báo.",
+    "description": "1 – KIỂM SOÁT CÔNG NỢ · IX. KẾ TOÁN",
+    "sort_order": 153,
+    "active": true,
+    "extra": {
+      "role": "KẾ_TOÁN",
+      "group": "KE_TOAN",
+      "objective": "1 – KIỂM SOÁT CÔNG NỢ",
+      "roleGroup": "KE_TOAN",
+      "groupLabel": "IX. KẾ TOÁN"
+    }
+  },
+  {
+    "id": "a87ee23f-1d3a-4da2-87ad-de0c836c999c",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "X% công nợ lớn được theo dõi.",
+    "description": "1 – KIỂM SOÁT CÔNG NỢ · IX. KẾ TOÁN",
+    "sort_order": 154,
+    "active": true,
+    "extra": {
+      "role": "KẾ_TOÁN",
+      "group": "KE_TOAN",
+      "objective": "1 – KIỂM SOÁT CÔNG NỢ",
+      "roleGroup": "KE_TOAN",
+      "groupLabel": "IX. KẾ TOÁN"
+    }
+  },
+  {
+    "id": "a97b0eb2-6784-4d37-a9fd-d6271a662300",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "X% công nợ được thu đúng kế hoạch.",
+    "description": "1 – KIỂM SOÁT CÔNG NỢ · IX. KẾ TOÁN",
+    "sort_order": 155,
+    "active": true,
+    "extra": {
+      "role": "KẾ_TOÁN",
+      "group": "KE_TOAN",
+      "objective": "1 – KIỂM SOÁT CÔNG NỢ",
+      "roleGroup": "KE_TOAN",
+      "groupLabel": "IX. KẾ TOÁN"
+    }
+  },
+  {
+    "id": "76679ce8-adda-447b-a7a3-230cc4399b1a",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "Không để công nợ rủi ro lớn không được cảnh báo.",
+    "description": "1 – KIỂM SOÁT CÔNG NỢ · IX. KẾ TOÁN",
+    "sort_order": 156,
+    "active": true,
+    "extra": {
+      "role": "KẾ_TOÁN",
+      "group": "KE_TOAN",
+      "objective": "1 – KIỂM SOÁT CÔNG NỢ",
+      "roleGroup": "KE_TOAN",
+      "groupLabel": "IX. KẾ TOÁN"
+    }
+  },
+  {
+    "id": "9c1e7f38-9902-47b1-9e1d-7b9a42a544c5",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "Cảnh báo nguy cơ thiếu tiền trước X ngày.",
+    "description": "2 – KIỂM SOÁT DÒNG TIỀN · IX. KẾ TOÁN",
+    "sort_order": 161,
+    "active": true,
+    "extra": {
+      "role": "KẾ_TOÁN",
+      "group": "KE_TOAN",
+      "objective": "2 – KIỂM SOÁT DÒNG TIỀN",
+      "roleGroup": "KE_TOAN",
+      "groupLabel": "IX. KẾ TOÁN"
+    }
+  },
+  {
+    "id": "b8e330c0-03bd-4695-9d09-17ab8a9d2b4a",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "Giảm chênh lệch dự kiến và thực tế X%.",
+    "description": "2 – KIỂM SOÁT DÒNG TIỀN · IX. KẾ TOÁN",
+    "sort_order": 162,
+    "active": true,
+    "extra": {
+      "role": "KẾ_TOÁN",
+      "group": "KE_TOAN",
+      "objective": "2 – KIỂM SOÁT DÒNG TIỀN",
+      "roleGroup": "KE_TOAN",
+      "groupLabel": "IX. KẾ TOÁN"
+    }
+  },
+  {
+    "id": "4790279a-3293-4418-bbe2-d2a28d870f72",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "X% khoản chi được phân loại.",
+    "description": "3 – KIỂM SOÁT CHI PHÍ · IX. KẾ TOÁN",
+    "sort_order": 164,
+    "active": true,
+    "extra": {
+      "role": "KẾ_TOÁN",
+      "group": "KE_TOAN",
+      "objective": "3 – KIỂM SOÁT CHI PHÍ",
+      "roleGroup": "KE_TOAN",
+      "groupLabel": "IX. KẾ TOÁN"
+    }
+  },
+  {
+    "id": "c72b4041-0bfd-4371-8792-ec27b60b4d5a",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "X% khoản chi bất thường được cảnh báo.",
+    "description": "3 – KIỂM SOÁT CHI PHÍ · IX. KẾ TOÁN",
+    "sort_order": 165,
+    "active": true,
+    "extra": {
+      "role": "KẾ_TOÁN",
+      "group": "KE_TOAN",
+      "objective": "3 – KIỂM SOÁT CHI PHÍ",
+      "roleGroup": "KE_TOAN",
+      "groupLabel": "IX. KẾ TOÁN"
+    }
+  },
+  {
+    "id": "6c5ee431-cbb9-44c4-9d9e-a013497d6fcb",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "Giảm X% chi phí không hiệu quả.",
+    "description": "3 – KIỂM SOÁT CHI PHÍ · IX. KẾ TOÁN",
+    "sort_order": 166,
+    "active": true,
+    "extra": {
+      "role": "KẾ_TOÁN",
+      "group": "KE_TOAN",
+      "objective": "3 – KIỂM SOÁT CHI PHÍ",
+      "roleGroup": "KE_TOAN",
+      "groupLabel": "IX. KẾ TOÁN"
+    }
+  },
+  {
+    "id": "95d73c00-3332-4d15-91f4-6120d9747fd3",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "X đề xuất tiết kiệm chi phí.",
+    "description": "3 – KIỂM SOÁT CHI PHÍ · IX. KẾ TOÁN",
+    "sort_order": 167,
+    "active": true,
+    "extra": {
+      "role": "KẾ_TOÁN",
+      "group": "KE_TOAN",
+      "objective": "3 – KIỂM SOÁT CHI PHÍ",
+      "roleGroup": "KE_TOAN",
+      "groupLabel": "IX. KẾ TOÁN"
+    }
+  },
+  {
+    "id": "d1d8ef8e-8f5b-4eab-872a-20ccb8fa4b0a",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "X% báo cáo đúng hạn.",
+    "description": "4 – ĐẢM BẢO CHÍNH XÁC VÀ ĐÚNG HẠN · IX. KẾ TOÁN",
+    "sort_order": 170,
+    "active": true,
+    "extra": {
+      "role": "KẾ_TOÁN",
+      "group": "KE_TOAN",
+      "objective": "4 – ĐẢM BẢO CHÍNH XÁC VÀ ĐÚNG HẠN",
+      "roleGroup": "KE_TOAN",
+      "groupLabel": "IX. KẾ TOÁN"
+    }
+  },
+  {
+    "id": "03e00bd4-e40e-4261-8dc2-01b2d67f82bd",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "Giảm lỗi số liệu X%.",
+    "description": "4 – ĐẢM BẢO CHÍNH XÁC VÀ ĐÚNG HẠN · IX. KẾ TOÁN",
+    "sort_order": 171,
+    "active": true,
+    "extra": {
+      "role": "KẾ_TOÁN",
+      "group": "KE_TOAN",
+      "objective": "4 – ĐẢM BẢO CHÍNH XÁC VÀ ĐÚNG HẠN",
+      "roleGroup": "KE_TOAN",
+      "groupLabel": "IX. KẾ TOÁN"
+    }
+  },
+  {
+    "id": "3cf7e9ac-b200-4180-a225-bc725f4ea4a3",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "Giảm sai sót chứng từ X%.",
+    "description": "4 – ĐẢM BẢO CHÍNH XÁC VÀ ĐÚNG HẠN · IX. KẾ TOÁN",
+    "sort_order": 172,
+    "active": true,
+    "extra": {
+      "role": "KẾ_TOÁN",
+      "group": "KE_TOAN",
+      "objective": "4 – ĐẢM BẢO CHÍNH XÁC VÀ ĐÚNG HẠN",
+      "roleGroup": "KE_TOAN",
+      "groupLabel": "IX. KẾ TOÁN"
+    }
+  },
+  {
+    "id": "056cc290-0fe8-4425-a74d-464479dd8078",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "X% đối chiếu hoàn thành đúng hạn.",
+    "description": "4 – ĐẢM BẢO CHÍNH XÁC VÀ ĐÚNG HẠN · IX. KẾ TOÁN",
+    "sort_order": 173,
+    "active": true,
+    "extra": {
+      "role": "KẾ_TOÁN",
+      "group": "KE_TOAN",
+      "objective": "4 – ĐẢM BẢO CHÍNH XÁC VÀ ĐÚNG HẠN",
+      "roleGroup": "KE_TOAN",
+      "groupLabel": "IX. KẾ TOÁN"
+    }
+  },
+  {
+    "id": "98b1e36c-06ad-4bbd-bb90-838f951a749c",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "X cảnh báo công nợ.",
+    "description": "5 – CẢNH BÁO RỦI RO TÀI CHÍNH · IX. KẾ TOÁN",
+    "sort_order": 176,
+    "active": true,
+    "extra": {
+      "role": "KẾ_TOÁN",
+      "group": "KE_TOAN",
+      "objective": "5 – CẢNH BÁO RỦI RO TÀI CHÍNH",
+      "roleGroup": "KE_TOAN",
+      "groupLabel": "IX. KẾ TOÁN"
+    }
+  },
+  {
+    "id": "876de8c3-5fc2-478c-a251-54e80c177749",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "X cảnh báo dòng tiền.",
+    "description": "5 – CẢNH BÁO RỦI RO TÀI CHÍNH · IX. KẾ TOÁN",
+    "sort_order": 177,
+    "active": true,
+    "extra": {
+      "role": "KẾ_TOÁN",
+      "group": "KE_TOAN",
+      "objective": "5 – CẢNH BÁO RỦI RO TÀI CHÍNH",
+      "roleGroup": "KE_TOAN",
+      "groupLabel": "IX. KẾ TOÁN"
+    }
+  },
+  {
+    "id": "3a144daf-8776-4472-8b74-95173138bc60",
+    "category_id": "3680ac4e-a46c-4296-8c46-2050a46a1ee0",
+    "code": "",
+    "name": "KIỂM SOÁT CHI PHÍ",
+    "description": "IX. KẾ TOÁN",
+    "sort_order": 163,
+    "active": true,
+    "extra": {
+      "role": "KẾ_TOÁN",
+      "group": "KE_TOAN",
+      "roleGroup": "KE_TOAN",
+      "groupLabel": "IX. KẾ TOÁN"
+    }
+  },
+  {
+    "id": "577626b5-5626-4fae-990d-769c67326264",
+    "category_id": "3680ac4e-a46c-4296-8c46-2050a46a1ee0",
+    "code": "",
+    "name": "BÁO CÁO NHANH, CHÍNH XÁC, TRỰC QUAN",
+    "description": "IX. KẾ TOÁN",
+    "sort_order": 169,
+    "active": true,
+    "extra": {
+      "role": "KẾ_TOÁN",
+      "group": "KE_TOAN",
+      "roleGroup": "KE_TOAN",
+      "groupLabel": "IX. KẾ TOÁN"
+    }
+  },
+  {
+    "id": "288b67e1-f827-4218-a50e-a613f4a0adfe",
+    "category_id": "3680ac4e-a46c-4296-8c46-2050a46a1ee0",
+    "code": "",
+    "name": "CẢNH BÁO RỦI RO TÀI CHÍNH",
+    "description": "IX. KẾ TOÁN",
+    "sort_order": 175,
+    "active": true,
+    "extra": {
+      "role": "KẾ_TOÁN",
+      "group": "KE_TOAN",
+      "roleGroup": "KE_TOAN",
+      "groupLabel": "IX. KẾ TOÁN"
+    }
+  },
+  {
+    "id": "54c2af7c-8740-4c07-9dec-602a75363b87",
+    "category_id": "a2c67d9a-970f-4cb9-af30-0b2e362a2fee",
+    "code": "baocaotuan",
+    "name": "Viết báo cáo",
+    "description": "Phân hệ gốc: Trợ lý Báo cáo tuần",
+    "sort_order": 15,
+    "active": true,
+    "extra": {
+      "key": "Viết báo cáo"
+    }
+  },
+  {
+    "id": "14024281-197f-4442-a9d5-3d317988655f",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "X cảnh báo chi phí.",
+    "description": "5 – CẢNH BÁO RỦI RO TÀI CHÍNH · IX. KẾ TOÁN",
+    "sort_order": 178,
+    "active": true,
+    "extra": {
+      "role": "KẾ_TOÁN",
+      "group": "KE_TOAN",
+      "objective": "5 – CẢNH BÁO RỦI RO TÀI CHÍNH",
+      "roleGroup": "KE_TOAN",
+      "groupLabel": "IX. KẾ TOÁN"
+    }
+  },
+  {
+    "id": "9730b08c-c4c1-4494-bcb7-3fa63a5371c6",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "100% rủi ro lớn được báo cáo.",
+    "description": "5 – CẢNH BÁO RỦI RO TÀI CHÍNH · IX. KẾ TOÁN",
+    "sort_order": 179,
+    "active": true,
+    "extra": {
+      "role": "KẾ_TOÁN",
+      "group": "KE_TOAN",
+      "objective": "5 – CẢNH BÁO RỦI RO TÀI CHÍNH",
+      "roleGroup": "KE_TOAN",
+      "groupLabel": "IX. KẾ TOÁN"
+    }
+  },
+  {
+    "id": "ff108cd0-42d2-47e4-b9e5-a835c021a3ab",
+    "category_id": "a2c67d9a-970f-4cb9-af30-0b2e362a2fee",
+    "code": "baocaovande",
+    "name": "Báo cáo vấn đề",
+    "description": "",
+    "sort_order": 8,
+    "active": true,
+    "extra": {
+      "key": "Kiểm tra"
+    }
+  },
+  {
+    "id": "85c67875-721e-4264-8cdb-5edb9ed18bcd",
+    "category_id": "3680ac4e-a46c-4296-8c46-2050a46a1ee0",
+    "code": "",
+    "name": "ĐẢM BẢO XE LUÔN SẴN SÀNG",
+    "description": "X. LÁI XE KIÊM HỖ TRỢ KHO",
+    "sort_order": 187,
+    "active": true,
+    "extra": {
+      "role": "LÁI_XE",
+      "group": "LAI_XE_KIEM_HO_TRO_KHO",
+      "roleGroup": "LAI_XE_KIEM_HO_TRO_KHO",
+      "groupLabel": "X. LÁI XE KIÊM HỖ TRỢ KHO"
+    }
+  },
+  {
+    "id": "5a4c2bf6-1184-44f6-ad9a-87f3d1b054d3",
+    "category_id": "3680ac4e-a46c-4296-8c46-2050a46a1ee0",
+    "code": "",
+    "name": "QUẢN LÝ XE HIỆU QUẢ",
+    "description": "X. LÁI XE KIÊM HỖ TRỢ KHO",
+    "sort_order": 193,
+    "active": true,
+    "extra": {
+      "role": "LÁI_XE",
+      "group": "LAI_XE_KIEM_HO_TRO_KHO",
+      "roleGroup": "LAI_XE_KIEM_HO_TRO_KHO",
+      "groupLabel": "X. LÁI XE KIÊM HỖ TRỢ KHO"
+    }
+  },
+  {
+    "id": "d2d0dd52-d66c-4f19-9d04-5a7cc27f1b80",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "0 vấn đề do lỗi chủ quan.",
+    "description": "1 – PHỤC VỤ CÔNG TÁC AN TOÀN VÀ ĐÚNG GIỜ · X. LÁI XE KIÊM HỖ TRỢ KHO",
+    "sort_order": 183,
+    "active": true,
+    "extra": {
+      "role": "LÁI_XE",
+      "group": "LAI_XE_KIEM_HO_TRO_KHO",
+      "objective": "1 – PHỤC VỤ CÔNG TÁC AN TOÀN VÀ ĐÚNG GIỜ",
+      "roleGroup": "LAI_XE_KIEM_HO_TRO_KHO",
+      "groupLabel": "X. LÁI XE KIÊM HỖ TRỢ KHO"
+    }
+  },
+  {
+    "id": "e3d86203-85af-47eb-afd2-401f000e2836",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "X% lịch xe được chuẩn bị trước.",
+    "description": "1 – PHỤC VỤ CÔNG TÁC AN TOÀN VÀ ĐÚNG GIỜ · X. LÁI XE KIÊM HỖ TRỢ KHO",
+    "sort_order": 184,
+    "active": true,
+    "extra": {
+      "role": "LÁI_XE",
+      "group": "LAI_XE_KIEM_HO_TRO_KHO",
+      "objective": "1 – PHỤC VỤ CÔNG TÁC AN TOÀN VÀ ĐÚNG GIỜ",
+      "roleGroup": "LAI_XE_KIEM_HO_TRO_KHO",
+      "groupLabel": "X. LÁI XE KIÊM HỖ TRỢ KHO"
+    }
+  },
+  {
+    "id": "decba778-d22b-402b-b6cb-60e8c1709085",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "100% lịch bảo dưỡng được theo dõi.",
+    "description": "2 – ĐẢM BẢO XE LUÔN SẴN SÀNG · X. LÁI XE KIÊM HỖ TRỢ KHO",
+    "sort_order": 188,
+    "active": true,
+    "extra": {
+      "role": "LÁI_XE",
+      "group": "LAI_XE_KIEM_HO_TRO_KHO",
+      "objective": "2 – ĐẢM BẢO XE LUÔN SẴN SÀNG",
+      "roleGroup": "LAI_XE_KIEM_HO_TRO_KHO",
+      "groupLabel": "X. LÁI XE KIÊM HỖ TRỢ KHO"
+    }
+  },
+  {
+    "id": "77a5b7e5-7c47-48f2-b37c-fd39997a1bda",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "100% đăng kiểm và bảo hiểm được theo dõi.",
+    "description": "2 – ĐẢM BẢO XE LUÔN SẴN SÀNG · X. LÁI XE KIÊM HỖ TRỢ KHO",
+    "sort_order": 189,
+    "active": true,
+    "extra": {
+      "role": "LÁI_XE",
+      "group": "LAI_XE_KIEM_HO_TRO_KHO",
+      "objective": "2 – ĐẢM BẢO XE LUÔN SẴN SÀNG",
+      "roleGroup": "LAI_XE_KIEM_HO_TRO_KHO",
+      "groupLabel": "X. LÁI XE KIÊM HỖ TRỢ KHO"
+    }
+  },
+  {
+    "id": "c01aa03a-72c8-44d3-a792-e56a6ab1f462",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "X% bảo dưỡng thực hiện đúng hạn.",
+    "description": "2 – ĐẢM BẢO XE LUÔN SẴN SÀNG · X. LÁI XE KIÊM HỖ TRỢ KHO",
+    "sort_order": 190,
+    "active": true,
+    "extra": {
+      "role": "LÁI_XE",
+      "group": "LAI_XE_KIEM_HO_TRO_KHO",
+      "objective": "2 – ĐẢM BẢO XE LUÔN SẴN SÀNG",
+      "roleGroup": "LAI_XE_KIEM_HO_TRO_KHO",
+      "groupLabel": "X. LÁI XE KIÊM HỖ TRỢ KHO"
+    }
+  },
+  {
+    "id": "0c5cb390-1939-4d2a-9660-f1da08893b9f",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "100% dấu hiệu bất thường được báo sớm.",
+    "description": "2 – ĐẢM BẢO XE LUÔN SẴN SÀNG · X. LÁI XE KIÊM HỖ TRỢ KHO",
+    "sort_order": 191,
+    "active": true,
+    "extra": {
+      "role": "LÁI_XE",
+      "group": "LAI_XE_KIEM_HO_TRO_KHO",
+      "objective": "2 – ĐẢM BẢO XE LUÔN SẴN SÀNG",
+      "roleGroup": "LAI_XE_KIEM_HO_TRO_KHO",
+      "groupLabel": "X. LÁI XE KIÊM HỖ TRỢ KHO"
+    }
+  },
+  {
+    "id": "7e3139d0-ad18-417d-bb7b-01b6bacd1a82",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "Giảm sự cố xe hỏng đột xuất xuống X.",
+    "description": "2 – ĐẢM BẢO XE LUÔN SẴN SÀNG · X. LÁI XE KIÊM HỖ TRỢ KHO",
+    "sort_order": 192,
+    "active": true,
+    "extra": {
+      "role": "LÁI_XE",
+      "group": "LAI_XE_KIEM_HO_TRO_KHO",
+      "objective": "2 – ĐẢM BẢO XE LUÔN SẴN SÀNG",
+      "roleGroup": "LAI_XE_KIEM_HO_TRO_KHO",
+      "groupLabel": "X. LÁI XE KIÊM HỖ TRỢ KHO"
+    }
+  },
+  {
+    "id": "80b4c598-c679-49d0-b04c-25208a1d22e0",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "Theo dõi 100% chi phí xe.",
+    "description": "3 – QUẢN LÝ XE HIỆU QUẢ · X. LÁI XE KIÊM HỖ TRỢ KHO",
+    "sort_order": 194,
+    "active": true,
+    "extra": {
+      "role": "LÁI_XE",
+      "group": "LAI_XE_KIEM_HO_TRO_KHO",
+      "objective": "3 – QUẢN LÝ XE HIỆU QUẢ",
+      "roleGroup": "LAI_XE_KIEM_HO_TRO_KHO",
+      "groupLabel": "X. LÁI XE KIÊM HỖ TRỢ KHO"
+    }
+  },
+  {
+    "id": "c8f8131a-e228-44a5-8820-d73fb48b37cb",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "Giảm tiêu hao bất thường X%.",
+    "description": "3 – QUẢN LÝ XE HIỆU QUẢ · X. LÁI XE KIÊM HỖ TRỢ KHO",
+    "sort_order": 196,
+    "active": true,
+    "extra": {
+      "role": "LÁI_XE",
+      "group": "LAI_XE_KIEM_HO_TRO_KHO",
+      "objective": "3 – QUẢN LÝ XE HIỆU QUẢ",
+      "roleGroup": "LAI_XE_KIEM_HO_TRO_KHO",
+      "groupLabel": "X. LÁI XE KIÊM HỖ TRỢ KHO"
+    }
+  },
+  {
+    "id": "d4d37d39-dfd5-44ac-936f-e8b6173a8842",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "Xe luôn sạch sẽ và đủ điều kiện phục vụ công tác.",
+    "description": "3 – QUẢN LÝ XE HIỆU QUẢ · X. LÁI XE KIÊM HỖ TRỢ KHO",
+    "sort_order": 198,
+    "active": true,
+    "extra": {
+      "role": "LÁI_XE",
+      "group": "LAI_XE_KIEM_HO_TRO_KHO",
+      "objective": "3 – QUẢN LÝ XE HIỆU QUẢ",
+      "roleGroup": "LAI_XE_KIEM_HO_TRO_KHO",
+      "groupLabel": "X. LÁI XE KIÊM HỖ TRỢ KHO"
+    }
+  },
+  {
+    "id": "aff6cc18-75e5-4e79-b373-0fecc5d82979",
+    "category_id": "a2c67d9a-970f-4cb9-af30-0b2e362a2fee",
+    "code": "lapkehoach",
+    "name": "Lập kế hoạch",
+    "description": "Phân hệ gốc: Trợ lý Kế hoạch",
+    "sort_order": 12,
+    "active": true,
+    "extra": {
+      "key": "Lập kế hoạch"
+    }
+  },
+  {
+    "id": "57782de7-7404-47d4-b7ac-4676bf55db68",
+    "category_id": "a2c67d9a-970f-4cb9-af30-0b2e362a2fee",
+    "code": "chiendich",
+    "name": "Chiến dịch",
+    "description": "Phân hệ gốc: Trợ lý Marketing & Thiết kế",
+    "sort_order": 56,
+    "active": true,
+    "extra": {
+      "key": "Chiến dịch"
+    }
+  },
+  {
+    "id": "36badb94-076f-49ce-8e7f-7058d8254da3",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "X% công việc hỗ trợ hoàn thành đúng yêu cầu.",
+    "description": "4 – SỬ DỤNG HIỆU QUẢ THỜI GIAN KHÔNG CÓ LỊCH XE · X. LÁI XE KIÊM HỖ TRỢ KHO",
+    "sort_order": 202,
+    "active": true,
+    "extra": {
+      "role": "LÁI_XE",
+      "group": "LAI_XE_KIEM_HO_TRO_KHO",
+      "objective": "4 – SỬ DỤNG HIỆU QUẢ THỜI GIAN KHÔNG CÓ LỊCH XE",
+      "roleGroup": "LAI_XE_KIEM_HO_TRO_KHO",
+      "groupLabel": "X. LÁI XE KIÊM HỖ TRỢ KHO"
+    }
+  },
+  {
+    "id": "2c84e58a-3966-4917-992c-420b9437d884",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "100% bất thường của xe được ghi nhận.",
+    "description": "5 – CHỦ ĐỘNG PHÁT HIỆN VÀ XỬ LÝ RỦI RO · X. LÁI XE KIÊM HỖ TRỢ KHO",
+    "sort_order": 206,
+    "active": true,
+    "extra": {
+      "role": "LÁI_XE",
+      "group": "LAI_XE_KIEM_HO_TRO_KHO",
+      "objective": "5 – CHỦ ĐỘNG PHÁT HIỆN VÀ XỬ LÝ RỦI RO",
+      "roleGroup": "LAI_XE_KIEM_HO_TRO_KHO",
+      "groupLabel": "X. LÁI XE KIÊM HỖ TRỢ KHO"
+    }
+  },
+  {
+    "id": "a2370376-f938-4619-981d-f70329f84811",
+    "category_id": "3680ac4e-a46c-4296-8c46-2050a46a1ee0",
+    "code": "",
+    "name": "TĂNG HIỆU QUẢ NỘI DUNG MARKETING",
+    "description": "",
+    "sort_order": 37,
+    "active": true,
+    "extra": {
+      "role": "MARKETING",
+      "group": "MARKETING_KIEM_THIET_KE",
+      "roleGroup": "MARKETING_KIEM_THIET_KE",
+      "groupLabel": "V. MARKETING KIÊM THIẾT KẾ"
+    }
+  },
+  {
+    "id": "8cab3dcd-b0f6-4a0c-8c7e-ecfa0b70c1ea",
+    "category_id": "3680ac4e-a46c-4296-8c46-2050a46a1ee0",
+    "code": "",
+    "name": "CẢI TIẾN LIÊN TỤC",
+    "description": "V. MARKETING KIÊM THIẾT KẾ",
+    "sort_order": 55,
+    "active": true,
+    "extra": {
+      "role": "MARKETING",
+      "group": "MARKETING_KIEM_THIET_KE",
+      "roleGroup": "MARKETING_KIEM_THIET_KE",
+      "groupLabel": "V. MARKETING KIÊM THIẾT KẾ"
+    }
+  },
+  {
+    "id": "3a648885-bb95-4fec-bb81-76f5ca565b19",
+    "category_id": "a2c67d9a-970f-4cb9-af30-0b2e362a2fee",
+    "code": "khachhang",
+    "name": "Thông tin Khách hàng",
+    "description": "",
+    "sort_order": 33,
+    "active": true,
+    "extra": {
+      "key": "Chất lượng"
+    }
+  },
+  {
+    "id": "7cd8cf09-b2ac-4827-a016-ba79b0dca782",
+    "category_id": "3680ac4e-a46c-4296-8c46-2050a46a1ee0",
+    "code": "",
+    "name": "ĐẠT DOANH SỐ",
+    "description": "",
+    "sort_order": 1,
+    "active": true,
+    "extra": {
+      "role": "KINH_DOANH",
+      "group": "NHAN_VIEN_KINH_DOANH",
+      "roleGroup": "NHAN_VIEN_KINH_DOANH",
+      "groupLabel": "V. NHÂN VIÊN KINH DOANH"
+    }
+  },
+  {
+    "id": "2d70de7e-15f6-45c9-bab4-a00215cbe524",
+    "category_id": "3680ac4e-a46c-4296-8c46-2050a46a1ee0",
+    "code": "",
+    "name": "TĂNG DOANH SỐ KHÁCH CŨ",
+    "description": "",
+    "sort_order": 13,
+    "active": true,
+    "extra": {
+      "role": "KINH_DOANH",
+      "group": "NHAN_VIEN_KINH_DOANH",
+      "roleGroup": "NHAN_VIEN_KINH_DOANH",
+      "groupLabel": "V. NHÂN VIÊN KINH DOANH"
+    }
+  },
+  {
+    "id": "eb406bfd-975a-4b89-bc44-2867fb1d0a27",
+    "category_id": "3680ac4e-a46c-4296-8c46-2050a46a1ee0",
+    "code": "",
+    "name": "NÂNG CAO TỔ CHỨC KHO",
+    "description": "VI. KHO",
+    "sort_order": 79,
+    "active": true,
+    "extra": {
+      "role": "KHO",
+      "group": "KHO",
+      "roleGroup": "KHO",
+      "groupLabel": "VI. KHO"
+    }
+  },
+  {
+    "id": "89d71a75-b89d-4760-83e9-7661ea082b06",
+    "category_id": "3680ac4e-a46c-4296-8c46-2050a46a1ee0",
+    "code": "",
+    "name": "KIỂM SOÁT DÒNG TIỀN",
+    "description": "IX. KẾ TOÁN",
+    "sort_order": 157,
+    "active": true,
+    "extra": {
+      "role": "KẾ_TOÁN",
+      "group": "KE_TOAN",
+      "roleGroup": "KE_TOAN",
+      "groupLabel": "IX. KẾ TOÁN"
+    }
+  },
+  {
+    "id": "617c95d8-58e0-459f-bb0e-378851dd01e0",
+    "category_id": "3680ac4e-a46c-4296-8c46-2050a46a1ee0",
+    "code": "",
+    "name": "NÂNG CAO HIỆU QUẢ PHỐI HỢP",
+    "description": "VII. TỔNG HỢP KHO",
+    "sort_order": 109,
+    "active": true,
+    "extra": {
+      "role": "TỔNG_HỢP_KHO",
+      "group": "TONG_HOP_KHO",
+      "roleGroup": "TONG_HOP_KHO",
+      "groupLabel": "VII. TỔNG HỢP KHO"
+    }
+  },
+  {
+    "id": "cbe08670-554c-4ca3-acbc-e00ebbcea3b9",
+    "category_id": "3680ac4e-a46c-4296-8c46-2050a46a1ee0",
+    "code": "",
+    "name": "TĂNG TỐC ĐỘ XỬ LÝ BẢO HÀNH",
+    "description": "VIII. BẢO HÀNH",
+    "sort_order": 133,
+    "active": true,
+    "extra": {
+      "role": "BẢO_HÀNH",
+      "group": "BAO_HANH",
+      "roleGroup": "BAO_HANH",
+      "groupLabel": "VIII. BẢO HÀNH"
+    }
+  },
+  {
+    "id": "c1516536-b1cf-401e-8eef-05d8d9c1acfc",
+    "category_id": "3680ac4e-a46c-4296-8c46-2050a46a1ee0",
+    "code": "",
+    "name": "PHỤC VỤ CÔNG TÁC AN TOÀN VÀ ĐÚNG GIỜ",
+    "description": "X. LÁI XE KIÊM HỖ TRỢ KHO",
+    "sort_order": 181,
+    "active": true,
+    "extra": {
+      "role": "LÁI_XE",
+      "group": "LAI_XE_KIEM_HO_TRO_KHO",
+      "roleGroup": "LAI_XE_KIEM_HO_TRO_KHO",
+      "groupLabel": "X. LÁI XE KIÊM HỖ TRỢ KHO"
+    }
+  },
+  {
+    "id": "74ee012e-9996-4d27-aa35-347dae5f79f4",
+    "category_id": "3680ac4e-a46c-4296-8c46-2050a46a1ee0",
+    "code": "",
+    "name": "SẴN SÀNG HỖ TRỢ KHO",
+    "description": "X. LÁI XE KIÊM HỖ TRỢ KHO",
+    "sort_order": 205,
+    "active": true,
+    "extra": {
+      "role": "LÁI_XE",
+      "group": "LAI_XE_KIEM_HO_TRO_KHO",
+      "roleGroup": "LAI_XE_KIEM_HO_TRO_KHO",
+      "groupLabel": "X. LÁI XE KIÊM HỖ TRỢ KHO"
+    }
+  },
+  {
+    "id": "da4b215e-9e94-4d8e-b461-71df0de87950",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "100% thời gian không có lịch được chủ động bố trí công việc.",
+    "description": "4 – SỬ DỤNG HIỆU QUẢ THỜI GIAN KHÔNG CÓ LỊCH XE · X. LÁI XE KIÊM HỖ TRỢ KHO",
+    "sort_order": 200,
+    "active": true,
+    "extra": {
+      "role": "LÁI_XE",
+      "group": "LAI_XE_KIEM_HO_TRO_KHO",
+      "objective": "4 – SỬ DỤNG HIỆU QUẢ THỜI GIAN KHÔNG CÓ LỊCH XE",
+      "roleGroup": "LAI_XE_KIEM_HO_TRO_KHO",
+      "groupLabel": "X. LÁI XE KIÊM HỖ TRỢ KHO"
+    }
+  },
+  {
+    "id": "21248f75-cf4a-4c0c-810a-b552ed1020cf",
+    "category_id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "code": "",
+    "name": "Hoàn thành X nhiệm vụ hỗ trợ kho.",
+    "description": "4 – SỬ DỤNG HIỆU QUẢ THỜI GIAN KHÔNG CÓ LỊCH XE · X. LÁI XE KIÊM HỖ TRỢ KHO",
+    "sort_order": 201,
+    "active": true,
+    "extra": {
+      "role": "LÁI_XE",
+      "group": "LAI_XE_KIEM_HO_TRO_KHO",
+      "objective": "4 – SỬ DỤNG HIỆU QUẢ THỜI GIAN KHÔNG CÓ LỊCH XE",
+      "roleGroup": "LAI_XE_KIEM_HO_TRO_KHO",
+      "groupLabel": "X. LÁI XE KIÊM HỖ TRỢ KHO"
+    }
+  },
+  {
+    "id": "9049dc69-1752-489e-bb27-a604cdbb30bc",
+    "category_id": "a2c67d9a-970f-4cb9-af30-0b2e362a2fee",
+    "code": "Checkin",
+    "name": "Check-in",
+    "description": "Phân hệ gốc: Trợ lý OKRs",
+    "sort_order": 9,
+    "active": true,
+    "extra": {
+      "key": "Check-in"
+    }
+  }
+]

@@ -1,0 +1,98 @@
+[
+  {
+    "id": "6ec1da3c-29d9-45e4-938c-24d53fa2980f",
+    "okr_id": "0318d47e-01a8-4da6-a59a-abb34a1050da",
+    "noi_dung": "100% nhân sự biết mục tiêu của bộ phận mình và mục tiêu công ty",
+    "sort_order": 0
+  },
+  {
+    "id": "3e965f7a-901f-48a0-88b4-262eb8070ed3",
+    "okr_id": "0318d47e-01a8-4da6-a59a-abb34a1050da",
+    "noi_dung": "100% báo cáo có kết quả thực tế, không chỉ liệt kê công việc",
+    "sort_order": 1
+  },
+  {
+    "id": "92d1d159-3d00-4e56-ade4-e86fafed1451",
+    "okr_id": "0318d47e-01a8-4da6-a59a-abb34a1050da",
+    "noi_dung": "100% vấn đề quan trọng được ghi nhận, phản hồi trên hệ thống",
+    "sort_order": 2
+  },
+  {
+    "id": "95ad4190-ee26-4c18-a628-cf5b2f1ed9f9",
+    "okr_id": "0318d47e-01a8-4da6-a59a-abb34a1050da",
+    "noi_dung": "100% nhân sự chủ động đề xuất cách xử lý khi phát sinh vấn đề và có ít nhất 1 đề xuất cải tiến/tháng.",
+    "sort_order": 3
+  },
+  {
+    "id": "d06c6688-981d-42a1-8f92-c84720da70ab",
+    "okr_id": "9031e727-241a-4742-a2bf-247da5be0568",
+    "noi_dung": "100% sản phẩm chủ lực luôn sẵn hàng để bán",
+    "sort_order": 0
+  },
+  {
+    "id": "6fef773e-679b-4023-bc0f-8ede57134987",
+    "okr_id": "9031e727-241a-4742-a2bf-247da5be0568",
+    "noi_dung": "100% hàng tồn lâu có phương án xử lý",
+    "sort_order": 1
+  },
+  {
+    "id": "21dbfeac-3140-468e-8ef4-758d36292fe6",
+    "okr_id": "9031e727-241a-4742-a2bf-247da5be0568",
+    "noi_dung": "100% khách hàng được phân loại và có thông tin rõ ràng",
+    "sort_order": 2
+  },
+  {
+    "id": "e01fdba7-6f23-443c-8287-492f97dbb2c7",
+    "okr_id": "9031e727-241a-4742-a2bf-247da5be0568",
+    "noi_dung": "Hoàn thành danh mục sản phẩm trọng tâm cho năm 2027",
+    "sort_order": 3
+  },
+  {
+    "id": "5e781ca1-bd48-4f0c-b43c-bf74eaa11438",
+    "okr_id": "c650b4f0-1945-4f27-a589-c920ac44a853",
+    "noi_dung": "100% hàng tồn kho được thống kê và báo cáo",
+    "sort_order": 0
+  },
+  {
+    "id": "d223f54d-2098-4d3c-8da5-8d9bd9483725",
+    "okr_id": "c650b4f0-1945-4f27-a589-c920ac44a853",
+    "noi_dung": "Giảm giá trị hàng tồn lâu 50%",
+    "sort_order": 1
+  },
+  {
+    "id": "4944da27-5143-4ed4-ad77-b8d449cd159a",
+    "okr_id": "bf515fc6-a8e6-4f59-8125-940aa8ad25dd",
+    "noi_dung": "Đạt doanh số 45 tỷ năm 2026",
+    "sort_order": 0
+  },
+  {
+    "id": "c8d0bf3a-5a4d-476f-8051-892a10194557",
+    "okr_id": "bf515fc6-a8e6-4f59-8125-940aa8ad25dd",
+    "noi_dung": "Tồn kho cuối kỳ đạt mốc 12,5 tỷ",
+    "sort_order": 1
+  },
+  {
+    "id": "a545c247-9c13-4933-9371-ef37198c0fff",
+    "okr_id": "bf515fc6-a8e6-4f59-8125-940aa8ad25dd",
+    "noi_dung": "Doanh số bóng LED đạt trung bình 1 tỷ/tháng vào 4 tháng cuối năm",
+    "sort_order": 2
+  },
+  {
+    "id": "06157101-d0c1-4278-9085-3de729e9b92c",
+    "okr_id": "74b272f9-7415-4eeb-8d0c-a0d586562819",
+    "noi_dung": "Tăng doanh số nhóm sản phẩm trọng tâm 1%.",
+    "sort_order": 0
+  },
+  {
+    "id": "108d8b2a-854a-41ea-918f-bb0a44063737",
+    "okr_id": "74b272f9-7415-4eeb-8d0c-a0d586562819",
+    "noi_dung": "Tăng doanh số nhóm sản phẩm trọng tâm 2%.",
+    "sort_order": 1
+  },
+  {
+    "id": "934ab172-70ba-47b4-819b-127a0d7902d4",
+    "okr_id": "74b272f9-7415-4eeb-8d0c-a0d586562819",
+    "noi_dung": "Duy trì doanh số tối thiểu 2/tháng.",
+    "sort_order": 2
+  }
+]

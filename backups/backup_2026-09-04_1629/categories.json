@@ -1,0 +1,104 @@
+[
+  {
+    "id": "77302391-16fe-41a1-99ba-b0b9d7eb3296",
+    "slug": "mo_hinh_kd",
+    "name": "Mô hình kinh doanh",
+    "description": ""
+  },
+  {
+    "id": "5ae659bd-d179-4b6d-91c9-aca6ed0b6bce",
+    "slug": "phan_hang_kh",
+    "name": "Phân hạng khách hàng",
+    "description": ""
+  },
+  {
+    "id": "3956d627-3bd3-4f24-9eaa-2433d39de9fc",
+    "slug": "trang_thai_kh",
+    "name": "Trạng thái khách hàng",
+    "description": ""
+  },
+  {
+    "id": "886ca59f-6545-4eca-952b-5c37e66b0406",
+    "slug": "quy_mo",
+    "name": "Quy mô",
+    "description": ""
+  },
+  {
+    "id": "55bc02d3-a562-417c-8381-e9abd00fbc71",
+    "slug": "phan_khuc_xe",
+    "name": "Phân khúc xe",
+    "description": ""
+  },
+  {
+    "id": "a277b3b1-af8c-4e71-9fdd-ae2d6d23ff33",
+    "slug": "loai_tin_tt",
+    "name": "Loại thông tin thị trường",
+    "description": ""
+  },
+  {
+    "id": "210e7015-ca68-4f0f-9aea-eb9b008039d7",
+    "slug": "san_pham",
+    "name": "Sản phẩm",
+    "description": ""
+  },
+  {
+    "id": "a489c4f8-ec7a-40e2-a005-1fb45b0cf4d2",
+    "slug": "muc_do",
+    "name": "Mức độ quan trọng",
+    "description": ""
+  },
+  {
+    "id": "acb1cf85-6b67-4e91-9e9e-12e112af7c1c",
+    "slug": "loai_chien_dich",
+    "name": "Loại chiến dịch",
+    "description": ""
+  },
+  {
+    "id": "5046d34f-cedf-4f55-a42f-3790a2e2e2c2",
+    "slug": "loai_cap_nhat",
+    "name": "Loại nội dung cập nhật",
+    "description": ""
+  },
+  {
+    "id": "f903700d-8c48-4587-bcad-e45c8b9f8261",
+    "slug": "trang_thai_chien_dich",
+    "name": "Trạng thái chiến dịch",
+    "description": ""
+  },
+  {
+    "id": "d83a77c1-f0b5-4e1a-9bd4-abd778390d94",
+    "slug": "tinh_thanh",
+    "name": "Tỉnh/Thành phố",
+    "description": ""
+  },
+  {
+    "id": "ad886b9b-a25f-4df8-918a-1465ef2c150f",
+    "slug": "nhom_van_de_kho",
+    "name": "Nhóm vấn đề kho",
+    "description": ""
+  },
+  {
+    "id": "3680ac4e-a46c-4296-8c46-2050a46a1ee0",
+    "slug": "okr_o_template",
+    "name": "O mẫu (OKRs)",
+    "description": "Thư viện Objective mẫu — Admin quản lý, gán theo vai trò. Nhân viên chọn rồi chỉnh lại trong form OKR."
+  },
+  {
+    "id": "bb736ac2-a7fd-4103-922c-cd6528aaafcc",
+    "slug": "okr_kr_template",
+    "name": "KR mẫu (OKRs)",
+    "description": "Thư viện Key Result mẫu — Admin quản lý, gán theo vai trò. Nhân viên chọn rồi chỉnh lại."
+  },
+  {
+    "id": "44da0eb0-60ed-4379-9b9e-aeed2fcebc50",
+    "slug": "tro_ly_phan_he",
+    "name": "Phân hệ trợ lý",
+    "description": "Mỗi mục là một phân hệ của bot. Sửa trường \"Đường dẫn trang\" để chọn phân hệ hiện ở trang nào."
+  },
+  {
+    "id": "a2c67d9a-970f-4cb9-af30-0b2e362a2fee",
+    "slug": "tro_ly_nhom",
+    "name": "Nhóm trợ lý",
+    "description": "Mỗi mục là một nhóm câu hỏi của bot. Sửa trường \"Thuộc phân hệ\" để gắn nhóm vào một hoặc nhiều phân hệ."
+  }
+]

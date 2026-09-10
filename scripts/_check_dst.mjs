@@ -1,0 +1,25 @@
+import { createClient } from '@supabase/supabase-js';
+const SRC=['https://kibxnlhgdprkevqnbtfy.supabase.co','sb_secret_SB2Nzf4GaMZCYxAnfIp53w_RYEnvA8k'];
+const DST=['https://ddeoednaxmzsjdxjnqmm.supabase.co', process.env.DST_KEY];
+const src=createClient(SRC[0],SRC[1],{auth:{persistSession:false}});
+const dst=createClient(DST[0],DST[1],{auth:{persistSession:false}});
+const {data:srcCats}=await src.from('categories').select('id,slug,name');
+const {data:dstCats}=await dst.from('categories').select('id,slug,name');
+console.log('SRC cats', srcCats?.length, srcCats?.map(c=>c.slug).join(','));
+console.log('DST cats', dstCats?.length, dstCats?.map(c=>c.slug).join(','));
+const {count:dstItemsCount}=await dst.from('category_items').select('id',{count:'exact',head:true});
+const {count:srcItemsCount}=await src.from('category_items').select('id',{count:'exact',head:true});
+console.log('category_items  src:',srcItemsCount,' dst:',dstItemsCount);
+const {data:srcProf}=await src.from('profiles').select('id,username,full_name');
+const {data:dstProf}=await dst.from('profiles').select('id,username,full_name');
+console.log('SRC profiles', srcProf?.length, 'DST profiles', dstProf?.length);
+const {data:srcCustIds}=await src.from('customers').select('assigned_to');
+const uniq=[...new Set((srcCustIds??[]).map(c=>c.assigned_to))];
+console.log('uniq assigned_to in src', uniq.length);
+const dstIds=new Set((dstProf??[]).map(p=>p.id));
+const missing=uniq.filter(id=>!dstIds.has(id));
+console.log('missing profile ids in DST (khách gán người không có bên đích):', missing.length);
+// ánh xạ người dùng theo username/full_name để remap nếu được
+const dstByName=new Map((dstProf??[]).map(p=>[p.username,p.id]));
+console.log('DST usernames:', (dstProf??[]).map(p=>p.username).join(','));
+console.log('SRC usernames:', (srcProf??[]).map(p=>p.username).join(','));

@@ -1,0 +1,30 @@
+name: DB backup (22h ICT)
+on:
+  schedule:
+    # 22:00 ICT = 15:00 UTC
+    - cron: '0 15 * * *'
+  workflow_dispatch: {}
+permissions:
+  contents: read
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm ci
+      - name: Backup to Supabase Storage
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          BACKUP_KEEP: '7'
+        run: node scripts/backup-to-storage.mjs
+      - name: Upload artifact (optional download)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: db-backup-manifest
+          path: scripts/backup-to-storage.mjs
+          if-no-files-found: ignore

@@ -1,0 +1,145 @@
+[
+  {
+    "id": "fc2f8c07-2120-4db9-ab91-b6bfae670260",
+    "username": "chienmt",
+    "full_name": "Mai Chiên",
+    "role_id": "f2c3b315-66a6-4aba-b725-e14a39b5c976",
+    "status": "ACTIVE",
+    "must_change_password": false,
+    "created_at": "2026-08-29T02:26:40.634315+00:00",
+    "updated_at": "2026-08-29T07:14:28.112756+00:00",
+    "avatar_url": "https://kibxnlhgdprkevqnbtfy.supabase.co/storage/v1/object/public/avatars/avatars/fc2f8c07-2120-4db9-ab91-b6bfae670260/1787976157943.jpg"
+  },
+  {
+    "id": "ab336e7b-daf2-4254-8ccb-16582d5f33e8",
+    "username": "tranhong",
+    "full_name": "Trần Hồng",
+    "role_id": "87b8c039-02a6-4365-8b9c-d647189cf662",
+    "status": "ACTIVE",
+    "must_change_password": true,
+    "created_at": "2026-08-25T14:53:27.930657+00:00",
+    "updated_at": "2026-08-31T04:58:13.66439+00:00",
+    "avatar_url": "https://kibxnlhgdprkevqnbtfy.supabase.co/storage/v1/object/public/avatars/avatars/ab336e7b-daf2-4254-8ccb-16582d5f33e8/1787976005205.jpg"
+  },
+  {
+    "id": "28946fe8-583b-4e27-98fe-bc6a2a5ffdb0",
+    "username": "xuanvu",
+    "full_name": "Nguyễn Xuân Vũ",
+    "role_id": "7c549232-b4a4-42d1-8be7-402913dc5234",
+    "status": "ACTIVE",
+    "must_change_password": false,
+    "created_at": "2026-08-18T02:20:05.73159+00:00",
+    "updated_at": "2026-08-31T08:38:52.383455+00:00",
+    "avatar_url": "https://kibxnlhgdprkevqnbtfy.supabase.co/storage/v1/object/public/avatars/avatars/28946fe8-583b-4e27-98fe-bc6a2a5ffdb0/1787975966630.jpg"
+  },
+  {
+    "id": "8bee0a51-da81-4daf-8a63-0cca90b75eca",
+    "username": "quyetthang",
+    "full_name": "Nguyễn Quyết Thắng",
+    "role_id": "d181c131-a2c4-4c12-9645-1013971e17af",
+    "status": "ACTIVE",
+    "must_change_password": false,
+    "created_at": "2026-08-25T14:52:45.378491+00:00",
+    "updated_at": "2026-08-31T09:02:45.724858+00:00",
+    "avatar_url": "https://kibxnlhgdprkevqnbtfy.supabase.co/storage/v1/object/public/avatars/avatars/8bee0a51-da81-4daf-8a63-0cca90b75eca/1787976057608.jpg"
+  },
+  {
+    "id": "1ff0f20c-ac44-42f0-a973-20d576c685c5",
+    "username": "trungchinh",
+    "full_name": "Nguyễn Trung Chính",
+    "role_id": "7c549232-b4a4-42d1-8be7-402913dc5234",
+    "status": "ACTIVE",
+    "must_change_password": false,
+    "created_at": "2026-08-18T02:18:28.49677+00:00",
+    "updated_at": "2026-08-31T09:07:19.858786+00:00",
+    "avatar_url": "https://kibxnlhgdprkevqnbtfy.supabase.co/storage/v1/object/public/avatars/avatars/1ff0f20c-ac44-42f0-a973-20d576c685c5/1787975684217.jpg"
+  },
+  {
+    "id": "564058fd-2842-4f7d-bc0d-0580e71470f2",
+    "username": "viethoan",
+    "full_name": "Nguyễn Viết Hoàn",
+    "role_id": "ab9ba9c0-970c-4467-915b-3dd42aff3c2d",
+    "status": "ACTIVE",
+    "must_change_password": false,
+    "created_at": "2026-08-28T10:52:12.631825+00:00",
+    "updated_at": "2026-08-31T09:16:36.654026+00:00",
+    "avatar_url": "https://kibxnlhgdprkevqnbtfy.supabase.co/storage/v1/object/public/avatars/avatars/564058fd-2842-4f7d-bc0d-0580e71470f2/1787976008856.jpg"
+  },
+  {
+    "id": "272852e5-3b8c-4ae2-9e12-4d63d1994b0a",
+    "username": "admin",
+    "full_name": "Quản trị viên",
+    "role_id": "75e91aa9-ecac-44b2-b2fd-7c92d83cef88",
+    "status": "ACTIVE",
+    "must_change_password": false,
+    "created_at": "2026-08-16T14:42:34.84456+00:00",
+    "updated_at": "2026-08-29T03:27:57.628405+00:00",
+    "avatar_url": "https://kibxnlhgdprkevqnbtfy.supabase.co/storage/v1/object/public/avatars/272852e5-3b8c-4ae2-9e12-4d63d1994b0a/1787974078488.jpg"
+  },
+  {
+    "id": "9c66520e-9b3a-4432-9090-2709de976078",
+    "username": "maichien",
+    "full_name": "Mai Đình Chiến",
+    "role_id": "7c549232-b4a4-42d1-8be7-402913dc5234",
+    "status": "ACTIVE",
+    "must_change_password": true,
+    "created_at": "2026-08-18T02:18:50.231621+00:00",
+    "updated_at": "2026-08-29T03:59:15.725472+00:00",
+    "avatar_url": "https://kibxnlhgdprkevqnbtfy.supabase.co/storage/v1/object/public/avatars/avatars/9c66520e-9b3a-4432-9090-2709de976078/1787975954624.jpg"
+  },
+  {
+    "id": "078534d9-aef7-4c79-95ea-4269b0e5bfc3",
+    "username": "dinhchi",
+    "full_name": "Đinh Anh Chi",
+    "role_id": "7c549232-b4a4-42d1-8be7-402913dc5234",
+    "status": "ACTIVE",
+    "must_change_password": true,
+    "created_at": "2026-08-18T02:19:34.350888+00:00",
+    "updated_at": "2026-08-29T03:59:22.994787+00:00",
+    "avatar_url": "https://kibxnlhgdprkevqnbtfy.supabase.co/storage/v1/object/public/avatars/avatars/078534d9-aef7-4c79-95ea-4269b0e5bfc3/1787975963427.jpg"
+  },
+  {
+    "id": "b66d236c-496a-431c-ae09-8168a7a32a39",
+    "username": "thanhhau",
+    "full_name": "Nguyễn Thanh Hậu",
+    "role_id": "f2c3b315-66a6-4aba-b725-e14a39b5c976",
+    "status": "ACTIVE",
+    "must_change_password": false,
+    "created_at": "2026-08-25T14:48:40.707552+00:00",
+    "updated_at": "2026-08-29T03:59:35.152649+00:00",
+    "avatar_url": "https://kibxnlhgdprkevqnbtfy.supabase.co/storage/v1/object/public/avatars/avatars/b66d236c-496a-431c-ae09-8168a7a32a39/1787975975611.jpg"
+  },
+  {
+    "id": "514c7638-0c38-4fef-b37b-b76aeede3f9e",
+    "username": "huuhung",
+    "full_name": "Nguyễn Hữu Hùng",
+    "role_id": "d9a2a379-0945-4b2c-8c79-ea4d8add6c34",
+    "status": "ACTIVE",
+    "must_change_password": true,
+    "created_at": "2026-08-25T14:52:59.061949+00:00",
+    "updated_at": "2026-08-29T03:59:57.861687+00:00",
+    "avatar_url": "https://kibxnlhgdprkevqnbtfy.supabase.co/storage/v1/object/public/avatars/avatars/514c7638-0c38-4fef-b37b-b76aeede3f9e/1787975998324.jpg"
+  },
+  {
+    "id": "270ea635-b37d-4b5b-801d-6b809508f2fe",
+    "username": "phucanh",
+    "full_name": "Đặng Phúc Anh",
+    "role_id": "d3ea6f8f-2b2d-4b84-8464-661fd1d2220c",
+    "status": "ACTIVE",
+    "must_change_password": true,
+    "created_at": "2026-08-25T14:53:14.604677+00:00",
+    "updated_at": "2026-08-29T04:00:01.457387+00:00",
+    "avatar_url": "https://kibxnlhgdprkevqnbtfy.supabase.co/storage/v1/object/public/avatars/avatars/270ea635-b37d-4b5b-801d-6b809508f2fe/1787976001516.jpg"
+  },
+  {
+    "id": "7c514547-b169-4bde-b2aa-cbd3e225f817",
+    "username": "thuyhang",
+    "full_name": "Quản Thúy Hằng",
+    "role_id": "6216410b-25af-4ec1-8108-7a0f2bc64a40",
+    "status": "ACTIVE",
+    "must_change_password": true,
+    "created_at": "2026-08-28T10:52:41.559665+00:00",
+    "updated_at": "2026-08-29T04:00:12.029459+00:00",
+    "avatar_url": "https://kibxnlhgdprkevqnbtfy.supabase.co/storage/v1/object/public/avatars/avatars/7c514547-b169-4bde-b2aa-cbd3e225f817/1787976012523.jpg"
+  }
+]

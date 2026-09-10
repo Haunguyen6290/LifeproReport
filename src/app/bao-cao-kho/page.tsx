@@ -53,9 +53,7 @@ function weekKey(r: Row): string {
 
 function Screen() {
   const { userId, can } = useAuth();
-  const defaults = useMemo(() => weekBounds(new Date()), []);
-  const [tu, setTu] = useState(defaults.tu);
-  const [den, setDen] = useState(defaults.den);
+  const [filterStatus, setFilterStatus] = useState<string[]>(['Chờ giải quyết', 'Đang giải quyết']); // Mặc định chỉ hiện chưa xong
   const [filterGroup, setFilterGroup] = useState('');
   const [rows, setRows] = useState<Row[]>([]);
   const [profiles, setProfiles] = useState<Map<string, string>>(new Map());
@@ -92,17 +90,15 @@ function Screen() {
   useEffect(() => {
     let cancelled = false;
     (async () => {
-      if (!tu || !den) return;
       setLoading(true);
       setMsg('');
       try {
         let q = supabase
           .from('warehouse_reports')
           .select('id, user_id, ngay, product_group_id, nhom_van_de_id, so_luong, thuc_trang, de_xuat, trang_thai, y_kien_quan_ly, tuan_tu, tuan_den, created_at')
-          .gte('ngay', tu)
-          .lte('ngay', den)
           .order('ngay', { ascending: false })
           .order('created_at', { ascending: false });
+        if (filterStatus.length > 0) q = q.in('trang_thai', filterStatus);
         if (filterGroup) q = q.eq('product_group_id', filterGroup);
         const { data, error } = await q;
         if (cancelled) return;
@@ -126,23 +122,7 @@ function Screen() {
       }
     })();
     return () => { cancelled = true; };
-  }, [tu, den, filterGroup, refreshKey]);
-
-  function onWeekTuChange(v: string) {
-    if (!v) return;
-    const b = weekBounds(new Date(v + 'T00:00:00Z'));
-    setTu(b.tu);
-    // keep den if den >= tu, otherwise snap to same week
-    if (den < b.tu) setDen(b.den);
-  }
-  function onWeekDenChange(v: string) {
-    if (!v) return;
-    const d = new Date(v + 'T00:00:00Z');
-    if (isNaN(d.getTime())) return;
-    const b = weekBounds(d);
-    setDen(b.den);
-    if (b.den < tu) setTu(b.tu);
-  }
+  }, [filterStatus, filterGroup, refreshKey]);
 
   async function handleDelete(r: Row) {
     if (!confirm(`Xóa báo cáo ngày ${fmtDateVN(r.ngay)} — “${r.thuc_trang.slice(0, 60)}”?`)) return;
@@ -197,23 +177,24 @@ function Screen() {
         <div className="mb-4 rounded-xl border border-slate-200 bg-white p-4 shadow-[0_1px_3px_rgba(15,23,42,0.06)]">
           <div className="flex flex-wrap items-end gap-3">
             <div>
-              <label className="mb-1 block text-xs font-semibold uppercase tracking-wider text-slate-700">Tuần từ (T2)</label>
-              <input type="date" value={tu} onChange={(e) => onWeekTuChange(e.target.value)} className={sel} />
+              <label className="mb-1 block text-xs font-semibold uppercase tracking-wider text-[#1e3a8a]">Trạng thái</label>
+              <select value={filterStatus.length === 1 ? filterStatus[0] : (filterStatus.length === 2 && !filterStatus.includes('Đã xử lý') ? 'CHUA_XON' : 'TAT_CA')} onChange={(e) => { const v = e.target.value; if (v === 'TAT_CA') setFilterStatus([]); else if (v === 'CHUA_XONG') setFilterStatus(['Chờ giải quyết', 'Đang giải quyết']); else setFilterStatus([v]); }} className={sel}>
+                <option value="CHUA_XONG">Chờ xử lý + Đang xử lý</option>
+                <option value="Chờ giải quyết">Chờ giải quyết</option>
+                <option value="Đang giải quyết">Đang giải quyết</option>
+                <option value="Đã xử lý">Đã xử lý</option>
+                <option value="TAT_CA">Tất cả trạng thái</option>
+              </select>
             </div>
             <div>
-              <label className="mb-1 block text-xs font-semibold uppercase tracking-wider text-slate-700">Tuần đến</label>
-              <input type="date" value={den} onChange={(e) => onWeekDenChange(e.target.value)} className={sel} />
-            </div>
-            <div className="pb-2 text-xs text-slate-600">{tu && den ? `${fmtDateVN(tu)} → ${fmtDateVN(den)}` : '—'} · T2 → T7</div>
-            <div>
-              <label className="mb-1 block text-xs font-semibold uppercase tracking-wider text-slate-700">Nhóm sản phẩm</label>
+              <label className="mb-1 block text-xs font-semibold uppercase tracking-wider text-[#1e3a8a]">Nhóm sản phẩm</label>
               <select value={filterGroup} onChange={(e) => setFilterGroup(e.target.value)} className={sel}>
                 <option value="">— Tất cả —</option>
                 {sanPhamOpts.map((o) => <option key={o.id} value={o.id}>{o.name}</option>)}
               </select>
             </div>
           </div>
-          <p className="mt-2 text-xs text-slate-500">Lọc theo Tuần từ → Tuần đến và Nhóm sản phẩm. Thêm/sửa/xóa trong tuần hiện tại; lịch sử nhóm theo tuần.</p>
+          <p className="mt-2 text-xs text-slate-500">Lọc theo Trạng thái và Nhóm sản phẩm. Mặc định chỉ hiện báo cáo chưa xử lý xong.</p>
         </div>
 
         {msg && <p className="mb-3 text-sm text-red-600">{msg}</p>}
@@ -295,7 +276,7 @@ function Screen() {
         )}
 
         <WarehouseDialog open={open} onClose={() => setOpen(false)} initial={editing} onDone={() => setRefreshKey((k) => k + 1)} />
-        {detailOpen && detailId && <Dialog open={detailOpen} onClose={() => setDetailOpen(false)} title="Chi tiết báo cáo kho" size="wide"><WarehouseReportDetail id={detailId} /></Dialog>}
+        {detailOpen && detailId && <Dialog open={detailOpen} onClose={() => setDetailOpen(false)} title="Chi tiết báo cáo kho" size="xwide"><WarehouseReportDetail id={detailId} /></Dialog>}
       </main>
     </AppSidebar>
   );
