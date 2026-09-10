@@ -14,10 +14,12 @@ type CD = { id: string; name: string; objective: string; start_date: string; end
 function Screen() {
   const { can, userId } = useAuth();
   const [list, setList] = useState<CD[]>([]);
+  const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
   const [detailId, setDetailId] = useState<string | null>(null);
 
   async function load() {
+    setLoading(true);
     const { data } = await supabase.from('campaigns').select('id, name, objective, start_date, end_date, type:category_items!campaigns_type_id_fkey(name), status:category_items!campaigns_status_id_fkey(name)').order('created_at', { ascending: false });
     const campaigns = (data ?? []) as unknown as CD[];
 
@@ -38,6 +40,7 @@ function Screen() {
     }
 
     setList(campaigns);
+    setLoading(false);
   }
 
   async function refreshBadge(campaignId: string) {
@@ -70,7 +73,14 @@ function Screen() {
         </div>
         <AddCampaignDialog open={open} onClose={() => setOpen(false)} onDone={load} />
         {detailId && <Dialog open={!!detailId} onClose={() => setDetailId(null)} title="Chi tiết chiến dịch" size="wide"><CampaignDetail id={detailId} onClose={() => setDetailId(null)} onMarkViewed={() => refreshBadge(detailId)} /></Dialog>}
-        {list.length === 0 ? <p className="py-10 text-center text-slate-600">Chưa có chiến dịch nào.</p> : (
+        {loading ? (
+          <p className="py-10 text-center text-sm text-slate-600">⏳ Đang tải danh sách chiến dịch...</p>
+        ) : list.length === 0 ? (
+          <div className="rounded-xl border border-dashed border-slate-300 bg-white p-8 text-center">
+            <p className="text-sm text-slate-600">📋 Chưa có chiến dịch nào.</p>
+            {can('quan_ly_chien_dich') && <button onClick={() => setOpen(true)} className="mt-3 rounded-lg bg-[var(--color-primary)] px-4 py-2 text-sm font-semibold text-white">+ Tạo chiến dịch</button>}
+          </div>
+        ) : (
           <ul className="space-y-3">
             {list.map((c) => (
               <li key={c.id}>
