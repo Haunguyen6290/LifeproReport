@@ -4,7 +4,7 @@ import { supabase } from '@/lib/supabase/client';
 
 type Uploaded = { storage_path: string; public_url: string };
 
-export function AttachmentInput({ value, onChange }: { value: Uploaded[]; onChange: (v: Uploaded[]) => void }) {
+export function AttachmentInput({ value, onChange, perRow }: { value: Uploaded[]; onChange: (v: Uploaded[]) => void; perRow?: number }) {
   const [previews, setPreviews] = useState<{ url: string; busy: boolean }[]>([]);
   const [err, setErr] = useState('');
 
@@ -56,16 +56,16 @@ export function AttachmentInput({ value, onChange }: { value: Uploaded[]; onChan
   }
 
   return (
-    <div>
-      <div className="flex flex-wrap gap-2">
+    <div className="w-full">
+      <div className="flex flex-wrap gap-2" style={{ maxWidth: perRow ? `${perRow * 88 + (perRow - 1) * 8}px` : undefined }}>
         {previews.map((p, i) => (
-          <div key={i} className="relative h-20 w-20 overflow-hidden rounded-md border border-slate-200">
+          <div key={i} className="relative h-20 w-20 shrink-0 overflow-hidden rounded-md border border-slate-200">
             <img src={p.url} alt={`ảnh ${i + 1}`} className="h-full w-full object-cover" />
             {p.busy && <div className="absolute inset-0 grid place-items-center bg-black/40 text-xs text-white">đang tải…</div>}
             <button type="button" onClick={() => remove(i)} aria-label="Xóa ảnh" className="absolute right-1 top-1 grid h-5 w-5 place-items-center rounded-full bg-black/60 text-white">×</button>
           </div>
         ))}
-        <label className="grid h-20 w-20 cursor-pointer place-items-center rounded-md border-2 border-dashed border-[var(--color-muted)] text-xs text-slate-600 hover:border-[var(--color-primary)] hover:text-[#1e3a8a]">
+        <label className="grid h-20 w-20 shrink-0 cursor-pointer place-items-center rounded-md border-2 border-dashed border-[var(--color-muted)] text-xs text-slate-600 hover:border-[var(--color-primary)] hover:text-[#1e3a8a]">
           + Ảnh
           <input type="file" accept="image/*" multiple className="hidden" onChange={(e) => e.target.files && uploadFiles(e.target.files)} />
         </label>

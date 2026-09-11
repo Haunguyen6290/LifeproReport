@@ -95,22 +95,22 @@ export function CommentList({ targetType, targetId, initialComments }: { targetT
   }
 
   return (
-    <section className="mt-4 rounded-xl border border-slate-200 bg-white p-4 backdrop-blur sm:p-5">
-      <h3 className="mb-3 text-sm font-bold text-[#1e3a8a]">Thảo luận ({items.length})</h3>
-      {items.length === 0 ? <p className="mb-3 text-sm text-slate-600">Chưa có bình luận nào.</p> : (
-        <ul className="mb-4 space-y-3">
+    <section className="mt-4 rounded-xl border border-slate-200 bg-white p-3 backdrop-blur sm:p-4">
+      <h3 className="mb-2 text-sm font-bold text-[#1e3a8a]">Thảo luận ({items.length})</h3>
+      {items.length === 0 ? <p className="mb-2 text-sm text-slate-600">Chưa có bình luận nào.</p> : (
+        <ul className="mb-2 space-y-2">
           {items.map((c) => (
-            <li key={c.id} className="flex gap-3 rounded-lg bg-white p-3 ring-1 ring-slate-200">
-              <Avatar name={c.author?.full_name ?? '?'} src={c.author?.avatar_url ?? null} size={36} />
+            <li key={c.id} className="flex gap-3 rounded-lg bg-white px-3 py-2 ring-1 ring-slate-200">
+              <Avatar name={c.author?.full_name ?? '?'} src={c.author?.avatar_url ?? null} size={32} />
               <div className="min-w-0 flex-1">
                 <div className="flex flex-wrap items-center gap-2 text-xs text-slate-600">
                   <span className="font-semibold text-slate-900">{c.author?.full_name ?? ''}</span>
                   <span className="text-slate-400">·</span>
                   <span className="text-slate-600">{fmtCommentTimeVN(c.created_at)} {c.edited_at && '(đã sửa)'}</span>
                 </div>
-                <p className="mt-1 whitespace-pre-wrap text-sm text-slate-900">{c.content}</p>
+                <p className="mt-0.5 whitespace-pre-wrap text-sm leading-[1.45] text-slate-900">{c.content}</p>
                 {c.images && c.images.length > 0 && (
-                  <div className="mt-2 flex flex-wrap gap-1">{c.images.map((im) => <button key={im.id} type="button" onClick={() => { setLightboxSrcs(c.images!.map((x) => x.public_url)); setLightboxIdx(c.images!.findIndex((x) => x.id === im.id)); }}><img src={im.public_url} alt="ảnh" className="h-16 w-16 rounded object-cover ring-1 ring-slate-200 hover:opacity-90" /></button>)}</div>
+                  <div className="mt-1.5 flex flex-wrap gap-1.5">{c.images.map((im) => <button key={im.id} type="button" onClick={() => { setLightboxSrcs(c.images!.map((x) => x.public_url)); setLightboxIdx(c.images!.findIndex((x) => x.id === im.id)); }}><img src={im.public_url} alt="ảnh" className="h-16 w-16 rounded object-cover ring-1 ring-slate-200 hover:opacity-90" /></button>)}</div>
                 )}
                 {(c.author_id === userId || can('ket_luan')) && <button onClick={() => del(c)} className="mt-1 text-xs text-[var(--color-destructive)] hover:underline">Xóa</button>}
               </div>
@@ -118,8 +118,10 @@ export function CommentList({ targetType, targetId, initialComments }: { targetT
           ))}
         </ul>
       )}
-      <textarea value={content} onChange={(e) => setContent(e.target.value)} onPaste={onCommentPaste} rows={2} placeholder="Viết bình luận… (Ctrl+V dán ảnh)" className="w-full rounded-md border-[1.5px] border-[var(--color-muted)] bg-white px-3 py-2 text-sm outline-none focus:border-[var(--color-ring)]" />
-      <div className="mt-2"><AttachmentInput value={imgs} onChange={setImgs} /></div>
+      <div className="flex gap-2">
+        <textarea value={content} onChange={(e) => setContent(e.target.value)} onPaste={onCommentPaste} rows={2} placeholder="Viết bình luận… (Ctrl+V dán ảnh)" className="flex-1 min-w-0 rounded-md border-[1.5px] border-[var(--color-muted)] bg-white px-3 py-2 text-sm outline-none focus:border-[var(--color-ring)]" />
+        <AttachmentInput value={imgs} onChange={setImgs} perRow={3} />
+      </div>
       <div className="mt-2 flex justify-end">
         <button onClick={post} disabled={busy || !content.trim()} className="rounded-md bg-[var(--color-primary)] px-4 py-2 text-sm font-semibold text-white hover:bg-[var(--color-primary-hover)] disabled:opacity-60">{busy ? 'Đang gửi…' : 'Gửi bình luận'}</button>
       </div>
