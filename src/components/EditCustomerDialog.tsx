@@ -41,7 +41,7 @@ export function EditCustomerDialog({ open, id, onClose, onDone }: { open: boolea
         supabase.from('customers').select('*').eq('id', id).single(),
         categoryItems('mo_hinh_kd'), categoryItems('phan_hang_kh'), categoryItems('trang_thai_kh'),
         categoryItems('quy_mo'), categoryItems('phan_khuc_xe'),
-        supabase.from('profiles').select('id, username, full_name').eq('status', 'ACTIVE'),
+        supabase.from('profiles').select('id, username, full_name, roles(name)').eq('status', 'ACTIVE'),
         supabase.from('customers').select('ma_kh'),
         categoryItems('san_pham'),
         categoryItems('tinh_thanh'),
@@ -52,7 +52,7 @@ export function EditCustomerDialog({ open, id, onClose, onDone }: { open: boolea
       for (const k of Object.keys(kh)) if (kh[k] != null) init[k] = String(kh[k]);
       setInitial(init);
       setCats({ moHinhKD: mh, tiers: tier, statuses: st, quyMo: qm, segments: seg });
-      setUsers((u.data ?? []) as any);
+      setUsers(((u.data ?? []) as any).filter((x: any) => x.roles?.name === 'SALES'));
       setProducts(p.map((x: any) => ({ id: x.id, name: x.name })));
       setCodes(new Set(((c.data ?? []) as any[]).map((x: any) => x.ma_kh)));
       setProvinces((prov as any[]).map((x: any) => ({ id: x.id, name: x.name, code: '' })));

@@ -4,6 +4,7 @@ import { buildMaKH } from '@/lib/makh';
 import { fmtPhones } from '@/lib/format';
 import { Combobox } from '@/components/Combobox';
 import { GrowArea } from '@/components/GrowArea';
+import { MultiPicker } from '@/components/MultiPicker';
 
 export type CatOpt = { id: string; code?: string; name: string; description?: string };
 export type CustomerValues = Record<string, string>;
@@ -128,9 +129,9 @@ export function CustomerForm({ initial = {}, mode, cats, provinces, products, us
 
       {activeTab === 'vanhanh' && (
         <Section title="Vận hành">
-          <div><label className={LABEL}>Mô hình kinh doanh (chọn nhiều)</label><Combobox options={cats.moHinhKD.map((c) => ({ id: c.name, label: c.name }))} value={toArr(v.business_model)} onChange={(arr) => setV((p) => ({ ...p, business_model: arr.join(', ') }))} placeholder="Chọn mô hình…" disabled={disabled} /></div>
-          <div><label className={LABEL}>Phân khúc xe (chọn nhiều)</label><Combobox options={cats.segments.map((c) => ({ id: c.name, label: c.name }))} value={toArr(v.segment)} onChange={(arr) => setV((p) => ({ ...p, segment: arr.join(', ') }))} placeholder="Chọn phân khúc…" disabled={disabled} /></div>
-          <div><label htmlFor="scale_id" className={LABEL}>Quy mô</label><select id="scale_id" value={v.scale_id ?? ''} onChange={set('scale_id')} disabled={disabled} className={FIELD}><option value="">—</option>{cats.quyMo.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}</select></div>
+          <div><label className={LABEL}>Mô hình kinh doanh</label><MultiPicker options={cats.moHinhKD.map((c) => ({ id: c.name, label: c.name }))} value={toArr(v.business_model)} onChange={(arr) => setV((p) => ({ ...p, business_model: arr.join(', ') }))} placeholder="Chọn mô hình…" disabled={disabled} /></div>
+          <div><label className={LABEL}>Phân khúc xe</label><MultiPicker options={cats.segments.map((c) => ({ id: c.name, label: c.name }))} value={toArr(v.segment)} onChange={(arr) => setV((p) => ({ ...p, segment: arr.join(', ') }))} placeholder="Chọn phân khúc…" disabled={disabled} /></div>
+          <div><label htmlFor="scale_id" className={LABEL}>Quy mô</label><MultiPicker options={cats.quyMo.map((c) => ({ id: c.id, label: c.name }))} value={v.scale_id ? [v.scale_id] : []} onChange={(arr) => setV((p) => ({ ...p, scale_id: arr[0] ?? '' }))} placeholder="Chọn quy mô…" disabled={disabled} /></div>
           <div><label htmlFor="so_co_so" className={LABEL}>Số cơ sở</label><input id="so_co_so" type="number" min={0} value={v.so_co_so ?? ''} onChange={set('so_co_so')} disabled={disabled} className={FIELD} /></div>
           <div><label htmlFor="xe_ngay" className={LABEL}>Xe/ngày</label><input id="xe_ngay" type="number" min={0} step="0.1" value={v.xe_ngay ?? ''} onChange={set('xe_ngay')} disabled={disabled} className={FIELD} /></div>
           <div><label htmlFor="nguon_nhap" className={LABEL}>Nguồn nhập</label><GrowArea id="nguon_nhap" value={v.nguon_nhap ?? ''} onChange={set('nguon_nhap')} disabled={disabled} className={FIELD} /></div>

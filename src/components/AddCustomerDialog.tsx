@@ -24,12 +24,12 @@ export function AddCustomerDialog({ open, onClose, onDone }: { open: boolean; on
       const [mh, tier, st, qm, seg, u, c, p, prov] = await Promise.all([
         categoryItems('mo_hinh_kd'), categoryItems('phan_hang_kh'), categoryItems('trang_thai_kh'),
         categoryItems('quy_mo'), categoryItems('phan_khuc_xe'),
-        supabase.from('profiles').select('id, username, full_name').eq('status', 'ACTIVE'),
+        supabase.from('profiles').select('id, username, full_name, roles(name)').eq('status', 'ACTIVE'),
         supabase.from('customers').select('ma_kh'),
         categoryItems('san_pham'), categoryItems('tinh_thanh'),
       ]);
       setCats({ moHinhKD: mh, tiers: tier, statuses: st, quyMo: qm, segments: seg });
-      setUsers((u.data ?? []) as any);
+      setUsers(((u.data ?? []) as any).filter((x: any) => x.roles?.name === 'SALES'));
       setCodes(new Set(((c.data ?? []) as any[]).map((x: any) => x.ma_kh)));
       setProducts(p.map((x: any) => ({ id: x.id, name: x.name })));
       setProvinces(prov.map((x: any) => ({ id: x.id, name: x.name, code: '' })));
