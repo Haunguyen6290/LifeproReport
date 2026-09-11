@@ -52,7 +52,7 @@ export function EditCustomerDialog({ open, id, onClose, onDone }: { open: boolea
       for (const k of Object.keys(kh)) if (kh[k] != null) init[k] = String(kh[k]);
       setInitial(init);
       setCats({ moHinhKD: mh, tiers: tier, statuses: st, quyMo: qm, segments: seg });
-      setUsers(((u.data ?? []) as any).filter((x: any) => x.roles?.name === 'SALES'));
+      setUsers(((u.data ?? []) as any).filter((x: any) => x.roles?.name === 'KINH_DOANH'));
       setProducts(p.map((x: any) => ({ id: x.id, name: x.name })));
       setCodes(new Set(((c.data ?? []) as any[]).map((x: any) => x.ma_kh)));
       setProvinces((prov as any[]).map((x: any) => ({ id: x.id, name: x.name, code: '' })));

@@ -29,7 +29,7 @@ export function AddCustomerDialog({ open, onClose, onDone }: { open: boolean; on
         categoryItems('san_pham'), categoryItems('tinh_thanh'),
       ]);
       setCats({ moHinhKD: mh, tiers: tier, statuses: st, quyMo: qm, segments: seg });
-      setUsers(((u.data ?? []) as any).filter((x: any) => x.roles?.name === 'SALES'));
+      setUsers(((u.data ?? []) as any).filter((x: any) => x.roles?.name === 'KINH_DOANH'));
       setCodes(new Set(((c.data ?? []) as any[]).map((x: any) => x.ma_kh)));
       setProducts(p.map((x: any) => ({ id: x.id, name: x.name })));
       setProvinces(prov.map((x: any) => ({ id: x.id, name: x.name, code: '' })));
