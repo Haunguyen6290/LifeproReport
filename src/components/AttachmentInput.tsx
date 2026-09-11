@@ -56,8 +56,8 @@ export function AttachmentInput({ value, onChange, perRow }: { value: Uploaded[]
   }
 
   return (
-    <div className="w-full">
-      <div className="flex flex-wrap gap-2" style={{ maxWidth: perRow ? `${perRow * 88 + (perRow - 1) * 8}px` : undefined }}>
+    <div className="shrink-0 self-center">
+      <div className="flex flex-wrap justify-end gap-2" style={{ maxWidth: perRow ? `${perRow * 88 + (perRow - 1) * 8}px` : undefined }}>
         {previews.map((p, i) => (
           <div key={i} className="relative h-20 w-20 shrink-0 overflow-hidden rounded-md border border-slate-200">
             <img src={p.url} alt={`ảnh ${i + 1}`} className="h-full w-full object-cover" />
