@@ -8,8 +8,9 @@ import { AppSidebar } from '@/components/AppSidebar';
 import { categoryItems } from '@/lib/categories';
 import { fmtCommentTimeVN } from '@/lib/time';
 import { CustomerForm, tierColor, type CustomerValues } from '@/components/CustomerForm';
+import { CustomerSalesTab } from '@/components/CustomerSalesTab';
 type Hist = { id: string; action: string; nguoi: string; thoi_gian: string; details: any };
-type Tab = 'chung' | 'vanhanh' | 'khaithac' | 'lichsu';
+type Tab = 'chung' | 'vanhanh' | 'khaithac' | 'banhang' | 'lichsu';
 function Screen({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
   const router = useRouter();
@@ -125,10 +126,13 @@ function Screen({ params }: { params: Promise<{ id: string }> }) {
           {tabBtn('chung', 'Thông tin chung')}
           {tabBtn('vanhanh', 'Vận hành')}
           {tabBtn('khaithac', 'Khai thác')}
+          {tabBtn('banhang', 'Bán hàng & Công nợ')}
           {tabBtn('lichsu', 'Lịch sử thay đổi')}
         </div>
         <div className="mt-4">
-          {tab !== 'lichsu' ? (
+          {tab === 'banhang' ? (
+            <CustomerSalesTab maKh={String(initial.ma_kh ?? '')} tenKh={String(initial.ten_kh ?? '')} />
+          ) : tab !== 'lichsu' ? (
             ready ? <CustomerForm key={reloadKey} mode="edit" initial={initial} cats={cats} provinces={provinces} products={products} users={users} canPickAssignee={can('sua_khach_bat_ky')} existingCodes={codes} onSubmit={onSubmit} submitLabel="Lưu thay đổi" disabled={!canEdit} activeTab={tab} /> : <div className="text-slate-600">Đang tải…</div>
           ) : (
             <section className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">

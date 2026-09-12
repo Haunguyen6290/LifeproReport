@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
+import { normMa } from '@/lib/norm-ma';
 
 const URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const SRV = process.env.SUPABASE_SERVICE_ROLE_KEY!;
@@ -33,7 +34,7 @@ function spLabel(maVt: unknown, tenVt: unknown): string {
 }
 
 /** Fallback: kéo hết dòng về rồi tính ở Node — chỉ dùng khi hàm SQL sales_report chưa tồn tại. */
-async function nodeFallback(admin: any, from: string, to: string, selKd: string[], selVung: string[], selNhom: string[], selKh: string[], selSp: string[]) {
+async function nodeFallback(admin: any, from: string, to: string, selKd: string[], selVung: string[], selNhom: string[], selKh: string[], selSp: string[], selMaNorm: string[]) {
   const rows = await fetchAllRows(admin, from, to);
   try {
     const { data: custs } = await admin.from('customers').select('ma_kh, tinh_thanh').limit(20000);
@@ -54,6 +55,7 @@ async function nodeFallback(admin: any, from: string, to: string, selKd: string[
     if (selVung.length && !selVung.includes(r.vung)) return false;
     if (selNhom.length && !selNhom.includes(r.nhom_hang)) return false;
     if (selKh.length && !selKh.includes(r.ten_kh)) return false;
+    if (selMaNorm.length && !selMaNorm.includes(normMa(r.ma_kh))) return false;
     if (selSp.length && !(selSp.includes(String(r.ten_vt ?? '')) || selSp.includes(String(r.ma_vt ?? '')) || selSp.includes(spLabel(r.ma_vt, r.ten_vt)))) return false;
     return true;
   });
@@ -148,9 +150,24 @@ async function nodeFallback(admin: any, from: string, to: string, selKd: string[
     return { ma_kh: parts[0], ten_kh: parts[1], kd: parts[2], m: parts[3], value };
   });
 
+  // Pivot San pham x Thang (khop spMonth cua ham SQL; dung cho stacked bar Top-5 SP x 6 thang)
+  const SM_SEP = "";
+  const smMap = new Map();
+  for (const r of filtered) {
+    const sp = spLabel(r.ma_vt, r.ten_vt) || "(khong ro)";
+    const m = String(r.sale_month || "");
+    if (!m) continue;
+    const key = sp + SM_SEP + m;
+    smMap.set(key, (smMap.get(key) ?? 0) + Number(r.thanh_tien ?? 0));
+  }
+  const spMonth = [...smMap.entries()].map(([k, value]) => {
+    const i = k.indexOf(SM_SEP);
+    return { sp: k.slice(0, i), m: k.slice(i + 1), value };
+  });
+
   return {
     total, totalQty, count, soHoaDon, soKhachHang, avgValue,
-    byKd, byVung, byNhom, byHang, byKh, byMonth, nhomMonth, khachMonth, topSp, topSpQty,
+    byKd, byVung, byNhom, byHang, byKh, byMonth, nhomMonth, khachMonth, spMonth, topSp, topSpQty,
     options: { kd: kdOpts, vung: vungOpts, nhom: nhomOpts, kh: khOpts, sp: spOpts },
     meta: { scanned: rows.length, filtered: filtered.length, engine: 'node' },
   };
@@ -167,6 +184,9 @@ export async function POST(req: NextRequest) {
     const selNhom: string[] = Array.isArray(body.nhom) ? body.nhom : [];
     const selKh: string[] = Array.isArray(body.kh) ? body.kh : [];
     const selSp: string[] = Array.isArray(body.sp) ? body.sp : [];
+    const maNorm: string[] = Array.isArray(body.ma_kh_norm)
+      ? body.ma_kh_norm.map((s: unknown) => normMa(s)).filter(Boolean)
+      : [];
 
     const admin = createClient(URL, SRV, { auth: { autoRefreshToken: false, persistSession: false } });
 
@@ -179,6 +199,7 @@ export async function POST(req: NextRequest) {
         p_nhom: selNhom.length ? selNhom : null,
         p_kh: selKh.length ? selKh : null,
         p_sp: selSp.length ? selSp : null,
+        p_ma_kh_norm: maNorm.length ? maNorm : null,
       });
       if (!error && data) {
         return NextResponse.json({ ...(data as any), meta: { ...(data as any).meta, engine: 'sql' } });
@@ -191,7 +212,7 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    const result = await nodeFallback(admin, from, to, selKd, selVung, selNhom, selKh, selSp);
+    const result = await nodeFallback(admin, from, to, selKd, selVung, selNhom, selKh, selSp, maNorm);
     return NextResponse.json(result);
   } catch (e: any) {
     if (e?.message === 'TABLE_MISSING') {

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
+import { normMa } from '@/lib/norm-ma';
 
 const URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const SRV = process.env.SUPABASE_SERVICE_ROLE_KEY!;
@@ -33,7 +34,7 @@ async function fetchAllRows(admin: any, from: string, to: string) {
 }
 
 /** Fallback Node — chỉ dùng khi hàm SQL sales_detail chưa tồn tại. */
-async function nodeFallback(admin: any, from: string, to: string, selKd: string[], selVung: string[], selNhom: string[], selKh: string[], selSp: string[], search: string, page: number, limit: number) {
+async function nodeFallback(admin: any, from: string, to: string, selKd: string[], selVung: string[], selNhom: string[], selKh: string[], selSp: string[], search: string, page: number, limit: number, selMaNorm: string[]) {
   const rows = await fetchAllRows(admin, from, to);
   try {
     const { data: custs } = await admin.from('customers').select('ma_kh, tinh_thanh').limit(20000);
@@ -54,6 +55,7 @@ async function nodeFallback(admin: any, from: string, to: string, selKd: string[
     if (selVung.length && !selVung.includes(r.vung)) return false;
     if (selNhom.length && !selNhom.includes(r.nhom_hang)) return false;
     if (selKh.length && !selKh.includes(r.ten_kh)) return false;
+    if (selMaNorm.length && !selMaNorm.includes(normMa(r.ma_kh))) return false;
     if (selSp.length && !(selSp.includes(String(r.ten_vt ?? '')) || selSp.includes(String(r.ma_vt ?? '')) || selSp.includes(spLabel(r.ma_vt, r.ten_vt)))) return false;
     if (search) {
       const hay = `${r.ten_kh ?? ''} ${r.ma_kh ?? ''} ${r.ten_vt ?? ''} ${r.ma_vt ?? ''} ${r.kinh_doanh ?? ''}`.toLowerCase();
@@ -87,6 +89,9 @@ export async function POST(req: NextRequest) {
     const selKh: string[] = Array.isArray(body.kh) ? body.kh : [];
     const selSp: string[] = Array.isArray(body.sp) ? body.sp : [];
     const search = String(body.search ?? '').trim();
+    const maNorm: string[] = Array.isArray(body.ma_kh_norm)
+      ? body.ma_kh_norm.map((s: unknown) => normMa(s)).filter(Boolean)
+      : [];
 
     const admin = createClient(URL, SRV, { auth: { autoRefreshToken: false, persistSession: false } });
 
@@ -101,6 +106,7 @@ export async function POST(req: NextRequest) {
         p_sp: selSp.length ? selSp : null,
         p_search: search || null,
         p_page: page, p_limit: limit,
+        p_ma_kh_norm: maNorm.length ? maNorm : null,
       });
       if (!error && data) {
         return NextResponse.json({ ...(data as any), page, limit });
@@ -112,7 +118,7 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    const result = await nodeFallback(admin, from, to, selKd, selVung, selNhom, selKh, selSp, search.toLowerCase(), page, limit);
+    const result = await nodeFallback(admin, from, to, selKd, selVung, selNhom, selKh, selSp, search.toLowerCase(), page, limit, maNorm);
     return NextResponse.json(result);
   } catch (e: any) {
     if (e?.message === 'TABLE_MISSING') {
