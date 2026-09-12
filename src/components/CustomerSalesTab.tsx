@@ -65,8 +65,6 @@ function DebtCard({ maKh }: { maKh: string }) {
   useEffect(() => {
     const norm = normMa(maKh);
     if (!norm) { setLoading(false); return; }
-    const now = new Date();
-    const thang = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
     (async () => {
       try {
         // 1) Ưu tiên snapshot (chốt 22:00 đêm qua) — nhanh, không quét TK131.
@@ -79,14 +77,16 @@ function DebtCard({ maKh }: { maKh: string }) {
             return;
           }
         } catch {}
-        // 2) Fallback: tính trực tiếp từ báo cáo công nợ.
-        const r = await fetch(`/api/finance/debt?thang=${thang}`);
+        // 2) Fallback: tính trực tiếp = dư đầu kỳ + lũy kế (Nợ − Có) toàn bộ.
+        const r = await fetch(`/api/sales/customer-debt?ma_norm=${encodeURIComponent(norm)}`);
         const j = await r.json();
         if (!r.ok) throw new Error(j?.error ?? 'Lỗi công nợ');
-        const rows: any[] = Array.isArray(j?.rows) ? j.rows : [];
-        const hit = rows.find((x) => normMa(x.ma_kh) === norm);
-        setVal(hit ? Number(hit.con_thieu ?? 0) : 0);
-        if (j?.E) setAsOf(String(j.E));
+        if (j && j.data && j.data.con_thieu != null) {
+          setVal(Number(j.data.con_thieu) || 0);
+          if (j.data.as_of) setAsOf(String(j.data.as_of));
+        } else {
+          setVal(0);
+        }
       } catch (e: any) { setErr(e?.message ?? 'Không tải được công nợ'); setVal(null); }
       finally { setLoading(false); }
     })();
