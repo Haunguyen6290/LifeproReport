@@ -33,7 +33,7 @@ language sql stable as $$
            coalesce(s.so_luong,0)     as sl,
            coalesce(nullif(trim(s.nhom_hang),''),'(khong ro)') as nhom,
            case when coalesce(trim(s.ma_vt),'') <> ''
-                then case when coalesce(trim(regexp_replace(s.ten_vt, '^\s*\[[^\]]*\]\s*','')) <> ''
+                then case when coalesce(trim(regexp_replace(s.ten_vt, '^\s*\[[^\]]*\]\s*','')),'') <> ''
                           then '[' || trim(s.ma_vt) || '] ' || trim(regexp_replace(s.ten_vt, '^\s*\[[^\]]*\]\s*',''))
                           else trim(s.ma_vt) end
                 else coalesce(nullif(trim(regexp_replace(s.ten_vt, '^\s*\[[^\]]*\]\s*','')),''),'(khong ro)')
