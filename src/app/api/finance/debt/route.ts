@@ -14,5 +14,17 @@ export async function GET(req: NextRequest) {
   if (den && /^\d{4}-\d{2}-\d{2}$/.test(den)) args.p_den = den;
   const { data, error } = await db.rpc('finance_debt_report', args);
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-  return NextResponse.json({ han, ...(data as any) });
+  // Gộp "Công nợ hiện tại" lũy kế (0053) vào từng dòng — không phụ thuộc cửa sổ quá hạn.
+  let cur = new Map<string, number>();
+  const key = (t: any) => String(t ?? '').toLowerCase().replace(/[^a-z0-9]/gi, '');
+  try {
+    const { data: dc } = await (db as any).rpc('fn_debt_current_all');
+    if (Array.isArray(dc)) {
+      for (const x of dc as any[]) cur.set(key(x.ma_norm), Number(x.con_thieu ?? 0));
+    }
+  } catch {}
+  const rows = Array.isArray((data as any)?.rows)
+    ? (data as any).rows.map((r: any) => ({ ...r, con_no_hien_tai: cur.get(key(r.ma_kh)) ?? null }))
+    : (data as any)?.rows;
+  return NextResponse.json({ han, ...(data as any), rows });
 }

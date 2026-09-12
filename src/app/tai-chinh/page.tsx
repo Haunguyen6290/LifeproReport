@@ -9,7 +9,7 @@ import { KeHoachPanel } from '@/components/KeHoachPanel';
 
 type DebtRow = {
   ma_kh: string; ten_kh: string; nvkd: string; tinh: string;
-  cong_no_dau_ky: number; doanh_thu: number; tra_lai: number; thu_tien: number;
+  cong_no_dau_ky: number; con_no_hien_tai: number | null; doanh_thu: number; tra_lai: number; thu_tien: number;
   tong_giam_tru: number; con_thieu: number; qua_han: boolean;
 };
 
@@ -25,7 +25,7 @@ function DebtTable({ rows, han }: { rows: DebtRow[]; han: number }) {
   const [fState, setFState] = useState<'tat-ca' | 'qua-han' | 'dat'>('tat-ca');
   const [fNvkd, setFNvkd] = useState('');
   const [fQ, setFQ] = useState('');
-  const [sortKey, setSortKey] = useState<'con_thieu' | 'cong_no_dau_ky' | 'doanh_thu'>('con_thieu');
+  const [sortKey, setSortKey] = useState<'con_thieu' | 'con_no_hien_tai' | 'cong_no_dau_ky' | 'doanh_thu'>('con_no_hien_tai');
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('desc');
 
   const nvkds = useMemo(() => [...new Set(rows.map((r) => r.nvkd).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'vi')), [rows]);
@@ -37,25 +37,25 @@ function DebtTable({ rows, han }: { rows: DebtRow[]; han: number }) {
     if (fNvkd) f = f.filter((r) => r.nvkd === fNvkd);
     const q = fQ.trim().toLowerCase();
     if (q) f = f.filter((r) => r.ten_kh.toLowerCase().includes(q) || r.ma_kh.toLowerCase().includes(q));
-    return [...f].sort((a, b) => { const d = (sortDir === 'asc' ? 1 : -1); return (a[sortKey] - b[sortKey]) * d || a.ma_kh.localeCompare(b.ma_kh); });
+    return [...f].sort((a, b) => { const d = (sortDir === 'asc' ? 1 : -1); return ((a[sortKey] ?? 0) - (b[sortKey] ?? 0)) * d || a.ma_kh.localeCompare(b.ma_kh); });
   }, [rows, fState, fNvkd, fQ, sortKey, sortDir]);
 
-  const totals = useMemo(() => filtered.reduce((t, r) => { t.cndk += r.cong_no_dau_ky; t.dt += r.doanh_thu; t.tl += r.tra_lai; t.tt += r.thu_tien; t.giam += r.tong_giam_tru; t.thieu += r.con_thieu; return t; }, { cndk: 0, dt: 0, tl: 0, tt: 0, giam: 0, thieu: 0 }), [filtered]);
+  const totals = useMemo(() => filtered.reduce((t, r) => { t.cndk += r.cong_no_dau_ky; t.cnht += (r.con_no_hien_tai ?? 0); t.dt += r.doanh_thu; t.tl += r.tra_lai; t.tt += r.thu_tien; t.giam += r.tong_giam_tru; t.thieu += r.con_thieu; return t; }, { cndk: 0, cnht: 0, dt: 0, tl: 0, tt: 0, giam: 0, thieu: 0 }), [filtered]);
 
   const nQuaHan = rows.filter((r) => r.qua_han).length;
 
   function exportExcel() {
     const data = filtered.map((r, i) => ({
       'STT': i + 1, 'Mã KH': r.ma_kh, 'Tên KH': r.ten_kh, 'NVKD': r.nvkd, 'Tỉnh/TP': r.tinh,
-      'Công nợ đầu kỳ': r.cong_no_dau_ky, 'Doanh số phát sinh trong kỳ': r.doanh_thu,
+      'Công nợ hiện tại': r.con_no_hien_tai ?? '', 'Công nợ đầu kỳ': r.cong_no_dau_ky, 'Doanh số phát sinh trong kỳ': r.doanh_thu,
       'Doanh số hàng trả lại': r.tra_lai, 'Doanh thu thu tiền': r.thu_tien,
       'Tổng giảm trừ': r.tong_giam_tru, 'Số còn thiếu': r.con_thieu,
       'Cảnh báo': r.qua_han ? 'QUÁ HẠN' : 'Đạt yêu cầu',
     }));
     const ws = XLSX.utils.json_to_sheet(data);
     const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Cong_no_qua_han');
-    XLSX.writeFile(wb, `Cong_no_qua_han_${nowYM()}.xlsx`);
+    XLSX.utils.book_append_sheet(wb, ws, 'Cong_no_khach_hang');
+    XLSX.writeFile(wb, `Cong_no_khach_hang_${nowYM()}.xlsx`);
   }
 
   const W_MONEY = 116;
@@ -79,12 +79,13 @@ function DebtTable({ rows, han }: { rows: DebtRow[]; han: number }) {
       </div>
 
       <div className="max-h-[640px] overflow-auto rounded-xl border border-slate-200 bg-white">
-        <table className="w-full min-w-[1180px] border-separate border-spacing-0 table-fixed text-[12.5px]">
+        <table className="w-full min-w-[1300px] border-separate border-spacing-0 table-fixed text-[12.5px]">
           <colgroup>
             <col style={{ width: 44 }} />
             <col style={{ width: 78 }} />
-            <col />
+            <col style={{ width: 170 }} />
             <col style={{ width: 110 }} />
+            <col style={{ width: W_MONEY }} />
             <col style={{ width: W_MONEY }} />
             <col style={{ width: W_MONEY }} />
             <col style={{ width: W_MONEY }} />
@@ -99,6 +100,11 @@ function DebtTable({ rows, han }: { rows: DebtRow[]; han: number }) {
               <th className="whitespace-nowrap border-b border-slate-200 px-3 py-2 font-bold">Mã KH</th>
               <th className="border-b border-slate-200 px-3 py-2 font-bold">Tên KH</th>
               <th className="whitespace-nowrap border-b border-slate-200 px-3 py-2 font-bold">NVKD</th>
+              <th className="border-b border-slate-200 bg-amber-50/60 px-3 py-2 align-bottom" style={{ width: W_MONEY, minWidth: W_MONEY, maxWidth: W_MONEY }}>
+                <button onClick={() => { if (sortKey === 'con_no_hien_tai') setSortDir((d) => (d === 'asc' ? 'desc' : 'asc')); else { setSortKey('con_no_hien_tai'); setSortDir('desc'); } }} className="flex w-full items-end justify-end gap-1 text-right font-bold leading-tight">
+                  <span className="whitespace-normal break-words">Công nợ hiện tại</span>{sortKey === 'con_no_hien_tai' ? <span className="shrink-0">{sortDir === 'asc' ? '↑' : '↓'}</span> : <span className="shrink-0 text-slate-400">↕</span>}
+                </button>
+              </th>
               <th className="border-b border-slate-200 px-3 py-2 align-bottom" style={{ width: W_MONEY, minWidth: W_MONEY, maxWidth: W_MONEY }}>
                 <button onClick={() => { if (sortKey === 'cong_no_dau_ky') setSortDir((d) => (d === 'asc' ? 'desc' : 'asc')); else { setSortKey('cong_no_dau_ky'); setSortDir('desc'); } }} className="flex w-full items-end justify-end gap-1 text-right font-bold leading-tight">
                   <span className="whitespace-normal break-words">Công nợ đầu kỳ</span>{sortKey === 'cong_no_dau_ky' ? <span className="shrink-0">{sortDir === 'asc' ? '↑' : '↓'}</span> : <span className="shrink-0 text-slate-400">↕</span>}
@@ -121,6 +127,7 @@ function DebtTable({ rows, han }: { rows: DebtRow[]; han: number }) {
             </tr>
             <tr className="bg-[#eef2f7] font-semibold" style={{ position: 'sticky', top: 40, zIndex: 15 }}>
               <td colSpan={4} className="border-b border-slate-200 px-3 py-2 text-right">Tổng cộng</td>
+              <td className="whitespace-nowrap border-b border-slate-200 bg-amber-50/60 px-3 py-2 text-right font-bold tabular-nums">{fmt(totals.cnht)}</td>
               <td className="whitespace-nowrap border-b border-slate-200 px-3 py-2 text-right tabular-nums">{fmt(totals.cndk)}</td>
               <td className="whitespace-nowrap border-b border-slate-200 px-3 py-2 text-right tabular-nums">{fmt(totals.dt)}</td>
               <td className="whitespace-nowrap border-b border-slate-200 px-3 py-2 text-right tabular-nums">{fmt(totals.tl)}</td>
@@ -135,8 +142,9 @@ function DebtTable({ rows, han }: { rows: DebtRow[]; han: number }) {
               <tr key={r.ma_kh} className={r.qua_han ? 'bg-red-50' : 'hover:bg-slate-50'}>
                 <td className="whitespace-nowrap px-3 py-2 text-slate-600">{i + 1}</td>
                 <td className="truncate px-3 py-2 font-semibold" title={r.ma_kh}>{r.ma_kh}</td>
-                <td className="px-3 py-2 break-words font-semibold">{r.ten_kh}</td>
+                <td className="truncate px-3 py-2 font-semibold" title={r.ten_kh}>{r.ten_kh}</td>
                 <td className="whitespace-nowrap px-3 py-2 text-slate-700">{r.nvkd || '—'}</td>
+                <td className="whitespace-nowrap bg-amber-50/60 px-3 py-2 text-right font-bold tabular-nums">{r.con_no_hien_tai == null ? '—' : fmt(r.con_no_hien_tai)}</td>
                 <td className="whitespace-nowrap px-3 py-2 text-right tabular-nums">{fmt(r.cong_no_dau_ky)}</td>
                 <td className="whitespace-nowrap px-3 py-2 text-right tabular-nums">{fmt(r.doanh_thu)}</td>
                 <td className="whitespace-nowrap px-3 py-2 text-right tabular-nums">{fmt(r.tra_lai)}</td>
@@ -757,7 +765,7 @@ function Screen() {
         </div>
 
         <div className="mb-4 flex gap-2 border-b border-slate-200">
-          {([['cong-no', 'Công nợ quá hạn'], ['thu-tien', 'Bán hàng thu tiền']] as const).map(([k, label]) => (
+          {([['cong-no', 'Công nợ khách hàng'], ['thu-tien', 'Bán hàng thu tiền']] as const).map(([k, label]) => (
             <button key={k} onClick={() => setTab(k)} className={`rounded-t-lg px-4 py-2 text-sm font-semibold transition ${tab === k ? 'border border-b-0 border-slate-200 bg-white text-[#1e3a8a]' : 'text-slate-600 hover:text-slate-900'}`}>{label}</button>
           ))}
         </div>
