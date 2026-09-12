@@ -154,7 +154,7 @@ export function EditCustomerDialog({ open, id, onClose, onDone }: { open: boolea
             {tab === 'banhang' ? (
               <CustomerSalesTab maKh={String(initial.ma_kh ?? '')} tenKh={String(initial.ten_kh ?? '')} />
             ) : tab === 'tuongtac' ? (
-              <CustomerInteractionTab key={careKey} customerId={id} onChanged={async () => { try { setStaleCare(isStaleInteraction(await lastInteractionDate(id))); } catch {} setCareKey((k) => k + 1); }} />
+              <CustomerInteractionTab key={careKey} customerId={id} readOnly={!canEdit} onChanged={async () => { try { setStaleCare(isStaleInteraction(await lastInteractionDate(id))); } catch {} setCareKey((k) => k + 1); }} />
             ) : tab !== 'lichsu' ? (
               <CustomerForm mode="edit" initial={initial} cats={cats} provinces={provinces} products={products} users={users} canPickAssignee={can('sua_khach_bat_ky')} existingCodes={codes} onSubmit={onSubmit} submitLabel="Lưu thay đổi" disabled={!canEdit} activeTab={tab} />
             ) : (

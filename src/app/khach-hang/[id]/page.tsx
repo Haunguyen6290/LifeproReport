@@ -139,7 +139,7 @@ function Screen({ params }: { params: Promise<{ id: string }> }) {
           {tab === 'banhang' ? (
             <CustomerSalesTab maKh={String(initial.ma_kh ?? '')} tenKh={String(initial.ten_kh ?? '')} />
           ) : tab === 'tuongtac' ? (
-            <CustomerInteractionTab customerId={id} onChanged={async () => { try { setStaleCare(isStaleInteraction(await lastInteractionDate(id))); } catch {} }} />
+            <CustomerInteractionTab customerId={id} readOnly={!canEdit} onChanged={async () => { try { setStaleCare(isStaleInteraction(await lastInteractionDate(id))); } catch {} }} />
           ) : tab !== 'lichsu' ? (
             ready ? <CustomerForm key={reloadKey} mode="edit" initial={initial} cats={cats} provinces={provinces} products={products} users={users} canPickAssignee={can('sua_khach_bat_ky')} existingCodes={codes} onSubmit={onSubmit} submitLabel="Lưu thay đổi" disabled={!canEdit} activeTab={tab} /> : <div className="text-slate-600">Đang tải…</div>
           ) : (

@@ -15,7 +15,7 @@ function todayVN() {
   return d.toISOString().slice(0, 10);
 }
 
-export function CustomerInteractionTab({ customerId, onChanged }: { customerId: string; onChanged?: () => void }) {
+export function CustomerInteractionTab({ customerId, onChanged, readOnly }: { customerId: string; onChanged?: () => void; readOnly?: boolean }) {
   const { userId } = useAuth();
   const [rows, setRows] = useState<Row[]>([]);
   const [loading, setLoading] = useState(true);
@@ -100,6 +100,9 @@ export function CustomerInteractionTab({ customerId, onChanged }: { customerId: 
       )}
 
       {/* Ghi nhanh */}
+      {readOnly ? (
+        <p className="rounded-lg bg-slate-50 px-3 py-2 text-center text-xs text-slate-500">Ông không phụ trách khách này nên chỉ xem, không ghi tương tác.</p>
+      ) : (
       <div className="rounded-lg border border-dashed border-slate-300 bg-slate-50 p-3">
         <label className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">Ghi nhanh (Enter = lưu, Shift+Enter = xuống dòng)</label>
         <textarea
@@ -120,6 +123,7 @@ export function CustomerInteractionTab({ customerId, onChanged }: { customerId: 
           <button onClick={save} disabled={saving || !text.trim()} className="rounded-md bg-[#1e3a8a] px-4 py-1.5 text-sm font-semibold text-white disabled:opacity-50">Lưu</button>
         </div>
       </div>
+      )}
     </section>
   );
 }
