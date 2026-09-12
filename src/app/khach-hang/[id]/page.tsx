@@ -9,8 +9,9 @@ import { categoryItems } from '@/lib/categories';
 import { fmtCommentTimeVN } from '@/lib/time';
 import { CustomerForm, tierColor, type CustomerValues } from '@/components/CustomerForm';
 import { CustomerSalesTab } from '@/components/CustomerSalesTab';
+import { CustomerInteractionTab, lastInteractionDate, isStaleInteraction } from '@/components/CustomerInteractionTab';
 type Hist = { id: string; action: string; nguoi: string; thoi_gian: string; details: any };
-type Tab = 'chung' | 'vanhanh' | 'khaithac' | 'banhang' | 'lichsu';
+type Tab = 'chung' | 'vanhanh' | 'khaithac' | 'banhang' | 'tuongtac' | 'lichsu';
 function Screen({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
   const router = useRouter();
@@ -27,6 +28,7 @@ function Screen({ params }: { params: Promise<{ id: string }> }) {
   const [reloadKey, setReloadKey] = useState(0);
   const [statusName, setStatusName] = useState('');
   const [tab, setTab] = useState<Tab>('chung');
+  const [staleCare, setStaleCare] = useState(false);
   useEffect(() => {
     (async () => {
       const [khRes, mh, tier, st, qm, seg, u, c, p, prov] = await Promise.all([
@@ -56,6 +58,7 @@ function Screen({ params }: { params: Promise<{ id: string }> }) {
         .select('id, action, details, created_at, actor:profiles!audit_logs_actor_id_fkey(full_name)')
         .eq('entity_type', 'customer').eq('entity_id', id).order('created_at', { ascending: false }).limit(50);
       setHistory(((logs ?? []) as any[]).map((l) => ({ id: l.id, action: l.action, nguoi: l.actor?.full_name ?? '', thoi_gian: l.created_at, details: l.details })));
+      try { setStaleCare(isStaleInteraction(await lastInteractionDate(id))); } catch { setStaleCare(false); }
       setReady(true);
     })();
   }, [id, userId, can, reloadKey]);
@@ -92,8 +95,8 @@ function Screen({ params }: { params: Promise<{ id: string }> }) {
   const tier = cats.tiers.find((t: any) => t.id === initial.tier_id);
   const assignedName = users.find((u) => u.id === initial.assigned_to)?.full_name ?? '';
   const moHinhNames = (initial.business_model ?? '').split(',').filter(Boolean).join(', ');
-  const tabBtn = (k: Tab, label: string) => (
-    <button onClick={() => setTab(k)} className={`rounded-full px-4 py-2 text-sm font-semibold transition ${tab === k ? 'bg-[#1e3a8a] text-white shadow' : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200'}`}>{label}</button>
+  const tabBtn = (k: Tab, label: string, dot?: boolean) => (
+    <button onClick={() => setTab(k)} className={`relative rounded-full px-4 py-2 text-sm font-semibold transition ${tab === k ? 'bg-[#1e3a8a] text-white shadow' : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200'}`}>{label}{dot ? <span className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full bg-red-500 ring-2 ring-white" title="Hơn 21 ngày chưa chăm sóc" /> : null}</button>
   );
   return (
     <AppSidebar>
@@ -127,11 +130,16 @@ function Screen({ params }: { params: Promise<{ id: string }> }) {
           {tabBtn('vanhanh', 'Vận hành')}
           {tabBtn('khaithac', 'Khai thác')}
           {tabBtn('banhang', 'Bán hàng & Công nợ')}
+          {tabBtn('tuongtac', 'Tương tác', staleCare)}
+        </div>
+        <div className="mt-2 flex flex-wrap gap-2">
           {tabBtn('lichsu', 'Lịch sử thay đổi')}
         </div>
         <div className="mt-4">
           {tab === 'banhang' ? (
             <CustomerSalesTab maKh={String(initial.ma_kh ?? '')} tenKh={String(initial.ten_kh ?? '')} />
+          ) : tab === 'tuongtac' ? (
+            <CustomerInteractionTab customerId={id} onChanged={async () => { try { setStaleCare(isStaleInteraction(await lastInteractionDate(id))); } catch {} }} />
           ) : tab !== 'lichsu' ? (
             ready ? <CustomerForm key={reloadKey} mode="edit" initial={initial} cats={cats} provinces={provinces} products={products} users={users} canPickAssignee={can('sua_khach_bat_ky')} existingCodes={codes} onSubmit={onSubmit} submitLabel="Lưu thay đổi" disabled={!canEdit} activeTab={tab} /> : <div className="text-slate-600">Đang tải…</div>
           ) : (

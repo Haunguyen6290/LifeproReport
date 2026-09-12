@@ -6,9 +6,10 @@ import { categoryItems } from '@/lib/categories';
 import { fmtCommentTimeVN } from '@/lib/time';
 import { CustomerForm, tierColor, type CustomerValues } from '@/components/CustomerForm';
 import { CustomerSalesTab } from '@/components/CustomerSalesTab';
+import { CustomerInteractionTab, lastInteractionDate, isStaleInteraction } from '@/components/CustomerInteractionTab';
 import { Dialog } from '@/components/Dialog';
 
-type Tab = 'chung' | 'vanhanh' | 'khaithac' | 'banhang' | 'lichsu';
+type Tab = 'chung' | 'vanhanh' | 'khaithac' | 'banhang' | 'tuongtac' | 'lichsu';
 type Hist = { id: string; action: string; nguoi: string; thoi_gian: string; details: any };
 
 export function EditCustomerDialog({ open, id, onClose, onDone }: { open: boolean; id: string; onClose: () => void; onDone: () => void }) {
@@ -25,6 +26,8 @@ export function EditCustomerDialog({ open, id, onClose, onDone }: { open: boolea
   const [history, setHistory] = useState<Hist[]>([]);
   const [statusName, setStatusName] = useState('');
   const [saved, setSaved] = useState(false);
+  const [staleCare, setStaleCare] = useState(false);
+  const [careKey, setCareKey] = useState(0);
 
   async function loadHistory() {
     const { data: logs } = await supabase.from('audit_logs')
@@ -63,6 +66,7 @@ export function EditCustomerDialog({ open, id, onClose, onDone }: { open: boolea
         setStatusName(stItem?.name ?? '');
       }
       await loadHistory();
+      try { setStaleCare(isStaleInteraction(await lastInteractionDate(id))); } catch { setStaleCare(false); }
       setReady(true);
     })();
   }, [open, id, userId, can]);
@@ -131,11 +135,17 @@ export function EditCustomerDialog({ open, id, onClose, onDone }: { open: boolea
 
           {/* Tabs */}
           <div className="mt-4 flex flex-wrap gap-2">
-            {(['chung','vanhanh','khaithac','banhang','lichsu'] as const).map((k) => (
-              <button key={k} onClick={() => setTab(k)} className={`rounded-full px-4 py-1.5 text-sm font-semibold ${tab===k ? 'bg-[#1e3a8a] text-white shadow' : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200'}`}>
-                {k==='chung'?'Thông tin chung':k==='vanhanh'?'Vận hành':k==='khaithac'?'Khai thác':k==='banhang'?'Bán hàng & Công nợ':'Lịch sử thay đổi'}
+            {(['chung','vanhanh','khaithac','banhang','tuongtac'] as const).map((k) => (
+              <button key={k} onClick={() => setTab(k)} className={`relative rounded-full px-4 py-1.5 text-sm font-semibold ${tab===k ? 'bg-[#1e3a8a] text-white shadow' : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200'}`}>
+                {k==='chung'?'Thông tin chung':k==='vanhanh'?'Vận hành':k==='khaithac'?'Khai thác':k==='banhang'?'Bán hàng & Công nợ':'Tương tác'}
+                {k==='tuongtac' && staleCare && <span className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full bg-red-500 ring-2 ring-white" title="Hơn 21 ngày chưa chăm sóc" />}
               </button>
             ))}
+          </div>
+          <div className="mt-2 flex flex-wrap gap-2">
+            <button onClick={() => setTab('lichsu')} className={`rounded-full px-4 py-1.5 text-sm font-semibold ${tab==='lichsu' ? 'bg-[#1e3a8a] text-white shadow' : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200'}`}>
+              Lịch sử thay đổi
+            </button>
           </div>
 
           {saved && <div role="status" className="mt-3 rounded-md border border-emerald-200 bg-emerald-50 px-4 py-2 text-sm text-emerald-700">Đã lưu. Hộp vẫn mở — bấm X để đóng.</div>}
@@ -143,6 +153,8 @@ export function EditCustomerDialog({ open, id, onClose, onDone }: { open: boolea
           <div className="mt-4">
             {tab === 'banhang' ? (
               <CustomerSalesTab maKh={String(initial.ma_kh ?? '')} tenKh={String(initial.ten_kh ?? '')} />
+            ) : tab === 'tuongtac' ? (
+              <CustomerInteractionTab key={careKey} customerId={id} onChanged={async () => { try { setStaleCare(isStaleInteraction(await lastInteractionDate(id))); } catch {} setCareKey((k) => k + 1); }} />
             ) : tab !== 'lichsu' ? (
               <CustomerForm mode="edit" initial={initial} cats={cats} provinces={provinces} products={products} users={users} canPickAssignee={can('sua_khach_bat_ky')} existingCodes={codes} onSubmit={onSubmit} submitLabel="Lưu thay đổi" disabled={!canEdit} activeTab={tab} />
             ) : (
