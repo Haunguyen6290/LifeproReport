@@ -5,9 +5,10 @@ import { useAuth } from '@/components/RequireAuth';
 import { categoryItems } from '@/lib/categories';
 import { fmtCommentTimeVN } from '@/lib/time';
 import { CustomerForm, tierColor, type CustomerValues } from '@/components/CustomerForm';
+import { CustomerSalesTab } from '@/components/CustomerSalesTab';
 import { Dialog } from '@/components/Dialog';
 
-type Tab = 'chung' | 'vanhanh' | 'khaithac' | 'lichsu';
+type Tab = 'chung' | 'vanhanh' | 'khaithac' | 'banhang' | 'lichsu';
 type Hist = { id: string; action: string; nguoi: string; thoi_gian: string; details: any };
 
 export function EditCustomerDialog({ open, id, onClose, onDone }: { open: boolean; id: string; onClose: () => void; onDone: () => void }) {
@@ -130,9 +131,9 @@ export function EditCustomerDialog({ open, id, onClose, onDone }: { open: boolea
 
           {/* Tabs */}
           <div className="mt-4 flex flex-wrap gap-2">
-            {(['chung','vanhanh','khaithac','lichsu'] as const).map((k) => (
+            {(['chung','vanhanh','khaithac','banhang','lichsu'] as const).map((k) => (
               <button key={k} onClick={() => setTab(k)} className={`rounded-full px-4 py-1.5 text-sm font-semibold ${tab===k ? 'bg-[#1e3a8a] text-white shadow' : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200'}`}>
-                {k==='chung'?'Thông tin chung':k==='vanhanh'?'Vận hành':k==='khaithac'?'Khai thác':'Lịch sử thay đổi'}
+                {k==='chung'?'Thông tin chung':k==='vanhanh'?'Vận hành':k==='khaithac'?'Khai thác':k==='banhang'?'Bán hàng & Công nợ':'Lịch sử thay đổi'}
               </button>
             ))}
           </div>
@@ -140,7 +141,9 @@ export function EditCustomerDialog({ open, id, onClose, onDone }: { open: boolea
           {saved && <div role="status" className="mt-3 rounded-md border border-emerald-200 bg-emerald-50 px-4 py-2 text-sm text-emerald-700">Đã lưu. Hộp vẫn mở — bấm X để đóng.</div>}
 
           <div className="mt-4">
-            {tab !== 'lichsu' ? (
+            {tab === 'banhang' ? (
+              <CustomerSalesTab maKh={String(initial.ma_kh ?? '')} tenKh={String(initial.ten_kh ?? '')} />
+            ) : tab !== 'lichsu' ? (
               <CustomerForm mode="edit" initial={initial} cats={cats} provinces={provinces} products={products} users={users} canPickAssignee={can('sua_khach_bat_ky')} existingCodes={codes} onSubmit={onSubmit} submitLabel="Lưu thay đổi" disabled={!canEdit} activeTab={tab} />
             ) : (
               <section className="rounded-xl border border-slate-200 bg-white p-4">
