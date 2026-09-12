@@ -99,8 +99,8 @@ returns json language plpgsql volatile as $$
 declare
   v_ms date; v_qs date; v_ys date;
   v_mky text; v_qky text; v_yky text;
-  v_grace int; v_base date; v_D date; v_E date; v_map jsonb;
-  v_n int := 0; v_d int := 0;
+  v_grace int; v_base date; v_cutD date; v_cutE date; v_map jsonb;
+  v_n int := 0; v_nd int := 0;
 begin
   v_ms := date_trunc('month', p_as_of)::date;
   v_qs := date_trunc('quarter', p_as_of)::date;
@@ -125,8 +125,8 @@ begin
   select coalesce(nullif(value,'')::int, 90) into v_grace from public.settings where key='DEBT_GRACE_DAYS';
   select nullif(value,'')::date into v_base from public.settings where key='DEBT_BASE_DATE';
   if v_base is null then v_base := '2026-01-01'; end if;
-  v_E := p_as_of + 1;
-  v_D := date_trunc('month', (v_E - (v_grace || ' days')::interval))::date;
+  v_cutE := p_as_of + 1;
+  v_cutD := date_trunc('month', (v_cutE - (v_grace || ' days')::interval))::date;
   select coalesce(value::jsonb,'[]'::jsonb) into v_map from public.settings where key='RECEIVABLE_TK_MAP';
 
   with base as (
@@ -136,9 +136,9 @@ begin
   ),
   ps as (
     select public.fn_norm_ma(r.ma_kh) as mn,
-      sum(case when r.ngay <  v_D then r.so_no - r.so_co else 0 end) as ps_truoc_D,
-      sum(case when r.ngay >= v_D and r.ngay <= v_E and public.fn_tk_nhom(r.tk_doi_ung, v_map)='Trả lại' then r.so_co - r.so_no else 0 end) as tra_lai,
-      sum(case when r.ngay >= v_D and r.ngay <= v_E and public.fn_tk_nhom(r.tk_doi_ung, v_map)='Thu tiền' then r.so_co - r.so_no else 0 end) as thu_tien
+      sum(case when r.ngay <  v_cutD then r.so_no - r.so_co else 0 end) as ps_truoc_D,
+      sum(case when r.ngay >= v_cutD and r.ngay <= v_cutE and public.fn_tk_nhom(r.tk_doi_ung, v_map)='Trả lại' then r.so_co - r.so_no else 0 end) as tra_lai,
+      sum(case when r.ngay >= v_cutD and r.ngay <= v_cutE and public.fn_tk_nhom(r.tk_doi_ung, v_map)='Thu tiền' then r.so_co - r.so_no else 0 end) as thu_tien
     from public.receivable_rows r
     where coalesce(public.fn_norm_ma(r.ma_kh),'') <> ''
     group by 1
@@ -148,14 +148,14 @@ begin
     select b.mn, 'debt', 'debt',
       jsonb_build_object(
         'con_thieu', greatest(b.du_no + coalesce(p.ps_truoc_D,0) - (coalesce(p.tra_lai,0)+coalesce(p.thu_tien,0)), 0),
-        'as_of', v_E::text
+        'as_of', v_cutE::text
       ), now()
     from base b left join ps p on p.mn = b.mn
     on conflict (ma_norm, loai, ky) do update set data = excluded.data, refreshed_at = excluded.refreshed_at
     returning 1
-  ) select count(*) into v_d from u2;
+  ) select count(*) into v_nd from u2;
 
-  return json_build_object('sales', v_n, 'debt', v_d, 'as_of', p_as_of,
+  return json_build_object('sales', v_n, 'debt', v_nd, 'as_of', p_as_of,
     'ky', json_build_object('month', v_mky, 'quarter', v_qky, 'year', v_yky));
 exception when others then
   return json_build_object('error', sqlerrm, 'code', sqlstate);
