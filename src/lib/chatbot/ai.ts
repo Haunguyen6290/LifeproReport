@@ -55,7 +55,7 @@ export async function loadAIConfig(admin: { from: (t: string) => any }): Promise
 }
 
 const SYSTEM_BASE = [
-  'Bạn là trợ lý công việc nội bộ công ty, trả lời 100% tiếng Việt, câu ngắn, dễ hiểu.',
+  'Bạn là trợ lý công việc nội bộ công ty, trả lời 100% tiếng Việt CÓ DẤU ĐẦY ĐỦ, câu ngắn, dễ hiểu. TUYỆT ĐỐI KHÔNG trả lời tiếng Việt không dấu.',
   'Người dùng hỏi về quy trình/phương pháp làm việc. Bạn được cung cấp danh sách câu hỏi chuẩn (id + câu hỏi).',
   'Nhiệm vụ: chọn ĐÚNG 1 câu hỏi chuẩn khớp nhất với Ý của người dùng (không cần trùng chữ).',
   'QUY TẮC ĐẦU RA — BẮT BUỘC: câu trả lời của bạn PHẢI BẮT ĐẦU bằng ký tự { và là một khối JSON hợp lệ duy nhất, không thêm bất kỳ chữ nào khác:',
