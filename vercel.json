@@ -1,8 +1,8 @@
 {
   "crons": [
-    { "path": "/api/bot/weekly-check?group=main", "schedule": "30 8 * * 1" },
-    { "path": "/api/bot/weekly-check?group=weekly_report", "schedule": "30 8 * * 2" },
-    { "path": "/api/bot/weekly-check?group=late", "schedule": "30 8 * * 5" },
+    { "path": "/api/bot/weekly-check?group=main", "schedule": "30 1 * * 1" },
+    { "path": "/api/bot/weekly-check?group=weekly_report", "schedule": "30 1 * * 2" },
+    { "path": "/api/bot/weekly-check?group=late", "schedule": "30 1 * * 5" },
     { "path": "/api/cron/sales-snapshot", "schedule": "0 15 * * *" }
   ]
 }
