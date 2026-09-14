@@ -31,12 +31,28 @@ function Badge({ late }: { late: boolean }) {
   );
 }
 
+/** 'Tuần 14/09 – 19/09' (dd/mm của T2 → T7) */
+function dm(s: string): string {
+  if (!s) return '—';
+  const [, m, d] = s.split('-');
+  return `${d}/${m}`;
+}
+
+function shiftDate(s: string, days: number): string {
+  const d = new Date(s + 'T00:00:00Z');
+  d.setUTCDate(d.getUTCDate() + days);
+  return d.toISOString().slice(0, 10);
+}
+
 function Screen() {
   const { userId, can } = useAuth();
   const canManage = can('quan_ly_okr');
   const defaults = useMemo(() => weekBounds(new Date()), []);
   const [tu, setTu] = useState(defaults.tu);
   const [den, setDen] = useState(defaults.den);
+  // Bộ chọn tuần: 'this' = Tuần này (mặc định), 'last' = Tuần trước, 'custom' = Chọn ngày bất kỳ → snap về tuần chứa ngày đó
+  const [tuanMode, setTuanMode] = useState<'this' | 'last' | 'custom'>('this');
+  const [customPick, setCustomPick] = useState(defaults.tu);
   const [tab, setTab] = useState<'plan' | 'report'>('plan');
   const [plans, setPlans] = useState<PlanData[]>([]);
   const [reports, setReports] = useState<ReportData[]>([]);
@@ -50,10 +66,27 @@ function Screen() {
   const [expandReportId, setExpandReportId] = useState<string | null>(null);
   const [refreshKey, setRefreshKey] = useState(0);
 
-  function onWeekChange(newTu: string) {
-    const b = weekBounds(new Date(newTu + 'T00:00:00Z'));
+  function setWeekBounds(b: { tu: string; den: string }) {
     setTu(b.tu);
     setDen(b.den);
+  }
+
+  function onModeChange(mode: 'this' | 'last' | 'custom') {
+    setTuanMode(mode);
+    const now = new Date();
+    if (mode === 'this') setWeekBounds(weekBounds(now));
+    else if (mode === 'last') setWeekBounds(weekBounds(new Date(shiftDate(now.toISOString().slice(0, 10), -7) + 'T00:00:00Z')));
+    else setWeekBounds(weekBounds(new Date(customPick + 'T00:00:00Z')));
+  }
+
+  function onWeekChange(newTu: string) {
+    setWeekBounds(weekBounds(new Date(newTu + 'T00:00:00Z')));
+  }
+
+  /** 'Tuần 14/09 – 19/09' */
+  function tuanLabel(): string {
+    if (!tu || !den) return '';
+    return `Tuần ${dm(tu)} – ${dm(den)}`;
   }
 
   useEffect(() => {
@@ -157,10 +190,33 @@ function Screen() {
         <div className="mb-4 rounded-xl border border-slate-200 bg-white p-4 shadow-[0_1px_3px_rgba(15,23,42,0.06)]">
           <div className="flex flex-wrap items-end gap-3">
             <div>
-              <label className="mb-1 block text-xs font-semibold uppercase tracking-wider text-slate-700">Tuần (T2)</label>
-              <input type="date" value={tu} onChange={(e) => onWeekChange(e.target.value)} className="rounded-md border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-[#1e3a8a] focus:ring-1 focus:ring-[#1e3a8a]" />
+              <label className="mb-1 block text-xs font-semibold uppercase tracking-wider text-slate-700">Tuần</label>
+              <select
+                value={tuanMode}
+                onChange={(e) => onModeChange(e.target.value as 'this' | 'last' | 'custom')}
+                className="rounded-md border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-[#1e3a8a] focus:ring-1 focus:ring-[#1e3a8a]"
+              >
+                <option value="this">Tuần này</option>
+                <option value="last">Tuần trước</option>
+                <option value="custom">Chọn tuần khác…</option>
+              </select>
             </div>
-            <div className="pb-2 text-xs text-slate-600">{tu && den ? `${fmtDateVN(tu)} → ${fmtDateVN(den)}` : '—'} · T2 → T7</div>
+            {tuanMode === 'custom' && (
+              <div>
+                <label className="mb-1 block text-xs font-semibold uppercase tracking-wider text-slate-700">Ngày bất kỳ trong tuần</label>
+                <input
+                  type="date"
+                  value={customPick}
+                  onChange={(e) => {
+                    setCustomPick(e.target.value);
+                    if (e.target.value) onWeekChange(e.target.value);
+                  }}
+                  className="rounded-md border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-[#1e3a8a] focus:ring-1 focus:ring-[#1e3a8a]"
+                />
+              </div>
+            )}
+            <div className="pb-2 text-sm font-semibold text-slate-900">{tuanLabel()}</div>
+            <div className="pb-2 text-xs text-slate-600">{tu && den ? `Từ ${fmtDateVN(tu)} đến ${fmtDateVN(den)}` : '—'}</div>
             <div className="pb-2 text-xs text-slate-500">Hạn KH: 17h30 T7 trước tuần · Hạn BC: 17h30 T2 sau tuần</div>
           </div>
         </div>
