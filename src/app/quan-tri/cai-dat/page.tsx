@@ -311,9 +311,9 @@ function Screen() {
         </div>
 
         <div className={`${card} mt-4`}>
-          <h2 className="mb-2 text-sm font-bold text-[#1e3a8a]">Trợ lý AI (Haiku)</h2>
+          <h2 className="mb-2 text-sm font-bold text-[#1e3a8a]">Trợ lý AI (đánh giá công việc)</h2>
           <p className="mb-3 text-xs text-slate-600">
-            Dùng AI (Haiku) để trả lời các câu hỏi nâng cao / tự nhiên hơn.
+            Dùng AI để trả lời các câu hỏi nâng cao / góp ý vào mục tiêu, kế hoạch, báo cáo nhân viên dán vào.
             <strong> Tắt</strong> → chatbot chạy 100% theo câu chuẩn (rankQA), không tốn phí.
             API key không hiển thị ra ngoài và chỉ admin mới đọc được.
           </p>
@@ -321,7 +321,7 @@ function Screen() {
             <label className="flex items-center gap-2 text-sm font-semibold">
               <input type="checkbox" checked={String(vals.AI_ENABLED ?? '').toUpperCase() === 'TRUE'}
                 onChange={(e) => setVals({ ...vals, AI_ENABLED: e.target.checked ? 'TRUE' : 'FALSE' })} />
-              Bật Trợ lý AI (Haiku)
+              Bật Trợ lý AI
             </label>
             <label className="flex items-center gap-2 text-sm">
               <input type="checkbox" checked={String(vals.TRO_LY_SHOW ?? '').toUpperCase() === 'TRUE'}
@@ -338,17 +338,22 @@ function Screen() {
             </div>
             <div className="grid gap-2 sm:grid-cols-[220px_1fr] sm:items-center">
               <label className="text-sm font-semibold">Model</label>
-              <input value={vals.AI_MODEL ?? ''} onChange={(e) => setVals({ ...vals, AI_MODEL: e.target.value })} placeholder="claude-haiku-4-5" className={sel} />
+              <input value={vals.AI_MODEL ?? ''} onChange={(e) => setVals({ ...vals, AI_MODEL: e.target.value })} placeholder="claude-sonnet-4-5" className={sel} />
             </div>
             <div className="grid gap-2 sm:grid-cols-[220px_1fr] sm:items-center">
               <label className="text-sm font-semibold">Giới hạn tin AI tự do / phiên</label>
-              <select value={vals.AI_FREE_MSG_LIMIT ?? '5'} onChange={(e) => setVals({ ...vals, AI_FREE_MSG_LIMIT: e.target.value })} className={sel}>
+              <select value={vals.AI_FREE_MSG_LIMIT ?? '10'} onChange={(e) => setVals({ ...vals, AI_FREE_MSG_LIMIT: e.target.value })} className={sel}>
                 <option value="5">5 tin</option>
                 <option value="10">10 tin</option>
+                <option value="20">20 tin</option>
               </select>
             </div>
+            <div className="grid gap-2 sm:grid-cols-[220px_1fr] sm:items-start">
+              <label className="text-sm font-semibold">Bản giới thiệu công ty cho AI <span className="font-normal text-slate-500">(để trống = dùng bản mặc định)</span></label>
+              <textarea value={vals.AI_COMPANY_BRIEF ?? ''} onChange={(e) => setVals({ ...vals, AI_COMPANY_BRIEF: e.target.value })} rows={8} placeholder="Mô tả công ty bán gì, phần mềm quản lý gì, từng vai trò làm gì, chuẩn đạt là gì…" className={`${sel} resize-y`} />
+            </div>
           </div>
-          <p className="mt-2 text-xs text-slate-500">Mẹo: dán API key rồi bấm Lưu cài đặt. Tắt công tắc để chatbot chỉ dùng câu chuẩn (miễn phí). Khi Haiku không khả dụng (lỗi/mạng/key), tự rơi về chế độ câu chuẩn.</p>
+          <p className="mt-2 text-xs text-slate-500">Mẹo: dán API key rồi bấm Lưu cài đặt. Tắt công tắc để chatbot chỉ dùng câu chuẩn (miễn phí). Khi AI không khả dụng (lỗi/mạng/key), tự rơi về chế độ câu chuẩn.</p>
         </div>
 
         <div className="mt-6">

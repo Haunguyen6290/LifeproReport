@@ -35,18 +35,18 @@ export async function GET(req: NextRequest) {
   });
 }
 
-/** POST — widget chat: rankQA top 5 → Haiku chọn id / trả lời nâng cao → fallback rankQA. */
+/** POST — widget chat: rankQA top 5 → AI chọn id / trả lời nâng cao → fallback rankQA. */
 export async function POST(req: NextRequest) {
   const body = (await req.json().catch(() => ({}))) as {
     q?: unknown; context?: unknown; messages?: unknown; aiUsed?: unknown; role?: unknown;
   };
-  const q = String(body.q ?? '').trim().slice(0, 200);
+  const q = String(body.q ?? '').trim().slice(0, 2000);
   if (!q) return NextResponse.json({ error: 'q rỗng' }, { status: 400 });
   const contextPath = String(body.context ?? '');
   const role = String(body.role ?? '').trim().slice(0, 60);
   const history = (Array.isArray(body.messages) ? body.messages : []).slice(-6)
     .filter((m: any) => m && typeof m.content === 'string' && ['user', 'assistant'].includes(m.role))
-    .map((m: any) => ({ role: m.role, content: String(m.content).slice(0, 300) }));
+    .map((m: any) => ({ role: m.role, content: String(m.content).slice(0, 1000) }));
   const aiUsed = Math.max(0, Math.min(50, parseInt(String(body.aiUsed ?? '0'), 10) || 0));
 
   const admin = createAdminClient();
