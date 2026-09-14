@@ -11,7 +11,7 @@ export function MentionTag({ name, avatarUrl }: { name: string; avatarUrl?: stri
   return (
     <>
       <button type="button" onClick={() => setOpen(true)} className="font-semibold text-[#1e3a8a] hover:underline">@{name}</button>
-      <Dialog open={open} onClose={() => setOpen(false)} title={name}>
+      <Dialog open={open} onClose={() => setOpen(false)} title={name} quickClose>
         <div className="flex flex-col items-center gap-3">
           <Avatar name={name} src={avatarUrl ?? null} size={120} />
           <p className="text-sm font-semibold text-slate-900">{name}</p>

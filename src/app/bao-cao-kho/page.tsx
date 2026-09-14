@@ -315,7 +315,7 @@ function Screen() {
         )}
 
         <WarehouseDialog open={open} onClose={() => setOpen(false)} initial={editing} onDone={() => setRefreshKey((k) => k + 1)} />
-        {detailOpen && detailId && <Dialog open={detailOpen} onClose={() => setDetailOpen(false)} title="Chi tiết báo cáo kho" size="xwide"><WarehouseReportDetail id={detailId} /></Dialog>}
+        {detailOpen && detailId && <Dialog open={detailOpen} onClose={() => setDetailOpen(false)} title="Chi tiết báo cáo kho" size="xwide" quickClose><WarehouseReportDetail id={detailId} /></Dialog>}
       </main>
     </AppSidebar>
   );

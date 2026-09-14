@@ -229,7 +229,7 @@ function Screen() {
         </div>
 
         {/* Xem đầy đủ */}
-        <Dialog open={!!open} onClose={() => setOpen(null)} title={open ? `${open.phan_he} — ${open.id}` : ''} size="wide">
+        <Dialog open={!!open} onClose={() => setOpen(null)} title={open ? `${open.phan_he} — ${open.id}` : ''} size="wide" quickClose>
           {open && (
             <div className="space-y-4 text-sm leading-relaxed">
               <h3 className="text-base font-semibold">{open.cau_hoi}</h3>

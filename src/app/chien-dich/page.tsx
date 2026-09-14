@@ -72,7 +72,7 @@ function Screen() {
           {can('quan_ly_chien_dich') && <button onClick={() => setOpen(true)} className="rounded-lg bg-[var(--color-primary)] px-4 py-2.5 text-sm font-semibold text-white shadow hover:bg-[var(--color-primary-hover)]">+ Tạo chiến dịch</button>}
         </div>
         <AddCampaignDialog open={open} onClose={() => setOpen(false)} onDone={load} />
-        {detailId && <Dialog open={!!detailId} onClose={() => setDetailId(null)} title="Chi tiết chiến dịch" size="wide"><CampaignDetail id={detailId} onClose={() => setDetailId(null)} onMarkViewed={() => refreshBadge(detailId)} /></Dialog>}
+        {detailId && <Dialog open={!!detailId} onClose={() => setDetailId(null)} title="Chi tiết chiến dịch" size="wide" quickClose><CampaignDetail id={detailId} onClose={() => setDetailId(null)} onMarkViewed={() => refreshBadge(detailId)} /></Dialog>}
         {loading ? (
           <p className="py-10 text-center text-sm text-slate-600">⏳ Đang tải danh sách chiến dịch...</p>
         ) : list.length === 0 ? (

@@ -205,7 +205,7 @@ export function BulletinPostCard({ post, imgs, reactions, comments, userId, onCh
       </div>
 
       {/* Dialog Xem full */}
-      <Dialog open={fullOpen} onClose={() => setFullOpen(false)} title={`Bình luận (${comments.length})`}>
+      <Dialog open={fullOpen} onClose={() => setFullOpen(false)} title={`Bình luận (${comments.length})`} quickClose>
         <div className="nice-scroll max-h-[60vh] space-y-3 overflow-auto pr-2">
           {comments.length === 0 ? <p className="text-sm text-slate-500">Chưa có bình luận.</p> : topLevel.map((c) => (
             <div key={c.id} className="space-y-1.5">

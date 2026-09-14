@@ -46,7 +46,7 @@ function Screen() {
           <button onClick={() => setOpen(true)} className="rounded-lg bg-[var(--color-primary)] px-4 py-2.5 text-sm font-semibold text-white shadow hover:bg-[var(--color-primary-hover)]">+ Ghi tin mới</button>
         </div>
         <AddNewsDialog open={open} onClose={() => setOpen(false)} onDone={load} />
-        {detailId && <Dialog open={!!detailId} onClose={() => setDetailId(null)} title="Chi tiết tin" size="wide"><MarketNewsDetail id={detailId} /></Dialog>}
+        {detailId && <Dialog open={!!detailId} onClose={() => setDetailId(null)} title="Chi tiết tin" size="wide" quickClose><MarketNewsDetail id={detailId} /></Dialog>}
         {list.length === 0 ? <p className="py-10 text-center text-slate-600">Chưa có tin nào.</p> : (
           <ul className="space-y-3">
             {list.map((t) => (

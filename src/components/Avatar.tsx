@@ -49,7 +49,7 @@ export function Avatar({ name, src, size = 32, viewable = false }: { name: strin
       <button type="button" onClick={() => setOpen(true)} aria-label={`Xem ảnh ${name}`} className="shrink-0 cursor-pointer rounded-full transition hover:opacity-90 hover:ring-2 hover:ring-[#1e3a8a]/40 focus-visible:outline-2 focus-visible:outline-[#1e3a8a]">
         {inner}
       </button>
-      <Dialog open={open} onClose={() => setOpen(false)} title={name || 'Ảnh đại diện'}>
+      <Dialog open={open} onClose={() => setOpen(false)} title={name || 'Ảnh đại diện'} quickClose>
         <div className="flex flex-col items-center gap-3">
           <img src={src!} alt={name} className="max-h-[60vh] w-auto max-w-full rounded-xl object-contain" />
           <p className="text-sm font-semibold text-slate-900">{name}</p>
