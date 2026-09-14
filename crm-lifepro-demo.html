@@ -1,0 +1,510 @@
+<title>LifePro CRM — Hồ sơ Đại lý</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+:root{
+  --navy:#1B2E6B; --navy2:#223A85; --navy-light:#EEF0FA;
+  --bg:#F4F5F9; --card:#fff; --border:#E2E6F0; --muted:#6B7280; --text:#111827;
+  --a-plus:#C4930A; --a:#1B2E6B; --b-plus:#0E9F6E; --b:#6B7280; --c:#3B82F6; --d:#DC2626;
+  --green:#0E9F6E; --yellow:#D97706; --red:#DC2626;
+  --radius:14px; --radius-sm:10px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Be Vietnam Pro",system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.5;padding:0 20px 40px}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit}
+
+/* top bar */
+.topbar{background:var(--navy);color:#fff;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px;margin:0 -20px 18px;position:sticky;top:0;z-index:20}
+.brand{display:flex;align-items:center;gap:12px;font-weight:700;font-size:18px;letter-spacing:.02em}
+.brand-mark{width:32px;height:32px;background:#FF6B35;border-radius:8px;display:grid;place-items:center;font-size:16px}
+.topbar nav{display:flex;gap:6px}
+.nav-pill{padding:7px 14px;border-radius:999px;font-size:13px;font-weight:500;opacity:.7;border:1px solid transparent}
+.nav-pill.active{background:#fff;color:var(--navy);opacity:1}
+.top-actions{display:flex;align-items:center;gap:10px}
+.avatar{width:32px;height:32px;border-radius:50%;background:#FF6B35;display:grid;place-items:center;font-weight:700;font-size:13px}
+
+/* layout */
+.shell{max-width:1280px;margin:0 auto}
+.page-title{display:flex;align-items:end;justify-content:space-between;gap:16px;margin-bottom:14px;flex-wrap:wrap}
+.page-title h1{font-size:22px;font-weight:700;color:var(--navy)}
+.page-title p{font-size:13px;color:var(--muted);margin-top:4px}
+.btn{padding:9px 16px;border-radius:999px;border:1px solid var(--border);background:var(--card);font-size:13px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.btn-primary{background:var(--navy);color:#fff;border-color:var(--navy)}
+.btn-ghost{background:transparent}
+
+/* KPI row */
+.kpi-row{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:16px}
+.kpi{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px}
+.kpi label{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.kpi strong{font-size:22px;display:block;margin:4px 0 2px}
+.kpi small{font-size:12px;color:var(--muted)}
+.kpi.warn{border-left:4px solid var(--yellow)}
+.kpi.danger{border-left:4px solid var(--red)}
+.kpi.ok{border-left:4px solid var(--green)}
+
+/* main grid */
+.main-grid{display:grid;grid-template-columns:380px 1fr;gap:16px;align-items:start}
+@media(max-width:980px){.main-grid{grid-template-columns:1fr}.kpi-row{grid-template-columns:repeat(2,1fr)}}
+
+/* left list */
+.panel{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.panel-head{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:10px}
+.panel-head h3{font-size:13px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--navy)}
+.search{flex:1;max-width:220px;display:flex;align-items:center;gap:8px;background:var(--navy-light);border-radius:999px;padding:7px 12px}
+.search input{border:none;background:transparent;outline:none;font-size:13px;width:100%}
+.filter-row{display:flex;gap:6px;padding:10px 16px;border-bottom:1px solid var(--border);flex-wrap:wrap}
+.chip{padding:5px 10px;border-radius:999px;font-size:12px;font-weight:600;border:1px solid var(--border);background:var(--card);cursor:pointer}
+.chip.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+.cust-list{max-height:640px;overflow:auto}
+.cust-item{padding:12px 16px;border-bottom:1px solid #F0F2F8;cursor:pointer;display:flex;gap:12px;align-items:flex-start;transition:.15s}
+.cust-item:hover{background:#F8F9FF}
+.cust-item.active{background:#EEF0FA;border-left:3px solid var(--navy)}
+.cust-avatar{width:36px;height:36px;border-radius:10px;background:var(--navy-light);display:grid;place-items:center;font-size:16px;flex-shrink:0}
+.cust-meta{flex:1;min-width:0}
+.cust-name{font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cust-sub{font-size:11px;color:var(--muted);margin-top:2px}
+.badges{display:flex;gap:4px;flex-wrap:wrap;margin-top:6px}
+.badge{padding:2px 7px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.02em}
+.badge-a-plus{background:#FEF3C7;color:#92400E;border:1px solid #FCD34D}
+.badge-a{background:var(--navy);color:#fff}
+.badge-b-plus{background:#D1FAE5;color:#065F46}
+.badge-b{background:#F3F4F6;color:#374151;border:1px solid #E5E7EB}
+.badge-c{background:#DBEAFE;color:#1E40AF}
+.badge-d{background:#FEE2E2;color:#991B1B}
+.health-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:6px;box-shadow:0 0 0 4px rgba(0,0,0,.04)}
+.dot-green{background:var(--green)} .dot-yellow{background:var(--yellow)} .dot-red{background:var(--red)}
+.days{font-size:11px;color:var(--muted);margin-top:4px;font-variant-numeric:tabular-nums}
+
+/* right detail */
+.detail-head{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.detail-avatar{width:48px;height:48px;border-radius:12px;background:var(--navy);color:#fff;display:grid;place-items:center;font-size:20px}
+.detail-title h2{font-size:17px;font-weight:700}
+.detail-title p{font-size:12px;color:var(--muted);margin-top:2px}
+.detail-title p b{color:var(--text)}
+.detail-actions{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
+.mini-stat{display:flex;gap:12px;margin-top:10px;flex-wrap:wrap}
+.mini-stat div{background:var(--navy-light);padding:8px 12px;border-radius:10px;min-width:110px}
+.mini-stat label{font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.mini-stat strong{font-size:14px;display:block;margin-top:2px}
+
+/* tabs */
+.tabs{display:flex;gap:6px;margin:14px 0 0;flex-wrap:wrap}
+.tab{padding:8px 14px;border-radius:999px;font-size:13px;font-weight:600;border:1px solid var(--border);background:var(--card);cursor:pointer;color:var(--muted)}
+.tab.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+.tab.new{border-style:dashed}
+.tab small{background:#FF6B35;color:#fff;padding:1px 6px;border-radius:999px;font-size:10px;margin-left:4px;vertical-align:middle}
+
+/* tab panels */
+.tab-panel{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px;margin-top:12px}
+.tab-panel h4{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:12px;letter-spacing:.02em}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:700px){.grid2{grid-template-columns:1fr}}
+.field label{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;display:block;margin-bottom:6px}
+.field label i{color:var(--red);font-style:normal}
+.input{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:10px;font-size:13px;background:var(--card);outline:none}
+.input:focus{border-color:var(--navy);box-shadow:0 0 0 3px var(--navy-light)}
+.input.auto{background:#F9FAFB;color:var(--muted)}
+textarea.input{resize:vertical;min-height:88px}
+.select-wrap{position:relative}
+.select-wrap:after{content:"▾";position:absolute;right:12px;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none;font-size:12px}
+.hint{font-size:11px;color:var(--muted);margin-top:4px}
+.health-card{display:grid;grid-template-columns:120px 1fr;gap:16px;align-items:center;background:linear-gradient(135deg,#EEF0FA 0%,#fff 60%);border:1px solid var(--border);border-radius:12px;padding:16px}
+.health-ring{width:96px;height:96px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:22px;position:relative}
+.health-ring span{font-size:11px;font-weight:600;color:var(--muted);display:block;text-align:center;margin-top:2px}
+.timeline{position:relative;padding-left:22px}
+.timeline:before{content:"";position:absolute;left:6px;top:6px;bottom:6px;width:2px;background:#E5E7EB;border-radius:999px}
+.tl-item{position:relative;padding:10px 0 14px;display:flex;gap:12px}
+.tl-item:before{content:"";position:absolute;left:-18px;top:16px;width:10px;height:10px;border-radius:50%;background:var(--navy);border:2px solid #fff;box-shadow:0 0 0 2px var(--navy-light)}
+.tl-item.warn:before{background:var(--yellow)} .tl-item.ok:before{background:var(--green)}
+.tl-date{font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap;min-width:84px;padding-top:2px}
+.tl-body{flex:1;background:#F9FAFB;border:1px solid #EEF0FA;border-radius:10px;padding:10px 12px}
+.tl-body b{font-size:13px}
+.tl-body p{font-size:12px;color:#374151;margin-top:4px}
+.tl-tag{font-size:10px;padding:2px 7px;border-radius:999px;background:var(--navy);color:#fff;font-weight:700;margin-left:6px;vertical-align:middle}
+.chart-wrap{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px}
+.chart-bars{display:flex;align-items:end;gap:8px;height:120px;margin-top:10px}
+.bar{flex:1;background:var(--navy-light);border-radius:8px 8px 0 0;position:relative;display:flex;align-items:end;justify-content:center;padding-bottom:6px;font-size:11px;font-weight:700;color:var(--navy)}
+.bar.active{background:var(--navy);color:#fff}
+.bar-label{margin-top:6px;text-align:center;font-size:11px;color:var(--muted)}
+.legend{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px;font-size:12px}
+.legend i{width:10px;height:10px;border-radius:3px;display:inline-block;vertical-align:middle;margin-right:4px}
+.note{background:#FFFBEB;border:1px solid #FDE68A;border-radius:10px;padding:10px 12px;font-size:12px;color:#92400E;margin-top:12px}
+.save-bar{display:flex;justify-content:flex-end;gap:10px;padding:12px 16px;border-top:1px solid var(--border);background:#fff;position:sticky;bottom:0}
+.hidden{display:none !important}
+</style>
+
+<div class="topbar">
+  <div class="brand"><div class="brand-mark">◈</div> LifePro <span style="font-weight:400;opacity:.7">CRM</span></div>
+  <nav>
+    <span class="nav-pill">Bảng tin</span>
+    <span class="nav-pill">OKRs</span>
+    <span class="nav-pill">Báo cáo tuần</span>
+    <span class="nav-pill">Chiến dịch</span>
+    <span class="nav-pill active">Khách hàng / CRM</span>
+    <span class="nav-pill">Doanh số</span>
+    <span class="nav-pill">Cài đặt</span>
+  </nav>
+  <div class="top-actions"><span style="font-size:13px;opacity:.9">Đình Anh Chi</span><div class="avatar">C</div></div>
+</div>
+
+<div class="shell">
+  <div class="page-title">
+    <div>
+      <h1>Quản lý Đại lý — CRM</h1>
+      <p>Giữ 3 tab cũ + thêm 3 tab mới. Dữ liệu kéo trực tiếp từ Supabase (customers • orders • interactions).</p>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn">⤓ Xuất Excel</button>
+      <button class="btn btn-primary">＋ Thêm đại lý</button>
+    </div>
+  </div>
+
+  <div class="kpi-row">
+    <div class="kpi ok"><label>Tổng đại lý</label><strong>847</strong><small>632 đang mua</small></div>
+    <div class="kpi ok"><label>A / A+ Thân thiết</label><strong>68</strong><small>8.0% tổng</small></div>
+    <div class="kpi warn"><label>Cần chăm (vàng)</label><strong>94</strong><small>21 ngày chưa đơn</small></div>
+    <div class="kpi danger"><label>Nguy cơ rớt (đỏ)</label><strong>41</strong><small>30 ngày không đơn</small></div>
+    <div class="kpi"><label>Chưa chăm 7 ngày</label><strong>27</strong><small>sale bỏ quên</small></div>
+  </div>
+
+  <div class="main-grid">
+    <!-- LEFT: list -->
+    <div class="panel">
+      <div class="panel-head">
+        <h3>Danh sách</h3>
+        <div class="search">⌕ <input id="searchInput" placeholder="Tìm tên, SĐT, tỉnh..."></div>
+      </div>
+      <div class="filter-row" id="filterRow">
+        <button class="chip active" data-f="all">Tất cả</button>
+        <button class="chip" data-f="A+">A+</button>
+        <button class="chip" data-f="A">A</button>
+        <button class="chip" data-f="B+">B+</button>
+        <button class="chip" data-f="B">B</button>
+        <button class="chip" data-f="C">C</button>
+        <button class="chip" data-f="D">D</button>
+        <button class="chip" data-f="red">🔴 Đỏ</button>
+        <button class="chip" data-f="yellow">🟡 Vàng</button>
+      </div>
+      <div class="cust-list" id="custList"></div>
+      <div style="padding:10px 16px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted)">
+        <span id="listCount">—</span><span>Supabase: customers + customer_health_logs</span>
+      </div>
+    </div>
+
+    <!-- RIGHT: detail -->
+    <div id="detail">
+      <div class="detail-head">
+        <div class="detail-avatar">🚗</div>
+        <div class="detail-title">
+          <h2 id="dName">Nội thất ô tô Tú Mơ</h2>
+          <p>Mã <b id="dCode">LP1419</b> • Sale quản lý: <b id="dSale">Đình Anh Chi</b> • <span id="dProv">Vĩnh Phúc</span> <span id="dBadge" class="badge badge-b-plus" style="margin-left:6px">B+</span> <span id="dHealth" style="font-size:12px;margin-left:6px">🟡 Cần chăm</span></p>
+          <div class="mini-stat">
+            <div><label>Doanh số 30 ngày</label><strong id="dRev">18,5 tr</strong></div>
+            <div><label>Ngày chăm cuối</label><strong id="dLast">12/08/2026</strong></div>
+            <div><label>Công nợ quá hạn</label><strong id="dDebt" style="color:var(--red)">4,2 tr</strong></div>
+            <div><label>Tương tác 30 ngày</label><strong id="dInteract">3 lần</strong></div>
+          </div>
+        </div>
+        <div class="detail-actions">
+          <button class="btn">📞 Gọi</button>
+          <button class="btn">💬 Zalo</button>
+          <button class="btn btn-primary">＋ Ghi tương tác</button>
+        </div>
+      </div>
+
+      <div class="tabs" id="tabs">
+        <button class="tab active" data-tab="ttc">Thông tin chung</button>
+        <button class="tab" data-tab="vh">Vận hành</button>
+        <button class="tab" data-tab="kt">Khai thác</button>
+        <button class="tab new" data-tab="tt">Tương tác & Chăm sóc <small>MỚI</small></button>
+        <button class="tab new" data-tab="mh">Mua hàng & Công nợ <small>MỚI</small></button>
+        <button class="tab new" data-tab="sk">Sức khỏe <small>MỚI</small></button>
+        <button class="tab" data-tab="ls">Lịch sử thay đổi</button>
+      </div>
+
+      <!-- Thông tin chung -->
+      <div class="tab-panel" id="panel-ttc">
+        <h4>Thông tin chung — giữ nguyên form hiện tại</h4>
+        <div class="grid2">
+          <div class="field"><label>Mã khách hàng <i>*</i></label><input class="input auto" value="LP1419" readonly><div class="hint">Tự sinh, không sửa</div></div>
+          <div class="field"><label>Tên khách hàng <i>*</i></label><textarea class="input" rows="1" style="min-height:42px">Nội thất ô tô Tú Mơ</textarea></div>
+          <div class="field"><label>Kinh doanh quản lý</label><div class="select-wrap"><select class="input"><option>Đình Anh Chi</option><option>Minh Tuấn</option><option>Hồng Nhung</option></select></div></div>
+          <div class="field"><label>Phân hạng khách hàng</label><div style="display:flex;gap:8px"><span class="badge badge-b-plus" style="padding:8px 12px">B+</span><div class="select-wrap" style="flex:1"><select class="input"><option>B+ · Khách hàng Tăng trưởng — Đang mua đều và tăng nhanh; mục tiêu nâng lên thân thiết.</option><option>A · Thân thiết</option><option>A+ · Chiến lược</option><option>B · Cơ bản</option><option>C · Tiềm năng</option><option>D · Rủi ro</option></select></div></div><div class="hint">Gợi ý tự động từ doanh số • Sếp duyệt A/A+ thủ công</div></div>
+          <div class="field"><label>Số điện thoại</label><input class="input" value="0905123456, 0905..."></div>
+          <div class="field"><label>Facebook</label><input class="input" placeholder="https://facebook.com/..."><div class="hint">Bấm để mở — Supabase: customers.facebook_url</div></div>
+          <div class="field"><label>Địa chỉ</label><textarea class="input" rows="1" style="min-height:42px">Khu 5, TT. Vĩnh Tường</textarea></div>
+          <div class="field"><label>Tỉnh/TP</label><div class="select-wrap"><select class="input"><option>Tỉnh Vĩnh Phúc</option><option>Hà Nội</option><option>Nghệ An</option></select></div></div>
+          <div class="field"><label>Quận/Huyện</label><input class="input" placeholder=""></div>
+          <div class="field"><label>Tỉnh/TP (chuẩn hóa)</label><input class="input auto" value="Tỉnh Vĩnh Phúc" readonly></div>
+          <div class="field"><label>Người quyết định</label><input class="input" placeholder="VD: Anh Tú"></div>
+          <div class="field"><label>Chức vụ</label><input class="input" placeholder="Chủ cửa hàng"></div>
+          <div class="field" style="grid-column:1/-1"><label>Google Maps</label><input class="input" placeholder="https://maps.google.com/..."><div class="hint">Lưu URL — bấm mở bản đồ ngay trên CRM</div></div>
+        </div>
+        <div class="save-bar" style="margin:16px -18px -18px;border-radius:0 0 14px 14px"><button class="btn">Hủy</button><button class="btn btn-primary">Lưu thay đổi</button></div>
+      </div>
+
+      <!-- Vận hành -->
+      <div class="tab-panel hidden" id="panel-vh">
+        <h4>Vận hành — giữ nguyên, chuẩn hóa danh mục trong Cài đặt</h4>
+        <div class="grid2">
+          <div class="field"><label>Mô hình kinh doanh (chọn nhiều)</label><div class="select-wrap"><select class="input"><option>Chọn mô hình...</option><option>Gara + Nội thất</option><option>Đại lý phân phối</option><option>Cửa hàng lắp đặt</option></select></div><div class="hint">Danh mục: Cài đặt → Danh mục CRM</div></div>
+          <div class="field"><label>Phân khúc xe (chọn nhiều)</label><div class="select-wrap"><select class="input"><option>Chọn phân khúc...</option><option>Xe phổ thông</option><option>Xe sang</option><option>Bán tải</option></select></div></div>
+          <div class="field"><label>Quy mô</label><div class="select-wrap"><select class="input"><option>—</option><option>Nhỏ (1-2 cầu)</option><option>Vừa (3-5 cầu)</option><option>Lớn (6+ cầu)</option></select></div></div>
+          <div class="field"><label>Số cơ sở</label><input class="input" placeholder="VD: 2"></div>
+          <div class="field"><label>Xe/ngày</label><input class="input" placeholder="VD: 8-12"></div>
+          <div class="field"><label>Nguồn nhập</label><textarea class="input" rows="1" style="min-height:42px" placeholder="VD: Nhập trực tiếp LifePro + 1 NCC phụ"></textarea></div>
+          <div class="field" style="grid-column:1/-1"><label>SP khác đang bán (nhập nhiều dòng)</label><textarea class="input" placeholder="VD: Thảm lót sàn, camera hành trình..."></textarea></div>
+          <div class="field"><label>Trạng thái</label><div class="select-wrap"><select class="input"><option>—</option><option>Đang hợp tác</option><option>Tạm ngưng</option><option>Ngủ đông</option></select></div></div>
+        </div>
+        <div class="save-bar" style="margin:16px -18px -18px;border-radius:0 0 14px 14px"><button class="btn btn-primary">Lưu thay đổi</button></div>
+      </div>
+
+      <!-- Khai thác -->
+      <div class="tab-panel hidden" id="panel-kt">
+        <h4>Khai thác — linh hồn CRM B2B: vì sao chưa lấy & làm sao để lấy</h4>
+        <div class="grid2">
+          <div class="field"><label>SP khách bán mạnh</label><textarea class="input" placeholder="VD: Bi gầm, LED"></textarea></div>
+          <div class="field"><label>SP khách bán yếu</label><textarea class="input" placeholder="VD: Android Box"></textarea></div>
+          <div class="field" style="grid-column:1/-1"><label>Vấn đề của khách</label><textarea class="input" placeholder="VD: Khách kêu giá bi gầm cao hơn NCC cũ 5%"></textarea></div>
+          <div class="field"><label>SP công ty phù hợp (chọn nhiều)</label><div class="select-wrap"><select class="input"><option>Chọn sản phẩm công ty...</option><option>Bi gầm X200 Pro</option><option>LED X10</option><option>TPMS LifePro</option></select></div><div class="hint">Nối danh mục sản phẩm thật</div></div>
+          <div class="field"><label>Lý do chọn</label><input class="input" placeholder="VD: Giá tốt hơn, bảo hành dài"></div>
+          <div class="field" style="grid-column:1/-1"><label>Trở ngại</label><textarea class="input" placeholder="VD: Đang nợ đối thủ, chưa dám đổi NCC"></textarea></div>
+          <div class="field" style="grid-column:1/-1"><label>Ghi chú</label><textarea class="input"></textarea></div>
+        </div>
+        <div class="note">💡 Tab này sale điền càng kỹ, CRM càng gợi ý chuẩn ở tab Sức khỏe: “nên chào mã nào”.</div>
+        <div class="save-bar" style="margin:16px -18px -18px;border-radius:0 0 14px 14px"><button class="btn btn-primary">Lưu thay đổi</button></div>
+      </div>
+
+      <!-- Tương tác & Chăm sóc -->
+      <div class="tab-panel hidden" id="panel-tt">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:12px">
+          <h4 style="margin:0">Tương tác & Chăm sóc — Timeline như Zalo</h4>
+          <button class="btn btn-primary">＋ Ghi tương tác</button>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
+          <span class="badge badge-b" style="background:var(--navy);color:#fff">Tất cả 12</span>
+          <span class="chip" style="padding:4px 10px">📞 Gọi 7</span>
+          <span class="chip" style="padding:4px 10px">🤝 Gặp 2</span>
+          <span class="chip" style="padding:4px 10px">💬 Zalo 3</span>
+          <span class="chip" style="padding:4px 10px">⚠️ Khiếu nại</span>
+        </div>
+        <div class="timeline" id="timeline"></div>
+        <div class="note">⏰ Nhắc việc tự động: “Hẹn 20/08 gọi lại” → CRM tự tạo nhiệm vụ, đẩy vào Báo cáo tuần & OKRs của sale.</div>
+        <div style="margin-top:14px;background:#F9FAFB;border:1px dashed var(--border);border-radius:10px;padding:12px">
+          <label style="font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600">Ghi nhanh (Enter = lưu, Shift+Enter = xuống dòng)</label>
+          <textarea id="quickNote" class="input" placeholder="VD: Gọi anh Tú — kêu chưa nhận đủ bi gầm X200, hẹn giao bổ sung mai..." style="margin-top:6px;min-height:64px;max-height:110px"></textarea>
+          <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+            <select class="input" style="width:auto"><option>📞 Gọi điện</option><option>🤝 Gặp trực tiếp</option><option>💬 Zalo</option></select>
+            <input class="input" style="width:auto;flex:1;min-width:160px" type="date" value="2026-08-16">
+            <button class="btn btn-primary" onclick="addNote()">Lưu</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mua hàng & Công nợ -->
+      <div class="tab-panel hidden" id="panel-mh">
+        <h4>Mua hàng & Công nợ — kéo trực tiếp từ orders / doanh số (View, không nhập lại)</h4>
+        <div class="chart-wrap">
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+            <b style="font-size:13px">Doanh số 6 tháng — Tú Mơ</b>
+            <span style="font-size:12px;color:var(--muted)">Đơn vị: triệu đồng • Nguồn: Supabase view v_customer_revenue_6m</span>
+          </div>
+          <div class="chart-bars" id="chartBars"></div>
+          <div style="display:flex;gap:8px;margin-top:4px" id="chartLabels"></div>
+          <div class="legend"><span><i style="background:var(--navy)"></i> Tháng hiện tại</span><span><i style="background:#C7D2FE"></i> Các tháng trước</span><span><i style="background:var(--yellow)"></i> Tụt &gt;30% cảnh báo</span></div>
+        </div>
+        <div class="grid2" style="margin-top:14px">
+          <div style="background:#F9FAFB;border:1px solid var(--border);border-radius:12px;padding:14px">
+            <b style="font-size:13px">Top mã hay lấy</b>
+            <div style="margin-top:10px;display:grid;gap:8px;font-size:13px">
+              <div style="display:flex;justify-content:space-between"><span>Bi gầm X200 Pro</span><b>42 bộ</b></div>
+              <div style="display:flex;justify-content:space-between"><span>LED X10 6000K</span><b>28 bộ</b></div>
+              <div style="display:flex;justify-content:space-between"><span>TPMS LifePro S1</span><b>15 bộ</b></div>
+              <div style="display:flex;justify-content:space-between;color:var(--muted)"><span>Android Box — chưa lấy 2 tháng</span><span style="color:var(--red);font-weight:700">Cơ hội chào lại</span></div>
+            </div>
+          </div>
+          <div style="background:#F9FAFB;border:1px solid var(--border);border-radius:12px;padding:14px">
+            <b style="font-size:13px">Công nợ</b>
+            <div style="margin-top:10px;display:grid;gap:8px;font-size:13px">
+              <div style="display:flex;justify-content:space-between"><span>Tổng nợ</span><b>24,2 tr</b></div>
+              <div style="display:flex;justify-content:space-between"><span>Quá hạn &gt;15 ngày</span><b style="color:var(--red)">4,2 tr</b></div>
+              <div style="display:flex;justify-content:space-between"><span>Hạn mức còn lại</span><b style="color:var(--green)">25,8 tr / 50 tr</b></div>
+              <div style="margin-top:6px;height:8px;background:#E5E7EB;border-radius:999px;overflow:hidden"><div style="width:48%;height:100%;background:var(--navy)"></div></div>
+              <span style="font-size:11px;color:var(--muted)">48% hạn mức đã dùng</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sức khỏe -->
+      <div class="tab-panel hidden" id="panel-sk">
+        <h4>Sức khỏe đại lý — đèn Xanh/Vàng/Đỏ, sếp nhìn là biết ai cần cứu</h4>
+        <div class="health-card">
+          <div class="health-ring" id="healthRing" style="background:conic-gradient(#F59E0B 0 68%, #E5E7EB 68% 100%);color:#92400E;border:6px solid #FEF3C7">68<div><span>Điểm sức khỏe</span></div></div>
+          <div>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><span class="health-dot dot-yellow"></span><b style="font-size:15px">Cần chăm — Vàng</b><span class="badge badge-b-plus">B+ → có nguy cơ rớt B</span></div>
+            <p style="font-size:13px;color:#374151;margin-top:6px">28 ngày chưa có đơn mới. Tụt 34% so với tháng trước. Quá hạn 4,2tr chưa thu.</p>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+              <span class="chip" style="border-color:#FCD34D;background:#FFFBEB">⏰ 28 ngày không đơn</span>
+              <span class="chip" style="border-color:#FCA5A5;background:#FEF2F2">📉 Tụt 34%</span>
+              <span class="chip" style="border-color:#FCA5A5;background:#FEF2F2">💳 Nợ quá hạn</span>
+            </div>
+            <div class="note" style="margin-top:10px">Gợi ý hành động: <b>Gọi ngay trong 24h</b> — chào Bi gầm X200 Pro (khách bán mạnh) + thu hồi 4,2tr quá hạn. Hẹn: 20/08.</div>
+            <div style="display:flex;gap:8px;margin-top:10px"><button class="btn btn-primary">Tạo nhiệm vụ gọi ngay</button><button class="btn">Xem chi tiết công thức</button></div>
+          </div>
+        </div>
+        <div style="margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div style="background:#F9FAFB;border:1px solid var(--border);border-radius:10px;padding:12px">
+            <b style="font-size:12px">Công thức đèn (Cài đặt → Quy tắc Sức khỏe)</b>
+            <div style="font-size:12px;color:#374151;margin-top:8px;display:grid;gap:4px">
+              <div>🔴 Đỏ: 30 ngày không đơn <b>hoặc</b> quá hạn &gt;15 ngày <b>hoặc</b> tụt &gt;40%</div>
+              <div>🟡 Vàng: 21 ngày không đơn <b>hoặc</b> tụt 30-40%</div>
+              <div>🟢 Xanh: còn lại — khỏe</div>
+            </div>
+          </div>
+          <div style="background:#F9FAFB;border:1px solid var(--border);border-radius:10px;padding:12px">
+            <b style="font-size:12px">Lộ trình leo hạng</b>
+            <div style="font-size:12px;color:#374151;margin-top:8px;display:grid;gap:4px">
+              <div><b>C→B:</b> có đơn đầu tiên</div><div><b>B→B+:</b> mua đều ~10tr/tháng</div><div><b>B+→A:</b> dồn 100tr về mình, chỉ lấy LifePro</div><div><b>A→A+:</b> sếp gán tay — đại lý phân phối, định hướng thị trường</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lịch sử -->
+      <div class="tab-panel hidden" id="panel-ls">
+        <h4>Lịch sử thay đổi — giữ nguyên</h4>
+        <div style="display:grid;gap:8px">
+          <div style="display:flex;justify-content:space-between;gap:12px;padding:10px 12px;background:#F9FAFB;border:1px solid var(--border);border-radius:10px;font-size:13px"><span><b>14/08/2026 09:21</b> — Đình Anh Chi đổi Phân hạng B → B+</span><span style="color:var(--muted)">Lý do: mua đều 3 tháng</span></div>
+          <div style="display:flex;justify-content:space-between;gap:12px;padding:10px 12px;background:#F9FAFB;border:1px solid var(--border);border-radius:10px;font-size:13px"><span><b>02/08/2026 16:04</b> — Đình Anh Chi cập nhật Vận hành: Xe/ngày 8→12</span><span style="color:var(--muted)"></span></div>
+          <div style="display:flex;justify-content:space-between;gap:12px;padding:10px 12px;background:#F9FAFB;border:1px solid var(--border);border-radius:10px;font-size:13px"><span><b>18/07/2026 11:30</b> — Tạo khách hàng LP1419</span><span style="color:var(--muted)">Người tạo: Đình Anh Chi</span></div>
+        </div>
+        <p style="font-size:12px;color:var(--muted);margin-top:10px">Nguồn: Supabase bảng customers.audit_logs — ai sửa gì, khi nào, đều ghi lại.</p>
+      </div>
+
+      <p style="font-size:12px;color:var(--muted);margin-top:10px;text-align:center">Demo tương tác: bấm danh sách trái để đổi đại lý • bấm tab để xem 6 tab • gõ ô “Ghi nhanh” (Enter lưu) • bấm chip lọc A+/Đỏ/Vàng</p>
+    </div>
+  </div>
+</div>
+
+<script>
+const customers=[
+  {id:'LP1419',name:'Nội thất ô tô Tú Mơ',sale:'Đình Anh Chi',prov:'Vĩnh Phúc',rank:'B+',health:'yellow',days:28,rev:'18,5 tr',last:'12/08/2026',debt:'4,2 tr',inter:'3 lần',scores:[12,18,22,19,28,18]},
+  {id:'LP0821',name:'Auto 365 Hà Đông',sale:'Minh Tuấn',prov:'Hà Nội',rank:'A+',health:'green',days:3,rev:'142 tr',last:'15/08/2026',debt:'0',inter:'6 lần',scores:[95,110,128,135,142,142]},
+  {id:'LP1103',name:'Minh Ngọc Auto — Vinh',sale:'Hồng Nhung',prov:'Nghệ An',rank:'A',health:'green',days:5,rev:'67 tr',last:'14/08/2026',debt:'1,1 tr',inter:'5 lần',scores:[48,52,61,58,64,67]},
+  {id:'LP0934',name:'Tuấn Béo Auto',sale:'Đình Anh Chi',prov:'Hải Phòng',rank:'B',health:'yellow',days:22,rev:'8,2 tr',last:'28/07/2026',debt:'6,8 tr',inter:'1 lần',scores:[14,11,9,12,10,8]},
+  {id:'LP1520',name:'Quang Minh Car Care',sale:'Minh Tuấn',prov:'Bắc Ninh',rank:'C',health:'red',days:61,rev:'0',last:'14/06/2026',debt:'0',inter:'0',scores:[4,2,0,0,0,0]},
+  {id:'LP1388',name:'Dương Auto Đà Nẵng',sale:'Hồng Nhung',prov:'Đà Nẵng',rank:'B+',health:'red',days:34,rev:'6,1 tr',last:'10/07/2026',debt:'9,3 tr',inter:'2 lần',scores:[18,22,19,14,9,6]},
+  {id:'LP1045',name:'Hải Triều Auto',sale:'Đình Anh Chi',prov:'Quảng Ninh',rank:'D',health:'red',days:45,rev:'2,3 tr',last:'01/07/2026',debt:'18 tr',inter:'4 lần',scores:[8,6,5,3,4,2]},
+  {id:'LP1211',name:'Cường Lốp — Thái Nguyên',sale:'Minh Tuấn',prov:'Thái Nguyên',rank:'B',health:'green',days:9,rev:'11 tr',last:'10/08/2026',debt:'0',inter:'2 lần',scores:[7,9,8,12,10,11]},
+];
+let activeId='LP1419';
+let activeFilter='all';
+
+const rankCls={ 'A+':'badge-a-plus','A':'badge-a','B+':'badge-b-plus','B':'badge-b','C':'badge-c','D':'badge-d' };
+const dotCls={green:'dot-green',yellow:'dot-yellow',red:'dot-red'};
+const healthLabel={green:'🟢 Khỏe',yellow:'🟡 Cần chăm',red:'🔴 Nguy cơ'};
+
+function renderList(){
+  const q=(document.getElementById('searchInput').value||'').toLowerCase();
+  let list=customers.filter(c=>{
+    if(q && !(c.name.toLowerCase().includes(q)||c.id.toLowerCase().includes(q)||c.prov.toLowerCase().includes(q)||c.sale.toLowerCase().includes(q))) return false;
+    if(activeFilter==='all') return true;
+    if(activeFilter==='red') return c.health==='red';
+    if(activeFilter==='yellow') return c.health==='yellow';
+    return c.rank===activeFilter;
+  });
+  document.getElementById('listCount').textContent=list.length+' đại lý';
+  document.getElementById('custList').innerHTML=list.map(c=>`
+    <div class="cust-item ${c.id===activeId?'active':''}" onclick="selectCust('${c.id}')">
+      <div class="cust-avatar">🚗</div>
+      <div class="cust-meta">
+        <div class="cust-name">${c.name}</div>
+        <div class="cust-sub">${c.id} • ${c.sale} • ${c.prov}</div>
+        <div class="badges"><span class="badge ${rankCls[c.rank]}">${c.rank}</span><span style="font-size:11px;color:var(--muted);align-self:center">${c.rev}/tháng</span></div>
+        <div class="days">${c.days} ngày chưa đơn • chăm cuối ${c.last}</div>
+      </div>
+      <div class="health-dot ${dotCls[c.health]}" title="${healthLabel[c.health]}"></div>
+    </div>
+  `).join('');
+}
+
+function selectCust(id){
+  activeId=id;
+  const c=customers.find(x=>x.id===id);
+  document.getElementById('dName').textContent=c.name;
+  document.getElementById('dCode').textContent=c.id;
+  document.getElementById('dSale').textContent=c.sale;
+  document.getElementById('dProv').textContent=c.prov;
+  document.getElementById('dBadge').textContent=c.rank;
+  document.getElementById('dBadge').className='badge '+rankCls[c.rank];
+  document.getElementById('dHealth').textContent=healthLabel[c.health];
+  document.getElementById('dRev').textContent=c.rev;
+  document.getElementById('dLast').textContent=c.last;
+  document.getElementById('dDebt').textContent=c.debt;
+  document.getElementById('dInteract').textContent=c.inter;
+  renderChart(c.scores);
+  renderList();
+  // update health ring demo
+  const score = c.health==='green'?88:c.health==='yellow'?68:34;
+  const color = c.health==='green'?'#0E9F6E':c.health==='yellow'?'#F59E0B':'#DC2626';
+  const bg = c.health==='green'?'#D1FAE5':c.health==='yellow'?'#FEF3C7':'#FEE2E2';
+  const ring=document.getElementById('healthRing');
+  ring.style.background=`conic-gradient(${color} 0 ${score}%, #E5E7EB ${score}% 100%)`;
+  ring.style.color=color; ring.style.borderColor=bg;
+  ring.innerHTML=score+`<div><span>Điểm sức khỏe</span></div>`;
+}
+
+const tlData=[
+  {date:'16/08/2026',time:'09:12',type:'Gọi',who:'Anh Tú — chủ',text:'Hỏi bi gầm X200 Pro, kêu giá cao hơn NCC cũ 5%. Sale báo sẽ xin chính sách B+ lên A.',next:'Hẹn 20/08 gọi lại',tag:'B+ → A'},
+  {date:'12/08/2026',time:'14:30',type:'Zalo',who:'Kế toán',text:'Nhắc nợ 4,2tr quá hạn 12 ngày. Khách hứa chuyển trong tuần.',next:'',tag:''},
+  {date:'02/08/2026',time:'10:05',type:'Gặp',who:'Anh Tú',text:'Ghé cửa hàng, thấy 3 cầu, 10 xe/ngày. Đang bán bi gầm đối thủ, chưa có Android Box.',next:'Gửi mẫu Android Box',tag:''},
+  {date:'28/07/2026',time:'16:00',type:'Gọi',who:'Anh Tú',text:'Báo lỗi 1 bộ bi gầm, đã tạo phiếu bảo hành #BH-8821, đang chờ đổi mới.',next:'Theo dõi BH',tag:'Bảo hành'},
+];
+function renderTimeline(){
+  document.getElementById('timeline').innerHTML=tlData.map(t=>`
+    <div class="tl-item ${t.tag==='Bảo hành'?'warn':''}">
+      <div class="tl-date">${t.date}<br>${t.time} • ${t.type}</div>
+      <div class="tl-body"><b>${t.who}</b>${t.tag?`<span class="tl-tag">${t.tag}</span>`:''}<p>${t.text}</p>${t.next?`<p style="color:var(--yellow);font-weight:600">→ ${t.next}</p>`:''}</div>
+    </div>
+  `).join('');
+}
+function renderChart(scores){
+  const max=Math.max(...scores,1);
+  const months=['03','04','05','06','07','08'];
+  document.getElementById('chartBars').innerHTML=scores.map((v,i)=>{
+    const h= v===0?8: Math.max(18, Math.round(v/max*100));
+    const isLast=i===scores.length-1;
+    const isWarn=v<scores[i>0?i-1:0]*0.7 && v>0;
+    return `<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px"><div class="bar ${isLast?'active':''}" style="height:${h}px;width:100%;${isWarn?'background:#FEF3C7;color:#92400E;border:1px solid #FCD34D':''}">${v? v:''}</div></div>`;
+  }).join('');
+  document.getElementById('chartLabels').innerHTML=months.map(m=>`<div style="flex:1;text-align:center;font-size:11px;color:var(--muted)">T${m}</div>`).join('');
+}
+function addNote(){
+  const v=document.getElementById('quickNote').value.trim();
+  if(!v) return;
+  tlData.unshift({date:'16/08/2026',time:'16:40',type:'Gọi',who:'Đình Anh Chi ghi',text:v,next:'',tag:''});
+  document.getElementById('quickNote').value='';
+  renderTimeline();
+}
+
+// tabs
+document.getElementById('tabs').addEventListener('click',e=>{
+  const b=e.target.closest('.tab'); if(!b) return;
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  const tab=b.dataset.tab;
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.add('hidden'));
+  document.getElementById('panel-'+tab).classList.remove('hidden');
+});
+document.getElementById('searchInput').addEventListener('input',renderList);
+document.getElementById('filterRow').addEventListener('click',e=>{
+  const c=e.target.closest('.chip'); if(!c) return;
+  document.querySelectorAll('#filterRow .chip').forEach(x=>x.classList.remove('active'));
+  c.classList.add('active'); activeFilter=c.dataset.f; renderList();
+});
+document.getElementById('quickNote').addEventListener('keydown',e=>{
+  if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); addNote(); }
+});
+renderList(); renderTimeline(); renderChart(customers[0].scores);
+</script>

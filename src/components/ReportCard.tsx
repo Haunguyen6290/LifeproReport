@@ -2,7 +2,7 @@
 import { deadlineBC, isLate } from '@/lib/week';
 import { fmtCommentTimeVN, fmtDateVN } from '@/lib/time';
 import { useAuth } from '@/components/RequireAuth';
-import { ApprovalBox } from '@/components/ApprovalBox';
+import { ReportReviewBox } from '@/components/ReportReviewBox';
 import type { ReportData } from '@/components/ReportDialog';
 
 export function ReportCard({
@@ -17,7 +17,8 @@ export function ReportCard({
   onDone: () => void;
 }) {
   const { userId, can } = useAuth();
-  const canEdit = can('quan_ly_okr') || report.user_id === userId;
+  const locked = report.trang_thai_duyet === 'Đã duyệt';
+  const canEdit = can('quan_ly_okr') || (report.user_id === userId && !locked);
   const late = isLate(report.created_at, deadlineBC(report.tuan_tu));
   const edited = report.updated_at && report.created_at && report.updated_at !== report.created_at;
 
@@ -71,7 +72,7 @@ export function ReportCard({
         ))}
       </div>
 
-      <ApprovalBox table="weekly_reports" id={report.id} trangThai={report.trang_thai_duyet} yKien={report.y_kien_quan_ly} onDone={onDone} />
+      <ReportReviewBox reportId={report.id} authorId={report.user_id} trangThai={report.trang_thai_duyet} onDone={onDone} />
     </div>
   );
 }
