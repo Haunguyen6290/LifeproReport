@@ -142,7 +142,7 @@ function DebtTable({ rows, han }: { rows: DebtRow[]; han: number }) {
               <tr key={r.ma_kh} className={r.qua_han ? 'bg-red-50' : 'hover:bg-slate-50'}>
                 <td className="whitespace-nowrap px-3 py-2 text-slate-600">{i + 1}</td>
                 <td className="truncate px-3 py-2 font-semibold" title={r.ma_kh}>{r.ma_kh}</td>
-                <td className="truncate px-3 py-2 font-semibold" title={r.ten_kh}>{r.ten_kh}</td>
+                <td className="px-3 py-2 font-semibold align-top" title={r.ten_kh}><span className="break-words" style={{ display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden', wordBreak: 'break-word', whiteSpace: 'normal' }}>{r.ten_kh}</span></td>
                 <td className="whitespace-nowrap px-3 py-2 text-slate-700">{r.nvkd || '—'}</td>
                 <td className="whitespace-nowrap bg-amber-50/60 px-3 py-2 text-right font-bold tabular-nums">{r.con_no_hien_tai == null ? '—' : fmt(r.con_no_hien_tai)}</td>
                 <td className="whitespace-nowrap px-3 py-2 text-right tabular-nums">{fmt(r.cong_no_dau_ky)}</td>
