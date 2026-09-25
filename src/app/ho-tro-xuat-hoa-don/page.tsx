@@ -688,7 +688,7 @@ function Screen() {
                                 else if (!v) { const nxt = [...inv]; nxt[i] = { ...r, ma: '', ten: '', lk: { ...r.lk, ma: false } }; setInv(nxt); }
                               }}
                               placeholder="Gõ mã…"
-                              className={`w-[420px] rounded border px-2 py-1 text-[11px] font-mono ${r.lk.ma ? 'border-[#0f2a4a] bg-blue-50 font-semibold' : 'border-slate-200 bg-white'}`}
+                              className={`w-[200px] rounded border px-2 py-1 text-[11px] font-mono ${r.lk.ma ? 'border-[#0f2a4a] bg-blue-50 font-semibold' : 'border-slate-200 bg-white'}`}
                             />
                             {r.lk.ma && <button onClick={() => { const nxt = [...inv]; nxt[i] = { ...r, lk: { ...r.lk, ma: false } }; setInv(nxt); }} className="text-[11px] text-slate-500 hover:text-[#1e3a8a]">↺</button>}
                             {maOpen === i && (() => {
@@ -705,7 +705,7 @@ function Screen() {
                             })()}
                           </div>
                         </td>
-                        <td className="px-2 py-1 max-w-[160px] truncate text-slate-600" title={r.ten}>{r.ten || '—'}</td>
+                        <td className="px-2 py-1 max-w-[280px] truncate text-slate-600" title={r.ten}>{r.ten || '—'}</td>
                         <td className="px-2 py-1">
                           <div className="flex items-center gap-1 justify-end">
                             <span className={`h-2 w-2 rounded-full ${r.lk.sl ? 'bg-emerald-500' : r.sl ? 'bg-amber-400' : 'bg-slate-300'}`} />
