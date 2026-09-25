@@ -58,6 +58,7 @@ function Screen() {
   const [maOpen, setMaOpen] = useState<number | null>(null);
   const [khachQuery, setKhachQuery] = useState('');
   const [khachOpen, setKhachOpen] = useState(false);
+  const [khachDebt, setKhachDebt] = useState<null | { con_thieu: number; cong_no_dau_ky: number; doanh_thu: number; thu_tien: number }>(null);
 
   // Lich su
   const [ls, setLs] = useState<any[]>([]);
@@ -114,10 +115,16 @@ function Screen() {
 
   // Khach detail: lay tu sales_rows (Bao cao ban hang) + 4 cot ton
   async function xemKhach() {
-    if (!khach) { setKhachRows([]); return; }
+    if (!khach) { setKhachRows([]); setKhachDebt(null); return; }
     const h = await authHeader();
-    const sp = new URLSearchParams({ ma_kh: khach, tu: khTu, den: khDen });
-    const r = await fetch(`/api/ho-tro-xuat-hoa-don/so-chi-tiet-khach?${sp}`, { headers: h });
+    fetch(`/api/sales/customer-debt?ma_norm=${encodeURIComponent(khach)}`, { headers: h }).then(async (r) => {
+      const j = await r.json().catch(() => ({}));
+      const d = (j as any)?.data ?? j;
+      if (d && (d.con_thieu != null || (d as any).conThieu != null)) setKhachDebt({ con_thieu: Number((d as any).con_thieu ?? (d as any).conThieu ?? 0), cong_no_dau_ky: 0, doanh_thu: 0, thu_tien: 0 });
+      else setKhachDebt(null);
+    }).catch(() => setKhachDebt(null));
+    const sp2 = new URLSearchParams({ ma_kh: khach, tu: khTu, den: khDen });
+    const r = await fetch(`/api/ho-tro-xuat-hoa-don/so-chi-tiet-khach?${sp2}`, { headers: h });
     const j = await r.json();
     if (!r.ok) { setKhachRows([]); return; }
     setKhachRows(j.rows ?? []);
@@ -634,6 +641,7 @@ function Screen() {
                   <label className="text-xs text-slate-600">Từ ngày</label><input type="date" value={khTu} onChange={(e) => setKhTu(e.target.value)} className="rounded-md border border-slate-200 bg-white px-3 py-1.5 text-sm" />
                   <label className="text-xs text-slate-600">Đến ngày</label><input type="date" value={khDen} onChange={(e) => setKhDen(e.target.value)} className="rounded-md border border-slate-200 bg-white px-3 py-1.5 text-sm" />
                   <button onClick={xemKhach} className="rounded-lg bg-[#1e3a8a] px-4 py-1.5 text-sm font-semibold text-white">Xem sổ chi tiết</button>
+                  {khachDebt != null && <span className={`ml-2 rounded-full px-3 py-1 text-xs font-bold ${khachDebt.con_thieu > 0 ? 'bg-red-100 text-red-700' : 'bg-emerald-100 text-emerald-700'}`}>Công nợ hiện tại: {fmt(khachDebt.con_thieu)}đ</span>}
                 </div>
                 <div className="mt-3 max-h-[340px] overflow-auto rounded-lg border border-slate-200">
                   <table className="w-full text-[11px]">
