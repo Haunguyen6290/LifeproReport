@@ -185,7 +185,16 @@ function Screen() {
     return { t1: fmt(st.ton_thue1), r1: fmt(st.ton_thuc1), t2: fmt(st.ton_thue2 as any), r2: fmt(st.ton_thuc2 as any) };
   }
 
-  function doGoiY(forKhach = false) {
+  function getThua(ma: string): number {
+    const d = dmThue.find((x) => x.ma_thue === ma);
+    if (!d) return 999999;
+    const st = soTon.find((s) => s.cap1 === d.cap1);
+    if (!st) return 999999;
+    const v = Number(st.thua ?? 0);
+    return isNaN(v) ? 999999 : Math.max(0, v);
+  }
+
+  function doGoiY(forKhach = false, variant = false) {
     const need = target;
     if (!need) { setGoiyMsg('Nhập tổng tiền đã VAT trước'); return; }
     // random offset cho mỗi lần bấm để ra kết quả khác (vẫn ưu tiên thừa nhiều, chỉ đổi thứ tự ngẫu nhiên nhẹ)
@@ -214,24 +223,63 @@ function Screen() {
       pool = [...khachPool as any, ...other] as any;
     }
     const next = inv.map((r) => ({ ...r, lk: { ...r.lk } }));
+    // variant: đổi mã ở các dòng chưa chốt để ra phương án khác rõ rệt
+    if (variant) {
+      for (let i = 0; i < next.length; i++) {
+        if (!next[i].lk.ma) { next[i].ma = ''; next[i].ten = ''; next[i].giaChua = ''; next[i].giaDa = ''; next[i].sl = ''; }
+      }
+      // đẩy seed thêm để pool khác hẳn
+      pool = shuffleWithSeed(poolBase, seed + 7);
+      if (forKhach && khachRows.length) {
+        const kp = khachRows.slice(0, 10).map((r) => ({ ma_thue: r.ma_thue, ten_thue: r.ten_thue, gia_chua_vat: dmThue.find((d) => d.ma_thue === r.ma_thue)?.gia_chua_vat ?? 150000, vat: dmThue.find((d) => d.ma_thue === r.ma_thue)?.vat ?? 10 }));
+        const other = pool.filter((p: any) => !kp.some((k: any) => k.ma_thue === p.ma_thue));
+        const kpShuffled = shuffleWithSeed(kp as any, seed + 3) as any;
+        pool = [...kpShuffled, ...other];
+      }
+    }
     let idx = 0;
     for (let i = 0; i < next.length; i++) {
       if (!next[i].ma && !next[i].lk.ma) {
-        const t: any = pool[idx++ % pool.length];
-        if (!t) continue;
-        next[i].ma = t.ma_thue; next[i].ten = t.ten_thue; next[i].vat = t.vat;
-        if (!next[i].giaChua && !next[i].lk.gia) { next[i].giaChua = String(t.gia_chua_vat); next[i].giaDa = String(calcGiaDa(t.gia_chua_vat, t.vat)); }
+        // chọn mã tiếp theo trong pool mà còn thừa đủ (nếu đã chốt mã rồi thì bỏ qua)
+        let picked: any = null;
+        let guard = pool.length + 5;
+        while (guard-- > 0) {
+          const cand: any = pool[idx++ % pool.length];
+          if (!cand) break;
+          const thua = getThua(cand.ma_thue);
+          if (thua > 0) { picked = cand; break; }
+          if (guard < 5) { picked = cand; break; } // hết lựa chọn thì vẫn lấy
+        }
+        if (!picked) continue;
+        next[i].ma = picked.ma_thue; next[i].ten = picked.ten_thue; next[i].vat = picked.vat;
+        if (!next[i].giaChua && !next[i].lk.gia) { next[i].giaChua = String(picked.gia_chua_vat); next[i].giaDa = String(calcGiaDa(picked.gia_chua_vat, picked.vat)); }
       }
       if (!next[i].giaDa && next[i].giaChua && !next[i].lk.gia) next[i].giaDa = String(calcGiaDa(parseDot(next[i].giaChua), next[i].vat));
       if (!next[i].giaChua && next[i].giaDa && !next[i].lk.gia) next[i].giaChua = String(calcGiaChua(parseDot(next[i].giaDa), next[i].vat));
     }
+    // clamp SL không vượt thừa (thue - thuc)
+    function clampSlToThua() {
+      for (let i = 0; i < next.length; i++) {
+        if (next[i].lk.sl) continue;
+        const thua = getThua(next[i].ma);
+        if (thua !== 999999) {
+          const cur = parseDot(next[i].sl) || 1;
+          if (cur > thua) next[i].sl = String(Math.max(1, thua));
+        }
+      }
+    }
+    clampSlToThua();
     const unlocked = next.map((r, i) => (!r.lk.sl ? i : -1)).filter((i) => i >= 0);
     if (unlocked.length) {
       unlocked.forEach((i) => {
         const giaDa = parseDot(next[i].giaDa) || 1;
-        next[i].sl = String(Math.max(1, Math.round(need / unlocked.length / giaDa) || 1));
+        const thua = getThua(next[i].ma);
+        const maxSl = thua !== 999999 ? Math.max(1, thua) : 999999;
+        const want = Math.max(1, Math.round(need / unlocked.length / giaDa) || 1);
+        next[i].sl = String(Math.min(want, maxSl));
       });
       tuneSL(need, next as any, unlocked);
+      clampSlToThua();
     }
     let tong = next.reduce((s, r) => s + (parseDot(r.sl) || 0) * (parseDot(r.giaDa) || 0), 0);
     let guard = 30;
@@ -242,8 +290,10 @@ function Screen() {
       for (const i of cand) {
         const giaDa = parseDot(next[i].giaDa) || 1;
         const curSL = parseDot(next[i].sl) || 1;
+        const thua = getThua(next[i].ma);
         const diff = need - tong;
         if (diff > 0) {
+          if (thua !== 999999 && curSL >= thua) continue;
           next[i].sl = String(curSL + 1);
           const nt = tong + giaDa;
           if (Math.abs(nt - need) < Math.abs(tong - need)) { tong = nt; improved = true; break; } else next[i].sl = String(curSL);
@@ -258,10 +308,13 @@ function Screen() {
     while (Math.abs(tong - need) > 10000 && next.length < 5) {
       const t: any = pool[idx++ % pool.length];
       if (!t) break;
+      const thua = getThua(t.ma_thue);
       const giaDa = calcGiaDa(t.gia_chua_vat, t.vat);
       const remain = need - tong;
       if (Math.abs(remain) <= 10000) break;
-      next.push({ ma: t.ma_thue, ten: t.ten_thue, sl: String(Math.max(1, Math.round(remain / giaDa) || 1)), giaChua: String(t.gia_chua_vat), vat: t.vat, giaDa: String(giaDa), lk: { ma: false, sl: false, gia: false } });
+      const want = Math.max(1, Math.round(remain / giaDa) || 1);
+      if (thua !== 999999 && want > thua) continue; // không đủ thừa thì bỏ qua mã này, thử mã khác
+      next.push({ ma: t.ma_thue, ten: t.ten_thue, sl: String(want), giaChua: String(t.gia_chua_vat), vat: t.vat, giaDa: String(giaDa), lk: { ma: false, sl: false, gia: false } });
       const u2 = next.map((r, i) => (!r.lk.sl ? i : -1)).filter((i) => i >= 0);
       if (u2.length) tuneSL(need, next as any, u2);
       tong = next.reduce((s, r) => s + (parseDot(r.sl) || 0) * (parseDot(r.giaDa) || 0), 0);
@@ -584,8 +637,8 @@ function Screen() {
               <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
                 <span className="text-[11px] text-slate-500">Gợi ý lệch ≤10.000đ · Sửa giá dòng cuối khớp 100% · Đã chốt giữ nguyên · 1 dòng trắng→gợi ý 1, 2→2, mặc định 3</span>
                 <div className="flex gap-2">
-                  {opt === 3 ? <button onClick={() => doGoiY(true)} className="rounded-lg bg-[#1e3a8a] px-4 py-1.5 text-xs font-semibold text-white hover:bg-[#1e40af]">✨ Gợi ý hóa đơn cho khách này</button>
-                    : <><button onClick={() => doGoiY(false)} className="rounded-lg bg-[#1e3a8a] px-4 py-1.5 text-xs font-semibold text-white hover:bg-[#1e40af]">✨ Gợi ý</button><button onClick={() => doGoiY(false)} className="rounded-lg border border-slate-200 px-4 py-1.5 text-xs font-semibold hover:border-[#1e3a8a]">🔀 Gợi ý phương án khác</button></>}
+                  {opt === 3 ? <button onClick={() => doGoiY(true, false)} className="rounded-lg bg-[#1e3a8a] px-4 py-1.5 text-xs font-semibold text-white hover:bg-[#1e40af]">✨ Gợi ý hóa đơn cho khách này</button>
+                    : <><button onClick={() => doGoiY(false, false)} className="rounded-lg bg-[#1e3a8a] px-4 py-1.5 text-xs font-semibold text-white hover:bg-[#1e40af]">✨ Gợi ý</button><button onClick={() => doGoiY(false, true)} className="rounded-lg border border-slate-200 px-4 py-1.5 text-xs font-semibold hover:border-[#1e3a8a]">🔀 Gợi ý phương án khác</button></>}
                   <button onClick={suaGiaCuoi} className="rounded-lg border border-slate-200 px-4 py-1.5 text-xs font-semibold hover:border-[#1e3a8a]">Sửa giá dòng cuối cho khớp 100%</button>
                   <button onClick={() => { setInv((prev) => prev.map((r) => ({ ...r, lk: { ma: false, sl: false, gia: false } }))); }} className="rounded-lg border border-slate-200 px-4 py-1.5 text-xs font-semibold">↺ Làm mới</button>
                 </div>
