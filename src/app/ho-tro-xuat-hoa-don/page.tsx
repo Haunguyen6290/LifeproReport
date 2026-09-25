@@ -57,6 +57,10 @@ function Screen() {
   // Lich su
   const [ls, setLs] = useState<any[]>([]);
 
+  // Edit inline DM
+  const [editThue, setEditThue] = useState<null | { ma: string; ten: string; cap1: string; cap2: string; gia: string; vat: string }>(null);
+  const [editThuc, setEditThuc] = useState<null | { ma: string; ten: string; cap1: string; cap2: string }>(null);
+
   const canEdit = can('quan_ly_cai_dat') || can('ke_toan') || can('xem_tai_chinh');
 
   async function authHeader() {
@@ -119,6 +123,28 @@ function Screen() {
     const j = await r.json();
     if (!r.ok) { setDmMsg(j.error ?? 'Lỗi'); return; }
     setDmMsg('Đã thêm ✓'); setDmForm({ ma: '', ten: '', cap1: '', cap2: '', gia: '', vat: '10' }); loadDm();
+  }
+
+  async function saveEditThue() {
+    if (!editThue) return;
+    const h = await authHeader();
+    const r = await fetch('/api/ho-tro-xuat-hoa-don/dm', { method: 'PUT', headers: { ...h, 'Content-Type': 'application/json' }, body: JSON.stringify({ kind: 'thue', ma: editThue.ma, ten: editThue.ten, cap1: editThue.cap1, cap2: editThue.cap2, gia_chua_vat: parseDot(editThue.gia), vat: Number(editThue.vat) }) });
+    const j = await r.json(); if (!r.ok) { setDmMsg(j.error ?? 'Lỗi'); return; }
+    setEditThue(null); setDmMsg('Đã cập nhật ✓'); loadDm();
+  }
+  async function saveEditThuc() {
+    if (!editThuc) return;
+    const h = await authHeader();
+    const r = await fetch('/api/ho-tro-xuat-hoa-don/dm', { method: 'PUT', headers: { ...h, 'Content-Type': 'application/json' }, body: JSON.stringify({ kind: 'thuc', ma: editThuc.ma, ten: editThuc.ten, cap1: editThuc.cap1, cap2: editThuc.cap2 }) });
+    const j = await r.json(); if (!r.ok) { setDmMsg(j.error ?? 'Lỗi'); return; }
+    setEditThuc(null); setDmMsg('Đã cập nhật ✓'); loadDm();
+  }
+  async function deleteDm(kind: string, ma: string) {
+    if (!confirm(`Xóa ${ma}?`)) return;
+    const h = await authHeader();
+    const r = await fetch(`/api/ho-tro-xuat-hoa-don/dm?kind=${kind}&ma=${encodeURIComponent(ma)}`, { method: 'DELETE', headers: h });
+    const j = await r.json(); if (!r.ok) { setDmMsg(j.error ?? 'Lỗi'); return; }
+    setDmMsg('Đã xóa ✓'); loadDm(); loadSoTon();
   }
 
   async function importTon(kind: 'thue' | 'thuc', file: File) {
@@ -305,10 +331,22 @@ function Screen() {
               <div className="rounded-xl border border-slate-200 bg-white p-3">
                 <b className="text-sm">DM Thuế ({dmThue.length})</b>
                 <div className="mt-2 max-h-[420px] overflow-auto rounded-lg border border-slate-200">
+                  {editThue && (
+                    <div className="sticky top-0 z-10 flex flex-wrap items-center gap-2 border-b border-amber-200 bg-amber-50 px-2 py-2">
+                      <span className="text-xs font-bold text-amber-800">Sửa: {editThue.ma}</span>
+                      <input value={editThue.ten} onChange={(e) => setEditThue({ ...editThue, ten: e.target.value })} placeholder="Tên" className="min-w-[160px] flex-1 rounded border border-slate-300 bg-white px-2 py-1 text-xs" />
+                      <input value={editThue.cap1} onChange={(e) => setEditThue({ ...editThue, cap1: e.target.value })} placeholder="Cap1" className="w-[90px] rounded border border-slate-300 bg-white px-2 py-1 text-xs" />
+                      <input value={editThue.cap2} onChange={(e) => setEditThue({ ...editThue, cap2: e.target.value })} placeholder="Cap2" className="w-[90px] rounded border border-slate-300 bg-white px-2 py-1 text-xs" />
+                      <input value={editThue.gia} onChange={(e) => setEditThue({ ...editThue, gia: e.target.value })} placeholder="Giá chưa VAT" className="w-[90px] rounded border border-slate-300 bg-white px-2 py-1 text-xs" />
+                      <select value={editThue.vat} onChange={(e) => setEditThue({ ...editThue, vat: e.target.value })} className="rounded border border-slate-300 bg-white px-2 py-1 text-xs"><option value="8">VAT 8%</option><option value="10">VAT 10%</option></select>
+                      <button onClick={saveEditThue} className="rounded bg-[#1e3a8a] px-3 py-1 text-xs font-semibold text-white">Lưu</button>
+                      <button onClick={() => setEditThue(null)} className="rounded border border-slate-200 bg-white px-3 py-1 text-xs">Hủy</button>
+                    </div>
+                  )}
                   <table className="w-full text-xs">
-                    <thead><tr className="bg-slate-50 text-left text-slate-600"><th className="px-2 py-1.5">Mã thuế</th><th className="px-2 py-1.5">Tên</th><th className="px-2 py-1.5">Cap1</th><th className="px-2 py-1.5">Cap2</th><th className="px-2 py-1.5 text-right">Giá</th><th className="px-2 py-1.5">VAT</th></tr></thead>
+                    <thead><tr className="bg-slate-50 text-left text-slate-600"><th className="px-2 py-1.5">Mã thuế</th><th className="px-2 py-1.5">Tên</th><th className="px-2 py-1.5">Cap1</th><th className="px-2 py-1.5">Cap2</th><th className="px-2 py-1.5 text-right">Giá</th><th className="px-2 py-1.5">VAT</th><th className="px-2 py-1.5"></th></tr></thead>
                     <tbody>{dmThue.filter((r) => !qCap || r.ma_thue.toLowerCase().includes(qCap.toLowerCase()) || r.cap1.toLowerCase().includes(qCap.toLowerCase())).slice(0, 200).map((r) => (
-                      <tr key={r.ma_thue} className="border-t border-slate-100"><td className="px-2 py-1 font-mono">{r.ma_thue}</td><td className="px-2 py-1">{r.ten_thue}</td><td className="px-2 py-1 font-mono">{r.cap1 || '—'}</td><td className="px-2 py-1 font-mono">{r.cap2 || '—'}</td><td className="px-2 py-1 text-right tabular-nums">{fmt(r.gia_chua_vat)}</td><td className="px-2 py-1">{r.vat}%</td></tr>
+                      <tr key={r.ma_thue} className="border-t border-slate-100 hover:bg-slate-50"><td className="px-2 py-1 font-mono">{r.ma_thue}</td><td className="px-2 py-1">{r.ten_thue}</td><td className="px-2 py-1 font-mono">{r.cap1 || '—'}</td><td className="px-2 py-1 font-mono">{r.cap2 || '—'}</td><td className="px-2 py-1 text-right tabular-nums">{fmt(r.gia_chua_vat)}</td><td className="px-2 py-1">{r.vat}%</td><td className="px-2 py-1 whitespace-nowrap"><button onClick={() => setEditThue({ ma: r.ma_thue, ten: r.ten_thue, cap1: r.cap1, cap2: r.cap2, gia: String(r.gia_chua_vat), vat: String(r.vat) })} className="mr-2 text-xs font-semibold text-[#1e3a8a] hover:underline">Sửa</button><button onClick={() => deleteDm('thue', r.ma_thue)} className="text-xs text-red-600 hover:underline">Xóa</button></td></tr>
                     ))}</tbody>
                   </table>
                 </div>
@@ -316,10 +354,20 @@ function Screen() {
               <div className="rounded-xl border border-slate-200 bg-white p-3">
                 <b className="text-sm">DM Thực ({dmThuc.length})</b>
                 <div className="mt-2 max-h-[420px] overflow-auto rounded-lg border border-slate-200">
+                  {editThuc && (
+                    <div className="sticky top-0 z-10 flex flex-wrap items-center gap-2 border-b border-amber-200 bg-amber-50 px-2 py-2">
+                      <span className="text-xs font-bold text-amber-800">Sửa: {editThuc.ma}</span>
+                      <input value={editThuc.ten} onChange={(e) => setEditThuc({ ...editThuc, ten: e.target.value })} placeholder="Tên" className="min-w-[160px] flex-1 rounded border border-slate-300 bg-white px-2 py-1 text-xs" />
+                      <input value={editThuc.cap1} onChange={(e) => setEditThuc({ ...editThuc, cap1: e.target.value })} placeholder="Cap1" className="w-[90px] rounded border border-slate-300 bg-white px-2 py-1 text-xs" />
+                      <input value={editThuc.cap2} onChange={(e) => setEditThuc({ ...editThuc, cap2: e.target.value })} placeholder="Cap2" className="w-[90px] rounded border border-slate-300 bg-white px-2 py-1 text-xs" />
+                      <button onClick={saveEditThuc} className="rounded bg-[#1e3a8a] px-3 py-1 text-xs font-semibold text-white">Lưu</button>
+                      <button onClick={() => setEditThuc(null)} className="rounded border border-slate-200 bg-white px-3 py-1 text-xs">Hủy</button>
+                    </div>
+                  )}
                   <table className="w-full text-xs">
-                    <thead><tr className="bg-slate-50 text-left text-slate-600"><th className="px-2 py-1.5">Mã thực</th><th className="px-2 py-1.5">Tên</th><th className="px-2 py-1.5">Cap1</th><th className="px-2 py-1.5">Cap2</th></tr></thead>
+                    <thead><tr className="bg-slate-50 text-left text-slate-600"><th className="px-2 py-1.5">Mã thực</th><th className="px-2 py-1.5">Tên</th><th className="px-2 py-1.5">Cap1</th><th className="px-2 py-1.5">Cap2</th><th className="px-2 py-1.5"></th></tr></thead>
                     <tbody>{dmThuc.filter((r) => !qCap || r.ma_thuc.toLowerCase().includes(qCap.toLowerCase()) || r.cap1.toLowerCase().includes(qCap.toLowerCase())).slice(0, 200).map((r) => (
-                      <tr key={r.ma_thuc} className="border-t border-slate-100"><td className="px-2 py-1 font-mono">{r.ma_thuc}</td><td className="px-2 py-1">{r.ten_thuc}</td><td className="px-2 py-1 font-mono">{r.cap1 || '—'}</td><td className="px-2 py-1 font-mono">{r.cap2 || '—'}</td></tr>
+                      <tr key={r.ma_thuc} className="border-t border-slate-100 hover:bg-slate-50"><td className="px-2 py-1 font-mono">{r.ma_thuc}</td><td className="px-2 py-1">{r.ten_thuc}</td><td className="px-2 py-1 font-mono">{r.cap1 || '—'}</td><td className="px-2 py-1 font-mono">{r.cap2 || '—'}</td><td className="px-2 py-1 whitespace-nowrap"><button onClick={() => setEditThuc({ ma: r.ma_thuc, ten: r.ten_thuc, cap1: r.cap1, cap2: r.cap2 })} className="mr-2 text-xs font-semibold text-[#1e3a8a] hover:underline">Sửa</button><button onClick={() => deleteDm('thuc', r.ma_thuc)} className="text-xs text-red-600 hover:underline">Xóa</button></td></tr>
                     ))}</tbody>
                   </table>
                 </div>
