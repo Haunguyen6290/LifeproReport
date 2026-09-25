@@ -321,6 +321,50 @@ function Screen() {
     }
     setInv(next);
     const fin = next.reduce((s, r) => s + (parseDot(r.sl) || 0) * (parseDot(r.giaDa) || 0), 0);
+    // Nếu variant mà vẫn lệch >10k, thử 3 lần với seed khác để tìm phương án đạt ≤10k
+    if (variant && Math.abs(fin - need) > 10000) {
+      let best = { inv: next, diff: Math.abs(fin - need) };
+      for (let attempt = 0; attempt < 3; attempt++) {
+        const altPool = shuffleWithSeed(poolBase, seed + 100 + attempt * 11);
+        let altTop = altPool.slice(0, Math.min(12, altPool.length));
+        // thử bộ mã khác: lấy offset khác trong pool
+        const offset = (attempt + 1) * 4;
+        const rotated = [...altPool.slice(offset), ...altPool.slice(0, offset)];
+        const tryPool: any[] = [...shuffleWithSeed(rotated.slice(0, 12), seed + 50 + attempt), ...rotated.slice(12)];
+        // build thử nhanh: chỉ đổi mã chưa chốt, giữ SL logic tương tự
+        const trial = inv.map((r) => ({ ...r, lk: { ...r.lk } }));
+        // nếu variant: xóa mã chưa chốt để bốc lại từ tryPool
+        for (let i = 0; i < trial.length; i++) if (!trial[i].lk.ma) { trial[i].ma = ''; trial[i].ten = ''; }
+        let ti = 0;
+        for (let i = 0; i < trial.length; i++) if (!trial[i].ma && !trial[i].lk.ma) {
+          let pk: any = null; let g = tryPool.length + 5;
+          while (g-- > 0) { const c: any = tryPool[ti++ % tryPool.length]; if (!c) break; if (getThua(c.ma_thue) > 0) { pk = c; break; } if (g < 5) pk = c; }
+          if (!pk) continue;
+          trial[i].ma = pk.ma_thue; trial[i].ten = pk.ten_thue; trial[i].vat = pk.vat;
+          if (!trial[i].lk.gia) { trial[i].giaChua = String(pk.gia_chua_vat); trial[i].giaDa = String(calcGiaDa(pk.gia_chua_vat, pk.vat)); }
+        }
+        const ul = trial.map((r, i) => (!r.lk.sl ? i : -1)).filter((i) => i >= 0);
+        if (ul.length) {
+          ul.forEach((i) => {
+            const giaDa = parseDot(trial[i].giaDa) || 1;
+            const thua = getThua(trial[i].ma);
+            const maxSl = thua !== 999999 ? Math.max(1, thua) : 999999;
+            trial[i].sl = String(Math.min(Math.max(1, Math.round(need / ul.length / giaDa) || 1), maxSl));
+          });
+          tuneSL(need, trial as any, ul);
+          for (const i of ul) { const th = getThua(trial[i].ma); if (th !== 999999 && parseDot(trial[i].sl) > th) trial[i].sl = String(th); }
+        }
+        const tval = trial.reduce((s, r) => s + (parseDot(r.sl) || 0) * (parseDot(r.giaDa) || 0), 0);
+        const d = Math.abs(tval - need);
+        if (d < best.diff) best = { inv: trial, diff: d };
+        if (d <= 10000) break;
+      }
+      if (best.diff < Math.abs(fin - need)) {
+        setInv(best.inv);
+        setGoiyMsg(best.diff <= 10000 ? `Đã gợi ý phương án khác — lệch ${best.diff.toLocaleString('vi-VN')}đ ✓` : `Đã gợi ý phương án khác — lệch ${best.diff.toLocaleString('vi-VN')}đ, bấm Sửa giá dòng cuối để khớp 100%`);
+        return;
+      }
+    }
     setGoiyMsg(Math.abs(fin - need) <= 10000 ? `Đã gợi ý — lệch ${Math.abs(fin - need).toLocaleString('vi-VN')}đ ✓` : `Đã gợi ý — lệch ${Math.abs(fin - need).toLocaleString('vi-VN')}đ, bấm Sửa giá dòng cuối để khớp 100%`);
   }
 
@@ -640,7 +684,7 @@ function Screen() {
                   {opt === 3 ? <button onClick={() => doGoiY(true, false)} className="rounded-lg bg-[#1e3a8a] px-4 py-1.5 text-xs font-semibold text-white hover:bg-[#1e40af]">✨ Gợi ý hóa đơn cho khách này</button>
                     : <><button onClick={() => doGoiY(false, false)} className="rounded-lg bg-[#1e3a8a] px-4 py-1.5 text-xs font-semibold text-white hover:bg-[#1e40af]">✨ Gợi ý</button><button onClick={() => doGoiY(false, true)} className="rounded-lg border border-slate-200 px-4 py-1.5 text-xs font-semibold hover:border-[#1e3a8a]">🔀 Gợi ý phương án khác</button></>}
                   <button onClick={suaGiaCuoi} className="rounded-lg border border-slate-200 px-4 py-1.5 text-xs font-semibold hover:border-[#1e3a8a]">Sửa giá dòng cuối cho khớp 100%</button>
-                  <button onClick={() => { setInv((prev) => prev.map((r) => ({ ...r, lk: { ma: false, sl: false, gia: false } }))); }} className="rounded-lg border border-slate-200 px-4 py-1.5 text-xs font-semibold">↺ Làm mới</button>
+                  <button onClick={() => { setInv([{ ma: '', ten: '', sl: '', giaChua: '', vat: 10, giaDa: '', lk: { ma: false, sl: false, gia: false } }, { ma: '', ten: '', sl: '', giaChua: '', vat: 10, giaDa: '', lk: { ma: false, sl: false, gia: false } }, { ma: '', ten: '', sl: '', giaChua: '', vat: 10, giaDa: '', lk: { ma: false, sl: false, gia: false } }]); setMaQuery({}); setMaOpen(null); setGoiyMsg(''); setGoiySeed(0); }} className="rounded-lg border border-slate-200 px-4 py-1.5 text-xs font-semibold">↺ Làm mới</button>
                 </div>
               </div>
               {goiyMsg && <p className="mt-2 text-xs text-slate-600">{goiyMsg}</p>}
