@@ -654,14 +654,14 @@ function Screen() {
                                 else if (!v) { const nxt = [...inv]; nxt[i] = { ...r, ma: '', ten: '', lk: { ...r.lk, ma: false } }; setInv(nxt); }
                               }}
                               placeholder="Gõ mã…"
-                              className={`w-[150px] rounded border px-2 py-1 text-[11px] font-mono ${r.lk.ma ? 'border-[#0f2a4a] bg-blue-50 font-semibold' : 'border-slate-200 bg-white'}`}
+                              className={`w-[420px] rounded border px-2 py-1 text-[11px] font-mono ${r.lk.ma ? 'border-[#0f2a4a] bg-blue-50 font-semibold' : 'border-slate-200 bg-white'}`}
                             />
                             {r.lk.ma && <button onClick={() => { const nxt = [...inv]; nxt[i] = { ...r, lk: { ...r.lk, ma: false } }; setInv(nxt); }} className="text-[11px] text-slate-500 hover:text-[#1e3a8a]">↺</button>}
                             {maOpen === i && (() => {
                               const q = (maQuery[i] ?? '').toLowerCase();
                               const opts = dmThue.filter((d) => !q || d.ma_thue.toLowerCase().includes(q) || d.ten_thue.toLowerCase().includes(q) || d.cap1.toLowerCase().includes(q)).slice(0, 8);
                               if (!opts.length) return null;
-                              return <div className="absolute left-0 top-[28px] z-20 max-h-[200px] w-[300px] overflow-auto rounded-lg border border-slate-200 bg-white shadow-lg">
+                              return <div className="absolute left-0 top-[28px] z-20 max-h-[260px] w-[520px] overflow-auto rounded-lg border border-slate-200 bg-white shadow-lg">
                                 {opts.map((d) => (
                                   <button key={d.ma_thue} onMouseDown={(e) => { e.preventDefault(); const nxt = [...inv]; nxt[i] = { ...r, ma: d.ma_thue, ten: d.ten_thue, vat: d.vat, lk: { ...r.lk, ma: true } }; if (!r.lk.gia) { nxt[i].giaChua = String(d.gia_chua_vat); nxt[i].giaDa = String(calcGiaDa(d.gia_chua_vat, d.vat)); } setInv(nxt); setMaOpen(null); }} className="flex w-full items-center justify-between px-2 py-1.5 text-left text-xs hover:bg-slate-50">
                                     <span className="font-mono font-semibold">{d.ma_thue}</span><span className="ml-2 truncate text-slate-500">{d.ten_thue}</span><span className="ml-2 shrink-0 text-slate-400">{d.cap1}</span>
