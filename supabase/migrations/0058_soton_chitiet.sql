@@ -1,5 +1,6 @@
 -- Patch so-ton: tra chi tiet theo ma_thue thay vi gom cap, de UI hien dung ma_thue, ten_thue, cap
-create or replace function public.fn_so_ton_4cot(p_ngay date default current_date)
+drop function if exists public.fn_so_ton_4cot(date);
+create function public.fn_so_ton_4cot(p_ngay date default current_date)
 returns table(ma_thue text, ten_thue text, cap1 text, cap2 text, ton_thue1 numeric, ton_thuc1 numeric, ton_thue2 numeric, ton_thuc2 numeric, thua numeric)
 language sql stable security definer set search_path = public as $$
   with thue_by_ma as (
