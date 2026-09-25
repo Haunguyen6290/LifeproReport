@@ -308,8 +308,8 @@ function Screen() {
                   <div className="flex flex-wrap gap-2">
                     <input value={dmForm.ma} onChange={(e) => setDmForm({ ...dmForm, ma: e.target.value })} placeholder="Mã" className="rounded-md border border-slate-200 bg-white px-3 py-1.5 text-sm" />
                     <input value={dmForm.ten} onChange={(e) => setDmForm({ ...dmForm, ten: e.target.value })} placeholder="Tên" className="rounded-md border border-slate-200 bg-white px-3 py-1.5 text-sm" />
-                    <input value={dmForm.cap1} onChange={(e) => setDmForm({ ...dmForm, cap1: e.target.value })} placeholder="Cap1" className="rounded-md border border-slate-200 bg-white px-3 py-1.5 text-sm" />
-                    <input value={dmForm.cap2} onChange={(e) => setDmForm({ ...dmForm, cap2: e.target.value })} placeholder="Cap2" className="rounded-md border border-slate-200 bg-white px-3 py-1.5 text-sm" />
+                    <input value={dmForm.cap1} onChange={(e) => setDmForm({ ...dmForm, cap1: e.target.value })} placeholder="Mã Tham Chiếu 1" className="rounded-md border border-slate-200 bg-white px-3 py-1.5 text-sm" />
+                    <input value={dmForm.cap2} onChange={(e) => setDmForm({ ...dmForm, cap2: e.target.value })} placeholder="Mã Tham Chiếu 2" className="rounded-md border border-slate-200 bg-white px-3 py-1.5 text-sm" />
                     {dmFormOpen === 'thue' && (
                       <>
                         <input value={dmForm.gia} onChange={(e) => setDmForm({ ...dmForm, gia: e.target.value })} placeholder="Giá chưa VAT" className="rounded-md border border-slate-200 bg-white px-3 py-1.5 text-sm" />
@@ -323,7 +323,7 @@ function Screen() {
                 </div>
               )}
               <div className="mt-3">
-                <input value={qCap} onChange={(e) => setQCap(e.target.value)} placeholder="Tìm Cap1 / Cap2 / mã…" className="w-full max-w-[320px] rounded-md border border-slate-200 bg-white px-3 py-1.5 text-sm" />
+                <input value={qCap} onChange={(e) => setQCap(e.target.value)} placeholder="Tìm Mã Tham Chiếu 1 / 2 / mã…" className="w-full max-w-[320px] rounded-md border border-slate-200 bg-white px-3 py-1.5 text-sm" />
               </div>
             </div>
 
@@ -335,8 +335,8 @@ function Screen() {
                     <div className="sticky top-0 z-10 flex flex-wrap items-center gap-2 border-b border-amber-200 bg-amber-50 px-2 py-2">
                       <span className="text-xs font-bold text-amber-800">Sửa: {editThue.ma}</span>
                       <input value={editThue.ten} onChange={(e) => setEditThue({ ...editThue, ten: e.target.value })} placeholder="Tên" className="min-w-[160px] flex-1 rounded border border-slate-300 bg-white px-2 py-1 text-xs" />
-                      <input value={editThue.cap1} onChange={(e) => setEditThue({ ...editThue, cap1: e.target.value })} placeholder="Cap1" className="w-[90px] rounded border border-slate-300 bg-white px-2 py-1 text-xs" />
-                      <input value={editThue.cap2} onChange={(e) => setEditThue({ ...editThue, cap2: e.target.value })} placeholder="Cap2" className="w-[90px] rounded border border-slate-300 bg-white px-2 py-1 text-xs" />
+                      <input value={editThue.cap1} onChange={(e) => setEditThue({ ...editThue, cap1: e.target.value })} placeholder="Mã Tham Chiếu 1" className="w-[130px] rounded border border-slate-300 bg-white px-2 py-1 text-xs" />
+                      <input value={editThue.cap2} onChange={(e) => setEditThue({ ...editThue, cap2: e.target.value })} placeholder="Mã Tham Chiếu 2" className="w-[130px] rounded border border-slate-300 bg-white px-2 py-1 text-xs" />
                       <input value={editThue.gia} onChange={(e) => setEditThue({ ...editThue, gia: e.target.value })} placeholder="Giá chưa VAT" className="w-[90px] rounded border border-slate-300 bg-white px-2 py-1 text-xs" />
                       <select value={editThue.vat} onChange={(e) => setEditThue({ ...editThue, vat: e.target.value })} className="rounded border border-slate-300 bg-white px-2 py-1 text-xs"><option value="8">VAT 8%</option><option value="10">VAT 10%</option></select>
                       <button onClick={saveEditThue} className="rounded bg-[#1e3a8a] px-3 py-1 text-xs font-semibold text-white">Lưu</button>
@@ -344,7 +344,7 @@ function Screen() {
                     </div>
                   )}
                   <table className="w-full text-xs">
-                    <thead><tr className="bg-slate-50 text-left text-slate-600"><th className="px-2 py-1.5">Mã thuế</th><th className="px-2 py-1.5">Tên</th><th className="px-2 py-1.5">Cap1</th><th className="px-2 py-1.5">Cap2</th><th className="px-2 py-1.5 text-right">Giá</th><th className="px-2 py-1.5">VAT</th><th className="px-2 py-1.5"></th></tr></thead>
+                    <thead><tr className="bg-slate-50 text-left text-slate-600"><th className="px-2 py-1.5">Mã thuế</th><th className="px-2 py-1.5">Tên</th><th className="px-2 py-1.5">Mã Tham Chiếu 1</th><th className="px-2 py-1.5">Mã Tham Chiếu 2</th><th className="px-2 py-1.5 text-right">Giá</th><th className="px-2 py-1.5">VAT</th><th className="px-2 py-1.5"></th></tr></thead>
                     <tbody>{dmThue.filter((r) => !qCap || r.ma_thue.toLowerCase().includes(qCap.toLowerCase()) || r.cap1.toLowerCase().includes(qCap.toLowerCase())).slice(0, 200).map((r) => (
                       <tr key={r.ma_thue} className="border-t border-slate-100 hover:bg-slate-50"><td className="px-2 py-1 font-mono">{r.ma_thue}</td><td className="px-2 py-1">{r.ten_thue}</td><td className="px-2 py-1 font-mono">{r.cap1 || '—'}</td><td className="px-2 py-1 font-mono">{r.cap2 || '—'}</td><td className="px-2 py-1 text-right tabular-nums">{fmt(r.gia_chua_vat)}</td><td className="px-2 py-1">{r.vat}%</td><td className="px-2 py-1 whitespace-nowrap"><button onClick={() => setEditThue({ ma: r.ma_thue, ten: r.ten_thue, cap1: r.cap1, cap2: r.cap2, gia: String(r.gia_chua_vat), vat: String(r.vat) })} className="mr-2 text-xs font-semibold text-[#1e3a8a] hover:underline">Sửa</button><button onClick={() => deleteDm('thue', r.ma_thue)} className="text-xs text-red-600 hover:underline">Xóa</button></td></tr>
                     ))}</tbody>
@@ -358,14 +358,14 @@ function Screen() {
                     <div className="sticky top-0 z-10 flex flex-wrap items-center gap-2 border-b border-amber-200 bg-amber-50 px-2 py-2">
                       <span className="text-xs font-bold text-amber-800">Sửa: {editThuc.ma}</span>
                       <input value={editThuc.ten} onChange={(e) => setEditThuc({ ...editThuc, ten: e.target.value })} placeholder="Tên" className="min-w-[160px] flex-1 rounded border border-slate-300 bg-white px-2 py-1 text-xs" />
-                      <input value={editThuc.cap1} onChange={(e) => setEditThuc({ ...editThuc, cap1: e.target.value })} placeholder="Cap1" className="w-[90px] rounded border border-slate-300 bg-white px-2 py-1 text-xs" />
-                      <input value={editThuc.cap2} onChange={(e) => setEditThuc({ ...editThuc, cap2: e.target.value })} placeholder="Cap2" className="w-[90px] rounded border border-slate-300 bg-white px-2 py-1 text-xs" />
+                      <input value={editThuc.cap1} onChange={(e) => setEditThuc({ ...editThuc, cap1: e.target.value })} placeholder="Mã Tham Chiếu 1" className="w-[130px] rounded border border-slate-300 bg-white px-2 py-1 text-xs" />
+                      <input value={editThuc.cap2} onChange={(e) => setEditThuc({ ...editThuc, cap2: e.target.value })} placeholder="Mã Tham Chiếu 2" className="w-[130px] rounded border border-slate-300 bg-white px-2 py-1 text-xs" />
                       <button onClick={saveEditThuc} className="rounded bg-[#1e3a8a] px-3 py-1 text-xs font-semibold text-white">Lưu</button>
                       <button onClick={() => setEditThuc(null)} className="rounded border border-slate-200 bg-white px-3 py-1 text-xs">Hủy</button>
                     </div>
                   )}
                   <table className="w-full text-xs">
-                    <thead><tr className="bg-slate-50 text-left text-slate-600"><th className="px-2 py-1.5">Mã thực</th><th className="px-2 py-1.5">Tên</th><th className="px-2 py-1.5">Cap1</th><th className="px-2 py-1.5">Cap2</th><th className="px-2 py-1.5"></th></tr></thead>
+                    <thead><tr className="bg-slate-50 text-left text-slate-600"><th className="px-2 py-1.5">Mã thực</th><th className="px-2 py-1.5">Tên</th><th className="px-2 py-1.5">Mã Tham Chiếu 1</th><th className="px-2 py-1.5">Mã Tham Chiếu 2</th><th className="px-2 py-1.5"></th></tr></thead>
                     <tbody>{dmThuc.filter((r) => !qCap || r.ma_thuc.toLowerCase().includes(qCap.toLowerCase()) || r.cap1.toLowerCase().includes(qCap.toLowerCase())).slice(0, 200).map((r) => (
                       <tr key={r.ma_thuc} className="border-t border-slate-100 hover:bg-slate-50"><td className="px-2 py-1 font-mono">{r.ma_thuc}</td><td className="px-2 py-1">{r.ten_thuc}</td><td className="px-2 py-1 font-mono">{r.cap1 || '—'}</td><td className="px-2 py-1 font-mono">{r.cap2 || '—'}</td><td className="px-2 py-1 whitespace-nowrap"><button onClick={() => setEditThuc({ ma: r.ma_thuc, ten: r.ten_thuc, cap1: r.cap1, cap2: r.cap2 })} className="mr-2 text-xs font-semibold text-[#1e3a8a] hover:underline">Sửa</button><button onClick={() => deleteDm('thuc', r.ma_thuc)} className="text-xs text-red-600 hover:underline">Xóa</button></td></tr>
                     ))}</tbody>
@@ -389,10 +389,10 @@ function Screen() {
               {tonMsg && <p className="mt-2 text-xs text-slate-600">{tonMsg}</p>}
               {missing.length > 0 && (
                 <div className="mt-3 rounded-lg border border-amber-200 bg-amber-50 p-3">
-                  <p className="text-xs font-bold text-amber-800">⚠ {missing.length} mã chưa có Cap1 — chọn Cap có sẵn hoặc gõ Cap mới</p>
+                  <p className="text-xs font-bold text-amber-800">⚠ {missing.length} mã chưa có Mã Tham Chiếu 1 — chọn Mã Tham Chiếu có sẵn hoặc gõ Mã Tham Chiếu mới</p>
                   <div className="mt-2 max-h-[300px] overflow-auto rounded-lg border border-amber-200 bg-white">
                     <table className="w-full text-xs">
-                      <thead><tr className="bg-amber-50 text-left"><th className="px-2 py-1">Mã</th><th className="px-2 py-1">Tên</th><th className="px-2 py-1">Cap1</th><th className="px-2 py-1">Cap2</th></tr></thead>
+                      <thead><tr className="bg-amber-50 text-left"><th className="px-2 py-1">Mã</th><th className="px-2 py-1">Tên</th><th className="px-2 py-1">Mã Tham Chiếu 1</th><th className="px-2 py-1">Mã Tham Chiếu 2</th></tr></thead>
                       <tbody>{missing.map((m, i) => (
                         <tr key={i} className="border-t border-slate-100">
                           <td className="px-2 py-1 font-mono">{m.ma_thue ?? m.ma_thuc}</td><td className="px-2 py-1">{m.ten_thue ?? m.ten_thuc ?? '—'}</td>
@@ -400,13 +400,13 @@ function Screen() {
                             <select value={m.cap1 ?? ''} onChange={(e) => { const v = e.target.value; setMissing((prev) => prev.map((x, idx) => idx === i ? { ...x, cap1: v === '__new' ? '' : v, _newCap1: v === '__new' } : x)); }} className="rounded border border-slate-200 px-2 py-1 text-xs">
                               <option value="">— chọn —</option>{capList.map((c) => <option key={c} value={c}>{c}</option>)}<option value="__new">+ Gõ Cap mới…</option>
                             </select>
-                            {m._newCap1 && <input placeholder="Gõ Cap1 mới" value={m.cap1 ?? ''} onChange={(e) => setMissing((prev) => prev.map((x, idx) => idx === i ? { ...x, cap1: e.target.value } : x))} className="mt-1 w-full rounded border border-slate-200 px-2 py-1 text-xs" />}
+                            {m._newCap1 && <input placeholder="Gõ Mã Tham Chiếu 1 mới" value={m.cap1 ?? ''} onChange={(e) => setMissing((prev) => prev.map((x, idx) => idx === i ? { ...x, cap1: e.target.value } : x))} className="mt-1 w-full rounded border border-slate-200 px-2 py-1 text-xs" />}
                           </td>
                           <td className="px-2 py-1">
                             <select value={m.cap2 ?? ''} onChange={(e) => { const v = e.target.value; setMissing((prev) => prev.map((x, idx) => idx === i ? { ...x, cap2: v === '__new' ? '' : v, _newCap2: v === '__new' } : x)); }} className="rounded border border-slate-200 px-2 py-1 text-xs">
                               <option value="">— không dùng —</option>{capList.map((c) => <option key={c} value={c}>{c}</option>)}<option value="__new">+ Gõ Cap mới…</option>
                             </select>
-                            {m._newCap2 && <input placeholder="Gõ Cap2 mới" value={m.cap2 ?? ''} onChange={(e) => setMissing((prev) => prev.map((x, idx) => idx === i ? { ...x, cap2: e.target.value } : x))} className="mt-1 w-full rounded border border-slate-200 px-2 py-1 text-xs" />}
+                            {m._newCap2 && <input placeholder="Gõ Mã Tham Chiếu 2 mới" value={m.cap2 ?? ''} onChange={(e) => setMissing((prev) => prev.map((x, idx) => idx === i ? { ...x, cap2: e.target.value } : x))} className="mt-1 w-full rounded border border-slate-200 px-2 py-1 text-xs" />}
                           </td>
                         </tr>
                       ))}</tbody>
@@ -420,11 +420,11 @@ function Screen() {
             <div className="rounded-xl border border-slate-200 bg-white p-3">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <b className="text-sm text-[#0f2a4a]">So tồn — 4 cột</b>
-                <input value={qTon} onChange={(e) => setQTon(e.target.value)} placeholder="Tìm Cap1/Cap2…" className="rounded-md border border-slate-200 px-3 py-1.5 text-sm" />
+                <input value={qTon} onChange={(e) => setQTon(e.target.value)} placeholder="Tìm Mã Tham Chiếu 1/2…" className="rounded-md border border-slate-200 px-3 py-1.5 text-sm" />
               </div>
               <div className="mt-2 overflow-auto rounded-lg border border-slate-200">
                 <table className="w-full text-xs">
-                  <thead><tr className="bg-[#eff6ff] text-[#1e3a8a]"><th className="px-2 py-1.5 text-left">Cap1</th><th className="px-2 py-1.5 text-left">Cap2</th><th className="px-2 py-1.5 text-left">Tên thuế</th><th className="px-2 py-1.5 text-right">Tồn thuế 1</th><th className="px-2 py-1.5 text-right">Tồn thực 1</th><th className="px-2 py-1.5 text-right">Tồn thuế 2</th><th className="px-2 py-1.5 text-right">Tồn thực 2</th><th className="px-2 py-1.5 text-right">Thừa</th></tr></thead>
+                  <thead><tr className="bg-[#eff6ff] text-[#1e3a8a]"><th className="px-2 py-1.5 text-left">Mã Tham Chiếu 1</th><th className="px-2 py-1.5 text-left">Mã Tham Chiếu 2</th><th className="px-2 py-1.5 text-left">Tên thuế</th><th className="px-2 py-1.5 text-right">Tồn thuế 1</th><th className="px-2 py-1.5 text-right">Tồn thực 1</th><th className="px-2 py-1.5 text-right">Tồn thuế 2</th><th className="px-2 py-1.5 text-right">Tồn thực 2</th><th className="px-2 py-1.5 text-right">Thừa</th></tr></thead>
                   <tbody>{soTon.filter((r) => !qTon || r.cap1.toLowerCase().includes(qTon.toLowerCase()) || r.cap2.toLowerCase().includes(qTon.toLowerCase())).map((r) => (
                     <tr key={r.cap1 + r.cap2} className="border-t border-slate-100 hover:bg-slate-50"><td className="px-2 py-1 font-mono">{r.cap1}</td><td className="px-2 py-1 font-mono">{r.cap2 || '—'}</td><td className="px-2 py-1">{r.ten_thue}</td><td className="px-2 py-1 text-right tabular-nums">{fmt(r.ton_thue1)}</td><td className="px-2 py-1 text-right tabular-nums">{fmt(r.ton_thuc1)}</td><td className="px-2 py-1 text-right tabular-nums">{r.ton_thue2 === '—' ? '—' : fmt(r.ton_thue2 as number)}</td><td className="px-2 py-1 text-right tabular-nums">{r.ton_thuc2 === '—' ? '—' : fmt(r.ton_thuc2 as number)}</td><td className={`px-2 py-1 text-right font-bold tabular-nums ${r.thua > 50 ? 'text-red-600 bg-red-50' : ''}`}>{fmt(r.thua)}</td></tr>
                   ))}</tbody>
@@ -465,7 +465,7 @@ function Screen() {
                 </div>
                 <div className="mt-3 max-h-[340px] overflow-auto rounded-lg border border-slate-200">
                   <table className="w-full text-[11px]">
-                    <thead><tr className="bg-[#eff6ff] text-left text-[#1e3a8a]"><th className="px-2 py-1">Mã thực</th><th className="px-2 py-1">Tên thực</th><th className="px-2 py-1">Mã thuế</th><th className="px-2 py-1">Tên thuế</th><th className="px-2 py-1">Cap1</th><th className="px-2 py-1">Cap2</th><th className="px-2 py-1 text-right">Tồn thuế 1</th><th className="px-2 py-1 text-right">Tồn thực 1</th><th className="px-2 py-1 text-right">Tồn thuế 2</th><th className="px-2 py-1 text-right">Tồn thực 2</th><th className="px-2 py-1 text-right">SL</th></tr></thead>
+                    <thead><tr className="bg-[#eff6ff] text-left text-[#1e3a8a]"><th className="px-2 py-1">Mã thực</th><th className="px-2 py-1">Tên thực</th><th className="px-2 py-1">Mã thuế</th><th className="px-2 py-1">Tên thuế</th><th className="px-2 py-1">Mã Tham Chiếu 1</th><th className="px-2 py-1">Mã Tham Chiếu 2</th><th className="px-2 py-1 text-right">Tồn thuế 1</th><th className="px-2 py-1 text-right">Tồn thực 1</th><th className="px-2 py-1 text-right">Tồn thuế 2</th><th className="px-2 py-1 text-right">Tồn thực 2</th><th className="px-2 py-1 text-right">SL</th></tr></thead>
                     <tbody>{khachRows.map((r, i) => (
                       <tr key={i} className="border-t border-slate-100"><td className="px-2 py-1 font-mono">{r.ma_thuc}</td><td className="px-2 py-1">{r.ten_thuc}</td><td className="px-2 py-1 font-mono">{r.ma_thue}</td><td className="px-2 py-1">{r.ten_thue}</td><td className="px-2 py-1 font-mono">{r.cap1}</td><td className="px-2 py-1 font-mono">{r.cap2 || '—'}</td><td className="px-2 py-1 text-right tabular-nums">{fmt(r.ton_thue1)}</td><td className="px-2 py-1 text-right tabular-nums">{fmt(r.ton_thuc1)}</td><td className="px-2 py-1 text-right tabular-nums">{fmt(r.ton_thue2 as any)}</td><td className="px-2 py-1 text-right tabular-nums">{fmt(r.ton_thuc2 as any)}</td><td className="px-2 py-1 text-right">{r.sl}</td></tr>
                     ))}</tbody>
