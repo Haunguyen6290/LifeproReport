@@ -329,7 +329,8 @@ function Screen() {
     const top = shuffleWithSeed(poolBase.slice(0, topN), seed);
     let pool: any[] = [...top, ...poolBase.slice(topN)];
     if (forKhach && khachRows.length) {
-      const khachPool = khachRows.slice(0, 10).map((r) => ({ ma_thue: r.ma_thue, ten_thue: r.ten_thue, gia_chua_vat: dmThue.find((d) => d.ma_thue === r.ma_thue)?.gia_chua_vat ?? 150000, vat: dmThue.find((d) => d.ma_thue === r.ma_thue)?.vat ?? 10 }));
+      const rawKhachPool = khachRows.slice(0, 10).map((r) => ({ ma_thue: r.ma_thue, ten_thue: r.ten_thue, gia_chua_vat: dmThue.find((d) => d.ma_thue === r.ma_thue)?.gia_chua_vat ?? 150000, vat: dmThue.find((d) => d.ma_thue === r.ma_thue)?.vat ?? 10 }));
+      const khachPool = rawKhachPool.filter((x: any) => getThua(x.ma_thue) > 0 && Number(x.gia_chua_vat) > 0);
       const other = pool.filter((p) => !khachPool.some((k) => k.ma_thue === p.ma_thue));
       pool = [...khachPool as any, ...other] as any;
     }
@@ -363,7 +364,8 @@ function Screen() {
       const shuffled = shuffleWithSeed(poolBase, seed + 7 + attempt * 13);
       let p: any[] = [...shuffled.slice(0, topN), ...shuffled.slice(topN)];
       if (forKhach && khachRows.length) {
-        const kp = khachRows.slice(0, 10).map((r) => ({ ma_thue: r.ma_thue, ten_thue: r.ten_thue, gia_chua_vat: dmThue.find((d) => d.ma_thue === r.ma_thue)?.gia_chua_vat ?? 150000, vat: dmThue.find((d) => d.ma_thue === r.ma_thue)?.vat ?? 10 }));
+        const kpRaw = khachRows.slice(0, 10).map((r) => ({ ma_thue: r.ma_thue, ten_thue: r.ten_thue, gia_chua_vat: dmThue.find((d) => d.ma_thue === r.ma_thue)?.gia_chua_vat ?? 150000, vat: dmThue.find((d) => d.ma_thue === r.ma_thue)?.vat ?? 10 }));
+        const kp = kpRaw.filter((x: any) => getThua(x.ma_thue) > 0 && Number(x.gia_chua_vat) > 0);
         const kpShuffled = shuffleWithSeed(kp as any, seed + 3 + attempt) as any;
         const other = p.filter((x: any) => !kpShuffled.some((k: any) => k.ma_thue === x.ma_thue));
         p = [...kpShuffled, ...other];
@@ -645,9 +647,9 @@ function Screen() {
                 </div>
                 <div className="mt-3 max-h-[340px] overflow-auto rounded-lg border border-slate-200">
                   <table className="w-full text-[11px]">
-                    <thead><tr className="bg-[#eff6ff] text-left text-[#1e3a8a]"><th className="px-2 py-1">Mã thực</th><th className="px-2 py-1">Tên thực</th><th className="px-2 py-1">Mã thuế</th><th className="px-2 py-1">Tên thuế</th><th className="px-2 py-1">Mã Tham Chiếu 1</th><th className="px-2 py-1">Mã Tham Chiếu 2</th><th className="px-2 py-1 text-right">Tồn thuế 1</th><th className="px-2 py-1 text-right">Tồn thực 1</th><th className="px-2 py-1 text-right">Tồn thuế 2</th><th className="px-2 py-1 text-right">Tồn thực 2</th><th className="px-2 py-1 text-right">SL</th></tr></thead>
+                    <thead><tr className="bg-[#eff6ff] text-left text-[#1e3a8a]"><th className="px-2 py-1">Mã thực</th><th className="px-2 py-1">Tên thực</th><th className="px-2 py-1 text-right">SL bán</th><th className="px-2 py-1">Mã thuế</th><th className="px-2 py-1">Tên thuế</th><th className="px-2 py-1">Mã Tham Chiếu 1</th><th className="px-2 py-1">Mã Tham Chiếu 2</th><th className="px-2 py-1 text-right">Tồn thuế 1</th><th className="px-2 py-1 text-right">Tồn thực 1</th><th className="px-2 py-1 text-right">Tồn thuế 2</th><th className="px-2 py-1 text-right">Tồn thực 2</th></tr></thead>
                     <tbody>{khachRows.map((r, i) => (
-                      <tr key={i} className="border-t border-slate-100"><td className="px-2 py-1 font-mono">{r.ma_thuc}</td><td className="px-2 py-1">{r.ten_thuc}</td><td className="px-2 py-1 font-mono">{r.ma_thue}</td><td className="px-2 py-1">{r.ten_thue}</td><td className="px-2 py-1 font-mono">{r.cap1}</td><td className="px-2 py-1 font-mono">{r.cap2 || '—'}</td><td className="px-2 py-1 text-right tabular-nums">{fmt(r.ton_thue1)}</td><td className="px-2 py-1 text-right tabular-nums">{fmt(r.ton_thuc1)}</td><td className="px-2 py-1 text-right tabular-nums">{fmt(r.ton_thue2 as any)}</td><td className="px-2 py-1 text-right tabular-nums">{fmt(r.ton_thuc2 as any)}</td><td className="px-2 py-1 text-right">{r.sl}</td></tr>
+                      <tr key={i} className="border-t border-slate-100"><td className="px-2 py-1 font-mono">{r.ma_thuc}</td><td className="px-2 py-1 max-w-[220px] truncate" title={r.ten_thuc}>{r.ten_thuc}</td><td className="px-2 py-1 text-right tabular-nums font-semibold">{fmt(r.sl)}</td><td className="px-2 py-1 font-mono">{r.ma_thue}</td><td className="px-2 py-1 max-w-[180px] truncate" title={r.ten_thue}>{r.ten_thue}</td><td className="px-2 py-1 font-mono">{r.cap1}</td><td className="px-2 py-1 font-mono">{r.cap2 || '—'}</td><td className="px-2 py-1 text-right tabular-nums">{fmt(r.ton_thue1)}</td><td className="px-2 py-1 text-right tabular-nums">{fmt(r.ton_thuc1)}</td><td className="px-2 py-1 text-right tabular-nums">{fmt(r.ton_thue2 as any)}</td><td className="px-2 py-1 text-right tabular-nums">{fmt(r.ton_thuc2 as any)}</td></tr>
                     ))}</tbody>
                   </table>
                 </div>

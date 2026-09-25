@@ -63,8 +63,9 @@ export async function GET(req: NextRequest) {
     const ten_thue = thue?.ten_thue ?? x.ten_vt;
     const ton_thue1 = cap1 ? (capThue.get(cap1) ?? 0) : 0;
     const ton_thuc1 = cap1 ? (thucCap.get(cap1) ?? 0) : 0;
+    const cleanTenThuc = String(x.ten_vt ?? '').replace(/^\s*\[[^\]]*\]\s*/, '').trim() || String(x.ten_vt ?? '');
     return {
-      ma_thuc: x.ma_vt, ten_thuc: x.ten_vt, ma_thue, ten_thue, cap1, cap2,
+      ma_thuc: x.ma_vt, ten_thuc: cleanTenThuc, ma_thue, ten_thue, cap1, cap2,
       ton_thue1, ton_thuc1, ton_thue2: cap2 ? ton_thue1 : '—', ton_thuc2: cap2 ? ton_thuc1 : '—',
       sl: x.sl, tt: x.tt,
     };
