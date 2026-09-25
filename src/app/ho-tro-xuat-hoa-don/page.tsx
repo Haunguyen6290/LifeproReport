@@ -216,7 +216,7 @@ function Screen() {
       const sa = soTon.find((s) => s.cap1 === a.cap1)?.thua ?? 0;
       const sb = soTon.find((s) => s.cap1 === b.cap1)?.thua ?? 0;
       return sb - sa;
-    }).filter((d) => getThua(d.ma_thue) > 0);
+    }).filter((d) => getThua(d.ma_thue) > 0 && Number(d.gia_chua_vat) > 0);
 
     function buildTrial(pool: any[], baseInv: typeof inv, forKhachRows: any[]): { trial: typeof inv; tong: number; diff: number } {
       const trial = baseInv.map((r) => ({ ...r, lk: { ...r.lk } }));
