@@ -89,8 +89,17 @@ function Screen() {
     if (r.ok) setSoTon(j.rows ?? []);
   }
   async function loadKhachList() {
-    const { data } = await supabase.from('customers').select('ma_kh, ten_kh').order('ma_kh').limit(2000);
-    setKhachList((data ?? []) as any[]);
+    const all: any[] = [];
+    let from = 0; const step = 1000;
+    while (true) {
+      const { data } = await supabase.from('customers').select('ma_kh, ten_kh').order('ma_kh').range(from, from + step - 1);
+      const chunk = (data ?? []) as any[];
+      all.push(...chunk);
+      if (chunk.length < step) break;
+      from += step;
+      if (all.length > 10000) break;
+    }
+    setKhachList(all);
   }
   async function loadLs() {
     const h = await authHeader();
