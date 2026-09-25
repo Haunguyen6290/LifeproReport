@@ -66,10 +66,16 @@ export async function POST(req: NextRequest) {
     const ngay = String(form.get('ngay') ?? new Date().toISOString().slice(0, 10)).trim();
     if (!file) return NextResponse.json({ error: 'Chưa có file' }, { status: 400 });
     if (!['thue', 'thuc'].includes(kind)) return NextResponse.json({ error: 'kind phải là thue/thuc' }, { status: 400 });
+    if (file.size > 15 * 1024 * 1024) return NextResponse.json({ error: 'File quá lớn (>15MB)' }, { status: 400 });
 
-    const wb = XLSX.read(Buffer.from(await file.arrayBuffer()), { type: 'buffer' });
+    const buf = Buffer.from(await file.arrayBuffer());
+    if (!buf.length) return NextResponse.json({ error: 'File rỗng' }, { status: 400 });
+    let wb: XLSX.WorkBook;
+    try { wb = XLSX.read(buf, { type: 'buffer' }); } catch { return NextResponse.json({ error: 'Không đọc được file Excel' }, { status: 400 }); }
+    if (!wb.SheetNames.length) return NextResponse.json({ error: 'File không có sheet' }, { status: 400 });
     const sheetName = wb.SheetNames[0];
     const raw = XLSX.utils.sheet_to_json(wb.Sheets[sheetName], { header: 1, defval: null }) as unknown[][];
+    if (!raw.length) return NextResponse.json({ error: 'Sheet rỗng' }, { status: 400 });
     const db = admin();
 
     if (kind === 'thue') {

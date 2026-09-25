@@ -153,16 +153,23 @@ function Screen() {
   }
 
   async function importTon(kind: 'thue' | 'thuc', file: File) {
-    setTonBusy(true); setTonMsg('');
-    const h = await authHeader();
-    const fd = new FormData(); fd.append('file', file); fd.append('kind', kind); fd.append('ngay', ngay);
-    const r = await fetch('/api/ho-tro-xuat-hoa-don/ton', { method: 'POST', headers: h, body: fd });
-    const j = await r.json();
-    setTonBusy(false);
-    if (!r.ok) { setTonMsg(j.error ?? 'Lỗi'); return; }
-    setTonMsg(`Đã import ${j.soDong} dòng (${kind === 'thue' ? 'thuế' : 'thực'})`);
-    setMissing(j.missing ?? []); setCapList(j.capList ?? []);
-    loadDm(); loadSoTon();
+    setTonBusy(true); setTonMsg(kind === 'thue' ? 'Đang import tồn thuế…' : 'Đang import tồn thực…');
+    try {
+      const h = await authHeader();
+      const fd = new FormData(); fd.append('file', file); fd.append('kind', kind); fd.append('ngay', ngay);
+      const r = await fetch('/api/ho-tro-xuat-hoa-don/ton', { method: 'POST', headers: h, body: fd });
+      let j: any = null;
+      try { j = await r.json(); } catch { setTonMsg('Lỗi phản hồi server'); return; }
+      if (!r.ok) { setTonMsg(j.error ?? `Lỗi ${r.status}`); return; }
+      setTonMsg(`Đã import ${j.soDong} dòng (${kind === 'thue' ? 'thuế' : 'thực'}) — ngày ${j.ngay}`);
+      setMissing(j.missing ?? []); setCapList(j.capList ?? []);
+      if ((j.missing ?? []).length) setTonMsg((m) => m + ` · ⚠ ${j.missing.length} mã thiếu Mã Tham Chiếu`);
+      await Promise.all([loadDm(), loadSoTon()]);
+    } catch (e: any) {
+      setTonMsg(e?.message ?? 'Lỗi kết nối');
+    } finally {
+      setTonBusy(false);
+    }
   }
 
   async function saveMissingCaps() {
