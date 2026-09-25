@@ -328,8 +328,7 @@ function Screen() {
               </div>
             </div>
 
-            <div className="grid gap-4 md:grid-cols-2">
-              <div className="rounded-xl border border-slate-200 bg-white p-3">
+            <div className="rounded-xl border border-slate-200 bg-white p-3">
                 <div className="mb-2 flex items-center justify-between">
                   <div className="flex gap-1 rounded-lg bg-slate-100 p-1">
                     <button onClick={() => setDmTab('thue')} className={`rounded-md px-3 py-1 text-xs font-bold ${dmTab === 'thue' ? 'bg-white shadow text-[#0f2a4a]' : 'text-slate-500'}`}>DM Thuế ({dmThue.length})</button>
@@ -338,7 +337,7 @@ function Screen() {
                   <span className="text-[11px] text-slate-400">{dmTab === 'thue' ? 'Giá & VAT lấy theo file import tồn thuế (B/C/D/F/G)' : 'Mã thực · Tham chiếu'}</span>
                 </div>
                 {dmTab === 'thue' ? (
-                <div className="max-h-[520px] overflow-auto rounded-lg border border-slate-200">
+                <div className="max-h-[600px] overflow-auto rounded-lg border border-slate-200">
                   {editThue && (
                     <div className="sticky top-0 z-10 flex flex-wrap items-center gap-2 border-b border-amber-200 bg-amber-50 px-2 py-2">
                       <span className="text-xs font-bold text-amber-800">Sửa: {editThue.ma}</span>
@@ -354,12 +353,12 @@ function Screen() {
                   <table className="w-full text-xs">
                     <thead><tr className="bg-slate-50 text-left text-slate-600"><th className="px-2 py-1.5">Mã thuế</th><th className="px-2 py-1.5">Tên</th><th className="px-2 py-1.5">Mã Tham Chiếu 1</th><th className="px-2 py-1.5">Mã Tham Chiếu 2</th><th className="px-2 py-1.5 text-right">Giá</th><th className="px-2 py-1.5">VAT</th><th className="px-2 py-1.5"></th></tr></thead>
                     <tbody>{dmThue.filter((r) => !qCap || r.ma_thue.toLowerCase().includes(qCap.toLowerCase()) || r.cap1.toLowerCase().includes(qCap.toLowerCase())).slice(0, 400).map((r) => (
-                      <tr key={r.ma_thue} className="border-t border-slate-100 hover:bg-slate-50"><td className="px-2 py-1 font-mono">{r.ma_thue}</td><td className="px-2 py-1 max-w-[260px] truncate" title={r.ten_thue}>{r.ten_thue}</td><td className="px-2 py-1 font-mono">{r.cap1 || '—'}</td><td className="px-2 py-1 font-mono">{r.cap2 || '—'}</td><td className="px-2 py-1 text-right tabular-nums">{fmt(r.gia_chua_vat)}</td><td className="px-2 py-1">{r.vat}%</td><td className="px-2 py-1 whitespace-nowrap"><button onClick={() => setEditThue({ ma: r.ma_thue, ten: r.ten_thue, cap1: r.cap1, cap2: r.cap2, gia: String(r.gia_chua_vat), vat: String(r.vat) })} className="mr-2 text-xs font-semibold text-[#1e3a8a] hover:underline">Sửa</button><button onClick={() => deleteDm('thue', r.ma_thue)} className="text-xs text-red-600 hover:underline">Xóa</button></td></tr>
+                      <tr key={r.ma_thue} className="border-t border-slate-100 hover:bg-slate-50"><td className="px-2 py-1 font-mono">{r.ma_thue}</td><td className="px-2 py-1 max-w-[420px] truncate" title={r.ten_thue}>{r.ten_thue}</td><td className="px-2 py-1 font-mono">{r.cap1 || '—'}</td><td className="px-2 py-1 font-mono">{r.cap2 || '—'}</td><td className="px-2 py-1 text-right tabular-nums">{fmt(r.gia_chua_vat)}</td><td className="px-2 py-1">{r.vat}%</td><td className="px-2 py-1 whitespace-nowrap"><button onClick={() => setEditThue({ ma: r.ma_thue, ten: r.ten_thue, cap1: r.cap1, cap2: r.cap2, gia: String(r.gia_chua_vat), vat: String(r.vat) })} className="mr-2 text-xs font-semibold text-[#1e3a8a] hover:underline">Sửa</button><button onClick={() => deleteDm('thue', r.ma_thue)} className="text-xs text-red-600 hover:underline">Xóa</button></td></tr>
                     ))}</tbody>
                   </table>
                 </div>
                 ) : (
-                <div className="max-h-[520px] overflow-auto rounded-lg border border-slate-200">
+                <div className="max-h-[600px] overflow-auto rounded-lg border border-slate-200">
                   {editThuc && (
                     <div className="sticky top-0 z-10 flex flex-wrap items-center gap-2 border-b border-amber-200 bg-amber-50 px-2 py-2">
                       <span className="text-xs font-bold text-amber-800">Sửa: {editThuc.ma}</span>
@@ -373,13 +372,12 @@ function Screen() {
                   <table className="w-full text-xs">
                     <thead><tr className="bg-slate-50 text-left text-slate-600"><th className="px-2 py-1.5">Mã thực</th><th className="px-2 py-1.5">Tên</th><th className="px-2 py-1.5">Mã Tham Chiếu 1</th><th className="px-2 py-1.5">Mã Tham Chiếu 2</th><th className="px-2 py-1.5"></th></tr></thead>
                     <tbody>{dmThuc.filter((r) => !qCap || r.ma_thuc.toLowerCase().includes(qCap.toLowerCase()) || r.cap1.toLowerCase().includes(qCap.toLowerCase())).slice(0, 400).map((r) => (
-                      <tr key={r.ma_thuc} className="border-t border-slate-100 hover:bg-slate-50"><td className="px-2 py-1 font-mono">{r.ma_thuc}</td><td className="px-2 py-1 max-w-[260px] truncate" title={r.ten_thuc}>{r.ten_thuc}</td><td className="px-2 py-1 font-mono">{r.cap1 || '—'}</td><td className="px-2 py-1 font-mono">{r.cap2 || '—'}</td><td className="px-2 py-1 whitespace-nowrap"><button onClick={() => setEditThuc({ ma: r.ma_thuc, ten: r.ten_thuc, cap1: r.cap1, cap2: r.cap2 })} className="mr-2 text-xs font-semibold text-[#1e3a8a] hover:underline">Sửa</button><button onClick={() => deleteDm('thuc', r.ma_thuc)} className="text-xs text-red-600 hover:underline">Xóa</button></td></tr>
+                      <tr key={r.ma_thuc} className="border-t border-slate-100 hover:bg-slate-50"><td className="px-2 py-1 font-mono">{r.ma_thuc}</td><td className="px-2 py-1 max-w-[420px] truncate" title={r.ten_thuc}>{r.ten_thuc}</td><td className="px-2 py-1 font-mono">{r.cap1 || '—'}</td><td className="px-2 py-1 font-mono">{r.cap2 || '—'}</td><td className="px-2 py-1 whitespace-nowrap"><button onClick={() => setEditThuc({ ma: r.ma_thuc, ten: r.ten_thuc, cap1: r.cap1, cap2: r.cap2 })} className="mr-2 text-xs font-semibold text-[#1e3a8a] hover:underline">Sửa</button><button onClick={() => deleteDm('thuc', r.ma_thuc)} className="text-xs text-red-600 hover:underline">Xóa</button></td></tr>
                     ))}</tbody>
                   </table>
                 </div>
                 )}
               </div>
-            </div>
           </div>
         )}
 
