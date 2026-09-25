@@ -89,7 +89,7 @@ function Screen() {
     if (r.ok) setSoTon(j.rows ?? []);
   }
   async function loadKhachList() {
-    const { data } = await supabase.from('customers').select('ma_kh, ten_kh').limit(500);
+    const { data } = await supabase.from('customers').select('ma_kh, ten_kh').order('ma_kh').limit(2000);
     setKhachList((data ?? []) as any[]);
   }
   async function loadLs() {
