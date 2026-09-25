@@ -53,6 +53,9 @@ function Screen() {
     { ma: '', ten: '', sl: '', giaChua: '', vat: 10, giaDa: '', lk: { ma: false, sl: false, gia: false } },
   ]);
   const [goiyMsg, setGoiyMsg] = useState('');
+  const [goiySeed, setGoiySeed] = useState(0);
+  const [maQuery, setMaQuery] = useState<Record<number, string>>({});
+  const [maOpen, setMaOpen] = useState<number | null>(null);
 
   // Lich su
   const [ls, setLs] = useState<any[]>([]);
@@ -185,11 +188,26 @@ function Screen() {
   function doGoiY(forKhach = false) {
     const need = target;
     if (!need) { setGoiyMsg('Nhập tổng tiền đã VAT trước'); return; }
-    let pool = [...dmThue].sort((a, b) => {
+    // random offset cho mỗi lần bấm để ra kết quả khác (vẫn ưu tiên thừa nhiều, chỉ đổi thứ tự ngẫu nhiên nhẹ)
+    const seed = goiySeed + 1; setGoiySeed(seed);
+    function shuffleWithSeed<T>(arr: T[], s: number): T[] {
+      const a = [...arr]; let cur = s * 9301 + 49297;
+      for (let i = a.length - 1; i > 0; i--) {
+        cur = (cur * 9301 + 49297) % 233280;
+        const j = Math.floor((cur / 233280) * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+    let poolBase = [...dmThue].sort((a, b) => {
       const sa = soTon.find((s) => s.cap1 === a.cap1)?.thua ?? 0;
       const sb = soTon.find((s) => s.cap1 === b.cap1)?.thua ?? 0;
       return sb - sa;
     });
+    // trộn nhẹ nhóm top thừa nhiều để mỗi lần ra khác
+    const topN = Math.min(12, poolBase.length);
+    const top = shuffleWithSeed(poolBase.slice(0, topN), seed);
+    let pool: any[] = [...top, ...poolBase.slice(topN)];
     if (forKhach && khachRows.length) {
       const khachPool = khachRows.slice(0, 10).map((r) => ({ ma_thue: r.ma_thue, ten_thue: r.ten_thue, gia_chua_vat: dmThue.find((d) => d.ma_thue === r.ma_thue)?.gia_chua_vat ?? 150000, vat: dmThue.find((d) => d.ma_thue === r.ma_thue)?.vat ?? 10 }));
       const other = pool.filter((p) => !khachPool.some((k) => k.ma_thue === p.ma_thue));
@@ -443,10 +461,10 @@ function Screen() {
           <div className="space-y-4">
             <div className="rounded-xl border border-slate-200 bg-white p-4">
               <div className="flex flex-wrap gap-2">
-                <button onClick={() => setOpt(1)} className={`rounded-full px-3 py-1 text-xs font-semibold ${opt === 1 ? 'bg-[#1e3a8a] text-white' : 'bg-white ring-1 ring-slate-200'}`}>Option 1 · Random toàn bộ (3–5 mã)</button>
-                <button onClick={() => setOpt(2)} className={`rounded-full px-3 py-1 text-xs font-semibold ${opt === 2 ? 'bg-[#1e3a8a] text-white' : 'bg-white ring-1 ring-slate-200'}`}>Option 2 · Nhập tay 1–2 mã + random</button>
-                <button onClick={() => setOpt(3)} className={`rounded-full px-3 py-1 text-xs font-semibold ${opt === 3 ? 'bg-[#1e3a8a] text-white' : 'bg-white ring-1 ring-slate-200'}`}>Option 3 · Đúng giá thực (chọn khách)</button>
+                <button onClick={() => setOpt(1)} className={`rounded-full px-3 py-1 text-xs font-semibold ${opt === 1 ? 'bg-[#1e3a8a] text-white' : 'bg-white ring-1 ring-slate-200'}`}>Gợi ý theo tồn</button>
+                <button onClick={() => setOpt(3)} className={`rounded-full px-3 py-1 text-xs font-semibold ${opt === 3 ? 'bg-[#1e3a8a] text-white' : 'bg-white ring-1 ring-slate-200'}`}>Đúng giá thực (chọn khách)</button>
               </div>
+              <p className="mt-1 text-[11px] text-slate-500">Gợi ý theo tồn: để trống 1 dòng thì gợi ý 1, 2 dòng thì 2, mặc định 3 — mỗi lần bấm “Gợi ý phương án khác” ra kết quả khác (vẫn ≤10k, đã chốt giữ nguyên).</p>
               {opt !== 3 && (
                 <div className="mt-3 flex flex-wrap items-center gap-2">
                   <label className="text-xs font-semibold text-slate-600">Tổng tiền đã VAT cần xuất (đ)</label>
@@ -499,17 +517,33 @@ function Screen() {
                       <tr key={i} className="border-t border-slate-100">
                         <td className="px-2 py-1">{i + 1}</td>
                         <td className="px-2 py-1">
-                          <div className="flex items-center gap-1">
+                          <div className="relative flex items-center gap-1">
                             <span className={`h-2 w-2 shrink-0 rounded-full ${r.lk.ma ? 'bg-emerald-500' : r.ma ? 'bg-amber-400' : 'bg-slate-300'}`} title={r.lk.ma ? 'đã chốt' : r.ma ? 'gợi ý' : ''} />
-                            <select value={r.ma} onChange={(e) => {
-                              const v = e.target.value; const t = dmThue.find((x) => x.ma_thue === v);
-                              const nxt = [...inv]; nxt[i] = { ...r, ma: v, ten: t?.ten_thue ?? v, vat: t?.vat ?? 10, lk: { ...r.lk, ma: !!v } };
-                              if (t && !r.lk.gia) { nxt[i].giaChua = String(t.gia_chua_vat); nxt[i].giaDa = String(calcGiaDa(t.gia_chua_vat, t.vat)); }
-                              setInv(nxt);
-                            }} className={`rounded border px-2 py-1 text-[11px] ${r.lk.ma ? 'border-[#0f2a4a] bg-blue-50 font-semibold' : 'border-slate-200 bg-white'}`}>
-                              <option value="">— chọn —</option>{dmThue.slice(0, 300).map((d) => <option key={d.ma_thue} value={d.ma_thue}>{d.ma_thue}</option>)}
-                            </select>
+                            <input
+                              value={maOpen === i ? (maQuery[i] ?? '') : (r.ma || '')}
+                              onFocus={() => { setMaOpen(i); setMaQuery((m) => ({ ...m, [i]: r.ma || '' })); }}
+                              onBlur={() => setTimeout(() => setMaOpen((o) => (o === i ? null : o)), 180)}
+                              onChange={(e) => { const v = e.target.value; setMaQuery((m) => ({ ...m, [i]: v })); setMaOpen(i);
+                                const exact = dmThue.find((x) => x.ma_thue.toLowerCase() === v.toLowerCase());
+                                if (exact) { const nxt = [...inv]; nxt[i] = { ...r, ma: exact.ma_thue, ten: exact.ten_thue, vat: exact.vat, lk: { ...r.lk, ma: true } }; if (!r.lk.gia) { nxt[i].giaChua = String(exact.gia_chua_vat); nxt[i].giaDa = String(calcGiaDa(exact.gia_chua_vat, exact.vat)); } setInv(nxt); }
+                                else if (!v) { const nxt = [...inv]; nxt[i] = { ...r, ma: '', ten: '', lk: { ...r.lk, ma: false } }; setInv(nxt); }
+                              }}
+                              placeholder="Gõ mã…"
+                              className={`w-[150px] rounded border px-2 py-1 text-[11px] font-mono ${r.lk.ma ? 'border-[#0f2a4a] bg-blue-50 font-semibold' : 'border-slate-200 bg-white'}`}
+                            />
                             {r.lk.ma && <button onClick={() => { const nxt = [...inv]; nxt[i] = { ...r, lk: { ...r.lk, ma: false } }; setInv(nxt); }} className="text-[11px] text-slate-500 hover:text-[#1e3a8a]">↺</button>}
+                            {maOpen === i && (() => {
+                              const q = (maQuery[i] ?? '').toLowerCase();
+                              const opts = dmThue.filter((d) => !q || d.ma_thue.toLowerCase().includes(q) || d.ten_thue.toLowerCase().includes(q) || d.cap1.toLowerCase().includes(q)).slice(0, 8);
+                              if (!opts.length) return null;
+                              return <div className="absolute left-0 top-[28px] z-20 max-h-[200px] w-[300px] overflow-auto rounded-lg border border-slate-200 bg-white shadow-lg">
+                                {opts.map((d) => (
+                                  <button key={d.ma_thue} onMouseDown={(e) => { e.preventDefault(); const nxt = [...inv]; nxt[i] = { ...r, ma: d.ma_thue, ten: d.ten_thue, vat: d.vat, lk: { ...r.lk, ma: true } }; if (!r.lk.gia) { nxt[i].giaChua = String(d.gia_chua_vat); nxt[i].giaDa = String(calcGiaDa(d.gia_chua_vat, d.vat)); } setInv(nxt); setMaOpen(null); }} className="flex w-full items-center justify-between px-2 py-1.5 text-left text-xs hover:bg-slate-50">
+                                    <span className="font-mono font-semibold">{d.ma_thue}</span><span className="ml-2 truncate text-slate-500">{d.ten_thue}</span><span className="ml-2 shrink-0 text-slate-400">{d.cap1}</span>
+                                  </button>
+                                ))}
+                              </div>;
+                            })()}
                           </div>
                         </td>
                         <td className="px-2 py-1 max-w-[160px] truncate text-slate-600" title={r.ten}>{r.ten || '—'}</td>
@@ -548,10 +582,10 @@ function Screen() {
                 </table>
               </div>
               <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
-                <span className="text-[11px] text-slate-500">Gợi ý lệch ≤10.000đ · Sửa giá dòng cuối khớp 100% · Đã chốt giữ nguyên khi gợi ý lại</span>
+                <span className="text-[11px] text-slate-500">Gợi ý lệch ≤10.000đ · Sửa giá dòng cuối khớp 100% · Đã chốt giữ nguyên · 1 dòng trắng→gợi ý 1, 2→2, mặc định 3</span>
                 <div className="flex gap-2">
                   {opt === 3 ? <button onClick={() => doGoiY(true)} className="rounded-lg bg-[#1e3a8a] px-4 py-1.5 text-xs font-semibold text-white hover:bg-[#1e40af]">✨ Gợi ý hóa đơn cho khách này</button>
-                    : <button onClick={() => doGoiY(false)} className="rounded-lg bg-[#1e3a8a] px-4 py-1.5 text-xs font-semibold text-white hover:bg-[#1e40af]">✨ Gợi ý (chỉ lấp ô chưa chốt)</button>}
+                    : <><button onClick={() => doGoiY(false)} className="rounded-lg bg-[#1e3a8a] px-4 py-1.5 text-xs font-semibold text-white hover:bg-[#1e40af]">✨ Gợi ý</button><button onClick={() => doGoiY(false)} className="rounded-lg border border-slate-200 px-4 py-1.5 text-xs font-semibold hover:border-[#1e3a8a]">🔀 Gợi ý phương án khác</button></>}
                   <button onClick={suaGiaCuoi} className="rounded-lg border border-slate-200 px-4 py-1.5 text-xs font-semibold hover:border-[#1e3a8a]">Sửa giá dòng cuối cho khớp 100%</button>
                   <button onClick={() => { setInv((prev) => prev.map((r) => ({ ...r, lk: { ma: false, sl: false, gia: false } }))); }} className="rounded-lg border border-slate-200 px-4 py-1.5 text-xs font-semibold">↺ Làm mới</button>
                 </div>
