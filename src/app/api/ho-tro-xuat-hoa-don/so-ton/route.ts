@@ -49,15 +49,13 @@ export async function GET(req: NextRequest) {
     capMapThue.set(d.cap1, (capMapThue.get(d.cap1) ?? 0) + sl);
     if (d.cap2) cap2Thue.set(d.cap2, (cap2Thue.get(d.cap2) ?? 0) + sl);
   }
-  const caps = new Map<string, { cap2: string; ten: string }>();
-  for (const d of (thue as any[]) ?? []) if (d.cap1) caps.set(d.cap1, { cap2: d.cap2 || '', ten: tenByCap.get(d.cap1) || d.ten_thue });
-  const rows = [...caps.entries()].map(([cap1, v]) => ({
-    cap1, cap2: v.cap2 || '', ten_thue: v.ten,
-    ton_thue1: capMapThue.get(cap1) ?? 0,
-    ton_thuc1: thucCap.get(cap1) ?? 0,
-    ton_thue2: v.cap2 ? (cap2Thue.get(v.cap2) ?? 0) : '—',
-    ton_thuc2: v.cap2 ? (thucCap2.get(v.cap2) ?? 0) : '—',
-    thua: (capMapThue.get(cap1) ?? 0) - (thucCap.get(cap1) ?? 0),
-  })).sort((a, b) => a.cap1.localeCompare(b.cap1));
+  const rows = (thue as any[]).map((d: any) => ({
+    ma_thue: d.ma_thue, ten_thue: d.ten_thue, cap1: d.cap1 || '', cap2: d.cap2 || '',
+    ton_thue1: capMapThue.get(d.cap1) ?? 0,
+    ton_thuc1: thucCap.get(d.cap1) ?? 0,
+    ton_thue2: d.cap2 ? (cap2Thue.get(d.cap2) ?? 0) : '—',
+    ton_thuc2: d.cap2 ? (thucCap2.get(d.cap2) ?? 0) : '—',
+    thua: (capMapThue.get(d.cap1) ?? 0) - (thucCap.get(d.cap1) ?? 0),
+  })).sort((a: any, b: any) => a.ma_thue.localeCompare(b.ma_thue));
   return NextResponse.json({ ngay, rows });
 }

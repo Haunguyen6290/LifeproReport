@@ -12,7 +12,7 @@ const fmt = (n: number | string) => {
 
 type DmThue = { ma_thue: string; ten_thue: string; cap1: string; cap2: string; gia_chua_vat: number; vat: number };
 type DmThuc = { ma_thuc: string; ten_thuc: string; cap1: string; cap2: string };
-type SoTonRow = { cap1: string; cap2: string; ten_thue: string; ton_thue1: number; ton_thuc1: number; ton_thue2: number | string; ton_thuc2: number | string; thua: number };
+type SoTonRow = { ma_thue: string; ten_thue: string; cap1: string; cap2: string; ton_thue1: number; ton_thuc1: number; ton_thue2: number | string; ton_thuc2: number | string; thua: number };
 
 function useToday() { return new Date().toISOString().slice(0, 10); }
 
@@ -186,11 +186,16 @@ function Screen() {
   }
 
   function getThua(ma: string): number {
+    const st = soTon.find((s) => s.ma_thue === ma);
+    if (st) {
+      const v = Number((st as any).thua ?? 0);
+      return isNaN(v) ? 999999 : Math.max(0, v);
+    }
     const d = dmThue.find((x) => x.ma_thue === ma);
     if (!d) return 999999;
-    const st = soTon.find((s) => s.cap1 === d.cap1);
-    if (!st) return 999999;
-    const v = Number(st.thua ?? 0);
+    const byCap = soTon.find((s) => s.cap1 === d.cap1);
+    if (!byCap) return 999999;
+    const v = Number((byCap as any).thua ?? 0);
     return isNaN(v) ? 999999 : Math.max(0, v);
   }
 
@@ -529,9 +534,9 @@ function Screen() {
               </div>
               <div className="mt-2 overflow-auto rounded-lg border border-slate-200">
                 <table className="w-full text-xs">
-                  <thead><tr className="bg-[#eff6ff] text-[#1e3a8a]"><th className="px-2 py-1.5 text-left">Mã Tham Chiếu 1</th><th className="px-2 py-1.5 text-left">Mã Tham Chiếu 2</th><th className="px-2 py-1.5 text-left">Tên thuế</th><th className="px-2 py-1.5 text-right">Tồn thuế 1</th><th className="px-2 py-1.5 text-right">Tồn thực 1</th><th className="px-2 py-1.5 text-right">Tồn thuế 2</th><th className="px-2 py-1.5 text-right">Tồn thực 2</th><th className="px-2 py-1.5 text-right">Thừa</th></tr></thead>
-                  <tbody>{soTon.filter((r) => !qTon || r.cap1.toLowerCase().includes(qTon.toLowerCase()) || r.cap2.toLowerCase().includes(qTon.toLowerCase())).map((r) => (
-                    <tr key={r.cap1 + r.cap2} className="border-t border-slate-100 hover:bg-slate-50"><td className="px-2 py-1 font-mono">{r.cap1}</td><td className="px-2 py-1 font-mono">{r.cap2 || '—'}</td><td className="px-2 py-1">{r.ten_thue}</td><td className="px-2 py-1 text-right tabular-nums">{fmt(r.ton_thue1)}</td><td className="px-2 py-1 text-right tabular-nums">{fmt(r.ton_thuc1)}</td><td className="px-2 py-1 text-right tabular-nums">{r.ton_thue2 === '—' ? '—' : fmt(r.ton_thue2 as number)}</td><td className="px-2 py-1 text-right tabular-nums">{r.ton_thuc2 === '—' ? '—' : fmt(r.ton_thuc2 as number)}</td><td className={`px-2 py-1 text-right font-bold tabular-nums ${r.thua > 50 ? 'text-red-600 bg-red-50' : ''}`}>{fmt(r.thua)}</td></tr>
+                  <thead><tr className="bg-[#eff6ff] text-[#1e3a8a]"><th className="px-2 py-1.5 text-left">Mã thuế</th><th className="px-2 py-1.5 text-left">Tên thuế</th><th className="px-2 py-1.5 text-left">Mã Tham Chiếu 1</th><th className="px-2 py-1.5 text-left">Mã Tham Chiếu 2</th><th className="px-2 py-1.5 text-right">Tồn thuế 1</th><th className="px-2 py-1.5 text-right">Tồn thực 1</th><th className="px-2 py-1.5 text-right">Tồn thuế 2</th><th className="px-2 py-1.5 text-right">Tồn thực 2</th><th className="px-2 py-1.5 text-right">Thừa</th></tr></thead>
+                  <tbody>{soTon.filter((r) => !qTon || r.ma_thue.toLowerCase().includes(qTon.toLowerCase()) || r.ten_thue.toLowerCase().includes(qTon.toLowerCase()) || r.cap1.toLowerCase().includes(qTon.toLowerCase()) || r.cap2.toLowerCase().includes(qTon.toLowerCase())).map((r) => (
+                    <tr key={r.ma_thue} className="border-t border-slate-100 hover:bg-slate-50"><td className="px-2 py-1 font-mono">{r.ma_thue}</td><td className="px-2 py-1 max-w-[260px] truncate" title={r.ten_thue}>{r.ten_thue}</td><td className="px-2 py-1 font-mono">{r.cap1 || '—'}</td><td className="px-2 py-1 font-mono">{r.cap2 || '—'}</td><td className="px-2 py-1 text-right tabular-nums">{fmt(r.ton_thue1)}</td><td className="px-2 py-1 text-right tabular-nums">{fmt(r.ton_thuc1)}</td><td className="px-2 py-1 text-right tabular-nums">{r.ton_thue2 === '—' ? '—' : fmt(r.ton_thue2 as number)}</td><td className="px-2 py-1 text-right tabular-nums">{r.ton_thuc2 === '—' ? '—' : fmt(r.ton_thuc2 as number)}</td><td className={`px-2 py-1 text-right font-bold tabular-nums ${r.thua > 50 ? 'text-red-600 bg-red-50' : ''}`}>{fmt(r.thua)}</td></tr>
                   ))}</tbody>
                 </table>
               </div>
