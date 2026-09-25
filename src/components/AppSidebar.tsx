@@ -42,6 +42,12 @@ export const GROUPS: { title: string; items: LinkDef[] }[] = [
     ],
   },
   {
+    title: 'Kế toán',
+    items: [
+      { href: '/ho-tro-xuat-hoa-don', label: 'Hỗ trợ xuất hóa đơn', icon: ICON.money, needs: ['quan_ly_cai_dat', 'ke_toan', 'xem_tai_chinh'] },
+    ],
+  },
+  {
     title: 'Kho',
     items: [
       { href: '/bao-cao-kho', label: 'Báo cáo kho', icon: ICON.package, needs: ['bao_cao_kho', 'quan_ly_okr'] },
