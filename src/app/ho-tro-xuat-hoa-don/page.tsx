@@ -56,6 +56,8 @@ function Screen() {
   const [goiySeed, setGoiySeed] = useState(0);
   const [maQuery, setMaQuery] = useState<Record<number, string>>({});
   const [maOpen, setMaOpen] = useState<number | null>(null);
+  const [khachQuery, setKhachQuery] = useState('');
+  const [khachOpen, setKhachOpen] = useState(false);
 
   // Lich su
   const [ls, setLs] = useState<any[]>([]);
@@ -87,7 +89,7 @@ function Screen() {
     if (r.ok) setSoTon(j.rows ?? []);
   }
   async function loadKhachList() {
-    const { data } = await supabase.from('customers').select('ma_kh, ten_kh').limit(200);
+    const { data } = await supabase.from('customers').select('ma_kh, ten_kh').limit(500);
     setKhachList((data ?? []) as any[]);
   }
   async function loadLs() {
@@ -101,15 +103,15 @@ function Screen() {
   useEffect(() => { loadSoTon(); }, [ngay]);
   useEffect(() => { if (tab === 'ls') loadLs(); }, [tab]);
 
-  // Khach detail: lay tu receivable/customer snapshot gan dung — demo dung ton
+  // Khach detail: lay tu sales_rows (Bao cao ban hang) + 4 cot ton
   async function xemKhach() {
     if (!khach) { setKhachRows([]); return; }
-    // Lay 10 ma co cap tu dm_thue de hien 4 cot ton
-    const rows = dmThue.slice(0, 10).map((d) => {
-      const st = soTon.find((s) => s.cap1 === d.cap1);
-      return { ma_thuc: d.ma_thue, ten_thuc: d.ten_thue, ma_thue: d.ma_thue, ten_thue: d.ten_thue, cap1: d.cap1, cap2: d.cap2, ton_thue1: st?.ton_thue1 ?? d.gia_chua_vat, ton_thuc1: st?.ton_thuc1 ?? 0, ton_thue2: st?.ton_thue2 ?? '—', ton_thuc2: st?.ton_thuc2 ?? '—', sl: 5, dg: d.gia_chua_vat };
-    });
-    setKhachRows(rows);
+    const h = await authHeader();
+    const sp = new URLSearchParams({ ma_kh: khach, tu: khTu, den: khDen });
+    const r = await fetch(`/api/ho-tro-xuat-hoa-don/so-chi-tiet-khach?${sp}`, { headers: h });
+    const j = await r.json();
+    if (!r.ok) { setKhachRows([]); return; }
+    setKhachRows(j.rows ?? []);
   }
 
   const tongCalc = useMemo(() => inv.reduce((s, r) => s + (parseDot(r.sl) || 0) * (parseDot(r.giaDa) || 0), 0), [inv]);
@@ -587,7 +589,7 @@ function Screen() {
             <div className="rounded-xl border border-slate-200 bg-white p-4">
               <div className="flex flex-wrap gap-2">
                 <button onClick={() => setOpt(1)} className={`rounded-full px-3 py-1 text-xs font-semibold ${opt === 1 ? 'bg-[#1e3a8a] text-white' : 'bg-white ring-1 ring-slate-200'}`}>Gợi ý theo tồn</button>
-                <button onClick={() => setOpt(3)} className={`rounded-full px-3 py-1 text-xs font-semibold ${opt === 3 ? 'bg-[#1e3a8a] text-white' : 'bg-white ring-1 ring-slate-200'}`}>Đúng giá thực (chọn khách)</button>
+                <button onClick={() => setOpt(3)} className={`rounded-full px-3 py-1 text-xs font-semibold ${opt === 3 ? 'bg-[#1e3a8a] text-white' : 'bg-white ring-1 ring-slate-200'}`}>Gợi ý theo khách</button>
               </div>
               <p className="mt-1 text-[11px] text-slate-500">Gợi ý theo tồn: để trống 1 dòng thì gợi ý 1, 2 dòng thì 2, mặc định 3 — mỗi lần bấm “Gợi ý phương án khác” ra kết quả khác (vẫn ≤10k, đã chốt giữ nguyên).</p>
               {opt !== 3 && (
@@ -602,11 +604,24 @@ function Screen() {
 
             {opt === 3 && (
               <div className="rounded-xl border border-slate-200 bg-white p-4">
-                <b className="text-sm text-[#0f2a4a]">Chọn khách — sổ chi tiết theo khoảng ngày</b>
+                <b className="text-sm text-[#0f2a4a]">Gợi ý theo khách — sổ chi tiết theo khoảng ngày</b>
+                <p className="mt-1 text-[11px] text-slate-500">Gõ để chọn khách (autocomplete) — data lấy từ Báo cáo bán hàng (sales_rows), các chức năng gợi ý giống hệt Gợi ý theo tồn, chỉ khác là gợi ý gần giống thực tế mua bán của khách.</p>
                 <div className="mt-2 flex flex-wrap items-center gap-2">
-                  <select value={khach} onChange={(e) => setKhach(e.target.value)} className="rounded-md border border-slate-200 bg-white px-3 py-1.5 text-sm">
-                    <option value="">— Chọn khách —</option>{khachList.map((k: any) => <option key={k.ma_kh} value={k.ma_kh}>{k.ma_kh} — {k.ten_kh}</option>)}
-                  </select>
+                  <div className="relative">
+                    <input value={khachOpen ? khachQuery : (khach ? (khachList.find((k: any) => k.ma_kh === khach)?.ten_kh ? `${khach} — ${khachList.find((k: any) => k.ma_kh === khach)?.ten_kh}` : khach) : '')} onFocus={() => { setKhachOpen(true); setKhachQuery(khach ? (khachList.find((k: any) => k.ma_kh === khach)?.ten_kh ? `${khach} — ${khachList.find((k: any) => k.ma_kh === khach)?.ten_kh}` : khach) : ''); }} onBlur={() => setTimeout(() => setKhachOpen(false), 180)} onChange={(e) => { setKhachQuery(e.target.value); setKhachOpen(true); }} placeholder="Gõ mã/tên khách…" className="w-[320px] rounded-md border border-slate-200 bg-white px-3 py-1.5 text-sm" />
+                    {khachOpen && (() => {
+                      const q = khachQuery.toLowerCase();
+                      const opts = khachList.filter((k: any) => !q || String(k.ma_kh).toLowerCase().includes(q) || String(k.ten_kh).toLowerCase().includes(q)).slice(0, 8);
+                      if (!opts.length) return <div className="absolute left-0 top-[34px] z-20 w-[420px] rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs text-slate-500 shadow-lg">Không tìm thấy khách</div>;
+                      return <div className="absolute left-0 top-[34px] z-20 max-h-[220px] w-[420px] overflow-auto rounded-lg border border-slate-200 bg-white shadow-lg">
+                        {opts.map((k: any) => (
+                          <button key={k.ma_kh} onMouseDown={(e) => { e.preventDefault(); setKhach(k.ma_kh); setKhachOpen(false); setKhachQuery(`${k.ma_kh} — ${k.ten_kh}`); }} className="flex w-full items-center justify-between px-3 py-1.5 text-left text-xs hover:bg-slate-50">
+                            <span className="font-mono font-semibold">{k.ma_kh}</span><span className="ml-2 truncate text-slate-600">{k.ten_kh}</span>
+                          </button>
+                        ))}
+                      </div>;
+                    })()}
+                  </div>
                   <label className="text-xs text-slate-600">Từ ngày</label><input type="date" value={khTu} onChange={(e) => setKhTu(e.target.value)} className="rounded-md border border-slate-200 bg-white px-3 py-1.5 text-sm" />
                   <label className="text-xs text-slate-600">Đến ngày</label><input type="date" value={khDen} onChange={(e) => setKhDen(e.target.value)} className="rounded-md border border-slate-200 bg-white px-3 py-1.5 text-sm" />
                   <button onClick={xemKhach} className="rounded-lg bg-[#1e3a8a] px-4 py-1.5 text-sm font-semibold text-white">Xem sổ chi tiết</button>
