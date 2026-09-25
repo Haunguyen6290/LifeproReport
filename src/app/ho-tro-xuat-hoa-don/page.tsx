@@ -64,6 +64,7 @@ function Screen() {
   const [editThue, setEditThue] = useState<null | { ma: string; ten: string; cap1: string; cap2: string; gia: string; vat: string }>(null);
   const [editThuc, setEditThuc] = useState<null | { ma: string; ten: string; cap1: string; cap2: string }>(null);
   const [dmTab, setDmTab] = useState<'thue' | 'thuc'>('thue');
+  const [tonTab, setTonTab] = useState<'thue' | 'thuc'>('thue');
 
   const canEdit = can('quan_ly_cai_dat') || can('ke_toan') || can('xem_tai_chinh');
 
@@ -532,14 +533,44 @@ function Screen() {
                 <b className="text-sm text-[#0f2a4a]">So tồn — 4 cột</b>
                 <input value={qTon} onChange={(e) => setQTon(e.target.value)} placeholder="Tìm Mã Tham Chiếu 1/2…" className="rounded-md border border-slate-200 px-3 py-1.5 text-sm" />
               </div>
-              <div className="mt-2 overflow-auto rounded-lg border border-slate-200">
+            <div className="rounded-xl border border-slate-200 bg-white p-3">
+              <div className="mb-2 flex items-center justify-between">
+                <div className="flex gap-1 rounded-lg bg-slate-100 p-1">
+                  <button onClick={() => setTonTab('thue')} className={`rounded-md px-3 py-1 text-xs font-bold ${tonTab === 'thue' ? 'bg-white shadow text-[#0f2a4a]' : 'text-slate-500'}`}>Tồn thuế ({dmThue.length})</button>
+                  <button onClick={() => setTonTab('thuc')} className={`rounded-md px-3 py-1 text-xs font-bold ${tonTab === 'thuc' ? 'bg-white shadow text-[#0f2a4a]' : 'text-slate-500'}`}>Tồn thực ({dmThuc.length})</button>
+                </div>
+                <input value={qTon} onChange={(e) => setQTon(e.target.value)} placeholder={tonTab === 'thue' ? 'Tìm Mã thuế / Tên thuế / Mã Tham Chiếu…' : 'Tìm Mã thực / Tên thực / Mã Tham Chiếu…'} className="rounded-md border border-slate-200 px-3 py-1.5 text-sm" />
+              </div>
+              {tonTab === 'thue' ? (
+              <div className="overflow-auto rounded-lg border border-slate-200 max-h-[600px]">
                 <table className="w-full text-xs">
-                  <thead><tr className="bg-[#eff6ff] text-[#1e3a8a]"><th className="px-2 py-1.5 text-left">Mã thuế</th><th className="px-2 py-1.5 text-left">Tên thuế</th><th className="px-2 py-1.5 text-left">Mã Tham Chiếu 1</th><th className="px-2 py-1.5 text-left">Mã Tham Chiếu 2</th><th className="px-2 py-1.5 text-right">Tồn thuế 1</th><th className="px-2 py-1.5 text-right">Tồn thực 1</th><th className="px-2 py-1.5 text-right">Tồn thuế 2</th><th className="px-2 py-1.5 text-right">Tồn thực 2</th><th className="px-2 py-1.5 text-right">Thừa</th></tr></thead>
-                  <tbody>{soTon.filter((r) => !qTon || r.ma_thue.toLowerCase().includes(qTon.toLowerCase()) || r.ten_thue.toLowerCase().includes(qTon.toLowerCase()) || r.cap1.toLowerCase().includes(qTon.toLowerCase()) || r.cap2.toLowerCase().includes(qTon.toLowerCase())).map((r) => (
-                    <tr key={r.ma_thue} className="border-t border-slate-100 hover:bg-slate-50"><td className="px-2 py-1 font-mono">{r.ma_thue}</td><td className="px-2 py-1 max-w-[260px] truncate" title={r.ten_thue}>{r.ten_thue}</td><td className="px-2 py-1 font-mono">{r.cap1 || '—'}</td><td className="px-2 py-1 font-mono">{r.cap2 || '—'}</td><td className="px-2 py-1 text-right tabular-nums">{fmt(r.ton_thue1)}</td><td className="px-2 py-1 text-right tabular-nums">{fmt(r.ton_thuc1)}</td><td className="px-2 py-1 text-right tabular-nums">{r.ton_thue2 === '—' ? '—' : fmt(r.ton_thue2 as number)}</td><td className="px-2 py-1 text-right tabular-nums">{r.ton_thuc2 === '—' ? '—' : fmt(r.ton_thuc2 as number)}</td><td className={`px-2 py-1 text-right font-bold tabular-nums ${r.thua > 50 ? 'text-red-600 bg-red-50' : ''}`}>{fmt(r.thua)}</td></tr>
+                  <thead className="sticky top-0"><tr className="bg-[#eff6ff] text-[#1e3a8a]"><th className="px-2 py-1.5 text-left">Mã thuế</th><th className="px-2 py-1.5 text-left">Tên thuế</th><th className="px-2 py-1.5 text-left">Mã Tham Chiếu 1</th><th className="px-2 py-1.5 text-left">Mã Tham Chiếu 2</th><th className="px-2 py-1.5 text-right">Tồn thuế 1</th><th className="px-2 py-1.5 text-right">Tồn thực 1</th><th className="px-2 py-1.5 text-right">Tồn thuế 2</th><th className="px-2 py-1.5 text-right">Tồn thực 2</th><th className="px-2 py-1.5 text-right">Thừa</th></tr></thead>
+                  <tbody>{soTon.filter((r) => !qTon || r.ma_thue.toLowerCase().includes(qTon.toLowerCase()) || r.ten_thue.toLowerCase().includes(qTon.toLowerCase()) || r.cap1.toLowerCase().includes(qTon.toLowerCase()) || r.cap2.toLowerCase().includes(qTon.toLowerCase())).slice(0, 600).map((r) => (
+                    <tr key={r.ma_thue} className="border-t border-slate-100 hover:bg-slate-50"><td className="px-2 py-1 font-mono">{r.ma_thue}</td><td className="px-2 py-1 max-w-[280px] truncate" title={r.ten_thue}>{r.ten_thue}</td><td className="px-2 py-1 font-mono">{r.cap1 || '—'}</td><td className="px-2 py-1 font-mono">{r.cap2 || '—'}</td><td className="px-2 py-1 text-right tabular-nums">{fmt(r.ton_thue1)}</td><td className="px-2 py-1 text-right tabular-nums">{fmt(r.ton_thuc1)}</td><td className="px-2 py-1 text-right tabular-nums">{r.ton_thue2 === '—' ? '—' : fmt(r.ton_thue2 as number)}</td><td className="px-2 py-1 text-right tabular-nums">{r.ton_thuc2 === '—' ? '—' : fmt(r.ton_thuc2 as number)}</td><td className={`px-2 py-1 text-right font-bold tabular-nums ${r.thua > 50 ? 'text-red-600 bg-red-50' : ''}`}>{fmt(r.thua)}</td></tr>
                   ))}</tbody>
                 </table>
               </div>
+              ) : (
+              <div className="overflow-auto rounded-lg border border-slate-200 max-h-[600px]">
+                <table className="w-full text-xs">
+                  <thead className="sticky top-0"><tr className="bg-[#eff6ff] text-[#1e3a8a]"><th className="px-2 py-1.5 text-left">Mã thực</th><th className="px-2 py-1.5 text-left">Tên thực</th><th className="px-2 py-1.5 text-left">Mã Tham Chiếu 1</th><th className="px-2 py-1.5 text-left">Mã Tham Chiếu 2</th><th className="px-2 py-1.5 text-right">Tồn thuế 1</th><th className="px-2 py-1.5 text-right">Tồn thực 1</th><th className="px-2 py-1.5 text-right">Tồn thuế 2</th><th className="px-2 py-1.5 text-right">Tồn thực 2</th><th className="px-2 py-1.5 text-right">Thừa</th></tr></thead>
+                  <tbody>{(() => {
+                    const map = new Map(soTon.map((s) => [s.cap1, s] as const));
+                    const rows = dmThuc.filter((d) => !qTon || d.ma_thuc.toLowerCase().includes(qTon.toLowerCase()) || d.ten_thuc.toLowerCase().includes(qTon.toLowerCase()) || d.cap1.toLowerCase().includes(qTon.toLowerCase()) || d.cap2.toLowerCase().includes(qTon.toLowerCase())).slice(0, 600);
+                    return rows.map((d) => {
+                      const s = map.get(d.cap1);
+                      const ton_thue1 = s?.ton_thue1 ?? 0;
+                      const ton_thuc1 = s?.ton_thuc1 ?? 0;
+                      const ton_thue2 = d.cap2 ? (s?.ton_thue2 ?? '—') : '—';
+                      const ton_thuc2 = d.cap2 ? (s?.ton_thuc2 ?? '—') : '—';
+                      const thua = s?.thua ?? 0;
+                      return <tr key={d.ma_thuc} className="border-t border-slate-100 hover:bg-slate-50"><td className="px-2 py-1 font-mono">{d.ma_thuc}</td><td className="px-2 py-1 max-w-[280px] truncate" title={d.ten_thuc}>{d.ten_thuc}</td><td className="px-2 py-1 font-mono">{d.cap1 || '—'}</td><td className="px-2 py-1 font-mono">{d.cap2 || '—'}</td><td className="px-2 py-1 text-right tabular-nums">{fmt(ton_thue1)}</td><td className="px-2 py-1 text-right tabular-nums">{fmt(ton_thuc1)}</td><td className="px-2 py-1 text-right tabular-nums">{ton_thue2 === '—' ? '—' : fmt(ton_thue2 as number)}</td><td className="px-2 py-1 text-right tabular-nums">{ton_thuc2 === '—' ? '—' : fmt(ton_thuc2 as number)}</td><td className={`px-2 py-1 text-right font-bold tabular-nums ${thua > 50 ? 'text-red-600 bg-red-50' : ''}`}>{fmt(thua)}</td></tr>;
+                    });
+                  })()}</tbody>
+                </table>
+              </div>
+              )}
+            </div>
             </div>
           </div>
         )}
