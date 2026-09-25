@@ -197,7 +197,6 @@ function Screen() {
   function doGoiY(forKhach = false, variant = false) {
     const need = target;
     if (!need) { setGoiyMsg('Nhập tổng tiền đã VAT trước'); return; }
-    // random offset cho mỗi lần bấm để ra kết quả khác (vẫn ưu tiên thừa nhiều, chỉ đổi thứ tự ngẫu nhiên nhẹ)
     const seed = goiySeed + 1; setGoiySeed(seed);
     function shuffleWithSeed<T>(arr: T[], s: number): T[] {
       const a = [...arr]; let cur = s * 9301 + 49297;
@@ -208,13 +207,92 @@ function Screen() {
       }
       return a;
     }
-    let poolBase = [...dmThue].sort((a, b) => {
+    const poolBase = [...dmThue].sort((a, b) => {
       const sa = soTon.find((s) => s.cap1 === a.cap1)?.thua ?? 0;
       const sb = soTon.find((s) => s.cap1 === b.cap1)?.thua ?? 0;
       return sb - sa;
-    });
-    // trộn nhẹ nhóm top thừa nhiều để mỗi lần ra khác
-    const topN = Math.min(12, poolBase.length);
+    }).filter((d) => getThua(d.ma_thue) > 0);
+
+    function buildTrial(pool: any[], baseInv: typeof inv, forKhachRows: any[]): { trial: typeof inv; tong: number; diff: number } {
+      const trial = baseInv.map((r) => ({ ...r, lk: { ...r.lk } }));
+      let idx = 0;
+      for (let i = 0; i < trial.length; i++) {
+        if (!trial[i].ma && !trial[i].lk.ma) {
+          const cand = pool[idx++ % pool.length];
+          if (!cand) continue;
+          trial[i].ma = cand.ma_thue; trial[i].ten = cand.ten_thue; trial[i].vat = cand.vat;
+          if (!trial[i].lk.gia) { trial[i].giaChua = String(cand.gia_chua_vat); trial[i].giaDa = String(calcGiaDa(cand.gia_chua_vat, cand.vat)); }
+        }
+        if (!trial[i].giaDa && trial[i].giaChua && !trial[i].lk.gia) trial[i].giaDa = String(calcGiaDa(parseDot(trial[i].giaChua), trial[i].vat));
+        if (!trial[i].giaChua && trial[i].giaDa && !trial[i].lk.gia) trial[i].giaChua = String(calcGiaChua(parseDot(trial[i].giaDa), trial[i].vat));
+      }
+      for (let i = 0; i < trial.length; i++) {
+        if (trial[i].lk.sl) continue;
+        const thua = getThua(trial[i].ma);
+        if (thua !== 999999 && parseDot(trial[i].sl) > thua) trial[i].sl = String(Math.max(1, thua));
+      }
+      const unlocked = trial.map((r, i) => (!r.lk.sl ? i : -1)).filter((i) => i >= 0);
+      if (unlocked.length) {
+        unlocked.forEach((i) => {
+          const giaDa = parseDot(trial[i].giaDa) || 1;
+          const thua = getThua(trial[i].ma);
+          const maxSl = thua !== 999999 ? Math.max(1, thua) : 999999;
+          const want = Math.max(1, Math.round(need / unlocked.length / giaDa) || 1);
+          trial[i].sl = String(Math.min(want, maxSl));
+        });
+        tuneSL(need, trial as any, unlocked);
+        for (const i of unlocked) {
+          const th = getThua(trial[i].ma);
+          if (th !== 999999 && parseDot(trial[i].sl) > th) trial[i].sl = String(th);
+        }
+      }
+      let tong = trial.reduce((s, r) => s + (parseDot(r.sl) || 0) * (parseDot(r.giaDa) || 0), 0);
+      let guard = 40;
+      while (Math.abs(tong - need) > 10000 && guard-- > 0) {
+        const cand = trial.map((r, i) => (!r.lk.sl ? i : -1)).filter((i) => i >= 0).sort((a, b) => parseDot(trial[a].giaDa) - parseDot(trial[b].giaDa));
+        if (!cand.length) break;
+        let improved = false;
+        for (const i of cand) {
+          const giaDa = parseDot(trial[i].giaDa) || 1;
+          const curSL = parseDot(trial[i].sl) || 1;
+          const thua = getThua(trial[i].ma);
+          const diff = need - tong;
+          if (diff > 0) {
+            if (thua !== 999999 && curSL >= thua) continue;
+            trial[i].sl = String(curSL + 1);
+            const nt = tong + giaDa;
+            if (Math.abs(nt - need) < Math.abs(tong - need)) { tong = nt; improved = true; break; } else trial[i].sl = String(curSL);
+          } else if (curSL > 1) {
+            trial[i].sl = String(curSL - 1);
+            const nt = tong - giaDa;
+            if (Math.abs(nt - need) < Math.abs(tong - need)) { tong = nt; improved = true; break; } else trial[i].sl = String(curSL);
+          }
+        }
+        if (!improved) break;
+      }
+      // thêm dòng nếu vẫn lệch >10k và chưa đủ 5 dòng, nhưng tôn trọng thừa
+      let addGuard = 10;
+      while (Math.abs(tong - need) > 10000 && trial.length < 5 && addGuard-- > 0) {
+        const cand: any = pool[idx++ % pool.length];
+        if (!cand) break;
+        const thua = getThua(cand.ma_thue);
+        const giaDa = calcGiaDa(cand.gia_chua_vat, cand.vat);
+        const remain = need - tong;
+        if (Math.abs(remain) <= 10000) break;
+        // chỉ thêm dòng nếu còn thừa và remain đủ lớn
+        if (thua !== 999999 && thua <= 0) continue;
+        const want = Math.max(1, Math.round(Math.abs(remain) / giaDa) || 1);
+        const clampedWant = thua !== 999999 ? Math.min(want, thua) : want;
+        if (remain < 0 && trial.length >= 3) break; // đã thừa tiền thì không thêm dòng dương nữa
+        trial.push({ ma: cand.ma_thue, ten: cand.ten_thue, sl: String(clampedWant), giaChua: String(cand.gia_chua_vat), vat: cand.vat, giaDa: String(giaDa), lk: { ma: false, sl: false, gia: false } });
+        const u2 = trial.map((r, i) => (!r.lk.sl ? i : -1)).filter((i) => i >= 0);
+        if (u2.length) tuneSL(need, trial as any, u2);
+        tong = trial.reduce((s, r) => s + (parseDot(r.sl) || 0) * (parseDot(r.giaDa) || 0), 0);
+      }
+      return { trial, tong, diff: Math.abs(tong - need) };
+    }
+
+    const topN = Math.min(14, poolBase.length);
     const top = shuffleWithSeed(poolBase.slice(0, topN), seed);
     let pool: any[] = [...top, ...poolBase.slice(topN)];
     if (forKhach && khachRows.length) {
@@ -222,150 +300,43 @@ function Screen() {
       const other = pool.filter((p) => !khachPool.some((k) => k.ma_thue === p.ma_thue));
       pool = [...khachPool as any, ...other] as any;
     }
-    const next = inv.map((r) => ({ ...r, lk: { ...r.lk } }));
-    // variant: đổi mã ở các dòng chưa chốt để ra phương án khác rõ rệt
-    if (variant) {
-      for (let i = 0; i < next.length; i++) {
-        if (!next[i].lk.ma) { next[i].ma = ''; next[i].ten = ''; next[i].giaChua = ''; next[i].giaDa = ''; next[i].sl = ''; }
-      }
-      // đẩy seed thêm để pool khác hẳn
-      pool = shuffleWithSeed(poolBase, seed + 7);
+
+    if (!variant) {
+      const { trial, diff } = buildTrial(pool, inv, khachRows);
+      setInv(trial);
+      setGoiyMsg(diff <= 10000 ? `Đã gợi ý — lệch ${diff.toLocaleString('vi-VN')}đ ✓` : `Đã gợi ý — lệch ${diff.toLocaleString('vi-VN')}đ, bấm Sửa giá dòng cuối để khớp 100%`);
+      return;
+    }
+
+    // variant: thử nhiều pool khác nhau, chọn phương án lệch nhỏ nhất và ≤10k nếu có
+    const baseForVariant = inv.map((r) => ({ ...r, lk: { ...r.lk } }));
+    // xóa mã chưa chốt để bốc lại
+    for (let i = 0; i < baseForVariant.length; i++) if (!baseForVariant[i].lk.ma) { baseForVariant[i].ma = ''; baseForVariant[i].ten = ''; baseForVariant[i].giaChua = ''; baseForVariant[i].giaDa = ''; baseForVariant[i].sl = ''; }
+
+    let best: { trial: typeof inv; diff: number } | null = null;
+    for (let attempt = 0; attempt < 12; attempt++) {
+      const shuffled = shuffleWithSeed(poolBase, seed + 7 + attempt * 13);
+      let p: any[] = [...shuffled.slice(0, topN), ...shuffled.slice(topN)];
       if (forKhach && khachRows.length) {
         const kp = khachRows.slice(0, 10).map((r) => ({ ma_thue: r.ma_thue, ten_thue: r.ten_thue, gia_chua_vat: dmThue.find((d) => d.ma_thue === r.ma_thue)?.gia_chua_vat ?? 150000, vat: dmThue.find((d) => d.ma_thue === r.ma_thue)?.vat ?? 10 }));
-        const other = pool.filter((p: any) => !kp.some((k: any) => k.ma_thue === p.ma_thue));
-        const kpShuffled = shuffleWithSeed(kp as any, seed + 3) as any;
-        pool = [...kpShuffled, ...other];
+        const kpShuffled = shuffleWithSeed(kp as any, seed + 3 + attempt) as any;
+        const other = p.filter((x: any) => !kpShuffled.some((k: any) => k.ma_thue === x.ma_thue));
+        p = [...kpShuffled, ...other];
+        // offset để đa dạng
+        const off = (attempt * 3) % Math.max(1, p.length);
+        p = [...p.slice(off), ...p.slice(0, off)];
+      } else {
+        const off = (attempt * 5) % Math.max(1, p.length);
+        p = [...p.slice(off), ...p.slice(0, off)];
       }
+      const { trial, diff } = buildTrial(p, baseForVariant, khachRows);
+      if (!best || diff < best.diff) best = { trial, diff };
+      if (diff <= 10000) break;
     }
-    let idx = 0;
-    for (let i = 0; i < next.length; i++) {
-      if (!next[i].ma && !next[i].lk.ma) {
-        // chọn mã tiếp theo trong pool mà còn thừa đủ (nếu đã chốt mã rồi thì bỏ qua)
-        let picked: any = null;
-        let guard = pool.length + 5;
-        while (guard-- > 0) {
-          const cand: any = pool[idx++ % pool.length];
-          if (!cand) break;
-          const thua = getThua(cand.ma_thue);
-          if (thua > 0) { picked = cand; break; }
-          if (guard < 5) { picked = cand; break; } // hết lựa chọn thì vẫn lấy
-        }
-        if (!picked) continue;
-        next[i].ma = picked.ma_thue; next[i].ten = picked.ten_thue; next[i].vat = picked.vat;
-        if (!next[i].giaChua && !next[i].lk.gia) { next[i].giaChua = String(picked.gia_chua_vat); next[i].giaDa = String(calcGiaDa(picked.gia_chua_vat, picked.vat)); }
-      }
-      if (!next[i].giaDa && next[i].giaChua && !next[i].lk.gia) next[i].giaDa = String(calcGiaDa(parseDot(next[i].giaChua), next[i].vat));
-      if (!next[i].giaChua && next[i].giaDa && !next[i].lk.gia) next[i].giaChua = String(calcGiaChua(parseDot(next[i].giaDa), next[i].vat));
+    if (best) {
+      setInv(best.trial);
+      setGoiyMsg(best.diff <= 10000 ? `Đã gợi ý phương án khác — lệch ${best.diff.toLocaleString('vi-VN')}đ ✓` : `Đã gợi ý phương án khác — lệch ${best.diff.toLocaleString('vi-VN')}đ, bấm Sửa giá dòng cuối để khớp 100%`);
     }
-    // clamp SL không vượt thừa (thue - thuc)
-    function clampSlToThua() {
-      for (let i = 0; i < next.length; i++) {
-        if (next[i].lk.sl) continue;
-        const thua = getThua(next[i].ma);
-        if (thua !== 999999) {
-          const cur = parseDot(next[i].sl) || 1;
-          if (cur > thua) next[i].sl = String(Math.max(1, thua));
-        }
-      }
-    }
-    clampSlToThua();
-    const unlocked = next.map((r, i) => (!r.lk.sl ? i : -1)).filter((i) => i >= 0);
-    if (unlocked.length) {
-      unlocked.forEach((i) => {
-        const giaDa = parseDot(next[i].giaDa) || 1;
-        const thua = getThua(next[i].ma);
-        const maxSl = thua !== 999999 ? Math.max(1, thua) : 999999;
-        const want = Math.max(1, Math.round(need / unlocked.length / giaDa) || 1);
-        next[i].sl = String(Math.min(want, maxSl));
-      });
-      tuneSL(need, next as any, unlocked);
-      clampSlToThua();
-    }
-    let tong = next.reduce((s, r) => s + (parseDot(r.sl) || 0) * (parseDot(r.giaDa) || 0), 0);
-    let guard = 30;
-    while (Math.abs(tong - need) > 10000 && guard-- > 0) {
-      const cand = next.map((r, i) => (!r.lk.sl ? i : -1)).filter((i) => i >= 0).sort((a, b) => parseDot(next[a].giaDa) - parseDot(next[b].giaDa));
-      if (!cand.length) break;
-      let improved = false;
-      for (const i of cand) {
-        const giaDa = parseDot(next[i].giaDa) || 1;
-        const curSL = parseDot(next[i].sl) || 1;
-        const thua = getThua(next[i].ma);
-        const diff = need - tong;
-        if (diff > 0) {
-          if (thua !== 999999 && curSL >= thua) continue;
-          next[i].sl = String(curSL + 1);
-          const nt = tong + giaDa;
-          if (Math.abs(nt - need) < Math.abs(tong - need)) { tong = nt; improved = true; break; } else next[i].sl = String(curSL);
-        } else if (curSL > 1) {
-          next[i].sl = String(curSL - 1);
-          const nt = tong - giaDa;
-          if (Math.abs(nt - need) < Math.abs(tong - need)) { tong = nt; improved = true; break; } else next[i].sl = String(curSL);
-        }
-      }
-      if (!improved) break;
-    }
-    while (Math.abs(tong - need) > 10000 && next.length < 5) {
-      const t: any = pool[idx++ % pool.length];
-      if (!t) break;
-      const thua = getThua(t.ma_thue);
-      const giaDa = calcGiaDa(t.gia_chua_vat, t.vat);
-      const remain = need - tong;
-      if (Math.abs(remain) <= 10000) break;
-      const want = Math.max(1, Math.round(remain / giaDa) || 1);
-      if (thua !== 999999 && want > thua) continue; // không đủ thừa thì bỏ qua mã này, thử mã khác
-      next.push({ ma: t.ma_thue, ten: t.ten_thue, sl: String(want), giaChua: String(t.gia_chua_vat), vat: t.vat, giaDa: String(giaDa), lk: { ma: false, sl: false, gia: false } });
-      const u2 = next.map((r, i) => (!r.lk.sl ? i : -1)).filter((i) => i >= 0);
-      if (u2.length) tuneSL(need, next as any, u2);
-      tong = next.reduce((s, r) => s + (parseDot(r.sl) || 0) * (parseDot(r.giaDa) || 0), 0);
-    }
-    setInv(next);
-    const fin = next.reduce((s, r) => s + (parseDot(r.sl) || 0) * (parseDot(r.giaDa) || 0), 0);
-    // Nếu variant mà vẫn lệch >10k, thử 3 lần với seed khác để tìm phương án đạt ≤10k
-    if (variant && Math.abs(fin - need) > 10000) {
-      let best = { inv: next, diff: Math.abs(fin - need) };
-      for (let attempt = 0; attempt < 3; attempt++) {
-        const altPool = shuffleWithSeed(poolBase, seed + 100 + attempt * 11);
-        let altTop = altPool.slice(0, Math.min(12, altPool.length));
-        // thử bộ mã khác: lấy offset khác trong pool
-        const offset = (attempt + 1) * 4;
-        const rotated = [...altPool.slice(offset), ...altPool.slice(0, offset)];
-        const tryPool: any[] = [...shuffleWithSeed(rotated.slice(0, 12), seed + 50 + attempt), ...rotated.slice(12)];
-        // build thử nhanh: chỉ đổi mã chưa chốt, giữ SL logic tương tự
-        const trial = inv.map((r) => ({ ...r, lk: { ...r.lk } }));
-        // nếu variant: xóa mã chưa chốt để bốc lại từ tryPool
-        for (let i = 0; i < trial.length; i++) if (!trial[i].lk.ma) { trial[i].ma = ''; trial[i].ten = ''; }
-        let ti = 0;
-        for (let i = 0; i < trial.length; i++) if (!trial[i].ma && !trial[i].lk.ma) {
-          let pk: any = null; let g = tryPool.length + 5;
-          while (g-- > 0) { const c: any = tryPool[ti++ % tryPool.length]; if (!c) break; if (getThua(c.ma_thue) > 0) { pk = c; break; } if (g < 5) pk = c; }
-          if (!pk) continue;
-          trial[i].ma = pk.ma_thue; trial[i].ten = pk.ten_thue; trial[i].vat = pk.vat;
-          if (!trial[i].lk.gia) { trial[i].giaChua = String(pk.gia_chua_vat); trial[i].giaDa = String(calcGiaDa(pk.gia_chua_vat, pk.vat)); }
-        }
-        const ul = trial.map((r, i) => (!r.lk.sl ? i : -1)).filter((i) => i >= 0);
-        if (ul.length) {
-          ul.forEach((i) => {
-            const giaDa = parseDot(trial[i].giaDa) || 1;
-            const thua = getThua(trial[i].ma);
-            const maxSl = thua !== 999999 ? Math.max(1, thua) : 999999;
-            trial[i].sl = String(Math.min(Math.max(1, Math.round(need / ul.length / giaDa) || 1), maxSl));
-          });
-          tuneSL(need, trial as any, ul);
-          for (const i of ul) { const th = getThua(trial[i].ma); if (th !== 999999 && parseDot(trial[i].sl) > th) trial[i].sl = String(th); }
-        }
-        const tval = trial.reduce((s, r) => s + (parseDot(r.sl) || 0) * (parseDot(r.giaDa) || 0), 0);
-        const d = Math.abs(tval - need);
-        if (d < best.diff) best = { inv: trial, diff: d };
-        if (d <= 10000) break;
-      }
-      if (best.diff < Math.abs(fin - need)) {
-        setInv(best.inv);
-        setGoiyMsg(best.diff <= 10000 ? `Đã gợi ý phương án khác — lệch ${best.diff.toLocaleString('vi-VN')}đ ✓` : `Đã gợi ý phương án khác — lệch ${best.diff.toLocaleString('vi-VN')}đ, bấm Sửa giá dòng cuối để khớp 100%`);
-        return;
-      }
-    }
-    setGoiyMsg(Math.abs(fin - need) <= 10000 ? `Đã gợi ý — lệch ${Math.abs(fin - need).toLocaleString('vi-VN')}đ ✓` : `Đã gợi ý — lệch ${Math.abs(fin - need).toLocaleString('vi-VN')}đ, bấm Sửa giá dòng cuối để khớp 100%`);
   }
 
   function suaGiaCuoi() {
