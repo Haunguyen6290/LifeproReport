@@ -633,8 +633,8 @@ function Screen() {
                       if (!opts.length) return <div className="absolute left-0 top-[34px] z-20 w-[420px] rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs text-slate-500 shadow-lg">Không tìm thấy khách</div>;
                       return <div className="absolute left-0 top-[34px] z-20 max-h-[220px] w-[420px] overflow-auto rounded-lg border border-slate-200 bg-white shadow-lg">
                         {opts.map((k: any) => (
-                          <button key={k.ma_kh} onMouseDown={(e) => { e.preventDefault(); setKhach(k.ma_kh); setKhachOpen(false); setKhachQuery(`${k.ma_kh} — ${k.ten_kh}`); }} className="flex w-full items-center justify-between px-3 py-1.5 text-left text-xs hover:bg-slate-50">
-                            <span className="font-mono font-semibold">{k.ma_kh}</span><span className="ml-2 truncate text-slate-600">{k.ten_kh}</span>
+                          <button key={k.ma_kh} onMouseDown={(e) => { e.preventDefault(); setKhach(k.ma_kh); setKhachOpen(false); setKhachQuery(`${k.ma_kh} — ${k.ten_kh}`); }} className="w-full truncate px-3 py-1.5 text-left text-xs hover:bg-slate-50">
+                            {k.ma_kh} - {k.ten_kh}
                           </button>
                         ))}
                       </div>;
@@ -693,12 +693,12 @@ function Screen() {
                             {r.lk.ma && <button onClick={() => { const nxt = [...inv]; nxt[i] = { ...r, lk: { ...r.lk, ma: false } }; setInv(nxt); }} className="text-[11px] text-slate-500 hover:text-[#1e3a8a]">↺</button>}
                             {maOpen === i && (() => {
                               const q = (maQuery[i] ?? '').toLowerCase();
-                              const opts = dmThue.filter((d) => !q || d.ma_thue.toLowerCase().includes(q) || d.ten_thue.toLowerCase().includes(q) || d.cap1.toLowerCase().includes(q)).slice(0, 8);
+                              const opts = dmThue.filter((d) => !q || d.ma_thue.toLowerCase().includes(q) || d.ten_thue.toLowerCase().includes(q)).slice(0, 8);
                               if (!opts.length) return null;
                               return <div className="absolute left-0 top-[28px] z-20 max-h-[260px] w-[520px] overflow-auto rounded-lg border border-slate-200 bg-white shadow-lg">
                                 {opts.map((d) => (
-                                  <button key={d.ma_thue} onMouseDown={(e) => { e.preventDefault(); const nxt = [...inv]; nxt[i] = { ...r, ma: d.ma_thue, ten: d.ten_thue, vat: d.vat, lk: { ...r.lk, ma: true } }; if (!r.lk.gia) { nxt[i].giaChua = String(d.gia_chua_vat); nxt[i].giaDa = String(calcGiaDa(d.gia_chua_vat, d.vat)); } setInv(nxt); setMaOpen(null); }} className="flex w-full items-center justify-between px-2 py-1.5 text-left text-xs hover:bg-slate-50">
-                                    <span className="font-mono font-semibold">{d.ma_thue}</span><span className="ml-2 truncate text-slate-500">{d.ten_thue}</span><span className="ml-2 shrink-0 text-slate-400">{d.cap1}</span>
+                                  <button key={d.ma_thue} onMouseDown={(e) => { e.preventDefault(); const nxt = [...inv]; nxt[i] = { ...r, ma: d.ma_thue, ten: d.ten_thue, vat: d.vat, lk: { ...r.lk, ma: true } }; if (!r.lk.gia) { nxt[i].giaChua = String(d.gia_chua_vat); nxt[i].giaDa = String(calcGiaDa(d.gia_chua_vat, d.vat)); } setInv(nxt); setMaOpen(null); }} className="w-full truncate px-3 py-1.5 text-left text-xs hover:bg-slate-50">
+                                    {d.ma_thue} - {d.ten_thue}
                                   </button>
                                 ))}
                               </div>;
