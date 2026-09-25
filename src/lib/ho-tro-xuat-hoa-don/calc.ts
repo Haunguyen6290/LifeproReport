@@ -6,9 +6,20 @@ export function fmtDot(n: number | string | null | undefined): string {
 }
 export function parseDot(s: string | number | null | undefined): number {
   if (s == null) return 0;
-  const v = String(s).replace(/\./g, '').replace(/,/g, '').trim();
-  const n = Number(v);
-  return isNaN(n) ? 0 : n;
+  if (typeof s === 'number') return isNaN(s) ? 0 : Math.round(s);
+  let str = String(s).trim();
+  if (!str) return 0;
+  // Chuỗi từ DB có thể là "1435185.19" (dấu chấm là thập phân) — không được xóa dấu chấm này
+  // Còn chuỗi do fmtDot tạo ra là "1.435.185" (dấu chấm là phân tách nghìn) — phải xóa
+  // Quy tắc: nếu chuỗi có dấu chấm và phần sau dấu chấm cuối chỉ có 1-2 chữ số và trước đó không có dấu chấm nghìn (không đủ 3 số), giữ lại làm thập phân
+  // Cách đơn giản: nếu chuỗi có dạng số thập phân thuần (chỉ 1 chấm, 1-2 số sau chấm, không có chấm nghìn), parseFloat rồi làm tròn
+  if (/^\d+\.\d{1,2}$/.test(str)) {
+    const n = Number(str);
+    return isNaN(n) ? 0 : Math.round(n);
+  }
+  str = str.replace(/\./g, '').replace(/,/g, '').trim();
+  const n = Number(str);
+  return isNaN(n) ? 0 : Math.round(n);
 }
 export function fmtVND(n: number): string {
   return Number(n || 0).toLocaleString('vi-VN');

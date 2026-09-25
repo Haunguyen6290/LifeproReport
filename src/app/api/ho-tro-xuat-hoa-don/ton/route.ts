@@ -48,7 +48,7 @@ function parseTK(raw: unknown[][]): { ma: string; ten: string; sl: number; gia: 
     if (!b || b === 'Mã') continue;
     const ten = row[2] != null ? String(row[2]).replace(/^'/, '').trim() : '';
     const sl = Number(row[3] ?? 0);
-    const gia = Number(row[5] ?? 0);
+    const gia = Math.round(Number(row[5] ?? 0));
     const vatRaw = row[6] != null ? String(row[6]).replace(/^'/, '').trim() : '10';
     const vat = parseInt(vatRaw, 10);
     const vatNorm = [0, 5, 8, 10].includes(vat) ? vat : 10;
