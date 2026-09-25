@@ -237,8 +237,10 @@ function Screen() {
           const giaDa = parseDot(trial[i].giaDa) || 1;
           const thua = getThua(trial[i].ma);
           const maxSl = thua !== 999999 ? Math.max(1, thua) : 999999;
+          // trần SL hợp lý theo giá: tránh 1 mã rẻ ôm SL quá lớn
+          const capByGia = giaDa >= 1000000 ? Math.min(maxSl, 12) : giaDa >= 300000 ? Math.min(maxSl, 20) : Math.min(maxSl, 40);
           const want = Math.max(1, Math.round(need / unlocked.length / giaDa) || 1);
-          trial[i].sl = String(Math.min(want, maxSl));
+          trial[i].sl = String(Math.min(want, capByGia));
         });
         tuneSL(need, trial as any, unlocked);
         for (const i of unlocked) {
@@ -301,8 +303,20 @@ function Screen() {
       pool = [...khachPool as any, ...other] as any;
     }
 
+    // helper: sắp xếp trial theo giá đã VAT giảm dần (cao -> thấp), giữ chốt ở trên nếu có
+    function sortByGiaDesc(trial: typeof inv) {
+      const locked = trial.filter((r) => r.lk.ma || r.lk.sl || r.lk.gia);
+      const free = trial.filter((r) => !r.lk.ma && !r.lk.sl && !r.lk.gia);
+      free.sort((a, b) => parseDot(b.giaDa) - parseDot(a.giaDa));
+      // trộn lại: đã chốt giữ vị trí đầu, còn lại sort cao->thấp
+      if (!locked.length) return free.length ? free : trial;
+      // nếu có chốt, chỉ sort phần free và ghép sau locked, rồi sort toàn bộ free cao->thấp, locked giữ nguyên thứ tự
+      return [...locked, ...free];
+    }
+
     if (!variant) {
-      const { trial, diff } = buildTrial(pool, inv, khachRows);
+      const { trial: raw, diff } = buildTrial(pool, inv, khachRows);
+      const trial = sortByGiaDesc(raw);
       setInv(trial);
       setGoiyMsg(diff <= 10000 ? `Đã gợi ý — lệch ${diff.toLocaleString('vi-VN')}đ ✓` : `Đã gợi ý — lệch ${diff.toLocaleString('vi-VN')}đ, bấm Sửa giá dòng cuối để khớp 100%`);
       return;
@@ -322,14 +336,14 @@ function Screen() {
         const kpShuffled = shuffleWithSeed(kp as any, seed + 3 + attempt) as any;
         const other = p.filter((x: any) => !kpShuffled.some((k: any) => k.ma_thue === x.ma_thue));
         p = [...kpShuffled, ...other];
-        // offset để đa dạng
         const off = (attempt * 3) % Math.max(1, p.length);
         p = [...p.slice(off), ...p.slice(0, off)];
       } else {
         const off = (attempt * 5) % Math.max(1, p.length);
         p = [...p.slice(off), ...p.slice(0, off)];
       }
-      const { trial, diff } = buildTrial(p, baseForVariant, khachRows);
+      const { trial: raw, diff } = buildTrial(p, baseForVariant, khachRows);
+      const trial = sortByGiaDesc(raw);
       if (!best || diff < best.diff) best = { trial, diff };
       if (diff <= 10000) break;
     }
