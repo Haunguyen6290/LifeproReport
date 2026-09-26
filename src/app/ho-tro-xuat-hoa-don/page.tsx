@@ -361,9 +361,11 @@ function Screen() {
         }
         if (!improved) break;
       }
-      // thêm dòng nếu vẫn lệch >10k và chưa đủ 5 dòng, nhưng tôn trọng thừa + không trùng mã
+      // thêm dòng nếu vẫn lệch >10k và chưa đủ 5 dòng — NHƯNG tôn trọng số dòng user để trống
+      // Nếu user để trống n dòng (không có dòng nào đã chốt) thì không tự thêm dòng thứ n+1
+      const userIntendedCount = baseInv.filter((r: any) => !r.lk.ma && !r.lk.sl && !r.lk.gia).length === baseInv.length ? baseInv.length : 5;
       let addGuard = 20;
-      while (Math.abs(tong - need) > 10000 && trial.length < 5 && addGuard-- > 0) {
+      while (Math.abs(tong - need) > 10000 && trial.length < userIntendedCount && addGuard-- > 0) {
         let cand: any = null;
         let g = pool.length + 5;
         while (g-- > 0) {
