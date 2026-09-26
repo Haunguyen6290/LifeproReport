@@ -59,6 +59,7 @@ function Screen() {
   const [khachQuery, setKhachQuery] = useState('');
   const [khachOpen, setKhachOpen] = useState(false);
   const [khachDebt, setKhachDebt] = useState<null | { con_thieu: number; cong_no_dau_ky: number; doanh_thu: number; thu_tien: number }>(null);
+  const [soDongGoiY, setSoDongGoiY] = useState<number>(3);
 
   // Lich su
   const [ls, setLs] = useState<any[]>([]);
@@ -701,6 +702,25 @@ function Screen() {
               <p className="mt-1 text-[11px] text-slate-500">Gợi ý theo tồn: để trống 1 dòng thì gợi ý 1, 2 dòng thì 2, mặc định 3 — mỗi lần bấm “Gợi ý phương án khác” ra kết quả khác (vẫn ≤10k, đã chốt giữ nguyên).</p>
               {opt !== 3 && (
                 <div className="mt-3 flex flex-wrap items-center gap-2">
+                  <label className="text-xs font-semibold text-slate-600">Số dòng gợi ý</label>
+                  <select value={soDongGoiY} onChange={(e) => {
+                    const n = Number(e.target.value);
+                    setSoDongGoiY(n);
+                    setInv((prev) => {
+                      const locked = prev.filter((r) => r.lk.ma || r.lk.sl || r.lk.gia);
+                      const free = prev.filter((r) => !r.lk.ma && !r.lk.sl && !r.lk.gia);
+                      const need = Math.max(0, n - locked.length);
+                      const nextFree = free.slice(0, need);
+                      while (nextFree.length < need) nextFree.push({ ma: '', ten: '', sl: '', giaChua: '', vat: 10, giaDa: '', lk: { ma: false, sl: false, gia: false } });
+                      return [...locked, ...nextFree];
+                    });
+                  }} className="rounded-md border border-slate-200 bg-white px-2 py-1.5 text-sm">
+                    <option value={1}>1 dòng</option>
+                    <option value={2}>2 dòng</option>
+                    <option value={3}>3 dòng</option>
+                    <option value={4}>4 dòng</option>
+                    <option value={5}>5 dòng</option>
+                  </select>
                   <label className="text-xs font-semibold text-slate-600">Tổng tiền đã VAT cần xuất (đ)</label>
                   <input value={tongVAT} onChange={(e) => { const raw = e.target.value.replace(/\./g, '').replace(/,/g, ''); const n = Number(raw); setTongVAT(isNaN(n) ? '' : fmtDot(n)); }} placeholder="100.000.000" className="rounded-md border border-slate-200 bg-white px-3 py-1.5 text-sm font-bold" />
                   <span className={`rounded-full px-2 py-0.5 text-xs font-bold ${lechOk ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-800'}`}>{!tongCalc || !target ? 'Lệch —' : `${lech > 0 ? '+' : ''}${fmt(lech)}đ ${lechOk ? '· OK ≤10k' : '· lệch >10k'}`}</span>
