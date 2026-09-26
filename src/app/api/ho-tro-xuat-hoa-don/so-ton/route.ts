@@ -57,5 +57,8 @@ export async function GET(req: NextRequest) {
     ton_thuc2: d.cap2 ? (thucCap2.get(d.cap2) ?? 0) : '—',
     thua: (capMapThue.get(d.cap1) ?? 0) - (thucCap.get(d.cap1) ?? 0),
   })).sort((a: any, b: any) => a.ma_thue.localeCompare(b.ma_thue));
-  return NextResponse.json({ ngay, rows });
+  // Per-ma thuc for Tab Tồn thực (ma_thuc -> sl_kha_dung)
+  const thucPerMa: Record<string, number> = {};
+  for (const [k, v] of thucByMa.entries()) thucPerMa[k] = v;
+  return NextResponse.json({ ngay, rows, thucPerMa });
 }
