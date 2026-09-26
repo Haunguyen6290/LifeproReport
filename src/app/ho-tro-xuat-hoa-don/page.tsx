@@ -148,6 +148,9 @@ function Screen() {
   useEffect(() => { loadSoTon(); }, [ngay]);
   useEffect(() => { if (tab === 'ls') loadLs(); }, [tab]);
 
+  // đổi khách thì xóa data khách cũ để không gợi ý nhầm
+  useEffect(() => { setKhachRows([]); setKhachDebt(null); }, [khach]);
+
   // Khach detail: lay tu sales_rows (Bao cao ban hang) + 4 cot ton
   async function xemKhach() {
     if (!khach) { setKhachRows([]); setKhachDebt(null); return; }
