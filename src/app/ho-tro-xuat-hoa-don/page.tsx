@@ -242,7 +242,10 @@ function Screen() {
       const sa = soTon.find((s) => s.cap1 === a.cap1)?.thua ?? 0;
       const sb = soTon.find((s) => s.cap1 === b.cap1)?.thua ?? 0;
       return sb - sa;
-    }).filter((d) => getThua(d.ma_thue) > 0 && Number(d.gia_chua_vat) > 0);
+    }).filter((d) => {
+      const t = getThua(d.ma_thue);
+      return t !== 999999 && t > 0 && Number(d.gia_chua_vat) > 0;
+    });
 
     function buildTrial(pool: any[], baseInv: typeof inv, forKhachRows: any[]): { trial: typeof inv; tong: number; diff: number } {
       const trial = baseInv.map((r) => ({ ...r, lk: { ...r.lk } }));
@@ -330,7 +333,7 @@ function Screen() {
     let pool: any[] = [...top, ...poolBase.slice(topN)];
     if (forKhach && khachRows.length) {
       const rawKhachPool = khachRows.slice(0, 10).map((r) => ({ ma_thue: r.ma_thue, ten_thue: r.ten_thue, gia_chua_vat: dmThue.find((d) => d.ma_thue === r.ma_thue)?.gia_chua_vat ?? 150000, vat: dmThue.find((d) => d.ma_thue === r.ma_thue)?.vat ?? 10 }));
-      const khachPool = rawKhachPool.filter((x: any) => getThua(x.ma_thue) > 0 && Number(x.gia_chua_vat) > 0);
+      const khachPool = rawKhachPool.filter((x: any) => { const t = getThua(x.ma_thue); return t !== 999999 && t > 0 && Number(x.gia_chua_vat) > 0; });
       const other = pool.filter((p) => !khachPool.some((k) => k.ma_thue === p.ma_thue));
       pool = [...khachPool as any, ...other] as any;
     }
@@ -365,7 +368,7 @@ function Screen() {
       let p: any[] = [...shuffled.slice(0, topN), ...shuffled.slice(topN)];
       if (forKhach && khachRows.length) {
         const kpRaw = khachRows.slice(0, 10).map((r) => ({ ma_thue: r.ma_thue, ten_thue: r.ten_thue, gia_chua_vat: dmThue.find((d) => d.ma_thue === r.ma_thue)?.gia_chua_vat ?? 150000, vat: dmThue.find((d) => d.ma_thue === r.ma_thue)?.vat ?? 10 }));
-        const kp = kpRaw.filter((x: any) => getThua(x.ma_thue) > 0 && Number(x.gia_chua_vat) > 0);
+        const kp = kpRaw.filter((x: any) => { const t = getThua(x.ma_thue); return t !== 999999 && t > 0 && Number(x.gia_chua_vat) > 0; });
         const kpShuffled = shuffleWithSeed(kp as any, seed + 3 + attempt) as any;
         const other = p.filter((x: any) => !kpShuffled.some((k: any) => k.ma_thue === x.ma_thue));
         p = [...kpShuffled, ...other];
