@@ -85,12 +85,13 @@ function Screen() {
   }
   async function loadSoTon() {
     const h = await authHeader();
-    const [r, t] = await Promise.all([
-      fetch(`/api/ho-tro-xuat-hoa-don/so-ton?ngay=${ngay}`, { headers: h }),
-      fetch(`/api/ho-tro-xuat-hoa-don/tru-tam?ngay=${ngay}`, { headers: h }),
-    ]);
-    const j = await r.json();
-    if (r.ok) {
+    const fetchTon = async (ngayStr: string) => {
+      const [r, t] = await Promise.all([
+        fetch(`/api/ho-tro-xuat-hoa-don/so-ton?ngay=${ngayStr}`, { headers: h }),
+        fetch(`/api/ho-tro-xuat-hoa-don/tru-tam?ngay=${ngayStr}`, { headers: h }),
+      ]);
+      const j = await r.json();
+      if (!r.ok) return { rows: [] as any[], ok: false };
       let rows = (j.rows ?? []) as any[];
       try {
         const tj = await t.json();
@@ -106,8 +107,22 @@ function Screen() {
           });
         }
       } catch {}
-      setSoTon(rows);
+      return { rows, ok: true };
+    };
+    let { rows } = await fetchTon(ngay);
+    const hasData = rows.some((r: any) => Number(r.ton_thue1 ?? 0) > 0 || Number(r.ton_thuc1 ?? 0) > 0);
+    if (!hasData) {
+      // fallback: lấy ngày gần nhất có tồn để gợi ý không bị rỗng
+      const fallbackNgay = '2026-09-25';
+      if (ngay !== fallbackNgay) {
+        const fb = await fetchTon(fallbackNgay);
+        if (fb.rows.some((r: any) => Number(r.ton_thue1 ?? 0) > 0)) {
+          setSoTon(fb.rows);
+          return;
+        }
+      }
     }
+    setSoTon(rows);
   }
   async function loadKhachList() {
     const all: any[] = [];
