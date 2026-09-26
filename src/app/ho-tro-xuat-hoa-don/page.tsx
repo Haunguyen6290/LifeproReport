@@ -889,7 +889,7 @@ function LsHistory({ ls }: { ls: any[] }) {
             <thead><tr className="bg-slate-50 text-left text-slate-600"><th className="px-3 py-2">Thời gian</th><th className="px-3 py-2">Khách</th><th className="px-3 py-2">Từ → Đến</th><th className="px-3 py-2 text-right">Tổng đã VAT</th><th className="px-3 py-2 text-right">Dòng</th></tr></thead>
             <tbody>{ls.map((r: any) => (
               <tr key={r.id} onClick={() => setSel(r)} className="cursor-pointer border-t border-slate-100 hover:bg-slate-50"><td className="px-3 py-2">{new Date(r.created_at).toLocaleString('vi-VN')}</td><td className="px-3 py-2">{r.khach_ma ?? '—'}</td><td className="px-3 py-2">{r.tu_ngay ?? '—'} → {r.den_ngay ?? '—'}</td><td className="px-3 py-2 text-right tabular-nums font-semibold">{fmt(r.tong_vat)}</td><td className="px-3 py-2 text-right">{Array.isArray(r.dong) ? r.dong.length : '—'}</td></tr>
-            ))}{!ls.length && <tr><td colSpan={5} className="px-3 py-6 text-center text-slate-500">Chưa có lịch sử (đã xóa 10 hóa đơn test)</td></tr>}</tbody>
+            ))}{!ls.length && <tr><td colSpan={5} className="px-3 py-6 text-center text-slate-500">Chưa có lịch sử</td></tr>}</tbody>
           </table>
         </div>
       </div>
