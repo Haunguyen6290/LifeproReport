@@ -249,11 +249,20 @@ function Screen() {
 
     function buildTrial(pool: any[], baseInv: typeof inv, forKhachRows: any[]): { trial: typeof inv; tong: number; diff: number } {
       const trial = baseInv.map((r) => ({ ...r, lk: { ...r.lk } }));
+      const used = new Set(trial.filter((r) => !!r.ma).map((r) => r.ma));
       let idx = 0;
       for (let i = 0; i < trial.length; i++) {
         if (!trial[i].ma && !trial[i].lk.ma) {
-          const cand = pool[idx++ % pool.length];
+          let cand: any = null;
+          let guard = pool.length * 2;
+          while (guard-- > 0) {
+            const c = pool[idx++ % pool.length];
+            if (!c) break;
+            if (used.has(c.ma_thue)) continue;
+            cand = c; break;
+          }
           if (!cand) continue;
+          used.add(cand.ma_thue);
           trial[i].ma = cand.ma_thue; trial[i].ten = cand.ten_thue; trial[i].vat = cand.vat;
           if (!trial[i].lk.gia) { trial[i].giaChua = String(cand.gia_chua_vat); trial[i].giaDa = String(calcGiaDa(cand.gia_chua_vat, cand.vat)); }
         }
@@ -306,10 +315,17 @@ function Screen() {
         }
         if (!improved) break;
       }
-      // thêm dòng nếu vẫn lệch >10k và chưa đủ 5 dòng, nhưng tôn trọng thừa
-      let addGuard = 10;
+      // thêm dòng nếu vẫn lệch >10k và chưa đủ 5 dòng, nhưng tôn trọng thừa + không trùng mã
+      let addGuard = 20;
       while (Math.abs(tong - need) > 10000 && trial.length < 5 && addGuard-- > 0) {
-        const cand: any = pool[idx++ % pool.length];
+        let cand: any = null;
+        let g = pool.length + 5;
+        while (g-- > 0) {
+          const c: any = pool[idx++ % pool.length];
+          if (!c) break;
+          if (used.has(c.ma_thue)) continue;
+          cand = c; break;
+        }
         if (!cand) break;
         const thua = getThua(cand.ma_thue);
         const giaDa = calcGiaDa(cand.gia_chua_vat, cand.vat);
@@ -320,6 +336,7 @@ function Screen() {
         const want = Math.max(1, Math.round(Math.abs(remain) / giaDa) || 1);
         const clampedWant = thua !== 999999 ? Math.min(want, thua) : want;
         if (remain < 0 && trial.length >= 3) break; // đã thừa tiền thì không thêm dòng dương nữa
+        used.add(cand.ma_thue);
         trial.push({ ma: cand.ma_thue, ten: cand.ten_thue, sl: String(clampedWant), giaChua: String(cand.gia_chua_vat), vat: cand.vat, giaDa: String(giaDa), lk: { ma: false, sl: false, gia: false } });
         const u2 = trial.map((r, i) => (!r.lk.sl ? i : -1)).filter((i) => i >= 0);
         if (u2.length) tuneSL(need, trial as any, u2);
