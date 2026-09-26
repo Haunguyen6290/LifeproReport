@@ -90,5 +90,12 @@ export async function POST(req: NextRequest) {
     created_by: uid,
   });
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  try {
+    const { data: me } = uid ? await db.from('profiles').select('full_name').eq('id', uid).single() : { data: null } as any;
+    await db.from('audit_logs').insert({
+      actor_id: uid, action: 'Lưu & Xuất hóa đơn', entity_type: 'hoa_don_xuat', entity_id: null,
+      details: { ngay: body.ngay, khach_ma: body.khach_ma ?? null, khach_ten: body.khach_ten ?? null, tong_vat: body.tong_vat, so_dong: dongIn.length, full_name: (me as any)?.full_name ?? '' },
+    });
+  } catch {}
   return NextResponse.json({ ok: true });
 }
