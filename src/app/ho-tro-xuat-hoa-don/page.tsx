@@ -267,7 +267,9 @@ function Screen() {
       const t = getThua(d.ma_thue);
       return t !== 999999 && t > 0 && Number(d.gia_chua_vat) > 0;
     });
-    const poolBase = poolBaseFiltered.length ? poolBaseFiltered : poolBaseAll.filter((d) => Number(d.gia_chua_vat) > 0);
+    const poolBaseWithThua = poolBaseFiltered.length ? poolBaseFiltered : [];
+    // Nếu chọn Gợi ý theo khách mà pool khách lọc sạch (thừa 0), giữ pool thừa để vẫn ra đủ mã/thừa, fallback pool rộng chỉ khi không phải theo khách
+    const poolBase = poolBaseWithThua.length ? poolBaseWithThua : (forKhach ? [] : poolBaseAll.filter((d) => Number(d.gia_chua_vat) > 0));
 
     function buildTrial(pool: any[], baseInv: typeof inv, forKhachRows: any[]): { trial: typeof inv; tong: number; diff: number } {
       const trial = baseInv.map((r) => ({ ...r, lk: { ...r.lk } }));
@@ -368,6 +370,11 @@ function Screen() {
     }
 
     const topN = Math.min(14, poolBase.length);
+    // Nếu pool rỗng (theo khách mà không còn thừa), báo rõ thay vì gợi ý SL 0 lệch chục triệu
+    if (!poolBase.length) {
+      setGoiyMsg(forKhach ? 'Không còn mã nào đủ thừa để gợi ý cho khách này — kiểm tra tồn (thừa 0) hoặc cập nhật giá' : 'Không còn mã nào đủ thừa để gợi ý — kiểm tra tồn');
+      return;
+    }
     const top = shuffleWithSeed(poolBase.slice(0, topN), seed);
     let pool: any[] = [...top, ...poolBase.slice(topN)];
     if (forKhach && khachRows.length) {
