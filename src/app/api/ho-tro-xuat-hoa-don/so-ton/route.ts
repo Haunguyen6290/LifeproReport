@@ -23,7 +23,12 @@ export async function GET(req: NextRequest) {
   const db = admin();
   // thu RPC neu co, fallback ve tinh tay
   const { data: rpc, error: rpcErr } = await (db as any).rpc('fn_so_ton_4cot', { p_ngay: ngay });
-  if (!rpcErr && rpc) return NextResponse.json({ ngay, rows: rpc });
+  if (!rpcErr && rpc) {
+    const { data: tThucRpc } = await db.from('ton_thuc_ngay').select('ma_thuc,sl_kha_dung').eq('ngay', ngay);
+    const thucPerMa: Record<string, number> = {};
+    for (const r of ((tThucRpc ?? []) as any[])) thucPerMa[r.ma_thuc] = Number(r.sl_kha_dung ?? 0);
+    return NextResponse.json({ ngay, rows: rpc, thucPerMa });
+  }
   // fallback: doc 2 bang ton va gom
   const { data: thue } = await db.from('dm_thue').select('ma_thue,ten_thue,cap1,cap2');
   const { data: tThue } = await db.from('ton_thue_ngay').select('ma_thue,sl_ton').eq('ngay', ngay);
