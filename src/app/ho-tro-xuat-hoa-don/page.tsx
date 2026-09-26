@@ -655,16 +655,14 @@ function Screen() {
 
             <div className="rounded-xl border border-slate-200 bg-white p-3">
               <div className="flex flex-wrap items-center justify-between gap-2">
-                <b className="text-sm text-[#0f2a4a]">So tồn — 4 cột</b>
-                <input value={qTon} onChange={(e) => setQTon(e.target.value)} placeholder="Tìm Mã Tham Chiếu 1/2…" className="rounded-md border border-slate-200 px-3 py-1.5 text-sm" />
+                <b className="text-sm text-[#0f2a4a]">Tìm kiếm</b>
+                <input value={qTon} onChange={(e) => setQTon(e.target.value)} placeholder="Tìm Mã Tham Chiếu 1/2…" className="rounded-md border border-slate-200 px-3 py-1.5 text-sm w-[220px]" />
               </div>
-            <div className="rounded-xl border border-slate-200 bg-white p-3">
-              <div className="mb-2 flex items-center justify-between">
+              <div className="mb-2 flex items-center gap-2">
                 <div className="flex gap-1 rounded-lg bg-slate-100 p-1">
                   <button onClick={() => setTonTab('thue')} className={`rounded-md px-3 py-1 text-xs font-bold ${tonTab === 'thue' ? 'bg-white shadow text-[#0f2a4a]' : 'text-slate-500'}`}>Tồn thuế ({dmThue.length})</button>
                   <button onClick={() => setTonTab('thuc')} className={`rounded-md px-3 py-1 text-xs font-bold ${tonTab === 'thuc' ? 'bg-white shadow text-[#0f2a4a]' : 'text-slate-500'}`}>Tồn thực ({dmThuc.length})</button>
                 </div>
-                <input value={qTon} onChange={(e) => setQTon(e.target.value)} placeholder={tonTab === 'thue' ? 'Tìm Mã thuế / Tên thuế / Mã Tham Chiếu…' : 'Tìm Mã thực / Tên thực / Mã Tham Chiếu…'} className="rounded-md border border-slate-200 px-3 py-1.5 text-sm" />
               </div>
               {tonTab === 'thue' ? (
               <div className="overflow-auto rounded-lg border border-slate-200 max-h-[600px]">
@@ -693,13 +691,12 @@ function Screen() {
                       const tonThue2Num = ton_thue2 === '—' ? null : Number(ton_thue2);
                       const tonThuc2Num = tonThuc2Val === null ? null : Number(tonThuc2Val);
                       const thua2 = tonThue2Num != null && tonThuc2Val != null ? tonThue2Num - (tonThuc2Num ?? 0) : 0;
-                      return <tr key={d.ma_thuc} className="border-t border-slate-100 hover:bg-slate-50"><td className="px-2 py-1 font-mono">{d.ma_thuc}</td><td className="px-2 py-1 max-w-[280px] truncate" title={d.ten_thuc}>{d.ten_thuc}</td><td className="px-2 py-1 font-mono">{d.cap1 || '—'}</td><td className="px-2 py-1 font-mono">{d.cap2 || '—'}</td><td className="px-2 py-1 text-right tabular-nums">{fmt(ton_thue1)}</td><td className="px-2 py-1 text-right tabular-nums">{fmt(ton_thuc1)}</td><td className="px-2 py-1 text-right tabular-nums">{ton_thue2 === '—' ? '—' : fmt(ton_thue2 as number)}</td><td className="px-2 py-1 text-right tabular-nums">{tonThuc2Val === null ? '—' : fmt(tonThuc2Val as number)}</td><td className={`px-2 py-1 text-right font-bold tabular-nums ${thua1 > 0 ? 'text-emerald-600 bg-emerald-50' : thua1 < 0 ? 'text-red-600 bg-red-50' : ''}`}>{thua1 > 0 ? `+${fmt(thua1)}` : fmt(thua1)}</td><td className="px-2 py-1 text-right tabular-nums">{ton_thue2 === '—' ? '—' : fmt(ton_thue2 as number)}</td><td className="px-2 py-1 text-right tabular-nums">{tonThuc2Val === null ? '—' : fmt(tonThuc2Val as number)}</td><td className={`px-2 py-1 text-right font-bold tabular-nums ${d.cap2 ? (thua2 > 0 ? 'text-emerald-600 bg-emerald-50' : thua2 < 0 ? 'text-red-600 bg-red-50' : '') : ''}`}>{!d.cap2 ? '—' : thua2 > 0 ? `+${fmt(thua2)}` : fmt(thua2)}</td></tr>;
+                      return <tr key={d.ma_thuc} className="border-t border-slate-100 hover:bg-slate-50"><td className="px-2 py-1 font-mono">{d.ma_thuc}</td><td className="px-2 py-1 max-w-[280px] truncate" title={d.ten_thuc}>{d.ten_thuc}</td><td className="px-2 py-1 font-mono">{d.cap1 || '—'}</td><td className="px-2 py-1 font-mono text-[11px]">{d.cap2 || '—'}</td><td className="px-2 py-1 text-right tabular-nums">{fmt(ton_thue1)}</td><td className="px-2 py-1 text-right tabular-nums">{fmt(ton_thuc1)}</td><td className={`px-2 py-1 text-right font-bold tabular-nums ${thua1 > 0 ? 'text-emerald-600 bg-emerald-50' : thua1 < 0 ? 'text-red-600 bg-red-50' : ''}`}>{thua1 > 0 ? `+${fmt(thua1)}` : fmt(thua1)}</td><td className="px-2 py-1 text-right tabular-nums">{ton_thue2 === '—' ? '—' : fmt(ton_thue2 as number)}</td><td className="px-2 py-1 text-right tabular-nums">{tonThuc2Val === null ? '—' : fmt(tonThuc2Val as number)}</td><td className={`px-2 py-1 text-right font-bold tabular-nums ${d.cap2 ? (thua2 > 0 ? 'text-emerald-600 bg-emerald-50' : thua2 < 0 ? 'text-red-600 bg-red-50' : '') : ''}`}>{!d.cap2 ? '—' : thua2 > 0 ? `+${fmt(thua2)}` : fmt(thua2)}</td></tr>;
                     });
                   })()}</tbody>
                 </table>
               </div>
               )}
-            </div>
             </div>
           </div>
         )}
