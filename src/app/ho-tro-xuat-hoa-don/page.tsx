@@ -684,8 +684,8 @@ function Screen() {
                       const s = capMap.get(d.cap1);
                       const ton_thue1 = s?.ton_thue1 ?? 0;
                       const ton_thue2 = d.cap2 ? (s?.ton_thue2 ?? '—') : '—';
-                      const ton_thuc1 = d.ma_thuc in thucPerMa ? thucPerMa[d.ma_thuc]! : 0;
-                      const ton_thuc2 = d.cap2 ? (d.ma_thuc in thucPerMa ? thucPerMa[d.ma_thuc]! : 0) : '—';
+                      const ton_thuc1 = s?.ton_thuc1 ?? 0;
+                      const ton_thuc2 = d.cap2 ? (s?.ton_thuc2 ?? 0) : '—';
                       const tonThuc2Val = ton_thuc2 === '—' ? null : Number(ton_thuc2);
                       const thua = Number(ton_thue1) - Number(ton_thuc1 || 0);
                       return <tr key={d.ma_thuc} className="border-t border-slate-100 hover:bg-slate-50"><td className="px-2 py-1 font-mono">{d.ma_thuc}</td><td className="px-2 py-1 max-w-[280px] truncate" title={d.ten_thuc}>{d.ten_thuc}</td><td className="px-2 py-1 font-mono">{d.cap1 || '—'}</td><td className="px-2 py-1 font-mono">{d.cap2 || '—'}</td><td className="px-2 py-1 text-right tabular-nums">{fmt(ton_thue1)}</td><td className="px-2 py-1 text-right tabular-nums">{fmt(ton_thuc1)}</td><td className="px-2 py-1 text-right tabular-nums">{ton_thue2 === '—' ? '—' : fmt(ton_thue2 as number)}</td><td className="px-2 py-1 text-right tabular-nums">{tonThuc2Val === null ? '—' : fmt(tonThuc2Val as number)}</td><td className={`px-2 py-1 text-right font-bold tabular-nums ${thua > 50 ? 'text-red-600 bg-red-50' : thua < 0 ? 'text-red-600 bg-red-50' : ''}`}>{thua > 0 ? `+${fmt(thua)}` : fmt(thua)}</td></tr>;
