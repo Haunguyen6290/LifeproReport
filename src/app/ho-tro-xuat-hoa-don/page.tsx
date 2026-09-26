@@ -59,6 +59,7 @@ function Screen() {
   const [khachQuery, setKhachQuery] = useState('');
   const [khachOpen, setKhachOpen] = useState(false);
   const [khachDebt, setKhachDebt] = useState<null | { con_thieu: number; cong_no_dau_ky: number; doanh_thu: number; thu_tien: number }>(null);
+  const [selectedRow, setSelectedRow] = useState<number | null>(null);
 
   const [thucPerMa, setThucPerMa] = useState<Record<string, number>>({});
 
@@ -459,14 +460,16 @@ function Screen() {
 
   function suaGiaCuoi() {
     if (!target || !inv.length) return;
-    const tongTruoc = inv.slice(0, -1).reduce((s, r) => s + (parseDot(r.sl) || 0) * (parseDot(r.giaDa) || 0), 0);
-    const last = inv[inv.length - 1];
-    const sl = parseDot(last.sl) || 1;
+    const idx = selectedRow != null && selectedRow >= 0 && selectedRow < inv.length ? selectedRow : inv.length - 1;
+    const tongTruoc = inv.filter((_, i) => i !== idx).reduce((s, r) => s + (parseDot(r.sl) || 0) * (parseDot(r.giaDa) || 0), 0);
+    const row = inv[idx];
+    const sl = parseDot(row.sl) || 1;
     const can = target - tongTruoc;
     const giaDaMoi = Math.max(1000, Math.round(can / sl));
     const next = [...inv];
-    next[next.length - 1] = { ...last, giaDa: String(giaDaMoi), giaChua: String(calcGiaChua(giaDaMoi, last.vat)), lk: { ...last.lk, gia: true } };
+    next[idx] = { ...row, giaDa: String(giaDaMoi), giaChua: String(calcGiaChua(giaDaMoi, row.vat)), lk: { ...row.lk, gia: true } };
     setInv(next);
+    setGoiyMsg(`Đã sửa giá dòng ${idx + 1} cho khớp 100% ✓`);
   }
 
   async function luuXuat() {
@@ -664,7 +667,7 @@ function Screen() {
                 <table className="w-full text-xs">
                   <thead className="sticky top-0"><tr className="bg-[#eff6ff] text-[#1e3a8a]"><th className="px-2 py-1.5 text-left">Mã thuế</th><th className="px-2 py-1.5 text-left">Tên thuế</th><th className="px-2 py-1.5 text-left">Mã Tham Chiếu 1</th><th className="px-2 py-1.5 text-left">Mã Tham Chiếu 2</th><th className="px-2 py-1.5 text-right">Tồn thuế 1</th><th className="px-2 py-1.5 text-right">Tồn thực 1</th><th className="px-2 py-1.5 text-right">Tồn thuế 2</th><th className="px-2 py-1.5 text-right">Tồn thực 2</th><th className="px-2 py-1.5 text-right">Thừa</th></tr></thead>
                   <tbody>{soTon.filter((r) => !qTon || r.ma_thue.toLowerCase().includes(qTon.toLowerCase()) || r.ten_thue.toLowerCase().includes(qTon.toLowerCase()) || r.cap1.toLowerCase().includes(qTon.toLowerCase()) || r.cap2.toLowerCase().includes(qTon.toLowerCase())).slice(0, 600).map((r) => (
-                    <tr key={r.ma_thue} className="border-t border-slate-100 hover:bg-slate-50"><td className="px-2 py-1 font-mono">{r.ma_thue}</td><td className="px-2 py-1 max-w-[280px] truncate" title={r.ten_thue}>{r.ten_thue}</td><td className="px-2 py-1 font-mono">{r.cap1 || '—'}</td><td className="px-2 py-1 font-mono">{r.cap2 || '—'}</td><td className="px-2 py-1 text-right tabular-nums">{fmt(r.ton_thue1)}</td><td className="px-2 py-1 text-right tabular-nums">{fmt(r.ton_thuc1)}</td><td className="px-2 py-1 text-right tabular-nums">{r.ton_thue2 === '—' ? '—' : fmt(r.ton_thue2 as number)}</td><td className="px-2 py-1 text-right tabular-nums">{r.ton_thuc2 === '—' ? '—' : fmt(r.ton_thuc2 as number)}</td><td className={`px-2 py-1 text-right font-bold tabular-nums ${r.thua > 50 ? 'text-red-600 bg-red-50' : r.thua < 0 ? 'text-red-600 bg-red-50' : ''}`}>{r.thua > 0 ? `+${fmt(r.thua)}` : fmt(r.thua)}</td></tr>
+                    <tr key={r.ma_thue} className="border-t border-slate-100 hover:bg-slate-50"><td className="px-2 py-1 font-mono">{r.ma_thue}</td><td className="px-2 py-1 max-w-[280px] truncate" title={r.ten_thue}>{r.ten_thue}</td><td className="px-2 py-1 font-mono">{r.cap1 || '—'}</td><td className="px-2 py-1 font-mono">{r.cap2 || '—'}</td><td className="px-2 py-1 text-right tabular-nums">{fmt(r.ton_thue1)}</td><td className="px-2 py-1 text-right tabular-nums">{fmt(r.ton_thuc1)}</td><td className="px-2 py-1 text-right tabular-nums">{r.ton_thue2 === '—' ? '—' : fmt(r.ton_thue2 as number)}</td><td className="px-2 py-1 text-right tabular-nums">{r.ton_thuc2 === '—' ? '—' : fmt(r.ton_thuc2 as number)}</td><td className={`px-2 py-1 text-right font-bold tabular-nums ${r.thua > 0 ? 'text-emerald-600 bg-emerald-50' : r.thua < 0 ? 'text-red-600 bg-red-50' : ''}`}>{r.thua > 0 ? `+${fmt(r.thua)}` : fmt(r.thua)}</td></tr>
                   ))}</tbody>
                 </table>
               </div>
@@ -769,11 +772,12 @@ function Screen() {
               </div>
               <div className="mt-2 overflow-auto rounded-lg border border-slate-200">
                 <table className="w-full text-[11px]">
-                  <thead><tr className="bg-[#eff6ff] text-left text-[#1e3a8a]"><th className="px-2 py-1">#</th><th className="px-2 py-1">Mã thuế</th><th className="px-2 py-1">Tên thuế</th><th className="px-2 py-1 text-right">Số lượng</th><th className="px-2 py-1 text-right">Giá chưa VAT</th><th className="px-2 py-1">VAT%</th><th className="px-2 py-1 text-right">Giá đã VAT</th><th className="px-2 py-1 text-right">Thành tiền đã VAT</th><th className="px-2 py-1 text-right">Tồn thuế 1</th><th className="px-2 py-1 text-right">Tồn thực 1</th><th className="px-2 py-1 text-right">Tồn thuế 2</th><th className="px-2 py-1 text-right">Tồn thực 2</th><th></th></tr></thead>
+                  <thead><tr className="bg-[#eff6ff] text-left text-[#1e3a8a]"><th className="px-2 py-1"></th><th className="px-2 py-1">#</th><th className="px-2 py-1">Mã thuế</th><th className="px-2 py-1">Tên thuế</th><th className="px-2 py-1 text-right">Thừa 1</th><th className="px-2 py-1 text-right">Thừa 2</th><th className="px-2 py-1 text-right">Số lượng</th><th className="px-2 py-1 text-right">Giá chưa VAT</th><th className="px-2 py-1">VAT%</th><th className="px-2 py-1 text-right">Giá đã VAT</th><th className="px-2 py-1 text-right">Thành tiền đã VAT</th><th className="px-2 py-1 text-right">Tồn thuế 1</th><th className="px-2 py-1 text-right">Tồn thực 1</th><th className="px-2 py-1 text-right">Tồn thuế 2</th><th className="px-2 py-1 text-right">Tồn thực 2</th><th></th></tr></thead>
                   <tbody>{inv.map((r, i) => {
                     const ton = tonForMa(r.ma);
                     return (
                       <tr key={i} className="border-t border-slate-100">
+                        <td className="px-2 py-1"><input type="radio" name="selRow" checked={selectedRow === i} onChange={() => setSelectedRow(i)} className="h-3 w-3 accent-[#1e3a8a]" title="Chọn dòng để sửa giá" /></td>
                         <td className="px-2 py-1">{i + 1}</td>
                         <td className="px-2 py-1">
                           <div className="relative flex items-center gap-1">
@@ -806,7 +810,8 @@ function Screen() {
                             })()}
                           </div>
                         </td>
-                        <td className="px-2 py-1 max-w-[280px] truncate text-slate-600" title={r.ten}>{r.ten || '—'}</td>
+                        <td className="px-2 py-1 max-w-[220px] truncate text-slate-600" title={r.ten}>{r.ten || '—'}</td>
+                        {(() => { const th1 = (() => { const d = dmThue.find(x => x.ma_thue === r.ma); if (!d) return null; const s = soTon.find(s => s.cap1 === d.cap1); return s ? Number(s.thua ?? 0) : null; })(); const th2 = (() => { const d = dmThue.find(x => x.ma_thue === r.ma); if (!d || !d.cap2) return null; const s = soTon.find(s => s.cap2 === d.cap2); if (s) return Number(s.thua ?? 0); const s1 = soTon.find(s => s.cap1 === d.cap1); return s1 ? Number(s1.thua ?? 0) : null; })(); return <><td className={`px-2 py-1 text-right tabular-nums text-[11px] font-bold ${th1 == null ? '' : th1 > 0 ? 'text-emerald-600 bg-emerald-50' : th1 < 0 ? 'text-red-600 bg-red-50' : ''}`}>{th1 == null ? '—' : th1 > 0 ? `+${th1}` : String(th1)}</td><td className={`px-2 py-1 text-right tabular-nums text-[11px] font-bold ${th2 == null || th2 === 0 ? '' : th2 > 0 ? 'text-emerald-600 bg-emerald-50' : th2 < 0 ? 'text-red-600 bg-red-50' : ''}`}>{th2 == null ? '—' : th2 === 0 ? '0' : th2 > 0 ? `+${th2}` : String(th2)}</td></>; })()}
                         <td className="px-2 py-1">
                           <div className="flex items-center gap-1 justify-end">
                             <span className={`h-2 w-2 rounded-full ${r.lk.sl ? 'bg-emerald-500' : r.sl ? 'bg-amber-400' : 'bg-slate-300'}`} />
@@ -836,16 +841,16 @@ function Screen() {
                       </tr>
                     );
                   })}
-                    <tr><td colSpan={13} className="border-t border-slate-200 bg-slate-50 px-2 py-2 text-center"><button onClick={() => setInv((prev) => [...prev, { ma: '', ten: '', sl: '', giaChua: '', vat: 10, giaDa: '', lk: { ma: false, sl: false, gia: false } }])} className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-semibold hover:border-[#1e3a8a]">+ Thêm dòng</button> <span className="text-xs text-slate-500">— thêm dòng ngay trong bảng</span></td></tr>
+                    <tr><td colSpan={16} className="border-t border-slate-200 bg-slate-50 px-2 py-2 text-center"><button onClick={() => setInv((prev) => [...prev, { ma: '', ten: '', sl: '', giaChua: '', vat: 10, giaDa: '', lk: { ma: false, sl: false, gia: false } }])} className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-semibold hover:border-[#1e3a8a]">+ Thêm dòng</button> <span className="text-xs text-slate-500">— thêm dòng ngay trong bảng</span></td></tr>
                   </tbody>
-                  <tfoot><tr className="border-t-2 border-slate-200 bg-slate-50 font-bold"><td colSpan={7} className="px-2 py-1.5 text-right text-xs">Tổng đã VAT</td><td className="px-2 py-1.5 text-right tabular-nums">{fmt(tongCalc)}</td><td colSpan={5}></td></tr></tfoot>
+                  <tfoot><tr className="border-t-2 border-slate-200 bg-slate-50 font-bold"><td colSpan={10} className="px-2 py-1.5 text-right text-xs">Tổng đã VAT</td><td className="px-2 py-1.5 text-right tabular-nums">{fmt(tongCalc)}</td><td colSpan={5}></td></tr></tfoot>
                 </table>
               </div>
               <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
                 <div className="flex gap-2">
                   {opt === 3 ? <button onClick={() => doGoiY(true, true)} className="rounded-lg bg-[#1e3a8a] px-4 py-1.5 text-xs font-semibold text-white hover:bg-[#1e40af]">✨ Gợi ý hóa đơn cho khách này</button>
                     : <button onClick={() => { const hasData = inv.some(r => r.ma); doGoiY(false, hasData); }} className="rounded-lg bg-[#1e3a8a] px-4 py-1.5 text-xs font-semibold text-white hover:bg-[#1e40af]">✨ Gợi ý</button>}
-                  <button onClick={suaGiaCuoi} className="rounded-lg border border-slate-200 px-4 py-1.5 text-xs font-semibold hover:border-[#1e3a8a]">Sửa giá dòng cuối cho khớp 100%</button>
+                  <button onClick={suaGiaCuoi} className="rounded-lg border border-slate-200 px-4 py-1.5 text-xs font-semibold hover:border-[#1e3a8a]">Sửa giá dòng chọn cho khớp 100%</button>
                   <button onClick={() => { setInv([{ ma: '', ten: '', sl: '', giaChua: '', vat: 10, giaDa: '', lk: { ma: false, sl: false, gia: false } }, { ma: '', ten: '', sl: '', giaChua: '', vat: 10, giaDa: '', lk: { ma: false, sl: false, gia: false } }, { ma: '', ten: '', sl: '', giaChua: '', vat: 10, giaDa: '', lk: { ma: false, sl: false, gia: false } }]); setMaQuery({}); setMaOpen(null); setGoiyMsg(''); setGoiySeed(0); }} className="rounded-lg border border-slate-200 px-4 py-1.5 text-xs font-semibold">↺ Làm mới</button>
                 </div>
               </div>
