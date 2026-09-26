@@ -46,13 +46,13 @@ export async function GET(req: NextRequest) {
   const thucCap2 = new Map<string, number>();
   for (const d of (dmThuc as any[]) ?? []) {
     const sl = thucByMa.get(d.ma_thuc) ?? 0;
-    thucCap.set(d.cap1, (thucCap.get(d.cap1) ?? 0) + sl);
-    if (d.cap2) thucCap2.set(d.cap2, (thucCap2.get(d.cap2) ?? 0) + sl);
+    thucCap.set(String(d.cap1||'').toUpperCase(), (thucCap.get(String(d.cap1||'').toUpperCase()) ?? 0) + sl);
+    if (d.cap2) thucCap2.set(String(d.cap2||'').toUpperCase(), (thucCap2.get(String(d.cap2||'').toUpperCase()) ?? 0) + sl);
   }
   for (const d of (thue as any[]) ?? []) {
     const sl = thueByMa.get(d.ma_thue) ?? 0;
-    capMapThue.set(d.cap1, (capMapThue.get(d.cap1) ?? 0) + sl);
-    if (d.cap2) cap2Thue.set(d.cap2, (cap2Thue.get(d.cap2) ?? 0) + sl);
+    capMapThue.set(String(d.cap1||'').toUpperCase(), (capMapThue.get(String(d.cap1||'').toUpperCase()) ?? 0) + sl);
+    if (d.cap2) cap2Thue.set(String(d.cap2||'').toUpperCase(), (cap2Thue.get(String(d.cap2||'').toUpperCase()) ?? 0) + sl);
   }
   const rows = (thue as any[]).map((d: any) => ({
     ma_thue: d.ma_thue, ten_thue: d.ten_thue, cap1: d.cap1 || '', cap2: d.cap2 || '',

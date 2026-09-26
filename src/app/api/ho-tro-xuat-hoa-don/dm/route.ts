@@ -46,8 +46,8 @@ export async function POST(req: NextRequest) {
   const kind: string = body.kind; // 'thue' | 'thuc'
   const ma: string = String(body.ma ?? '').trim();
   const ten: string = String(body.ten ?? '').trim();
-  const cap1: string = String(body.cap1 ?? '').trim();
-  const cap2: string = String(body.cap2 ?? '').trim();
+  const cap1: string = String(body.cap1 ?? '').trim().toUpperCase();
+  const cap2: string = String(body.cap2 ?? '').trim().toUpperCase();
   const gia: number = Number(body.gia_chua_vat ?? 0);
   const vat: number = Number(body.vat ?? 10);
   if (!ma) return NextResponse.json({ error: 'Thiếu mã' }, { status: 400 });

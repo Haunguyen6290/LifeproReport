@@ -248,7 +248,7 @@ function Screen() {
   function tonForMa(ma: string) {
     const d = dmThue.find((x) => x.ma_thue === ma);
     if (!d) return { t1: '—', r1: '—', t2: '—', r2: '—' };
-    const st = soTon.find((s) => s.cap1 === d.cap1);
+    const st = soTon.find((s) => String(s.cap1||'').toUpperCase() === String(d.cap1||'').toUpperCase());
     if (!st) return { t1: fmt(d.gia_chua_vat), r1: '—', t2: '—', r2: '—' };
     return { t1: fmt(st.ton_thue1), r1: fmt(st.ton_thuc1), t2: fmt(st.ton_thue2 as any), r2: fmt(st.ton_thuc2 as any) };
   }
@@ -261,7 +261,7 @@ function Screen() {
     }
     const d = dmThue.find((x) => x.ma_thue === ma);
     if (!d) return 999999;
-    const byCap = soTon.find((s) => s.cap1 === d.cap1);
+    const byCap = soTon.find((s) => String(s.cap1||'').toUpperCase() === String(d.cap1||'').toUpperCase());
     if (!byCap) return 999999;
     const v = Number((byCap as any).thua ?? 0);
     return isNaN(v) ? 999999 : v;
@@ -281,7 +281,7 @@ function Screen() {
       return a;
     }
     const poolBaseAll = [...dmThue].sort((a, b) => {
-      const sa = soTon.find((s) => s.cap1 === a.cap1)?.thua ?? 0;
+      const sa = soTon.find((s) => String(s.cap1||'').toUpperCase() === String(a.cap1||'').toUpperCase())?.thua ?? 0;
       const sb = soTon.find((s) => s.cap1 === b.cap1)?.thua ?? 0;
       return sb - sa;
     });
@@ -813,7 +813,7 @@ function Screen() {
                           </div>
                         </td>
                         <td className="px-2 py-1 max-w-[220px] truncate text-slate-600" title={r.ten}>{r.ten || '—'}</td>
-                        {(() => { const th1 = (() => { const d = dmThue.find(x => x.ma_thue === r.ma); if (!d) return null; const s = soTon.find(s => s.cap1 === d.cap1); return s ? Number(s.thua ?? 0) : null; })(); const th2 = (() => { const d = dmThue.find(x => x.ma_thue === r.ma); if (!d || !d.cap2) return null; const s = soTon.find(s => s.cap2 === d.cap2); if (s) return Number(s.thua ?? 0); const s1 = soTon.find(s => s.cap1 === d.cap1); return s1 ? Number(s1.thua ?? 0) : null; })(); return <><td className={`px-2 py-1 text-right tabular-nums text-[11px] font-bold ${th1 == null ? '' : th1 > 0 ? 'text-emerald-600 bg-emerald-50' : th1 < 0 ? 'text-red-600 bg-red-50' : ''}`}>{th1 == null ? '—' : th1 > 0 ? `+${th1}` : String(th1)}</td><td className={`px-2 py-1 text-right tabular-nums text-[11px] font-bold ${th2 == null || th2 === 0 ? '' : th2 > 0 ? 'text-emerald-600 bg-emerald-50' : th2 < 0 ? 'text-red-600 bg-red-50' : ''}`}>{th2 == null ? '—' : th2 === 0 ? '0' : th2 > 0 ? `+${th2}` : String(th2)}</td></>; })()}
+                        {(() => { const th1 = (() => { const d = dmThue.find(x => x.ma_thue === r.ma); if (!d) return null; const s = soTon.find(s => s.cap1 === d.cap1); return s ? Number(s.thua ?? 0) : null; })(); const th2 = (() => { const d = dmThue.find(x => x.ma_thue === r.ma); if (!d || !d.cap2) return null; const s = soTon.find(s => String(s.cap2||'').toUpperCase() === String(d.cap2||'').toUpperCase()); if (s) return Number(s.thua ?? 0); const s1 = soTon.find(s => s.cap1 === d.cap1); return s1 ? Number(s1.thua ?? 0) : null; })(); return <><td className={`px-2 py-1 text-right tabular-nums text-[11px] font-bold ${th1 == null ? '' : th1 > 0 ? 'text-emerald-600 bg-emerald-50' : th1 < 0 ? 'text-red-600 bg-red-50' : ''}`}>{th1 == null ? '—' : th1 > 0 ? `+${th1}` : String(th1)}</td><td className={`px-2 py-1 text-right tabular-nums text-[11px] font-bold ${th2 == null || th2 === 0 ? '' : th2 > 0 ? 'text-emerald-600 bg-emerald-50' : th2 < 0 ? 'text-red-600 bg-red-50' : ''}`}>{th2 == null ? '—' : th2 === 0 ? '0' : th2 > 0 ? `+${th2}` : String(th2)}</td></>; })()}
                         <td className="px-2 py-1">
                           <div className="flex items-center gap-1 justify-end">
                             <span className={`h-2 w-2 rounded-full ${r.lk.sl ? 'bg-emerald-500' : r.sl ? 'bg-amber-400' : 'bg-slate-300'}`} />
