@@ -104,7 +104,7 @@ function Screen() {
             const truCap = Number(byCap[cap] ?? 0);
             const truMa = Number(byMa[row.ma_thue] ?? 0);
             const tru = truMa || truCap ? (truMa || truCap) : 0;
-            return { ...row, ton_thue1: Math.max(0, Number(row.ton_thue1 ?? 0) - tru), thua: Math.max(0, Number(row.thua ?? 0) - tru) };
+            return { ...row, ton_thue1: Number(row.ton_thue1 ?? 0) - tru, thua: Number(row.thua ?? 0) - tru };
           });
         }
       } catch {}
@@ -254,14 +254,14 @@ function Screen() {
     const st = soTon.find((s) => s.ma_thue === ma);
     if (st) {
       const v = Number((st as any).thua ?? 0);
-      return isNaN(v) ? 999999 : Math.max(0, v);
+      return isNaN(v) ? 999999 : v;
     }
     const d = dmThue.find((x) => x.ma_thue === ma);
     if (!d) return 999999;
     const byCap = soTon.find((s) => s.cap1 === d.cap1);
     if (!byCap) return 999999;
     const v = Number((byCap as any).thua ?? 0);
-    return isNaN(v) ? 999999 : Math.max(0, v);
+    return isNaN(v) ? 999999 : v;
   }
 
   function doGoiY(forKhach = false, variant = false) {
@@ -663,7 +663,7 @@ function Screen() {
                 <table className="w-full text-xs">
                   <thead className="sticky top-0"><tr className="bg-[#eff6ff] text-[#1e3a8a]"><th className="px-2 py-1.5 text-left">Mã thuế</th><th className="px-2 py-1.5 text-left">Tên thuế</th><th className="px-2 py-1.5 text-left">Mã Tham Chiếu 1</th><th className="px-2 py-1.5 text-left">Mã Tham Chiếu 2</th><th className="px-2 py-1.5 text-right">Tồn thuế 1</th><th className="px-2 py-1.5 text-right">Tồn thực 1</th><th className="px-2 py-1.5 text-right">Tồn thuế 2</th><th className="px-2 py-1.5 text-right">Tồn thực 2</th><th className="px-2 py-1.5 text-right">Thừa</th></tr></thead>
                   <tbody>{soTon.filter((r) => !qTon || r.ma_thue.toLowerCase().includes(qTon.toLowerCase()) || r.ten_thue.toLowerCase().includes(qTon.toLowerCase()) || r.cap1.toLowerCase().includes(qTon.toLowerCase()) || r.cap2.toLowerCase().includes(qTon.toLowerCase())).slice(0, 600).map((r) => (
-                    <tr key={r.ma_thue} className="border-t border-slate-100 hover:bg-slate-50"><td className="px-2 py-1 font-mono">{r.ma_thue}</td><td className="px-2 py-1 max-w-[280px] truncate" title={r.ten_thue}>{r.ten_thue}</td><td className="px-2 py-1 font-mono">{r.cap1 || '—'}</td><td className="px-2 py-1 font-mono">{r.cap2 || '—'}</td><td className="px-2 py-1 text-right tabular-nums">{fmt(r.ton_thue1)}</td><td className="px-2 py-1 text-right tabular-nums">{fmt(r.ton_thuc1)}</td><td className="px-2 py-1 text-right tabular-nums">{r.ton_thue2 === '—' ? '—' : fmt(r.ton_thue2 as number)}</td><td className="px-2 py-1 text-right tabular-nums">{r.ton_thuc2 === '—' ? '—' : fmt(r.ton_thuc2 as number)}</td><td className={`px-2 py-1 text-right font-bold tabular-nums ${r.thua > 50 ? 'text-red-600 bg-red-50' : ''}`}>{fmt(r.thua)}</td></tr>
+                    <tr key={r.ma_thue} className="border-t border-slate-100 hover:bg-slate-50"><td className="px-2 py-1 font-mono">{r.ma_thue}</td><td className="px-2 py-1 max-w-[280px] truncate" title={r.ten_thue}>{r.ten_thue}</td><td className="px-2 py-1 font-mono">{r.cap1 || '—'}</td><td className="px-2 py-1 font-mono">{r.cap2 || '—'}</td><td className="px-2 py-1 text-right tabular-nums">{fmt(r.ton_thue1)}</td><td className="px-2 py-1 text-right tabular-nums">{fmt(r.ton_thuc1)}</td><td className="px-2 py-1 text-right tabular-nums">{r.ton_thue2 === '—' ? '—' : fmt(r.ton_thue2 as number)}</td><td className="px-2 py-1 text-right tabular-nums">{r.ton_thuc2 === '—' ? '—' : fmt(r.ton_thuc2 as number)}</td><td className={`px-2 py-1 text-right font-bold tabular-nums ${r.thua > 50 ? 'text-red-600 bg-red-50' : r.thua < 0 ? 'text-red-600 bg-red-50' : ''}`}>{r.thua > 0 ? `+${fmt(r.thua)}` : fmt(r.thua)}</td></tr>
                   ))}</tbody>
                 </table>
               </div>
@@ -681,7 +681,7 @@ function Screen() {
                       const ton_thue2 = d.cap2 ? (s?.ton_thue2 ?? '—') : '—';
                       const ton_thuc2 = d.cap2 ? (s?.ton_thuc2 ?? '—') : '—';
                       const thua = s?.thua ?? 0;
-                      return <tr key={d.ma_thuc} className="border-t border-slate-100 hover:bg-slate-50"><td className="px-2 py-1 font-mono">{d.ma_thuc}</td><td className="px-2 py-1 max-w-[280px] truncate" title={d.ten_thuc}>{d.ten_thuc}</td><td className="px-2 py-1 font-mono">{d.cap1 || '—'}</td><td className="px-2 py-1 font-mono">{d.cap2 || '—'}</td><td className="px-2 py-1 text-right tabular-nums">{fmt(ton_thue1)}</td><td className="px-2 py-1 text-right tabular-nums">{fmt(ton_thuc1)}</td><td className="px-2 py-1 text-right tabular-nums">{ton_thue2 === '—' ? '—' : fmt(ton_thue2 as number)}</td><td className="px-2 py-1 text-right tabular-nums">{ton_thuc2 === '—' ? '—' : fmt(ton_thuc2 as number)}</td><td className={`px-2 py-1 text-right font-bold tabular-nums ${thua > 50 ? 'text-red-600 bg-red-50' : ''}`}>{fmt(thua)}</td></tr>;
+                      return <tr key={d.ma_thuc} className="border-t border-slate-100 hover:bg-slate-50"><td className="px-2 py-1 font-mono">{d.ma_thuc}</td><td className="px-2 py-1 max-w-[280px] truncate" title={d.ten_thuc}>{d.ten_thuc}</td><td className="px-2 py-1 font-mono">{d.cap1 || '—'}</td><td className="px-2 py-1 font-mono">{d.cap2 || '—'}</td><td className="px-2 py-1 text-right tabular-nums">{fmt(ton_thue1)}</td><td className="px-2 py-1 text-right tabular-nums">{fmt(ton_thuc1)}</td><td className="px-2 py-1 text-right tabular-nums">{ton_thue2 === '—' ? '—' : fmt(ton_thue2 as number)}</td><td className="px-2 py-1 text-right tabular-nums">{ton_thuc2 === '—' ? '—' : fmt(ton_thuc2 as number)}</td><td className={`px-2 py-1 text-right font-bold tabular-nums ${thua > 50 ? 'text-red-600 bg-red-50' : thua < 0 ? 'text-red-600 bg-red-50' : ''}`}>{thua > 0 ? `+${fmt(thua)}` : fmt(thua)}</td></tr>;
                     });
                   })()}</tbody>
                 </table>
