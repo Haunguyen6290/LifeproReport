@@ -645,12 +645,20 @@ function Screen() {
                   <button onClick={xemKhach} className="rounded-lg bg-[#1e3a8a] px-4 py-1.5 text-sm font-semibold text-white">Xem sổ chi tiết</button>
                   {khachDebt != null && <span className={`ml-2 rounded-full px-3 py-1 text-xs font-bold ${khachDebt.con_thieu > 0 ? 'bg-red-100 text-red-700' : 'bg-emerald-100 text-emerald-700'}`}>Công nợ hiện tại: {fmt(khachDebt.con_thieu)}đ</span>}
                 </div>
-                <div className="mt-3 max-h-[340px] overflow-auto rounded-lg border border-slate-200">
-                  <table className="w-full text-[11px]">
-                    <thead><tr className="bg-[#eff6ff] text-left text-[#1e3a8a]"><th className="px-2 py-1">Mã thực</th><th className="px-2 py-1">Tên thực</th><th className="px-2 py-1 text-right">SL bán</th><th className="px-2 py-1">Mã thuế</th><th className="px-2 py-1">Tên thuế</th><th className="px-2 py-1">Mã Tham Chiếu 1</th><th className="px-2 py-1">Mã Tham Chiếu 2</th><th className="px-2 py-1 text-right">Tồn thuế 1</th><th className="px-2 py-1 text-right">Tồn thực 1</th><th className="px-2 py-1 text-right">Tồn thuế 2</th><th className="px-2 py-1 text-right">Tồn thực 2</th></tr></thead>
-                    <tbody>{khachRows.map((r, i) => (
-                      <tr key={i} className="border-t border-slate-100"><td className="px-2 py-1 font-mono">{r.ma_thuc}</td><td className="px-2 py-1 max-w-[220px] truncate" title={r.ten_thuc}>{r.ten_thuc}</td><td className="px-2 py-1 text-right tabular-nums font-semibold">{fmt(r.sl)}</td><td className="px-2 py-1 font-mono">{r.ma_thue}</td><td className="px-2 py-1 max-w-[180px] truncate" title={r.ten_thue}>{r.ten_thue}</td><td className="px-2 py-1 font-mono">{r.cap1}</td><td className="px-2 py-1 font-mono">{r.cap2 || '—'}</td><td className="px-2 py-1 text-right tabular-nums">{fmt(r.ton_thue1)}</td><td className="px-2 py-1 text-right tabular-nums">{fmt(r.ton_thuc1)}</td><td className="px-2 py-1 text-right tabular-nums">{fmt(r.ton_thue2 as any)}</td><td className="px-2 py-1 text-right tabular-nums">{fmt(r.ton_thuc2 as any)}</td></tr>
-                    ))}</tbody>
+                <div className="mt-3 max-h-[340px] overflow-x-auto overflow-y-auto rounded-lg border border-slate-200">
+                  {khachRows.length > 0 && (
+                    <div className="sticky top-0 z-10 flex items-center justify-between border-b border-slate-200 bg-amber-50 px-3 py-1.5 text-xs font-bold text-amber-800">
+                      <span>Tổng thành tiền: {fmt(khachRows.reduce((s, r) => s + Number(r.tt ?? 0), 0))}đ</span>
+                      <span className="text-[11px] font-normal text-slate-500">{khachRows.length} mã · kéo ngang để xem đủ cột →</span>
+                    </div>
+                  )}
+                  <table className="w-full min-w-[1100px] text-[11px]">
+                    <thead><tr className="bg-[#eff6ff] text-left text-[#1e3a8a]"><th className="px-2 py-1">Mã thực</th><th className="px-2 py-1">Tên thực</th><th className="px-2 py-1 text-right">SL bán</th><th className="px-2 py-1 text-right">Đơn giá</th><th className="px-2 py-1 text-right">Thành tiền</th><th className="px-2 py-1">Mã thuế</th><th className="px-2 py-1">Tên thuế</th><th className="px-2 py-1">Mã Tham Chiếu 1</th><th className="px-2 py-1 text-right">Tồn thuế 1</th><th className="px-2 py-1 text-right">Tồn thực 1</th><th className="px-2 py-1 text-right">Thừa</th></tr></thead>
+                    <tbody>{khachRows.map((r, i) => {
+                      const donGia = r.sl ? Math.round(Number(r.tt ?? 0) / Number(r.sl)) : 0;
+                      const thua = Number(r.ton_thue1 ?? 0) - Number(r.ton_thuc1 ?? 0);
+                      return <tr key={i} className="border-t border-slate-100"><td className="px-2 py-1 font-mono">{r.ma_thuc}</td><td className="px-2 py-1 max-w-[220px] truncate" title={r.ten_thuc}>{r.ten_thuc}</td><td className="px-2 py-1 text-right tabular-nums font-semibold">{fmt(r.sl)}</td><td className="px-2 py-1 text-right tabular-nums">{fmt(donGia)}</td><td className="px-2 py-1 text-right tabular-nums font-semibold">{fmt(r.tt)}</td><td className="px-2 py-1 font-mono">{r.ma_thue}</td><td className="px-2 py-1 max-w-[180px] truncate" title={r.ten_thue}>{r.ten_thue}</td><td className="px-2 py-1 font-mono">{r.cap1}</td><td className="px-2 py-1 text-right tabular-nums">{fmt(r.ton_thue1)}</td><td className="px-2 py-1 text-right tabular-nums">{fmt(r.ton_thuc1)}</td><td className={`px-2 py-1 text-right tabular-nums font-bold ${thua > 0 ? 'text-emerald-600' : thua < 0 ? 'text-red-600' : ''}`}>{thua > 0 ? `+${fmt(thua)}` : fmt(thua)}</td></tr>;
+                    })}</tbody>
                   </table>
                 </div>
                 <div className="mt-3 flex flex-wrap items-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2">
