@@ -95,7 +95,12 @@ export async function POST(req: NextRequest) {
       if (!rows.length) return NextResponse.json({ error: 'Không đọc được dòng nào từ file tồn thuế' }, { status: 400 });
       // Bulk upsert DM thue — không loop N+1
       const allMaThue = rows.map((r) => r.ma);
-      const { data: existingThue } = await db.from('dm_thue').select('ma_thue').in('ma_thue', allMaThue);
+      const existingThue: any[] = [];
+      for (let _i = 0; _i < allMaThue.length; _i += 800) {
+        const chunk = allMaThue.slice(_i, _i + 800);
+        const { data } = await db.from('dm_thue').select('ma_thue').in('ma_thue', chunk);
+        existingThue.push(...((data ?? []) as any[]));
+      }
       const existSet = new Set(((existingThue ?? []) as any[]).map((r: any) => r.ma_thue));
       const toInsertThue = rows.filter((r) => !existSet.has(r.ma)).map((r) => ({ ma_thue: r.ma, ten_thue: r.ten, gia_chua_vat: r.gia, vat: r.vat }));
       for (let i = 0; i < toInsertThue.length; i += 500) {
@@ -124,8 +129,13 @@ export async function POST(req: NextRequest) {
       const rows = parseTongHop(raw);
       if (!rows.length) return NextResponse.json({ error: 'Không đọc được dòng nào từ file tồn thực' }, { status: 400 });
       const allMaThuc = rows.map((r) => r.ma);
-      const { data: existingThuc } = await db.from('dm_thuc').select('ma_thuc').in('ma_thuc', allMaThuc);
-      const existSetThuc = new Set(((existingThuc ?? []) as any[]).map((r: any) => r.ma_thuc));
+      const existingThuc: any[] = [];
+      for (let _i = 0; _i < allMaThuc.length; _i += 800) {
+        const chunk = allMaThuc.slice(_i, _i + 800);
+        const { data } = await db.from('dm_thuc').select('ma_thuc').in('ma_thuc', chunk);
+        existingThuc.push(...((data ?? []) as any[]));
+      }
+      const existSetThuc = new Set(existingThuc.map((r: any) => r.ma_thuc));
       const toInsertThuc = rows.filter((r) => !existSetThuc.has(r.ma)).map((r) => ({ ma_thuc: r.ma, ten_thuc: r.ma }));
       for (let i = 0; i < toInsertThuc.length; i += 500) {
         const { error } = await (db as any).from('dm_thuc').insert(toInsertThuc.slice(i, i + 500));
