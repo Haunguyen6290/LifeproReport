@@ -85,9 +85,29 @@ function Screen() {
   }
   async function loadSoTon() {
     const h = await authHeader();
-    const r = await fetch(`/api/ho-tro-xuat-hoa-don/so-ton?ngay=${ngay}`, { headers: h });
+    const [r, t] = await Promise.all([
+      fetch(`/api/ho-tro-xuat-hoa-don/so-ton?ngay=${ngay}`, { headers: h }),
+      fetch(`/api/ho-tro-xuat-hoa-don/tru-tam?ngay=${ngay}`, { headers: h }),
+    ]);
     const j = await r.json();
-    if (r.ok) setSoTon(j.rows ?? []);
+    if (r.ok) {
+      let rows = (j.rows ?? []) as any[];
+      try {
+        const tj = await t.json();
+        const byCap = (tj as any)?.byCap ?? {};
+        const byMa: Record<string, number> = (tj as any)?.byMa ?? {};
+        if (Object.keys(byCap).length || Object.keys(byMa).length) {
+          rows = rows.map((row: any) => {
+            const cap = row.cap1;
+            const truCap = Number(byCap[cap] ?? 0);
+            const truMa = Number(byMa[row.ma_thue] ?? 0);
+            const tru = truCap || truMa ? (truMa || truCap) : 0;
+            return { ...row, ton_thue1: Math.max(0, Number(row.ton_thue1 ?? 0) - tru), thua: Math.max(0, Number(row.thua ?? 0) - tru) };
+          });
+        }
+      } catch {}
+      setSoTon(rows);
+    }
   }
   async function loadKhachList() {
     const all: any[] = [];
@@ -238,14 +258,16 @@ function Screen() {
       }
       return a;
     }
-    const poolBase = [...dmThue].sort((a, b) => {
+    const poolBaseAll = [...dmThue].sort((a, b) => {
       const sa = soTon.find((s) => s.cap1 === a.cap1)?.thua ?? 0;
       const sb = soTon.find((s) => s.cap1 === b.cap1)?.thua ?? 0;
       return sb - sa;
-    }).filter((d) => {
+    });
+    const poolBaseFiltered = poolBaseAll.filter((d) => {
       const t = getThua(d.ma_thue);
       return t !== 999999 && t > 0 && Number(d.gia_chua_vat) > 0;
     });
+    const poolBase = poolBaseFiltered.length ? poolBaseFiltered : poolBaseAll.filter((d) => Number(d.gia_chua_vat) > 0);
 
     function buildTrial(pool: any[], baseInv: typeof inv, forKhachRows: any[]): { trial: typeof inv; tong: number; diff: number } {
       const trial = baseInv.map((r) => ({ ...r, lk: { ...r.lk } }));
@@ -350,7 +372,8 @@ function Screen() {
     let pool: any[] = [...top, ...poolBase.slice(topN)];
     if (forKhach && khachRows.length) {
       const rawKhachPool = khachRows.slice(0, 10).map((r) => ({ ma_thue: r.ma_thue, ten_thue: r.ten_thue, gia_chua_vat: dmThue.find((d) => d.ma_thue === r.ma_thue)?.gia_chua_vat ?? 150000, vat: dmThue.find((d) => d.ma_thue === r.ma_thue)?.vat ?? 10 }));
-      const khachPool = rawKhachPool.filter((x: any) => { const t = getThua(x.ma_thue); return t !== 999999 && t > 0 && Number(x.gia_chua_vat) > 0; });
+      const khachPoolFiltered = rawKhachPool.filter((x: any) => { const t = getThua(x.ma_thue); return t !== 999999 && t > 0 && Number(x.gia_chua_vat) > 0; });
+      const khachPool = khachPoolFiltered.length ? khachPoolFiltered : rawKhachPool.filter((x: any) => Number(x.gia_chua_vat) > 0).slice(0, 5);
       const other = pool.filter((p) => !khachPool.some((k) => k.ma_thue === p.ma_thue));
       pool = [...khachPool as any, ...other] as any;
     }
@@ -422,7 +445,28 @@ function Screen() {
     const h = await authHeader();
     const tong = inv.reduce((s, r) => s + (parseDot(r.sl) || 0) * (parseDot(r.giaDa) || 0), 0);
     const r = await fetch('/api/ho-tro-xuat-hoa-don/hoa-don', { method: 'POST', headers: { ...h, 'Content-Type': 'application/json' }, body: JSON.stringify({ ngay, khach_ma: khach || null, tu_ngay: khTu, den_ngay: khDen, tong_vat: tong, dong: inv }) });
-    if (r.ok) { setGoiyMsg('Đã lưu & xuất ✓'); loadLs(); }
+    if (r.ok) {
+      setGoiyMsg('Đã lưu & xuất ✓');
+      // xuất Excel MISA ngay
+      try {
+        const XLSX = await import('xlsx');
+        const rows = inv.filter((x) => x.ma && parseDot(x.sl) > 0).map((x) => ({
+          'Mã hàng': x.ma,
+          'Tên hàng': x.ten,
+          'Số lượng': parseDot(x.sl),
+          'Đơn giá': parseDot(x.giaChua),
+          'VAT%': x.vat,
+          'Thành tiền chưa VAT': parseDot(x.sl) * parseDot(x.giaChua),
+          'Tiền VAT': Math.round(parseDot(x.sl) * parseDot(x.giaChua) * x.vat / 100),
+          'Thành tiền đã VAT': parseDot(x.sl) * parseDot(x.giaDa),
+        }));
+        const ws = XLSX.utils.json_to_sheet(rows);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'HoaDon');
+        XLSX.writeFile(wb, `HoaDon_${ngay}_${Date.now()}.xlsx`);
+      } catch {}
+      loadLs(); loadSoTon();
+    }
     else { const j = await r.json(); setGoiyMsg(j.error ?? 'Lỗi'); }
   }
 

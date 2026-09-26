@@ -42,7 +42,7 @@ export async function POST(req: NextRequest) {
     tu_ngay: body.tu_ngay ?? null,
     den_ngay: body.den_ngay ?? null,
     tong_vat: Number(body.tong_vat ?? 0),
-    dong: body.dong ?? [],
+    dong: (Array.isArray(body.dong) ? body.dong.map((d: any) => ({ ma: d.ma, ten: d.ten, sl: d.sl, giaChua: d.giaChua, giaDa: d.giaDa, vat: d.vat })) : body.dong) ?? [],
     created_by: uid,
   });
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
