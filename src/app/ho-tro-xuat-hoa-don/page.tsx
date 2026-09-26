@@ -107,7 +107,9 @@ function Screen() {
             const truCap = Number(byCap[cap] ?? 0);
             const truMa = Number(byMa[row.ma_thue] ?? 0);
             const tru = truMa || truCap ? (truMa || truCap) : 0;
-            return { ...row, ton_thue1: Number(row.ton_thue1 ?? 0) - tru, thua: Number(row.thua ?? 0) - tru };
+            const newTon = Math.max(0, Number(row.ton_thue1 ?? 0) - tru);
+            const newThua = Math.max(0, Number(row.thua ?? 0) - tru);
+            return { ...row, ton_thue1: newTon, thua: newThua };
           });
         }
       } catch {}
