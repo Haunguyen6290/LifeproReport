@@ -84,6 +84,9 @@ export async function DELETE(req: NextRequest) {
   const db = admin();
   const table = kind === 'thue' ? 'dm_thue' : 'dm_thuc';
   const key = kind === 'thue' ? 'ma_thue' : 'ma_thuc';
+  const tonTable = kind === 'thue' ? 'ton_thue_ngay' : 'ton_thuc_ngay';
+  const { count } = await (db as any).from(tonTable).select('ma_thue', { count: 'exact', head: true }).eq(key, ma).limit(1);
+  if ((count ?? 0) > 0) return NextResponse.json({ error: 'Không xóa được — mã còn tồn theo ngày, hãy xóa tồn trước hoặc giữ lại danh mục' }, { status: 400 });
   const { error } = await (db as any).from(table).delete().eq(key, ma);
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
   return NextResponse.json({ ok: true });

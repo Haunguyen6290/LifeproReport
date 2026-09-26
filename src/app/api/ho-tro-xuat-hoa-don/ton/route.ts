@@ -57,6 +57,18 @@ function parseTK(raw: unknown[][]): { ma: string; ten: string; sl: number; gia: 
   return out;
 }
 
+export async function GET(req: NextRequest) {
+  if (!(await checkPerm(req))) return NextResponse.json({ error: 'Không có quyền' }, { status: 403 });
+  const kind = new globalThis.URL(req.url).searchParams.get('kind');
+  if (kind === 'nearest') {
+    const db = admin();
+    const { data } = await db.from('ton_thue_ngay').select('ngay').order('ngay', { ascending: false }).limit(1);
+    const ngay = (data as any)?.[0]?.ngay ?? new Date().toISOString().slice(0,10);
+    return NextResponse.json({ ngay });
+  }
+  return NextResponse.json({ error: 'Use POST' }, { status: 400 });
+}
+
 export async function POST(req: NextRequest) {
   if (!(await checkPerm(req))) return NextResponse.json({ error: 'Không có quyền' }, { status: 403 });
   try {

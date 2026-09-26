@@ -90,11 +90,11 @@ function Screen() {
         fetch(`/api/ho-tro-xuat-hoa-don/so-ton?ngay=${ngayStr}`, { headers: h }),
         fetch(`/api/ho-tro-xuat-hoa-don/tru-tam?ngay=${ngayStr}`, { headers: h }),
       ]);
-      const j = await r.json();
+      const j = await r.json().catch(() => ({}));
       if (!r.ok) return { rows: [] as any[], ok: false };
       let rows = (j.rows ?? []) as any[];
       try {
-        const tj = await t.json();
+        const tj = await t.json().catch(() => ({}));
         const byCap = (tj as any)?.byCap ?? {};
         const byMa: Record<string, number> = (tj as any)?.byMa ?? {};
         if (Object.keys(byCap).length || Object.keys(byMa).length) {
@@ -102,7 +102,7 @@ function Screen() {
             const cap = row.cap1;
             const truCap = Number(byCap[cap] ?? 0);
             const truMa = Number(byMa[row.ma_thue] ?? 0);
-            const tru = truCap || truMa ? (truMa || truCap) : 0;
+            const tru = truMa || truCap ? (truMa || truCap) : 0;
             return { ...row, ton_thue1: Math.max(0, Number(row.ton_thue1 ?? 0) - tru), thua: Math.max(0, Number(row.thua ?? 0) - tru) };
           });
         }
@@ -110,17 +110,17 @@ function Screen() {
       return { rows, ok: true };
     };
     let { rows } = await fetchTon(ngay);
-    const hasData = rows.some((r: any) => Number(r.ton_thue1 ?? 0) > 0 || Number(r.ton_thuc1 ?? 0) > 0);
+    const hasData = rows.some((r: any) => Number(r.ton_thue1 ?? 0) > 0);
     if (!hasData) {
-      // fallback: lấy ngày gần nhất có tồn để gợi ý không bị rỗng
-      const fallbackNgay = '2026-09-25';
-      if (ngay !== fallbackNgay) {
-        const fb = await fetchTon(fallbackNgay);
-        if (fb.rows.some((r: any) => Number(r.ton_thue1 ?? 0) > 0)) {
-          setSoTon(fb.rows);
-          return;
+      try {
+        const rn = await fetch('/api/ho-tro-xuat-hoa-don/ton?kind=nearest', { headers: h });
+        const jn = await rn.json().catch(() => ({}));
+        const nearest = String(jn?.ngay ?? '');
+        if (nearest && nearest !== ngay) {
+          const fb = await fetchTon(nearest);
+          if (fb.rows.some((r: any) => Number(r.ton_thue1 ?? 0) > 0)) { setSoTon(fb.rows); return; }
         }
-      }
+      } catch {}
     }
     setSoTon(rows);
   }

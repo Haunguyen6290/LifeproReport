@@ -50,9 +50,17 @@ export async function GET(req: NextRequest) {
   const thueByMa = new Map(((tThue ?? []) as any[]).map((r: any) => [r.ma_thue, Number(r.sl_ton ?? 0)]));
   const thucByMa = new Map(((tThuc ?? []) as any[]).map((r: any) => [r.ma_thuc, Number(r.sl_kha_dung ?? 0)]));
   const thucCap = new Map<string, number>();
-  for (const d of (dmThuc as any[]) ?? []) thucCap.set(d.cap1, (thucCap.get(d.cap1) ?? 0) + (thucByMa.get(d.ma_thuc) ?? 0));
+  const thucCap2 = new Map<string, number>();
+  for (const d of (dmThuc as any[]) ?? []) {
+    thucCap.set(d.cap1, (thucCap.get(d.cap1) ?? 0) + (thucByMa.get(d.ma_thuc) ?? 0));
+    if (d.cap2) thucCap2.set(d.cap2, (thucCap2.get(d.cap2) ?? 0) + (thucByMa.get(d.ma_thuc) ?? 0));
+  }
   const capThue = new Map<string, number>();
-  for (const d of (dmThue as any[]) ?? []) capThue.set(d.cap1, (capThue.get(d.cap1) ?? 0) + (thueByMa.get(d.ma_thue) ?? 0));
+  const capThue2 = new Map<string, number>();
+  for (const d of (dmThue as any[]) ?? []) {
+    capThue.set(d.cap1, (capThue.get(d.cap1) ?? 0) + (thueByMa.get(d.ma_thue) ?? 0));
+    if (d.cap2) capThue2.set(d.cap2, (capThue2.get(d.cap2) ?? 0) + (thueByMa.get(d.ma_thue) ?? 0));
+  }
 
   const enriched = list.map((x) => {
     const dmT = capByMaThuc.get(x.ma_vt);
@@ -63,10 +71,12 @@ export async function GET(req: NextRequest) {
     const ten_thue = thue?.ten_thue ?? x.ten_vt;
     const ton_thue1 = cap1 ? (capThue.get(cap1) ?? 0) : 0;
     const ton_thuc1 = cap1 ? (thucCap.get(cap1) ?? 0) : 0;
+    const ton_thue2 = cap2 ? (capThue2.get(cap2) ?? 0) : '—';
+    const ton_thuc2 = cap2 ? (thucCap2.get(cap2) ?? 0) : '—';
     const cleanTenThuc = String(x.ten_vt ?? '').replace(/^\s*\[[^\]]*\]\s*/, '').trim() || String(x.ten_vt ?? '');
     return {
       ma_thuc: x.ma_vt, ten_thuc: cleanTenThuc, ma_thue, ten_thue, cap1, cap2,
-      ton_thue1, ton_thuc1, ton_thue2: cap2 ? ton_thue1 : '—', ton_thuc2: cap2 ? ton_thuc1 : '—',
+      ton_thue1, ton_thuc1, ton_thue2, ton_thuc2,
       sl: x.sl, tt: x.tt,
     };
   }).sort((a, b) => b.tt - a.tt).slice(0, 10);
