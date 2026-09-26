@@ -19,7 +19,7 @@ function useToday() { return new Date().toISOString().slice(0, 10); }
 function Screen() {
   const { can } = useAuth();
   const today = useToday();
-  const [tab, setTab] = useState<'dm' | 'ton' | 'goiy' | 'ls'>('dm');
+  const [tab, setTab] = useState<'dm' | 'ton' | 'goiy' | 'ls'>('goiy');
   const [ngay, setNgay] = useState(today);
 
   // DM
