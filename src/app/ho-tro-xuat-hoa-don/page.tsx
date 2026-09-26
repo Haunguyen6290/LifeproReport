@@ -870,20 +870,54 @@ function Screen() {
         )}
 
         {tab === 'ls' && (
-          <div className="rounded-xl border border-slate-200 bg-white p-4">
-            <b className="text-sm text-[#0f2a4a]">Lịch sử đã Lưu & Xuất</b>
-            <div className="mt-3 overflow-auto rounded-lg border border-slate-200">
-              <table className="w-full text-xs">
-                <thead><tr className="bg-slate-50 text-left text-slate-600"><th className="px-3 py-2">Thời gian</th><th className="px-3 py-2">Khách</th><th className="px-3 py-2">Từ → Đến</th><th className="px-3 py-2 text-right">Tổng đã VAT</th><th className="px-3 py-2 text-right">Dòng</th></tr></thead>
-                <tbody>{ls.map((r: any) => (
-                  <tr key={r.id} className="border-t border-slate-100"><td className="px-3 py-2">{new Date(r.created_at).toLocaleString('vi-VN')}</td><td className="px-3 py-2">{r.khach_ma ?? '—'}</td><td className="px-3 py-2">{r.tu_ngay ?? '—'} → {r.den_ngay ?? '—'}</td><td className="px-3 py-2 text-right tabular-nums">{fmt(r.tong_vat)}</td><td className="px-3 py-2 text-right">{Array.isArray(r.dong) ? r.dong.length : '—'}</td></tr>
-                ))}{!ls.length && <tr><td colSpan={5} className="px-3 py-6 text-center text-slate-500">Chưa có lịch sử</td></tr>}</tbody>
-              </table>
-            </div>
-          </div>
+          <LsHistory ls={ls} />
         )}
       </main>
     </AppSidebar>
+  );
+}
+
+function LsHistory({ ls }: { ls: any[] }) {
+  const [sel, setSel] = useState<any | null>(null);
+  return (
+    <>
+      <div className="rounded-xl border border-slate-200 bg-white p-4">
+        <b className="text-sm text-[#0f2a4a]">Lịch sử đã Lưu & Xuất</b>
+        <p className="mt-1 text-[11px] text-slate-500">Bấm vào 1 dòng để xem chi tiết — chỉ xem, không cho xóa (đã lưu rồi).</p>
+        <div className="mt-3 overflow-auto rounded-lg border border-slate-200">
+          <table className="w-full text-xs">
+            <thead><tr className="bg-slate-50 text-left text-slate-600"><th className="px-3 py-2">Thời gian</th><th className="px-3 py-2">Khách</th><th className="px-3 py-2">Từ → Đến</th><th className="px-3 py-2 text-right">Tổng đã VAT</th><th className="px-3 py-2 text-right">Dòng</th></tr></thead>
+            <tbody>{ls.map((r: any) => (
+              <tr key={r.id} onClick={() => setSel(r)} className="cursor-pointer border-t border-slate-100 hover:bg-slate-50"><td className="px-3 py-2">{new Date(r.created_at).toLocaleString('vi-VN')}</td><td className="px-3 py-2">{r.khach_ma ?? '—'}</td><td className="px-3 py-2">{r.tu_ngay ?? '—'} → {r.den_ngay ?? '—'}</td><td className="px-3 py-2 text-right tabular-nums font-semibold">{fmt(r.tong_vat)}</td><td className="px-3 py-2 text-right">{Array.isArray(r.dong) ? r.dong.length : '—'}</td></tr>
+            ))}{!ls.length && <tr><td colSpan={5} className="px-3 py-6 text-center text-slate-500">Chưa có lịch sử (đã xóa 10 hóa đơn test)</td></tr>}</tbody>
+          </table>
+        </div>
+      </div>
+      {sel && (
+        <div className="fixed inset-0 z-40 flex items-center justify-center p-4">
+          <button aria-label="Đóng" onClick={() => setSel(null)} className="absolute inset-0 bg-black/40" />
+          <div role="dialog" className="relative max-h-[85vh] w-full max-w-3xl overflow-hidden rounded-xl bg-white shadow-2xl">
+            <div className="flex items-center justify-between border-b border-slate-200 px-4 py-3">
+              <b className="text-sm text-[#0f2a4a]">Chi tiết hóa đơn — {new Date(sel.created_at).toLocaleString('vi-VN')} {sel.khach_ma ? `· ${sel.khach_ma}` : ''} · Tổng đã VAT {fmt(sel.tong_vat)}đ</b>
+              <button onClick={() => setSel(null)} className="grid h-7 w-7 place-items-center rounded-md text-slate-500 hover:bg-slate-100">×</button>
+            </div>
+            <div className="overflow-auto p-4" style={{ maxHeight: '65vh' }}>
+              <table className="w-full text-xs">
+                <thead><tr className="bg-slate-50 text-left text-slate-600"><th className="px-2 py-1.5">#</th><th className="px-2 py-1.5">Mã thuế</th><th className="px-2 py-1.5">Tên thuế</th><th className="px-2 py-1.5 text-right">SL</th><th className="px-2 py-1.5 text-right">Giá chưa VAT</th><th className="px-2 py-1.5 text-right">VAT%</th><th className="px-2 py-1.5 text-right">Giá đã VAT</th><th className="px-2 py-1.5 text-right">Thành tiền đã VAT</th></tr></thead>
+                <tbody>{(Array.isArray(sel.dong) ? sel.dong : []).map((d: any, i: number) => {
+                  const sl = Number(String(d.sl ?? '').replace(/\./g, '')) || 0;
+                  const giaChua = Number(String(d.giaChua ?? '').replace(/\./g, '')) || 0;
+                  const giaDa = Number(String(d.giaDa ?? '').replace(/\./g, '')) || 0;
+                  return <tr key={i} className="border-t border-slate-100"><td className="px-2 py-1">{i + 1}</td><td className="px-2 py-1 font-mono">{d.ma ?? '—'}</td><td className="px-2 py-1 max-w-[200px] truncate" title={d.ten}>{d.ten ?? '—'}</td><td className="px-2 py-1 text-right tabular-nums font-semibold">{sl.toLocaleString('vi-VN')}</td><td className="px-2 py-1 text-right tabular-nums">{giaChua.toLocaleString('vi-VN')}</td><td className="px-2 py-1 text-center">{d.vat ?? '—'}%</td><td className="px-2 py-1 text-right tabular-nums">{giaDa.toLocaleString('vi-VN')}</td><td className="px-2 py-1 text-right tabular-nums font-semibold">{(sl * giaDa).toLocaleString('vi-VN')}</td></tr>;
+                })}</tbody>
+                <tfoot><tr className="border-t-2 border-slate-200 bg-slate-50 font-bold"><td colSpan={7} className="px-2 py-1.5 text-right">Tổng đã VAT</td><td className="px-2 py-1.5 text-right tabular-nums">{fmt(sel.tong_vat)}</td></tr></tfoot>
+              </table>
+              <p className="mt-2 text-[11px] text-slate-500">Chỉ xem — đã lưu rồi, không cho xóa/sửa.</p>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 }
 
