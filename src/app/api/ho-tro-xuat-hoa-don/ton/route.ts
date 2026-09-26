@@ -93,11 +93,21 @@ export async function POST(req: NextRequest) {
     if (kind === 'thue') {
       const rows = parseTK(raw);
       if (!rows.length) return NextResponse.json({ error: 'Không đọc được dòng nào từ file tồn thuế' }, { status: 400 });
-      // upsert dm_thue (có rồi bỏ qua cap, cập nhật ten/gia/vat nếu trống)
-      for (const r of rows) {
-        const { data: ex } = await db.from('dm_thue').select('ma_thue').eq('ma_thue', r.ma).maybeSingle();
-        if (!ex) await (db as any).from('dm_thue').insert({ ma_thue: r.ma, ten_thue: r.ten, gia_chua_vat: r.gia, vat: r.vat });
-        else await (db as any).from('dm_thue').update({ ten_thue: r.ten, gia_chua_vat: r.gia, vat: r.vat, updated_at: new Date().toISOString() }).eq('ma_thue', r.ma);
+      // Bulk upsert DM thue — không loop N+1
+      const allMaThue = rows.map((r) => r.ma);
+      const { data: existingThue } = await db.from('dm_thue').select('ma_thue').in('ma_thue', allMaThue);
+      const existSet = new Set(((existingThue ?? []) as any[]).map((r: any) => r.ma_thue));
+      const toInsertThue = rows.filter((r) => !existSet.has(r.ma)).map((r) => ({ ma_thue: r.ma, ten_thue: r.ten, gia_chua_vat: r.gia, vat: r.vat }));
+      for (let i = 0; i < toInsertThue.length; i += 500) {
+        const { error } = await (db as any).from('dm_thue').insert(toInsertThue.slice(i, i + 500));
+        if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      }
+      // Cập nhật giá/vat cho mã đã có — bulk upsert chỉ khi cần
+      for (let i = 0; i < rows.length; i += 500) {
+        const chunk = rows.slice(i, i + 500).filter((r) => existSet.has(r.ma));
+        for (const r of chunk) {
+          await (db as any).from('dm_thue').update({ ten_thue: r.ten, gia_chua_vat: r.gia, vat: r.vat, updated_at: new Date().toISOString() }).eq('ma_thue', r.ma);
+        }
       }
       await db.from('ton_thue_ngay').delete().eq('ngay', ngay);
       const toIns = rows.map((r) => ({ ngay, ma_thue: r.ma, sl_ton: r.sl, gia_chua_vat: r.gia, vat: r.vat }));
@@ -113,9 +123,13 @@ export async function POST(req: NextRequest) {
     } else {
       const rows = parseTongHop(raw);
       if (!rows.length) return NextResponse.json({ error: 'Không đọc được dòng nào từ file tồn thực' }, { status: 400 });
-      for (const r of rows) {
-        const { data: ex } = await db.from('dm_thuc').select('ma_thuc').eq('ma_thuc', r.ma).maybeSingle();
-        if (!ex) await (db as any).from('dm_thuc').insert({ ma_thuc: r.ma, ten_thuc: r.ma });
+      const allMaThuc = rows.map((r) => r.ma);
+      const { data: existingThuc } = await db.from('dm_thuc').select('ma_thuc').in('ma_thuc', allMaThuc);
+      const existSetThuc = new Set(((existingThuc ?? []) as any[]).map((r: any) => r.ma_thuc));
+      const toInsertThuc = rows.filter((r) => !existSetThuc.has(r.ma)).map((r) => ({ ma_thuc: r.ma, ten_thuc: r.ma }));
+      for (let i = 0; i < toInsertThuc.length; i += 500) {
+        const { error } = await (db as any).from('dm_thuc').insert(toInsertThuc.slice(i, i + 500));
+        if (error) return NextResponse.json({ error: error.message }, { status: 500 });
       }
       await db.from('ton_thuc_ngay').delete().eq('ngay', ngay);
       const toIns = rows.map((r) => ({ ngay, ma_thuc: r.ma, sl_kha_dung: r.sl }));
