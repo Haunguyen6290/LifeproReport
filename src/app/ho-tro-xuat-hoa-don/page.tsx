@@ -611,7 +611,6 @@ function Screen() {
           <div className="space-y-4">
             <div className="rounded-xl border border-slate-200 bg-white p-4">
               <b className="text-sm text-[#0f2a4a]">Import tồn hàng ngày (định dạng cố định)</b>
-              <p className="text-xs text-slate-500">Tồn thuế: cột B/C/D/F/G · Tồn thực: cột A/B/L (Tổng hợp). Ngày: {ngay}</p>
               <div className="mt-3 flex flex-wrap gap-2">
                 <label className="cursor-pointer rounded-lg border border-slate-200 px-4 py-1.5 text-sm font-semibold hover:border-[#1e3a8a]">📥 Import tồn thuế<input type="file" accept=".xlsx,.xls" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) importTon('thue', f); e.target.value = ''; }} /></label>
                 <label className="cursor-pointer rounded-lg border border-slate-200 px-4 py-1.5 text-sm font-semibold hover:border-[#1e3a8a]">📥 Import tồn thực<input type="file" accept=".xlsx,.xls" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) importTon('thuc', f); e.target.value = ''; }} /></label>
@@ -864,7 +863,6 @@ function Screen() {
                 </table>
               </div>
               <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
-                <span className="text-[11px] text-slate-500">Gợi ý lệch ≤10.000đ · Sửa giá dòng cuối khớp 100% · Đã chốt giữ nguyên · 1 dòng trắng→gợi ý 1, 2→2, mặc định 3</span>
                 <div className="flex gap-2">
                   {opt === 3 ? <button onClick={() => doGoiY(true, false)} className="rounded-lg bg-[#1e3a8a] px-4 py-1.5 text-xs font-semibold text-white hover:bg-[#1e40af]">✨ Gợi ý hóa đơn cho khách này</button>
                     : <><button onClick={() => doGoiY(false, false)} className="rounded-lg bg-[#1e3a8a] px-4 py-1.5 text-xs font-semibold text-white hover:bg-[#1e40af]">✨ Gợi ý</button><button onClick={() => doGoiY(false, true)} className="rounded-lg border border-slate-200 px-4 py-1.5 text-xs font-semibold hover:border-[#1e3a8a]">🔀 Gợi ý phương án khác</button></>}
