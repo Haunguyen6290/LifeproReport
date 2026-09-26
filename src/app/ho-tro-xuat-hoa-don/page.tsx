@@ -626,12 +626,13 @@ function Screen() {
                 <p className="mt-1 text-[11px] text-slate-500">Gõ để chọn khách (autocomplete) — data lấy từ Báo cáo bán hàng (sales_rows), các chức năng gợi ý giống hệt Gợi ý theo tồn, chỉ khác là gợi ý gần giống thực tế mua bán của khách.</p>
                 <div className="mt-2 flex flex-wrap items-center gap-2">
                   <div className="relative">
-                    <input value={khachOpen ? khachQuery : (khach ? (khachList.find((k: any) => k.ma_kh === khach)?.ten_kh ? `${khach} — ${khachList.find((k: any) => k.ma_kh === khach)?.ten_kh}` : khach) : '')} onFocus={() => { setKhachOpen(true); setKhachQuery(khach ? (khachList.find((k: any) => k.ma_kh === khach)?.ten_kh ? `${khach} — ${khachList.find((k: any) => k.ma_kh === khach)?.ten_kh}` : khach) : ''); }} onBlur={() => setTimeout(() => setKhachOpen(false), 180)} onChange={(e) => { setKhachQuery(e.target.value); setKhachOpen(true); }} placeholder="Gõ mã/tên khách…" className="w-[320px] rounded-md border border-slate-200 bg-white px-3 py-1.5 text-sm" />
+                    <input value={khachOpen ? khachQuery : (khach ? (khachList.find((k: any) => k.ma_kh === khach)?.ten_kh ? `${khach} — ${khachList.find((k: any) => k.ma_kh === khach)?.ten_kh}` : khach) : '')} onFocus={() => { setKhachOpen(true); setKhachQuery(''); }} onBlur={() => setTimeout(() => setKhachOpen(false), 180)} onChange={(e) => { setKhachQuery(e.target.value); setKhachOpen(true); }} placeholder="Gõ mã/tên khách…" className="w-[320px] rounded-md border border-slate-200 bg-white px-3 py-1.5 text-sm" />
                     {khachOpen && (() => {
-                      const q = khachQuery.toLowerCase();
-                      const opts = khachList.filter((k: any) => !q || String(k.ma_kh).toLowerCase().includes(q) || String(k.ten_kh).toLowerCase().includes(q)).slice(0, 8);
-                      if (!opts.length) return <div className="absolute left-0 top-[34px] z-20 w-[420px] rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs text-slate-500 shadow-lg">Không tìm thấy khách</div>;
-                      return <div className="absolute left-0 top-[34px] z-20 max-h-[220px] w-[420px] overflow-auto rounded-lg border border-slate-200 bg-white shadow-lg">
+                      const q = khachQuery.trim().toLowerCase();
+                      if (!q) return null;
+                      const opts = khachList.filter((k: any) => String(k.ma_kh).toLowerCase().includes(q) || String(k.ten_kh).toLowerCase().includes(q)).slice(0, 5);
+                      if (!opts.length) return <div className="absolute left-0 top-[34px] z-30 w-[420px] rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs text-slate-500 shadow-lg">Không tìm thấy khách</div>;
+                      return <div className="absolute left-0 top-[34px] z-30 max-h-[180px] w-[420px] overflow-auto rounded-lg border border-slate-200 bg-white shadow-lg">
                         {opts.map((k: any) => (
                           <button key={k.ma_kh} onMouseDown={(e) => { e.preventDefault(); setKhach(k.ma_kh); setKhachOpen(false); setKhachQuery(`${k.ma_kh} — ${k.ten_kh}`); }} className="w-full truncate px-3 py-1.5 text-left text-xs hover:bg-slate-50">
                             {k.ma_kh} - {k.ten_kh}
@@ -690,7 +691,7 @@ function Screen() {
                               value={maOpen === i ? (maQuery[i] ?? '') : (r.ma || '')}
                               onFocus={() => { setMaOpen(i); setMaQuery((m) => ({ ...m, [i]: r.ma || '' })); }}
                               onBlur={() => setTimeout(() => setMaOpen((o) => (o === i ? null : o)), 180)}
-                              onChange={(e) => { const v = e.target.value; setMaQuery((m) => ({ ...m, [i]: v })); setMaOpen(i);
+                              onChange={(e) => { const v = e.target.value; setMaQuery((m) => ({ ...m, [i]: v })); if (v.trim()) setMaOpen(i); else setMaOpen(null);
                                 const exact = dmThue.find((x) => x.ma_thue.toLowerCase() === v.toLowerCase());
                                 if (exact) { const nxt = [...inv]; nxt[i] = { ...r, ma: exact.ma_thue, ten: exact.ten_thue, vat: exact.vat, lk: { ...r.lk, ma: true } }; if (!r.lk.gia) { nxt[i].giaChua = String(exact.gia_chua_vat); nxt[i].giaDa = String(calcGiaDa(exact.gia_chua_vat, exact.vat)); } setInv(nxt); }
                                 else if (!v) { const nxt = [...inv]; nxt[i] = { ...r, ma: '', ten: '', lk: { ...r.lk, ma: false } }; setInv(nxt); }
@@ -700,10 +701,11 @@ function Screen() {
                             />
                             {r.lk.ma && <button onClick={() => { const nxt = [...inv]; nxt[i] = { ...r, lk: { ...r.lk, ma: false } }; setInv(nxt); }} className="text-[11px] text-slate-500 hover:text-[#1e3a8a]">↺</button>}
                             {maOpen === i && (() => {
-                              const q = (maQuery[i] ?? '').toLowerCase();
-                              const opts = dmThue.filter((d) => !q || d.ma_thue.toLowerCase().includes(q) || d.ten_thue.toLowerCase().includes(q)).slice(0, 8);
+                              const q = (maQuery[i] ?? '').trim().toLowerCase();
+                              if (!q) return null;
+                              const opts = dmThue.filter((d) => d.ma_thue.toLowerCase().includes(q) || d.ten_thue.toLowerCase().includes(q)).slice(0, 5);
                               if (!opts.length) return null;
-                              return <div className="absolute left-0 top-[28px] z-20 max-h-[260px] w-[520px] overflow-auto rounded-lg border border-slate-200 bg-white shadow-lg">
+                              return <div className="absolute left-0 top-[28px] z-30 max-h-[180px] w-[520px] overflow-auto rounded-lg border border-slate-200 bg-white shadow-lg">
                                 {opts.map((d) => (
                                   <button key={d.ma_thue} onMouseDown={(e) => { e.preventDefault(); const nxt = [...inv]; nxt[i] = { ...r, ma: d.ma_thue, ten: d.ten_thue, vat: d.vat, lk: { ...r.lk, ma: true } }; if (!r.lk.gia) { nxt[i].giaChua = String(d.gia_chua_vat); nxt[i].giaDa = String(calcGiaDa(d.gia_chua_vat, d.vat)); } setInv(nxt); setMaOpen(null); }} className="w-full truncate px-3 py-1.5 text-left text-xs hover:bg-slate-50">
                                     {d.ma_thue} - {d.ten_thue}
