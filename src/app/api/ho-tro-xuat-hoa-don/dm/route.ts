@@ -20,11 +20,24 @@ async function checkPerm(req: NextRequest): Promise<boolean> {
 export async function GET(req: NextRequest) {
   if (!(await checkPerm(req))) return NextResponse.json({ error: 'Không có quyền' }, { status: 403 });
   const db = admin();
+  async function fetchAll(table: string, orderCol: string) {
+    const out: any[] = [];
+    let from = 0; const step = 1000;
+    while (true) {
+      const { data, error } = await db.from(table).select('*').order(orderCol).range(from, from + step - 1);
+      if (error) throw new Error(error.message);
+      out.push(...((data ?? []) as any[]));
+      if ((data ?? []).length < step) break;
+      from += step;
+      if (out.length > 10000) break;
+    }
+    return out;
+  }
   const [thue, thuc] = await Promise.all([
-    db.from('dm_thue').select('*').order('ma_thue'),
-    db.from('dm_thuc').select('*').order('ma_thuc'),
+    fetchAll('dm_thue', 'ma_thue'),
+    fetchAll('dm_thuc', 'ma_thuc'),
   ]);
-  return NextResponse.json({ dm_thue: thue.data ?? [], dm_thuc: thuc.data ?? [] });
+  return NextResponse.json({ dm_thue: thue, dm_thuc: thuc });
 }
 
 export async function POST(req: NextRequest) {
