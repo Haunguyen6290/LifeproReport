@@ -54,14 +54,17 @@ export async function GET(req: NextRequest) {
     capMapThue.set(String(d.cap1||'').toUpperCase(), (capMapThue.get(String(d.cap1||'').toUpperCase()) ?? 0) + sl);
     if (d.cap2) cap2Thue.set(String(d.cap2||'').toUpperCase(), (cap2Thue.get(String(d.cap2||'').toUpperCase()) ?? 0) + sl);
   }
-  const rows = (thue as any[]).map((d: any) => ({
+  const rows = (thue as any[]).map((d: any) => {
+    const cap1U = String(d.cap1||'').toUpperCase();
+    const cap2U = String(d.cap2||'').toUpperCase();
+    return {
     ma_thue: d.ma_thue, ten_thue: d.ten_thue, cap1: d.cap1 || '', cap2: d.cap2 || '',
-    ton_thue1: capMapThue.get(d.cap1) ?? 0,
-    ton_thuc1: thucCap.get(d.cap1) ?? 0,
-    ton_thue2: d.cap2 ? (cap2Thue.get(d.cap2) ?? 0) : '—',
-    ton_thuc2: d.cap2 ? (thucCap2.get(d.cap2) ?? 0) : '—',
-    thua: (capMapThue.get(d.cap1) ?? 0) - (thucCap.get(d.cap1) ?? 0),
-  })).sort((a: any, b: any) => a.ma_thue.localeCompare(b.ma_thue));
+    ton_thue1: capMapThue.get(cap1U) ?? 0,
+    ton_thuc1: thucCap.get(cap1U) ?? 0,
+    ton_thue2: d.cap2 ? (cap2Thue.get(cap2U) ?? 0) : '—',
+    ton_thuc2: d.cap2 ? (thucCap2.get(cap2U) ?? 0) : '—',
+    thua: (capMapThue.get(cap1U) ?? 0) - (thucCap.get(cap1U) ?? 0),
+  }}).sort((a: any, b: any) => a.ma_thue.localeCompare(b.ma_thue));
   // Per-ma thuc for Tab Tồn thực (ma_thuc -> sl_kha_dung)
   const thucPerMa: Record<string, number> = {};
   for (const [k, v] of thucByMa.entries()) thucPerMa[k] = v;

@@ -72,8 +72,8 @@ export async function PUT(req: NextRequest) {
   const kind: string = body.kind;
   const ma: string = String(body.ma ?? '').trim();
   const patch: any = {};
-  if ('cap1' in body) patch.cap1 = String(body.cap1 ?? '').trim();
-  if ('cap2' in body) patch.cap2 = String(body.cap2 ?? '').trim();
+  if ('cap1' in body) patch.cap1 = String(body.cap1 ?? '').trim().toUpperCase();
+  if ('cap2' in body) patch.cap2 = String(body.cap2 ?? '').trim().toUpperCase();
   if ('ten' in body) patch[kind === 'thue' ? 'ten_thue' : 'ten_thuc'] = String(body.ten ?? '').trim();
   if (kind === 'thue') {
     if ('gia_chua_vat' in body) patch.gia_chua_vat = Number(body.gia_chua_vat ?? 0);
@@ -98,7 +98,7 @@ export async function DELETE(req: NextRequest) {
   const table = kind === 'thue' ? 'dm_thue' : 'dm_thuc';
   const key = kind === 'thue' ? 'ma_thue' : 'ma_thuc';
   const tonTable = kind === 'thue' ? 'ton_thue_ngay' : 'ton_thuc_ngay';
-  const { count } = await (db as any).from(tonTable).select('ma_thue', { count: 'exact', head: true }).eq(key, ma).limit(1);
+  const { count } = await (db as any).from(tonTable).select(key, { count: 'exact', head: true }).eq(key, ma).limit(1);
   if ((count ?? 0) > 0) return NextResponse.json({ error: 'Không xóa được — mã còn tồn theo ngày, hãy xóa tồn trước hoặc giữ lại danh mục' }, { status: 400 });
   const { error } = await (db as any).from(table).delete().eq(key, ma);
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });

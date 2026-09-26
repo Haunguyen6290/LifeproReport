@@ -27,7 +27,51 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   if (!(await checkPerm(req))) return NextResponse.json({ error: 'Không có quyền' }, { status: 403 });
   const body = await req.json().catch(() => ({}));
+  const dongIn: any[] = Array.isArray(body.dong) ? body.dong : [];
+  const ngayEff: string = String(body.ngay || new Date().toISOString().slice(0, 10));
   const db = admin();
+  // Server-side oversell guard: ton - truTam
+  {
+    const needByMa = new Map<string, number>();
+    for (const d of dongIn) {
+      const ma = String(d.ma ?? '').trim();
+      const sl = Number(String(d.sl ?? '').replace(/\./g, '')) || 0;
+      if (!ma || !sl) continue;
+      needByMa.set(ma, (needByMa.get(ma) ?? 0) + sl);
+    }
+    if (needByMa.size) {
+      const { data: dmThue } = await db.from('dm_thue').select('ma_thue,cap1').in('ma_thue', [...needByMa.keys()]);
+      const capByMa = new Map(((dmThue ?? []) as any[]).map((r: any) => [r.ma_thue, String(r.cap1||'').toUpperCase()]));
+      const { data: tonRows } = await db.from('ton_thue_ngay').select('ma_thue,sl_ton').eq('ngay', ngayEff);
+      const tonByCap = new Map<string, number>();
+      for (const r of (tonRows ?? []) as any[]) {
+        const c = capByMa.get(r.ma_thue) ?? '';
+        tonByCap.set(c, (tonByCap.get(c) ?? 0) + Number(r.sl_ton ?? 0));
+      }
+      // truTam from hoa_don_xuat same ngay
+      const { data: hds } = await db.from('hoa_don_xuat').select('dong').eq('ngay', ngayEff);
+      const truByCap = new Map<string, number>();
+      for (const h of (hds ?? []) as any[]) for (const d of (h.dong ?? []) as any[]) {
+        const ma = String(d.ma ?? '').trim(); const sl = Number(String(d.sl ?? '').replace(/\./g, ''))||0;
+        const cap = capByMa.get(ma) ?? '';
+        if (!cap || !sl) continue;
+        truByCap.set(cap, (truByCap.get(cap) ?? 0) + sl);
+      }
+      // check per cap
+      const needByCap = new Map<string, number>();
+      for (const [ma, sl] of needByMa) {
+        const cap = capByMa.get(ma) ?? '';
+        if (!cap) continue;
+        needByCap.set(cap, (needByCap.get(cap) ?? 0) + sl);
+      }
+      for (const [cap, needSl] of needByCap) {
+        const ton = tonByCap.get(cap) ?? 0;
+        const tru = truByCap.get(cap) ?? 0;
+        const avail = ton - tru;
+        if (needSl > avail) return NextResponse.json({ error: `Vượt thừa: ${cap} cần ${needSl}, còn ${Math.max(0, avail)} (tồn ${ton} - đã trừ ${tru})` }, { status: 409 });
+      }
+    }
+  }
   const token = (req.headers.get('authorization') ?? '').replace(/^Bearer /i, '').trim();
   let uid: string | null = null;
   try {
