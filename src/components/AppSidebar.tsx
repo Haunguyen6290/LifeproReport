@@ -48,6 +48,12 @@ export const GROUPS: { title: string; items: LinkDef[] }[] = [
     ],
   },
   {
+    title: 'Điều hành',
+    items: [
+      { href: '/hoat-dong-nhan-su', label: 'Hoạt động nhân sự', icon: ICON.chart, needs: ['xem_hoat_dong_ns'] },
+    ],
+  },
+  {
     title: 'Kho',
     items: [
       { href: '/bao-cao-kho', label: 'Báo cáo kho', icon: ICON.package, needs: ['bao_cao_kho', 'quan_ly_okr'] },

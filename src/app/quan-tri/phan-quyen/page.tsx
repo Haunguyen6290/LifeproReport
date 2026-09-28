@@ -25,6 +25,7 @@ export const PERMS: { key: string; label: string }[] = [
   { key: 'bao_cao_ban_hang', label: 'Báo cáo bán hàng (doanh số)' },
   { key: 'xem_tai_chinh', label: 'Xem Tài chính (công nợ, thu tiền)' },
   { key: 'ke_toan', label: 'Kế toán — Hỗ trợ xuất hóa đơn' },
+  { key: 'xem_hoat_dong_ns', label: 'Xem Hoạt động nhân sự (CEO)' },
 ];
 
 type Role = { id: string; name: string; description: string; permissions: string[]; is_system: boolean };
