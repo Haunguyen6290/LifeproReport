@@ -749,8 +749,8 @@ function Screen() {
                     ? <span className="ml-2 rounded-full bg-amber-100 px-3 py-1 text-xs font-bold text-amber-800">Không có công nợ trước ngày mốc {fmtD(khachDebt.moc)}</span>
                     : <span title={khachDebt.du_lieu_den ? `Sổ 131 của khách có dữ liệu đến ${fmtD(khachDebt.du_lieu_den)}` : 'Chưa có phát sinh sổ 131 trong khoảng này'}
                         className={`ml-2 rounded-full px-3 py-1 text-xs font-bold ${khachDebt.con_thieu > 0 ? 'bg-red-100 text-red-700' : 'bg-emerald-100 text-emerald-700'}`}>
-                        Công nợ lũy kế đến {fmtD(khachDebt.den)}: {fmt(khachDebt.con_thieu)}đ
-                        {khachDebt.du_lieu_den && khachDebt.du_lieu_den < khachDebt.den && <span className="ml-1 font-normal">(sổ 131 đến {fmtD(khachDebt.du_lieu_den)})</span>}
+                        Công nợ lũy kế đến {fmtD(khachDebt.du_lieu_den || khachDebt.den)}: {fmt(khachDebt.con_thieu)}đ
+                        {khachDebt.du_lieu_den && khachDebt.du_lieu_den < khachDebt.den && <span className="ml-1 font-normal text-amber-700">(chọn {fmtD(khachDebt.den)}, sổ 131 chỉ đến {fmtD(khachDebt.du_lieu_den)})</span>}
                       </span>)}
                 </div>
                 <div className="mt-3 max-h-[340px] overflow-x-auto overflow-y-auto rounded-lg border border-slate-200">
