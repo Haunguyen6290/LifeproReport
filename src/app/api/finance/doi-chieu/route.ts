@@ -62,11 +62,11 @@ export async function GET(req: NextRequest) {
       const cur = muaMap.get(k);
       if (cur) { cur.tien += row.so_no; cur.so_dong += 1; if (row.ngay < cur.ngay) cur.ngay = row.ngay; }
       else muaMap.set(k, { ngay: row.ngay, so_ct: row.so_ct, so_dong: 1, tien: row.so_no });
-    } else if (/^521/.test(tk) && row.so_no > 0) {
-      const k = row.so_ct || `__no_ct_${row.ngay}_${row.so_no}`;
+    } else if (/^521/.test(tk) && row.so_co > 0) {
+      const k = row.so_ct || `__no_ct_${row.ngay}_${row.so_co}`;
       const cur = traHangMap.get(k);
-      if (cur) { cur.tien += row.so_no; cur.so_dong += 1; if (row.ngay < cur.ngay) cur.ngay = row.ngay; }
-      else traHangMap.set(k, { ngay: row.ngay, so_ct: row.so_ct, so_dong: 1, tien: row.so_no });
+      if (cur) { cur.tien += row.so_co; cur.so_dong += 1; if (row.ngay < cur.ngay) cur.ngay = row.ngay; }
+      else traHangMap.set(k, { ngay: row.ngay, so_ct: row.so_ct, so_dong: 1, tien: row.so_co });
     } else if (/^642/.test(tk) && row.so_co > 0) {
       khauTru.push({ ngay: row.ngay, so_ct: row.so_ct, dien_giai: row.dien_giai || 'Khấu trừ chi phí', tien: row.so_co });
     } else if (row.so_co > 0) {
