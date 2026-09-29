@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase/client';
 
 const fmt = (n: number) => Math.round(n).toLocaleString('vi-VN');
@@ -29,6 +29,33 @@ export function DoiChieuDialog({ open, maKh, tenKh, onClose }: Props) {
   const [chiTiet, setChiTiet] = useState<Map<string, ChiTiet[]>>(new Map());
   const [phieuOpen, setPhieuOpen] = useState<string | null>(null);
   const [phieuLoading, setPhieuLoading] = useState(false);
+
+  // Reset khi đổi khách — tránh hiện dữ liệu khách cũ
+  useEffect(() => {
+    setData(null); setErr(''); setChiTiet(new Map()); setPhieuOpen(null); setPhieuLoading(false); setLoading(false);
+    setKieu('thang'); setRange(rangeOf('thang'));
+  }, [maKh]);
+
+  // Auto load khi mở dialog hoặc đổi khách/kỳ — có abort để không đè dữ liệu cũ
+  useEffect(() => {
+    if (!open || !maKh) return;
+    const ctrl = new AbortController();
+    let cancelled = false;
+    const t = setTimeout(async () => {
+      setLoading(true); setErr(''); setData(null);
+      try {
+        const { data: s } = await supabase.auth.getSession();
+        const tok = s.session?.access_token ?? '';
+        const r = await fetch(`/api/finance/doi-chieu?ma_kh=${encodeURIComponent(maKh)}&tu=${tu}&den=${den}`, { headers: { Authorization: `Bearer ${tok}` }, signal: ctrl.signal });
+        const j = await r.json();
+        if (cancelled) return;
+        if (!r.ok) { setErr(j.error ?? 'Lỗi'); return; }
+        setData(j);
+      } catch (e: any) { if (!cancelled && e?.name !== 'AbortError') setErr(e?.message ?? 'Lỗi kết nối'); }
+      finally { if (!cancelled) setLoading(false); }
+    }, 300);
+    return () => { cancelled = true; ctrl.abort(); clearTimeout(t); };
+  }, [open, maKh, tu, den]);
 
   async function load() {
     setLoading(true); setErr(''); setData(null);

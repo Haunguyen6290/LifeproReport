@@ -33,18 +33,19 @@ export async function GET(req: NextRequest) {
 
   const db = admin();
 
-  // Nợ đầu kỳ
+  // 1) Nợ gốc — cần trước để biết moc
   const { data: cb } = await db.from('customer_base_balance').select('du_no,ngay_moc').eq('ma_kh', ma).single();
   const dauKy = Number(cb?.du_no ?? 0);
   const moc = cb?.ngay_moc ?? '2026-01-01';
 
-  // Phát sinh trước đầu kỳ báo cáo (để tính nợ đầu kỳ báo cáo)
-  const { data: truoc } = await db.from('receivable_rows').select('so_no,so_co').eq('ma_kh', ma).gte('ngay', moc).lt('ngay', tu).limit(1000);
-  const phatSinhTruoc = (truoc ?? []).reduce((s, r: any) => s + Number(r.so_no) - Number(r.so_co), 0);
+  // 2) Chạy song song: phát sinh trước kỳ + phát sinh trong kỳ (đỡ chờ tuần tự)
+  const [truocRes, rowsRes] = await Promise.all([
+    db.from('receivable_rows').select('so_no,so_co').eq('ma_kh', ma).gte('ngay', moc).lt('ngay', tu).limit(5000),
+    db.from('receivable_rows').select('ngay,so_ct,dien_giai,tk_doi_ung,so_no,so_co').eq('ma_kh', ma).gte('ngay', tu).lte('ngay', den).order('ngay').limit(1000),
+  ]);
+  const phatSinhTruoc = (truocRes.data ?? []).reduce((s: number, r: any) => s + Number(r.so_no) - Number(r.so_co), 0);
   const dauKyBaoCao = dauKy + phatSinhTruoc;
-
-  // Dòng phát sinh trong kỳ
-  const { data: rows } = await db.from('receivable_rows').select('ngay,so_ct,dien_giai,tk_doi_ung,so_no,so_co').eq('ma_kh', ma).gte('ngay', tu).lte('ngay', den).order('ngay').limit(1000);
+  const rows = rowsRes.data ?? [];
 
   const muaMap = new Map<string, VoucherItem>();
   const traHangMap = new Map<string, VoucherItem>();
@@ -52,7 +53,7 @@ export async function GET(req: NextRequest) {
   const khauTru: Item[] = [];
   const all: Row[] = [];
 
-  for (const r of (rows ?? []) as any[]) {
+  for (const r of rows as any[]) {
     const row: Row = { ngay: r.ngay, so_ct: r.so_ct ?? '', dien_giai: r.dien_giai ?? '', tk_doi_ung: r.tk_doi_ung ?? '', so_no: Number(r.so_no ?? 0), so_co: Number(r.so_co ?? 0) };
     all.push(row);
     const tk = (row.tk_doi_ung ?? '').trim();
@@ -70,14 +71,12 @@ export async function GET(req: NextRequest) {
     } else if (/^642/.test(tk) && row.so_co > 0) {
       khauTru.push({ ngay: row.ngay, so_ct: row.so_ct, dien_giai: row.dien_giai || 'Khấu trừ chi phí', tien: row.so_co });
     } else if (row.so_co > 0) {
-      // Thu tiền = mọi TK đối ứng 131 ngoài 511/521/642
       traTien.push({ ngay: row.ngay, so_ct: row.so_ct, dien_giai: row.dien_giai || 'Thu tiền', tien: row.so_co });
     }
   }
   const muaHang: VoucherItem[] = [...muaMap.values()].sort((a, b) => a.ngay.localeCompare(b.ngay));
   const traHang: VoucherItem[] = [...traHangMap.values()].sort((a, b) => a.ngay.localeCompare(b.ngay));
 
-  // Phát hiện điều chỉnh: cùng ngày + cùng số tiền + ngược chiều
   const dieuChinh: Item[] = [];
   const used = new Set<number>();
   for (let i = 0; i < all.length; i++) {
