@@ -5,6 +5,7 @@ import { RequireAuth, useAuth } from '@/components/RequireAuth';
 import { AppSidebar } from '@/components/AppSidebar';
 import { supabase } from '@/lib/supabase/client';
 import { fmtDateVN } from '@/lib/time';
+import { DoiChieuDialog } from '@/components/DoiChieuDialog';
 import { KeHoachPanel } from '@/components/KeHoachPanel';
 
 type DebtRow = {
@@ -21,7 +22,7 @@ const pct = (thuc: number, ke: number) => (ke ? `${((thuc / ke) * 100).toFixed(1
 
 function nowYM(): string { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`; }
 
-function DebtTable({ rows, han }: { rows: DebtRow[]; han: number }) {
+function DebtTable({ rows, han, onRowClick }: { rows: DebtRow[]; han: number; onRowClick?: (ma: string, ten: string) => void }) {
   const [fState, setFState] = useState<'tat-ca' | 'qua-han' | 'dat'>('tat-ca');
   const [fNvkd, setFNvkd] = useState('');
   const [fQ, setFQ] = useState('');
@@ -139,7 +140,7 @@ function DebtTable({ rows, han }: { rows: DebtRow[]; han: number }) {
           </thead>
           <tbody className="divide-y divide-slate-100">
             {filtered.map((r, i) => (
-              <tr key={r.ma_kh} className={r.qua_han ? 'bg-red-50' : 'hover:bg-slate-50'}>
+              <tr key={r.ma_kh} onClick={() => onRowClick?.(r.ma_kh, r.ten_kh)} className={`cursor-pointer ${r.qua_han ? 'bg-red-50 hover:bg-red-100' : 'hover:bg-slate-50'}`}>
                 <td className="whitespace-nowrap px-3 py-2 text-slate-600">{i + 1}</td>
                 <td className="truncate px-3 py-2 font-semibold" title={r.ma_kh}>{r.ma_kh}</td>
                 <td className="px-3 py-2 font-semibold align-top" title={r.ten_kh}><span className="break-words" style={{ display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden', wordBreak: 'break-word', whiteSpace: 'normal' }}>{r.ten_kh}</span></td>
@@ -680,6 +681,10 @@ function Screen() {
   const [impExclude, setImpExclude] = useState<Set<string>>(new Set());
   const [impMerge, setImpMerge] = useState<Map<string, string>>(new Map());
 
+  // đối chiếu
+  const [doiChieuOpen, setDoiChieuOpen] = useState(false);
+  const [doiChieuKh, setDoiChieuKh] = useState<{ ma: string; ten: string } | null>(null);
+
   const canImport = can('quan_ly_cai_dat') || can('import_tai_chinh');
 
   useEffect(() => {
@@ -778,7 +783,7 @@ function Screen() {
             <p className="mb-2 text-sm text-slate-700">
               Mốc kiểm tra: <b>{fmtDateVN(debt.D)}</b> → Ngày lập: <b>{fmtDateVN(debt.E)}</b> · Hạn cho phép: <b>{han} ngày</b>
             </p>
-            <DebtTable rows={debt.rows ?? []} han={han} />
+            <DebtTable rows={debt.rows ?? []} han={han} onRowClick={(ma, ten) => { setDoiChieuKh({ ma, ten }); setDoiChieuOpen(true); }} />
             <UnmatchedPanel thang={thang} refreshKey={refreshKey} />
           </>
         )}
@@ -924,6 +929,7 @@ function Screen() {
           </div>
         )}
       </main>
+      <DoiChieuDialog open={doiChieuOpen} maKh={doiChieuKh?.ma ?? ''} tenKh={doiChieuKh?.ten ?? ''} onClose={() => setDoiChieuOpen(false)} />
     </AppSidebar>
   );
 }
