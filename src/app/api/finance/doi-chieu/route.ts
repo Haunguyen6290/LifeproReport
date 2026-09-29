@@ -19,6 +19,7 @@ async function checkPerm(req: NextRequest): Promise<boolean> {
 
 type Row = { ngay: string; so_ct: string; dien_giai: string; tk_doi_ung: string; so_no: number; so_co: number };
 type Item = { ngay: string; so_ct: string; dien_giai: string; tien: number };
+type VoucherItem = { ngay: string; so_ct: string; so_dong: number; tien: number };
 
 export async function GET(req: NextRequest) {
   if (!(await checkPerm(req))) return NextResponse.json({ error: 'Không có quyền' }, { status: 403 });
@@ -45,8 +46,8 @@ export async function GET(req: NextRequest) {
   // Dòng phát sinh trong kỳ
   const { data: rows } = await db.from('receivable_rows').select('ngay,so_ct,dien_giai,tk_doi_ung,so_no,so_co').eq('ma_kh', ma).gte('ngay', tu).lte('ngay', den).order('ngay').limit(1000);
 
-  const muaHang: Item[] = [];
-  const traHang: Item[] = [];
+  const muaMap = new Map<string, VoucherItem>();
+  const traHangMap = new Map<string, VoucherItem>();
   const traTien: Item[] = [];
   const khauTru: Item[] = [];
   const all: Row[] = [];
@@ -54,17 +55,27 @@ export async function GET(req: NextRequest) {
   for (const r of (rows ?? []) as any[]) {
     const row: Row = { ngay: r.ngay, so_ct: r.so_ct ?? '', dien_giai: r.dien_giai ?? '', tk_doi_ung: r.tk_doi_ung ?? '', so_no: Number(r.so_no ?? 0), so_co: Number(r.so_co ?? 0) };
     all.push(row);
+    const tk = (row.tk_doi_ung ?? '').trim();
 
-    if (row.so_no > 0 && /^511/.test(row.tk_doi_ung)) {
-      muaHang.push({ ngay: row.ngay, so_ct: row.so_ct, dien_giai: row.dien_giai || 'Bán hàng', tien: row.so_no });
-    } else if (row.so_no > 0 && /^512/.test(row.tk_doi_ung)) {
-      traHang.push({ ngay: row.ngay, so_ct: row.so_ct, dien_giai: row.dien_giai || 'Trả hàng', tien: row.so_no });
-    } else if (row.so_co > 0 && /^642/.test(row.tk_doi_ung)) {
+    if (/^511/.test(tk) && row.so_no > 0) {
+      const k = row.so_ct || `__no_ct_${row.ngay}_${row.so_no}`;
+      const cur = muaMap.get(k);
+      if (cur) { cur.tien += row.so_no; cur.so_dong += 1; if (row.ngay < cur.ngay) cur.ngay = row.ngay; }
+      else muaMap.set(k, { ngay: row.ngay, so_ct: row.so_ct, so_dong: 1, tien: row.so_no });
+    } else if (/^521/.test(tk) && row.so_no > 0) {
+      const k = row.so_ct || `__no_ct_${row.ngay}_${row.so_no}`;
+      const cur = traHangMap.get(k);
+      if (cur) { cur.tien += row.so_no; cur.so_dong += 1; if (row.ngay < cur.ngay) cur.ngay = row.ngay; }
+      else traHangMap.set(k, { ngay: row.ngay, so_ct: row.so_ct, so_dong: 1, tien: row.so_no });
+    } else if (/^642/.test(tk) && row.so_co > 0) {
       khauTru.push({ ngay: row.ngay, so_ct: row.so_ct, dien_giai: row.dien_giai || 'Khấu trừ chi phí', tien: row.so_co });
     } else if (row.so_co > 0) {
+      // Thu tiền = mọi TK đối ứng 131 ngoài 511/521/642
       traTien.push({ ngay: row.ngay, so_ct: row.so_ct, dien_giai: row.dien_giai || 'Thu tiền', tien: row.so_co });
     }
   }
+  const muaHang: VoucherItem[] = [...muaMap.values()].sort((a, b) => a.ngay.localeCompare(b.ngay));
+  const traHang: VoucherItem[] = [...traHangMap.values()].sort((a, b) => a.ngay.localeCompare(b.ngay));
 
   // Phát hiện điều chỉnh: cùng ngày + cùng số tiền + ngược chiều
   const dieuChinh: Item[] = [];
