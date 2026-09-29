@@ -91,7 +91,7 @@ export function DoiChieuDialog({ open, maKh, tenKh, onClose }: Props) {
 
   return (
     <div role="dialog" aria-modal="true" className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4" onClick={onClose}>
-      <div className="max-h-[90vh] w-full max-w-3xl overflow-hidden rounded-xl bg-white shadow-2xl" onClick={(e) => e.stopPropagation()}>
+      <div className="max-h-[90vh] w-[75vw] max-w-[75vw] overflow-hidden rounded-xl bg-white shadow-2xl" onClick={(e) => e.stopPropagation()}>
         <div className="flex items-center justify-between border-b border-slate-200 px-4 py-3">
           <h2 className="text-lg font-bold text-[#0f2a4a]">Đối chiếu công nợ</h2>
           <button onClick={onClose} aria-label="Đóng" className="grid h-8 w-8 place-items-center rounded-md text-slate-400 hover:bg-slate-100 hover:text-slate-600">×</button>
@@ -181,7 +181,7 @@ export function DoiChieuDialog({ open, maKh, tenKh, onClose }: Props) {
 
       {phieuOpen && (
         <div role="dialog" aria-modal="true" className="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 p-4" onClick={() => setPhieuOpen(null)}>
-          <div className="max-h-[80vh] w-full max-w-2xl overflow-hidden rounded-xl bg-white shadow-2xl" onClick={(e) => e.stopPropagation()}>
+          <div className="max-h-[80vh] w-[75vw] max-w-[75vw] overflow-hidden rounded-xl bg-white shadow-2xl" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between border-b border-slate-200 px-4 py-3">
               <h3 className="text-sm font-bold text-[#0f2a4a]">Chi tiết phiếu: <span className="font-mono">{phieuOpen}</span></h3>
               <button onClick={() => setPhieuOpen(null)} className="grid h-8 w-8 place-items-center rounded-md text-slate-400 hover:bg-slate-100">×</button>
