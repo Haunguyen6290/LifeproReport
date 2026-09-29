@@ -877,6 +877,46 @@ function Screen() {
                       {impMerge.size > 0 && <p className="border-t border-slate-100 px-3 py-2 text-xs text-emerald-700">Sẽ gộp {impMerge.size} khách vào mã đã có — doanh số vẫn tính đủ, dùng mã cũ.</p>}
                     </div>
                   )}
+                  {(impPreview.trungTen ?? []).length > 0 && (
+                    <div className="mt-2 rounded-lg border border-orange-200 bg-white">
+                      <div className="flex items-center justify-between border-b border-slate-100 px-3 py-2">
+                        <p className="text-xs font-bold text-slate-800">Tên trùng — {impPreview.trungTen.length} tên xuất hiện với nhiều mã khác nhau:</p>
+                      </div>
+                      <div className="max-h-[200px] overflow-auto">
+                        <table className="w-full text-xs">
+                          <thead><tr className="bg-orange-50 text-left text-slate-700"><th className="px-2 py-1">Tên KH</th><th className="px-2 py-1">Các mã trong sổ</th><th className="px-2 py-1">Mã đúng (danh mục)</th><th className="px-2 py-1">Xử lý</th></tr></thead>
+                          <tbody>
+                            {impPreview.trungTen.map((t: any, i: number) => {
+                              const hasCorrect = !!t.ma_dung;
+                              const wrongMa = t.ma_list.filter((m: string) => m !== t.ma_dung);
+                              return (
+                                <tr key={i} className="border-t border-slate-100">
+                                  <td className="px-2 py-1">{t.ten_kh}</td>
+                                  <td className="px-2 py-1 font-mono text-[10px]">{t.ma_list.join(', ')}</td>
+                                  <td className="px-2 py-1 font-mono">{t.ma_dung || <span className="text-slate-400">—</span>}</td>
+                                  <td className="px-2 py-1">
+                                    {hasCorrect ? (
+                                      <button onClick={() => {
+                                        setImpMerge((prev) => {
+                                          const n = new Map(prev);
+                                          for (const m of wrongMa) n.set(m, t.ma_dung);
+                                          return n;
+                                        });
+                                      }} className="rounded bg-orange-100 px-2 py-1 text-[10px] font-semibold text-orange-800 hover:bg-orange-200">
+                                        Gộp {wrongMa.length} mã sai → {t.ma_dung}
+                                      </button>
+                                    ) : (
+                                      <span className="text-[10px] text-slate-500">Không có mã chuẩn — tự chọn ở "Mã lạ"</span>
+                                    )}
+                                  </td>
+                                </tr>
+                              );
+                            })}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  )}
                   {impPreview.blocked && <p className="font-semibold text-red-600">Không cho lưu — sửa các lỗi ở trên rồi import lại.</p>}
                 </div>
               )}

@@ -119,12 +119,17 @@ export async function POST(req: NextRequest) {
 
     const byName = new Map<string, Set<string>>();
     for (const r of rows) { if (!r.ma_kh) continue; const k = r.ten_kh.toLowerCase(); if (!byName.has(k)) byName.set(k, new Set()); byName.get(k)!.add(r.ma_kh); }
-    const trungTen = [...byName.values()].filter((x) => x.size > 1).length;
+    const trungTen = [...byName.entries()].filter(([, mas]) => mas.size > 1).map(([ten, mas]) => {
+      const maList = [...mas];
+      // Tìm mã đúng trong danh mục (nếu có) làm gợi ý mergeTo
+      const maDung = maList.find((m) => maSet.has(m)) || '';
+      return { ten_kh: ten, ma_list: maList, ma_dung: maDung, so_ma: maList.length };
+    });
     if (khLa.length) canhBao.push(`${khLa.length} mã KH trong sổ chưa có trong danh mục — xem bảng bên dưới để Thêm / Gộp / Bỏ qua.`);
-    if (trungTen) canhBao.push(`${trungTen} tên KH xuất hiện với nhiều mã khác nhau trong sổ — kiểm tra danh mục`);
+    if (trungTen.length) canhBao.push(`${trungTen.length} tên KH xuất hiện với ${trungTen.reduce((s, t) => s + t.so_ma, 0)} mã khác nhau trong sổ — xem bảng "Tên trùng" để gộp về mã đúng`);
 
     if (mode !== 'commit') {
-      return NextResponse.json({ preview: true, soDong: rows.length, tuNgay: minNgay, denNgay: maxNgay, kiemTra, canhBao, khLa, dsKh });
+      return NextResponse.json({ preview: true, soDong: rows.length, tuNgay: minNgay, denNgay: maxNgay, kiemTra, canhBao, khLa, trungTen, dsKh });
     }
 
     // ===== COMMIT =====

@@ -1,0 +1,193 @@
+<!doctype html><html lang="vi"><head><meta charset="utf-8"><title>Hướng dẫn triển khai</title>
+<style>
+@page{size:A4;margin:14mm}
+body{font-family:"Segoe UI",Arial,sans-serif;color:#1f2937;font-size:12.5px;line-height:1.5;margin:0}
+h1{font-size:24px;color:#0f4c81;margin:0 0 4px}
+h2{font-size:17px;color:#fff;background:#0f4c81;padding:6px 10px;border-radius:6px;margin:22px 0 10px;page-break-after:avoid}
+h3{font-size:14px;margin:14px 0 6px;color:#0f4c81}
+.step{display:flex;gap:10px;margin:8px 0}
+.n{flex:0 0 24px;height:24px;border-radius:50%;background:#e11d48;color:#fff;font-weight:700;text-align:center;line-height:24px}
+.warn{background:#fff7ed;border-left:4px solid #f97316;padding:8px 10px;margin:10px 0;border-radius:4px}
+.ok{background:#ecfdf5;border-left:4px solid #10b981;padding:8px 10px;margin:10px 0;border-radius:4px}
+.win{border:1px solid #cbd5e1;border-radius:8px;overflow:hidden;margin:10px 0 14px;page-break-inside:avoid;box-shadow:0 2px 6px #0001}
+.bar{background:#e5e7eb;padding:5px 10px;font-size:11px;color:#475569}
+.bar b{display:inline-block;width:9px;height:9px;border-radius:50%;background:#f87171;margin-right:4px}
+.scr{padding:12px;background:#fff;position:relative}
+.dark{background:#0d1117;color:#e6edf3}
+.btn{display:inline-block;padding:4px 10px;border:1px solid #d0d7de;border-radius:6px;background:#f6f8fa;font-size:11.5px;margin:2px}
+.btn.g{background:#1f883d;color:#fff;border-color:#1f883d}
+.btn.k{background:#000;color:#fff;border-color:#000}
+.btn.s{background:#3ecf8e;color:#063;border-color:#3ecf8e}
+.hl{outline:3px solid #e11d48;outline-offset:2px;position:relative}
+.tag{position:absolute;background:#e11d48;color:#fff;font-size:10.5px;font-weight:700;padding:1px 6px;border-radius:10px;white-space:nowrap}
+.in{border:1px solid #cbd5e1;border-radius:4px;padding:4px 8px;margin:3px 0 8px;background:#f8fafc;font-family:Consolas,monospace;font-size:11px}
+.side{float:left;width:120px;border-right:1px solid #e5e7eb;margin-right:12px;font-size:11px}
+.side div{padding:4px 6px}
+.cl:after{content:"";display:block;clear:both}
+table{border-collapse:collapse;width:100%;font-size:11.5px}
+td,th{border:1px solid #cbd5e1;padding:5px 7px;text-align:left}
+th{background:#f1f5f9}
+code,pre{font-family:Consolas,monospace;font-size:11px}
+pre{background:#0f172a;color:#e2e8f0;padding:10px;border-radius:6px;white-space:pre-wrap}
+.cover{text-align:center;padding-top:60px;page-break-after:always}
+.pb{page-break-before:always}
+</style></head><body>
+<div class="cover">
+<h1 style="font-size:30px">HƯỚNG DẪN TRIỂN KHAI PHẦN MỀM</h1>
+<p style="font-size:16px">Cho công ty mới: GitHub, Supabase, Vercel<br>(Cách 1: Mời cộng tác và Fork)</p>
+<div class="ok" style="text-align:left;max-width:520px;margin:40px auto">
+<b>Kết quả sau khi làm xong:</b> công ty có trang web riêng và cơ sở dữ liệu riêng, tách biệt hoàn toàn với chủ phần mềm. Khi chủ phần mềm cập nhật tính năng, chỉ cần bấm 1 nút là có bản mới.</div>
+<table style="max-width:520px;margin:0 auto;text-align:left">
+<tr><th>Bước</th><th>Ai làm</th><th>Nội dung</th></tr>
+<tr><td>1</td><td>Chủ phần mềm + Công ty</td><td>Chia sẻ code qua GitHub và Fork</td></tr>
+<tr><td>2</td><td>Công ty</td><td>Tạo cơ sở dữ liệu Supabase</td></tr>
+<tr><td>3</td><td>Công ty</td><td>Tạo trang web trên Vercel</td></tr>
+<tr><td>4</td><td>Công ty</td><td>Tạo tài khoản Admin đầu tiên</td></tr>
+<tr><td>5</td><td>Công ty</td><td>Kiểm tra và cập nhật về sau</td></tr>
+</table>
+<p style="margin-top:40px;color:#64748b;font-size:11px">Các hình trong tài liệu là màn hình minh họa. Giao diện thật có thể khác một chút, hãy tìm đúng tên nút được đánh dấu <span style="color:#e11d48;font-weight:700">khung đỏ</span>.</p>
+</div>
+
+<h2>BƯỚC 0. Chuẩn bị</h2>
+<div class="step"><div class="n">1</div><div>Công ty tạo một <b>tài khoản GitHub</b> miễn phí tại github.com (bấm Sign up, nhập email, mật khẩu, tên tài khoản). Nên dùng email chung của công ty.</div></div>
+<div class="step"><div class="n">2</div><div>Công ty gửi <b>tên tài khoản GitHub</b> (ví dụ: <code>congtyb-it</code>) cho chủ phần mềm.</div></div>
+<div class="warn"><b>Bảo mật:</b> chủ phần mềm chỉ chia sẻ code. Tuyệt đối không gửi các file <code>.env.local</code>, <code>.env.vercel</code> hay file backup dữ liệu cho bên khác.</div>
+
+<h2>BƯỚC 1. Chia sẻ code (chủ phần mềm làm 1.1 đến 1.3)</h2>
+<h3>1.1 Bật cho phép Fork</h3>
+<p>Đăng nhập GitHub <b>Haunguyen6290</b>, mở repo <b>LifeproReport</b>, bấm tab <b>Settings</b>.</p>
+<div class="win"><div class="bar"><b></b>github.com/Haunguyen6290/LifeproReport/settings</div><div class="scr">
+<div style="border-bottom:1px solid #e5e7eb;padding-bottom:6px;margin-bottom:10px">&lt;&gt; Code &nbsp; Issues &nbsp; Pull requests &nbsp; Actions &nbsp; <span class="hl">⚙ Settings</span></div>
+<div class="side"><div style="background:#f1f5f9"><b>General</b></div><div>Collaborators</div><div>Branches</div><div>Secrets</div></div>
+<div><b>Features</b><br><br><span class="hl">☑ Allow forking</span> <span style="font-size:11px;color:#64748b">(tick vào ô này)</span><br><br>☐ Wikis &nbsp; ☑ Issues</div><div class="cl"></div></div></div>
+
+<h3>1.2 Mời công ty làm cộng tác viên</h3>
+<p>Ở menu bên trái bấm <b>Collaborators</b>, tiếp theo bấm <b>Add people</b>, nhập tên GitHub của công ty rồi bấm <b>Add … to this repository</b>.</p>
+<div class="win"><div class="bar"><b></b>Settings › Collaborators</div><div class="scr">
+<div class="side"><div>General</div><div class="hl" style="background:#f1f5f9"><b>Collaborators</b></div><div>Branches</div></div>
+<div><b>Manage access</b><br><br><span class="btn g hl">Add people</span><br><br>
+<div class="in">🔍 congtyb-it</div><span class="btn g">Add congtyb-it to this repository</span></div><div class="cl"></div></div></div>
+<p>Sau đó <b>báo cho công ty</b> kiểm tra email.</p>
+
+<h3>1.3 Công ty chấp nhận lời mời</h3>
+<div class="win"><div class="bar"><b></b>Email: “Haunguyen6290 invited you to LifeproReport”</div><div class="scr" style="text-align:center">
+<p>@Haunguyen6290 has invited you to collaborate on <b>Haunguyen6290/LifeproReport</b></p><span class="btn g hl">Accept invitation</span></div></div>
+
+<h3>1.4 Công ty bấm Fork để có bản sao riêng</h3>
+<p>Mở repo của chủ phần mềm, bấm <b>Fork</b> ở góc trên bên phải. Chọn Owner là tài khoản của công ty, bấm <b>Create fork</b>.</p>
+<div class="win"><div class="bar"><b></b>github.com/Haunguyen6290/LifeproReport</div><div class="scr">
+<div style="display:flex;justify-content:space-between"><b>Haunguyen6290 / LifeproReport</b> <span>🔒 Private</span><span><span class="btn">👁 Watch</span><span class="btn hl">⑂ Fork</span><span class="btn">☆ Star</span></span></div></div></div>
+<div class="win"><div class="bar"><b></b>Create a new fork</div><div class="scr">
+Owner: <span class="in" style="display:inline-block">congtyb-it ▾</span> / Repository name: <span class="in" style="display:inline-block">LifeproReport</span><br>
+☑ Copy the main branch only<br><br><span class="btn g hl">Create fork</span></div></div>
+<div class="ok">Xong bước này, công ty đã có repo <b>congtyb-it/LifeproReport</b> trong tài khoản của mình.</div>
+<div class="warn">Nếu sau này chủ phần mềm gỡ quyền của công ty khỏi repo gốc, bản Fork của công ty sẽ bị xóa theo (đây là quy định của GitHub với repo Private).</div>
+
+<h2 class="pb">BƯỚC 2. Tạo cơ sở dữ liệu Supabase (công ty làm)</h2>
+<h3>2.1 Đăng ký và tạo Project</h3>
+<p>Vào <b>supabase.com</b>, bấm <b>Start your project</b>, chọn <b>Continue with GitHub</b> (dùng GitHub của công ty). Sau đó bấm <b>New project</b>.</p>
+<div class="win"><div class="bar"><b></b>supabase.com/dashboard/new</div><div class="scr dark">
+<b>Create a new project</b><br><br>
+Project name<div class="in" style="background:#161b22;color:#e6edf3">congty-b</div>
+Database Password <span class="btn hl" style="background:#21262d;color:#e6edf3">Generate a password</span> <span style="color:#f97316">← lưu mật khẩu lại</span>
+<div class="in" style="background:#161b22;color:#e6edf3">••••••••••••••</div>
+Region<div class="in hl" style="background:#161b22;color:#e6edf3">Southeast Asia (Singapore) ▾</div>
+<span class="btn s hl">Create new project</span></div></div>
+<p>Chờ khoảng 2 phút đến khi project báo sẵn sàng.</p>
+
+<h3>2.2 Tạo bảng dữ liệu (quan trọng nhất)</h3>
+<p>Trong repo của công ty trên GitHub, mở thư mục <b>supabase/migrations</b>. Thư mục này có <b>60 file</b>, từ <code>0001_init.sql</code> đến <code>0060_soton_ma_thue.sql</code>.</p>
+<div class="win"><div class="bar"><b></b>github.com/congtyb-it/LifeproReport/tree/main/supabase/migrations</div><div class="scr">
+📄 0001_init.sql<br>📄 0002_login_by_username.sql<br>📄 0003_simplify_key_results.sql<br>… <br>📄 0060_soton_ma_thue.sql
+<div style="margin-top:8px;font-size:11px">Mở từng file, bấm nút <span class="btn hl">⧉ Copy raw file</span> ở góc phải để copy toàn bộ nội dung.</div></div></div>
+<p>Quay về Supabase, ở menu trái bấm <b>SQL Editor</b>, rồi bấm <b>New query</b>. Dán nội dung vừa copy vào và bấm <b>Run</b>.</p>
+<div class="win"><div class="bar"><b></b>Supabase › SQL Editor</div><div class="scr dark">
+<div class="side" style="border-color:#30363d"><div>Table Editor</div><div class="hl"><b>SQL Editor</b></div><div>Authentication</div><div>Storage</div><div>Project Settings</div></div>
+<div><span class="btn hl" style="background:#21262d;color:#e6edf3">+ New query</span>
+<pre style="margin:6px 0">create extension if not exists pgcrypto;
+create table public.roles ( ...</pre>
+<span class="btn s hl">Run ▶</span> &nbsp; <span style="color:#3ecf8e">✔ Success. No rows returned</span></div><div class="cl"></div></div></div>
+<div class="warn"><b>Bắt buộc:</b> chạy <b>đúng thứ tự từ 0001 đến 0060</b>, mỗi lần 1 file, không bỏ sót file nào. Mỗi file phải báo “Success” rồi mới chạy file tiếp theo. Nếu file nào báo lỗi màu đỏ thì <b>dừng lại</b>, chụp màn hình gửi chủ phần mềm.</div>
+
+<h3>2.3 Lấy khóa kết nối</h3>
+<p>Bấm <b>Project Settings</b>, chọn <b>Data API</b> để lấy URL, rồi chọn <b>API Keys</b> để lấy 2 khóa. Copy 3 giá trị sau vào Notepad:</p>
+<div class="win"><div class="bar"><b></b>Project Settings › API Keys</div><div class="scr dark">
+Project URL<div class="in hl" style="background:#161b22;color:#e6edf3">https://abcdxyz.supabase.co &nbsp; ⧉</div>
+Publishable key (anon public)<div class="in hl" style="background:#161b22;color:#e6edf3">sb_publishable_xxxxxxxx… &nbsp; ⧉</div>
+Secret key (service_role) <span style="color:#f87171">⚠ bí mật</span><div class="in hl" style="background:#161b22;color:#e6edf3">sb_secret_•••••••• &nbsp; 👁 Reveal &nbsp; ⧉</div></div></div>
+<div class="warn">Secret key có toàn quyền với dữ liệu. <b>Không gửi qua Zalo/email</b> và không cho ai xem.</div>
+
+<h2 class="pb">BƯỚC 3. Tạo trang web trên Vercel (công ty làm)</h2>
+<h3>3.1 Đăng ký và Import repo</h3>
+<p>Vào <b>vercel.com</b>, bấm <b>Sign Up</b>, chọn <b>Continue with GitHub</b>. Sau đó bấm <b>Add New…</b> và chọn <b>Project</b>.</p>
+<div class="win"><div class="bar"><b></b>vercel.com/new</div><div class="scr">
+<b>Import Git Repository</b><br><br>
+<div style="display:flex;justify-content:space-between;border:1px solid #e5e7eb;padding:6px;border-radius:6px">🔒 congtyb-it/LifeproReport <span class="btn k hl">Import</span></div>
+<div style="font-size:11px;margin-top:6px">Không thấy repo? Bấm <span class="btn hl">Adjust GitHub App Permissions</span> để cấp quyền cho repo.</div></div></div>
+
+<h3>3.2 Khai báo biến môi trường (chưa bấm Deploy vội)</h3>
+<p>Mở mục <b>Environment Variables</b>, nhập lần lượt từng dòng dưới đây. Nhập xong mỗi dòng thì bấm <b>Add</b>.</p>
+<table><tr><th>Key (Name)</th><th>Value (Giá trị)</th></tr>
+<tr><td><code>NEXT_PUBLIC_SUPABASE_URL</code></td><td>Project URL ở bước 2.3</td></tr>
+<tr><td><code>NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY</code></td><td>Publishable key</td></tr>
+<tr><td><code>SUPABASE_SERVICE_ROLE_KEY</code></td><td>Secret key</td></tr>
+<tr><td><code>CRON_SECRET</code></td><td>Tự đặt một chuỗi dài khoảng 40 ký tự lộn xộn, ví dụ <code>k8Pq2xZ…</code></td></tr>
+</table>
+<div class="win"><div class="bar"><b></b>Configure Project</div><div class="scr">
+Framework Preset: <b>Next.js</b> (tự nhận)<br><br>
+<b>▾ Environment Variables</b>
+<div style="display:flex;gap:6px"><div class="in hl" style="flex:1">NEXT_PUBLIC_SUPABASE_URL</div><div class="in hl" style="flex:1">https://abcdxyz.supabase.co</div><span class="btn">Add</span></div>
+<br><span class="btn k hl">Deploy</span></div></div>
+<p>Bấm <b>Deploy</b> và chờ 2 đến 4 phút. Khi thấy chữ “Congratulations!” là xong.</p>
+
+<h3>3.3 Điền địa chỉ web</h3>
+<p>Vercel sẽ cấp một địa chỉ, ví dụ <code>https://lifepro-report-congtyb.vercel.app</code>.</p>
+<div class="step"><div class="n">1</div><div>Vào Vercel, chọn <b>Settings</b>, rồi <b>Environment Variables</b>. Thêm biến <code>NEXT_PUBLIC_SITE_URL</code> với giá trị là địa chỉ web ở trên.</div></div>
+<div class="step"><div class="n">2</div><div>Vào tab <b>Deployments</b>, bấm dấu <b>⋯</b> ở dòng trên cùng rồi chọn <b>Redeploy</b>.</div></div>
+<div class="step"><div class="n">3</div><div>Vào Supabase, chọn <b>Authentication</b>, rồi <b>URL Configuration</b>. Dán địa chỉ web vào ô <b>Site URL</b> và bấm <b>Save</b>.</div></div>
+<div class="win"><div class="bar"><b></b>Vercel › Deployments</div><div class="scr">
+<div style="display:flex;justify-content:space-between;border:1px solid #e5e7eb;padding:6px;border-radius:6px">● Ready &nbsp; Production &nbsp; main <span><span class="btn hl">⋯</span></span></div>
+<div style="margin-left:auto;width:140px;border:1px solid #e5e7eb;border-radius:6px;margin-top:4px;padding:4px"><div>Inspect</div><div class="hl"><b>Redeploy</b></div><div>Promote</div></div></div></div>
+
+<h2 class="pb">BƯỚC 4. Tạo tài khoản Admin đầu tiên (công ty làm)</h2>
+<p>Phần mềm đăng nhập bằng <b>tên đăng nhập</b>. Bên trong, hệ thống đổi tên đăng nhập thành email dạng <code>tendangnhap@congty.local</code>. Tài khoản Admin đầu tiên phải tạo bằng tay như sau:</p>
+<h3>4.1 Tạo người dùng</h3>
+<p>Vào Supabase, chọn <b>Authentication</b>, rồi <b>Users</b>. Bấm <b>Add user</b> và chọn <b>Create new user</b>.</p>
+<div class="win"><div class="bar"><b></b>Authentication › Users › Create new user</div><div class="scr dark">
+Email address<div class="in hl" style="background:#161b22;color:#e6edf3">admin@congty.local</div>
+Password<div class="in" style="background:#161b22;color:#e6edf3">(tự đặt mật khẩu)</div>
+<span class="hl">☑ Auto Confirm User?</span><br><br><span class="btn s hl">Create user</span></div></div>
+<h3>4.2 Gán quyền Admin</h3>
+<p>Vào <b>SQL Editor</b>, bấm <b>New query</b>, dán đoạn lệnh dưới đây rồi bấm <b>Run</b>:</p>
+<pre>insert into public.profiles (id, username, full_name, role_id, must_change_password)
+select u.id, 'admin', 'Quản trị viên', r.id, false
+from auth.users u, public.roles r
+where u.email = 'admin@congty.local' and r.name = 'ADMIN';</pre>
+<p>Kết quả đúng là <b>“Success. 1 row affected”</b>.</p>
+<h3>4.3 Đăng nhập</h3>
+<div class="win"><div class="bar"><b></b>https://lifepro-report-congtyb.vercel.app/login</div><div class="scr" style="text-align:center">
+<div style="max-width:260px;margin:0 auto;text-align:left"><b>Đăng nhập</b><div class="in hl">admin</div><div class="in">••••••••</div><span class="btn g" style="width:100%;text-align:center">Đăng nhập</span></div></div></div>
+<p>Từ đây công ty tự vào phần quản trị để thiết lập thông tin công ty, tạo nhân viên, phân quyền và nhập dữ liệu.</p>
+
+<h2>BƯỚC 5. Kiểm tra và cập nhật về sau</h2>
+<h3>5.1 Kiểm tra</h3>
+<div class="step"><div class="n">✓</div><div>Đăng nhập được, các menu mở ra bình thường.</div></div>
+<div class="step"><div class="n">✓</div><div>Thử tải ảnh đại diện. Nếu lỗi, vào Supabase, chọn <b>Storage</b>, xem đã có các bucket chưa (các bucket này được tạo khi chạy đủ 60 file ở bước 2.2).</div></div>
+<div class="step"><div class="n">✓</div><div>Việc backup tự động (GitHub Actions) sẽ không chạy vì chưa có khóa. Vào repo của công ty, chọn tab <b>Actions</b>, rồi bấm <b>Disable workflow</b> để tắt nếu không dùng.</div></div>
+<h3>5.2 Lấy bản cập nhật mới từ chủ phần mềm</h3>
+<p>Mở repo <b>congtyb-it/LifeproReport</b>, bấm <b>Sync fork</b> rồi bấm <b>Update branch</b>. Vercel sẽ tự cập nhật web sau khoảng 3 phút.</p>
+<div class="win"><div class="bar"><b></b>github.com/congtyb-it/LifeproReport</div><div class="scr">
+This branch is 3 commits behind Haunguyen6290/LifeproReport:main. &nbsp; <span class="btn hl">⟳ Sync fork ▾</span>
+<div style="margin-left:auto;width:220px;border:1px solid #e5e7eb;border-radius:6px;margin-top:4px;padding:6px">This branch is out-of-date<br><span class="btn g hl">Update branch</span></div></div></div>
+<div class="warn"><b>Khi bản cập nhật có file migration mới</b> (ví dụ 0061_…sql): chủ phần mềm sẽ báo cho công ty biết. Công ty cần chạy file đó trong SQL Editor như bước 2.2 <b>trước khi</b> bấm Sync fork.</div>
+<h3>5.3 Chi phí</h3>
+<table><tr><th>Dịch vụ</th><th>Miễn phí</th><th>Khuyên dùng cho công ty</th></tr>
+<tr><td>Supabase</td><td>Tạm dừng nếu 7 ngày không có ai dùng, giới hạn 500MB</td><td>Gói Pro khoảng 25 USD/tháng</td></tr>
+<tr><td>Vercel</td><td>Hobby chỉ dành cho mục đích phi thương mại</td><td>Gói Pro khoảng 20 USD/tháng</td></tr>
+<tr><td>GitHub</td><td>Miễn phí</td><td>Không cần trả phí</td></tr></table>
+
+
+
+
+
+</body></html>
