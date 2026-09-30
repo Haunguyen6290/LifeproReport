@@ -63,7 +63,11 @@ export async function GET(req: NextRequest) {
       if (used.has(j)) continue;
       const b = all[j];
       if (a.ngay === b.ngay && Math.abs(a.so_no - b.so_co) < 1 && Math.abs(a.so_co - b.so_no) < 1 && (a.so_no > 0 || a.so_co > 0)) {
-        dieuChinh.push({ ngay: a.ngay, so_ct: a.so_ct || b.so_ct, dien_giai: a.dien_giai || b.dien_giai || 'Điều chỉnh sổ', tien: 0 });
+        const tien = Math.max(a.so_no, a.so_co, b.so_no, b.so_co);
+        const ctA = a.so_ct || '';
+        const ctB = b.so_ct || '';
+        const dg = ctA && ctB && ctA !== ctB ? `Điều chỉnh ${ctA} ↔ ${ctB}` : (a.dien_giai || b.dien_giai || 'Điều chỉnh sổ');
+        dieuChinh.push({ ngay: a.ngay, so_ct: ctA || ctB, dien_giai: dg, tien });
         used.add(i); used.add(j);
         break;
       }

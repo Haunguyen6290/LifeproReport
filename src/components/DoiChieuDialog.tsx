@@ -168,8 +168,18 @@ export function DoiChieuDialog({ open, maKh, tenKh, onClose }: Props) {
 
               {data.dieu_chinh?.length > 0 && (
                 <div className="rounded-lg border border-slate-200 opacity-60">
-                  <div className="flex justify-between bg-slate-50 px-3 py-2"><span className="font-semibold text-slate-600">🔄 ĐIỀU CHỈNH SỔ ({data.dieu_chinh.length} lần)</span><span className="font-semibold text-slate-600">±0đ</span></div>
-                  {data.dieu_chinh.map((x: Item, i: number) => <div key={i} className="flex justify-between border-t border-slate-100 px-3 py-2 text-slate-500"><span className="flex items-center gap-2"><span>•</span><span>{fmtD(x.ngay)}</span><span>{x.dien_giai}</span></span><span className="font-semibold">±0đ</span></div>)}
+                  <div className="flex justify-between bg-slate-50 px-3 py-2"><span className="font-semibold text-slate-600">🔄 ĐIỀU CHỈNH SỔ ({data.dieu_chinh.length} lần)</span><span className="font-semibold text-slate-600">±{fmt(data.dieu_chinh.reduce((s: number, x: Item) => s + x.tien, 0))}đ</span></div>
+                  <div className="grid grid-cols-[90px_140px_1fr_110px] gap-2 bg-slate-100 px-3 py-1 text-[11px] font-semibold text-slate-600">
+                    <span>Ngày</span><span>Số chứng từ</span><span>Ghi chú</span><span className="text-right">Thành tiền</span>
+                  </div>
+                  {data.dieu_chinh.map((x: Item, i: number) => (
+                    <div key={i} className="grid grid-cols-[90px_140px_1fr_110px] items-center gap-2 border-t border-slate-100 px-3 py-2 text-slate-500">
+                      <span className="text-xs">{fmtD(x.ngay)}</span>
+                      <button onClick={() => openPhieu(x.so_ct)} className="text-left font-mono text-xs font-semibold text-slate-500 hover:underline disabled:text-slate-400" disabled={!x.so_ct}>{x.so_ct || '—'}</button>
+                      <span className="text-xs">{x.dien_giai}</span>
+                      <span className="text-right text-xs font-semibold tabular-nums">±{fmt(x.tien)}đ</span>
+                    </div>
+                  ))}
                 </div>
               )}
 
