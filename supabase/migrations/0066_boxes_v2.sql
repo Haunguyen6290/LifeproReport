@@ -5,53 +5,70 @@
 -- Cập nhật: 2026-09-30 - Thêm ALTER TABLE để tương thích với bảng đã tồn tại
 -- ===================================================================
 
--- 1. Tạo bảng boxes (nếu chưa có)
+-- 1. Tạo bảng boxes (nếu chưa có) - chỉ cột ID
 CREATE TABLE IF NOT EXISTS boxes (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    android_id TEXT,
-    imei TEXT,
-    serial_number TEXT,
-    box_name TEXT,
-    device_model TEXT NOT NULL,
-    device_manufacturer TEXT NOT NULL,
-    android_version TEXT NOT NULL,
-    android_sdk_int INTEGER,
-    app_version_code INTEGER NOT NULL,
-    app_version_name TEXT NOT NULL,
-    cpu_abi TEXT,
-    cpu_cores INTEGER,
-    build_fingerprint TEXT,
-    build_brand TEXT,
-    build_product TEXT,
-    locale TEXT,
-    timezone TEXT,
-    network_operator TEXT,
-    network_country TEXT,
-    customer_name TEXT,
-    customer_phone TEXT,
-    customer_address TEXT,
-    vehicle_info TEXT,
-    dealer_name TEXT,
-    installation_date DATE,
-    activation_code TEXT,
-    is_activated BOOLEAN DEFAULT FALSE,
-    activated_at TIMESTAMPTZ,
-    activation_expires_at TIMESTAMPTZ,
-    warranty_until DATE,
-    notes TEXT,
-    first_seen_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-    last_seen_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-    metadata JSONB DEFAULT '{}'::jsonb
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid()
 );
 
 -- 2. Thêm các cột mới nếu bảng đã tồn tại (từ migration cũ)
+-- Cột định danh
+ALTER TABLE boxes ADD COLUMN IF NOT EXISTS android_id TEXT;
+ALTER TABLE boxes ADD COLUMN IF NOT EXISTS imei TEXT;
+ALTER TABLE boxes ADD COLUMN IF NOT EXISTS serial_number TEXT;
+
+-- Cột thiết bị cơ bản
+ALTER TABLE boxes ADD COLUMN IF NOT EXISTS box_name TEXT;
+ALTER TABLE boxes ADD COLUMN IF NOT EXISTS device_model TEXT;
+ALTER TABLE boxes ADD COLUMN IF NOT EXISTS device_manufacturer TEXT;
+ALTER TABLE boxes ADD COLUMN IF NOT EXISTS android_version TEXT;
+ALTER TABLE boxes ADD COLUMN IF NOT EXISTS android_sdk_int INTEGER;
+ALTER TABLE boxes ADD COLUMN IF NOT EXISTS app_version_code INTEGER;
+ALTER TABLE boxes ADD COLUMN IF NOT EXISTS app_version_name TEXT;
+
+-- Cột CPU
 ALTER TABLE boxes ADD COLUMN IF NOT EXISTS cpu_name TEXT;
 ALTER TABLE boxes ADD COLUMN IF NOT EXISTS cpu_max_freq TEXT;
+ALTER TABLE boxes ADD COLUMN IF NOT EXISTS cpu_abi TEXT;
+ALTER TABLE boxes ADD COLUMN IF NOT EXISTS cpu_cores INTEGER;
 ALTER TABLE boxes ADD COLUMN IF NOT EXISTS ram_total_gb INTEGER;
 ALTER TABLE boxes ADD COLUMN IF NOT EXISTS storage_total_gb INTEGER;
+
+-- Cột build info
+ALTER TABLE boxes ADD COLUMN IF NOT EXISTS build_fingerprint TEXT;
+ALTER TABLE boxes ADD COLUMN IF NOT EXISTS build_brand TEXT;
+ALTER TABLE boxes ADD COLUMN IF NOT EXISTS build_product TEXT;
+ALTER TABLE boxes ADD COLUMN IF NOT EXISTS locale TEXT;
+ALTER TABLE boxes ADD COLUMN IF NOT EXISTS timezone TEXT;
+ALTER TABLE boxes ADD COLUMN IF NOT EXISTS network_operator TEXT;
+ALTER TABLE boxes ADD COLUMN IF NOT EXISTS network_country TEXT;
+
+-- Cột khách hàng
+ALTER TABLE boxes ADD COLUMN IF NOT EXISTS customer_name TEXT;
+ALTER TABLE boxes ADD COLUMN IF NOT EXISTS customer_phone TEXT;
+ALTER TABLE boxes ADD COLUMN IF NOT EXISTS customer_address TEXT;
+ALTER TABLE boxes ADD COLUMN IF NOT EXISTS vehicle_info TEXT;
+ALTER TABLE boxes ADD COLUMN IF NOT EXISTS dealer_name TEXT;
+ALTER TABLE boxes ADD COLUMN IF NOT EXISTS installation_date DATE;
+
+-- Cột kích hoạt
+ALTER TABLE boxes ADD COLUMN IF NOT EXISTS activation_code TEXT;
+ALTER TABLE boxes ADD COLUMN IF NOT EXISTS is_activated BOOLEAN DEFAULT FALSE;
+ALTER TABLE boxes ADD COLUMN IF NOT EXISTS activated_at TIMESTAMPTZ;
+ALTER TABLE boxes ADD COLUMN IF NOT EXISTS activation_expires_at TIMESTAMPTZ;
+
+-- Cột trạng thái
 ALTER TABLE boxes ADD COLUMN IF NOT EXISTS status TEXT;
+ALTER TABLE boxes ADD COLUMN IF NOT EXISTS warranty_until DATE;
+ALTER TABLE boxes ADD COLUMN IF NOT EXISTS notes TEXT;
+
+-- Cột timestamp
+ALTER TABLE boxes ADD COLUMN IF NOT EXISTS first_seen_at TIMESTAMPTZ DEFAULT NOW();
+ALTER TABLE boxes ADD COLUMN IF NOT EXISTS last_seen_at TIMESTAMPTZ DEFAULT NOW();
+ALTER TABLE boxes ADD COLUMN IF NOT EXISTS created_at TIMESTAMPTZ DEFAULT NOW();
+ALTER TABLE boxes ADD COLUMN IF NOT EXISTS updated_at TIMESTAMPTZ DEFAULT NOW();
+
+-- Cột metadata
+ALTER TABLE boxes ADD COLUMN IF NOT EXISTS metadata JSONB DEFAULT '{}'::jsonb;
 
 -- 3. Cập nhật giá trị mặc định cho status
 UPDATE boxes SET status = 'active' WHERE status IS NULL;
