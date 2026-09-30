@@ -966,9 +966,9 @@ function Screen() {
                   <input
                     type="file"
                     accept=".xlsx,.xls"
-                    onChange={(e) => {
+                    onChange={async (e) => {
                       const file = e.target.files?.[0];
-                      if (file) uploadAmis(file);
+                      if (file) await uploadAmis(file);
                       e.target.value = '';
                     }}
                     className="hidden"
