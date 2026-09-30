@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
+import { useParams } from 'next/navigation';
 import { RequireAuth, useAuth } from '@/components/RequireAuth';
 import { AppSidebar } from '@/components/AppSidebar';
 import { supabase } from '@/lib/supabase/client';
@@ -26,15 +27,17 @@ type Box = {
 
 const fmtDate = (d: string) => new Date(d).toLocaleString('vi-VN', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' });
 
-export default function BoxDetailPage({ params }: { params: { id: string } }) {
+export default function BoxDetailPage() {
   return (
     <RequireAuth>
-      <BoxDetailContent id={params.id} />
+      <BoxDetailContent />
     </RequireAuth>
   );
 }
 
-function BoxDetailContent({ id }: { id: string }) {
+function BoxDetailContent() {
+  const params = useParams();
+  const id = params?.id as string;
   const { can } = useAuth();
   const router = useRouter();
   const [box, setBox] = useState<Box | null>(null);
