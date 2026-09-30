@@ -24,10 +24,17 @@ export async function GET(req: NextRequest) {
   if (!perm.ok) return NextResponse.json({ error: 'Không có quyền' }, { status: 403 });
 
   const sp = req.nextUrl.searchParams;
-  const page = parseInt(sp.get('page') || '1', 10);
-  const limit = parseInt(sp.get('limit') || '50', 10);
-  const search = sp.get('search') || '';
+  const pageRaw = parseInt(sp.get('page') || '1', 10);
+  const limitRaw = parseInt(sp.get('limit') || '50', 10);
+  const searchRaw = sp.get('search') || '';
   const activated = sp.get('activated'); // 'true' | 'false' | null (all)
+
+  // Validate pagination
+  const page = Math.max(isNaN(pageRaw) ? 1 : pageRaw, 1);
+  const limit = Math.min(Math.max(isNaN(limitRaw) ? 50 : limitRaw, 1), 100);
+
+  // Validate and sanitize search - only allow alphanumeric, spaces, dash, underscore, dot
+  const search = searchRaw.replace(/[^a-zA-Z0-9\s\-_.]/g, '').trim();
 
   const db = admin();
   let query = db.from('boxes').select('*', { count: 'exact' });
@@ -36,9 +43,10 @@ export async function GET(req: NextRequest) {
   if (activated === 'true') query = query.eq('is_activated', true);
   if (activated === 'false') query = query.eq('is_activated', false);
 
-  // Search
+  // Search - escape special PostgREST characters in ilike pattern
   if (search) {
-    query = query.or(`android_id.ilike.%${search}%,imei.ilike.%${search}%,serial_number.ilike.%${search}%,device_model.ilike.%${search}%`);
+    const escapedSearch = search.replace(/,/g, '\\,').replace(/\)/g, '\\)');
+    query = query.or(`android_id.ilike.%${escapedSearch}%,imei.ilike.%${escapedSearch}%,serial_number.ilike.%${escapedSearch}%,device_model.ilike.%${escapedSearch}%`);
   }
 
   // Pagination
