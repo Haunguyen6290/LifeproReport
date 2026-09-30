@@ -5,6 +5,8 @@ import { AppSidebar } from '@/components/AppSidebar';
 import { supabase } from '@/lib/supabase/client';
 import Link from 'next/link';
 
+export const dynamic = 'force-dynamic';
+
 type Box = {
   id: string;
   android_id: string | null;
