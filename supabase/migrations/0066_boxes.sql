@@ -79,14 +79,8 @@ CREATE POLICY "Allow public read access" ON boxes
 CREATE POLICY "Allow authenticated update with permission" ON boxes
     FOR UPDATE
     TO authenticated
-    USING (
-        EXISTS (
-            SELECT 1 FROM profiles p
-            JOIN roles r ON r.id = p.role_id
-            WHERE p.id = auth.uid()
-            AND r.permissions ? 'xem_box'
-        )
-    );
+    USING (public.has_permission('xem_box'))
+    WITH CHECK (public.has_permission('xem_box'));
 
 -- 8. Comment giải thích
 COMMENT ON TABLE boxes IS 'Theo dõi các box Lifepro SmartVOICE đã bán - gửi tự động từ app Android lần đầu chạy';
@@ -99,21 +93,21 @@ COMMENT ON COLUMN boxes.metadata IS 'JSON linh hoạt cho thông tin bổ sung (
 -- 9. Thêm quyền mới vào các role
 DO $$
 BEGIN
-    -- Thêm quyền xem_box vào Kinh doanh
-    UPDATE roles
-    SET permissions = permissions || '["xem_box"]'::jsonb
-    WHERE name = 'Kinh doanh'
-    AND NOT (permissions ? 'xem_box');
+    -- Thêm quyền xem_box vào Admin
+    IF EXISTS (SELECT 1 FROM public.roles WHERE name = 'Admin')
+       AND NOT EXISTS (SELECT 1 FROM jsonb_array_elements_text((SELECT permissions FROM public.roles WHERE name='Admin')) e WHERE e = 'xem_box') THEN
+        UPDATE public.roles SET permissions = (permissions || '["xem_box"]'::jsonb) WHERE name = 'Admin';
+    END IF;
 
     -- Thêm quyền xem_box vào Giám đốc
-    UPDATE roles
-    SET permissions = permissions || '["xem_box"]'::jsonb
-    WHERE name = 'Giám đốc'
-    AND NOT (permissions ? 'xem_box');
+    IF EXISTS (SELECT 1 FROM public.roles WHERE name = 'Giám đốc')
+       AND NOT EXISTS (SELECT 1 FROM jsonb_array_elements_text((SELECT permissions FROM public.roles WHERE name='Giám đốc')) e WHERE e = 'xem_box') THEN
+        UPDATE public.roles SET permissions = (permissions || '["xem_box"]'::jsonb) WHERE name = 'Giám đốc';
+    END IF;
 
-    -- Thêm quyền xem_box vào Admin
-    UPDATE roles
-    SET permissions = permissions || '["xem_box"]'::jsonb
-    WHERE name = 'Admin'
-    AND NOT (permissions ? 'xem_box');
+    -- Thêm quyền xem_box vào Kinh doanh
+    IF EXISTS (SELECT 1 FROM public.roles WHERE name = 'Kinh doanh')
+       AND NOT EXISTS (SELECT 1 FROM jsonb_array_elements_text((SELECT permissions FROM public.roles WHERE name='Kinh doanh')) e WHERE e = 'xem_box') THEN
+        UPDATE public.roles SET permissions = (permissions || '["xem_box"]'::jsonb) WHERE name = 'Kinh doanh';
+    END IF;
 END $$;
