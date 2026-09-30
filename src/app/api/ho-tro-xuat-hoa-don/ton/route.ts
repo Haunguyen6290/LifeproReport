@@ -114,7 +114,9 @@ export async function POST(req: NextRequest) {
           await (db as any).from('dm_thue').update({ ten_thue: r.ten, gia_chua_vat: r.gia, vat: r.vat, updated_at: new Date().toISOString() }).eq('ma_thue', r.ma);
         }
       }
+      // Xóa tồn cũ + hóa đơn đã xuất ngày này (import tồn mới = reset lại từ đầu)
       await db.from('ton_thue_ngay').delete().eq('ngay', ngay);
+      await db.from('hoa_don_xuat').delete().eq('ngay', ngay);
       const toIns = rows.map((r) => ({ ngay, ma_thue: r.ma, sl_ton: r.sl, gia_chua_vat: r.gia, vat: r.vat }));
       for (let i = 0; i < toIns.length; i += 1000) {
         const { error } = await (db as any).from('ton_thue_ngay').insert(toIns.slice(i, i + 1000));
@@ -141,7 +143,9 @@ export async function POST(req: NextRequest) {
         const { error } = await (db as any).from('dm_thuc').insert(toInsertThuc.slice(i, i + 500));
         if (error) return NextResponse.json({ error: error.message }, { status: 500 });
       }
+      // Xóa tồn cũ + hóa đơn đã xuất ngày này (import tồn mới = reset lại từ đầu)
       await db.from('ton_thuc_ngay').delete().eq('ngay', ngay);
+      await db.from('hoa_don_xuat').delete().eq('ngay', ngay);
       const toIns = rows.map((r) => ({ ngay, ma_thuc: r.ma, sl_kha_dung: r.sl }));
       for (let i = 0; i < toIns.length; i += 1000) {
         const { error } = await (db as any).from('ton_thuc_ngay').insert(toIns.slice(i, i + 1000));
