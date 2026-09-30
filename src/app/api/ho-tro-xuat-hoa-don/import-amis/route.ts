@@ -35,14 +35,25 @@ export async function POST(req: NextRequest) {
     const file = formData.get('file') as File;
     if (!file) return NextResponse.json({ error: 'Thiếu file' }, { status: 400 });
 
+    console.log('[AMIS Import] File received:', file.name, file.size, file.type);
+
     // Parse Excel
     const buffer = await file.arrayBuffer();
-    const XLSX = (await import('xlsx')).default;
-    const workbook = XLSX.read(new Uint8Array(buffer), { type: 'array' });
-    const sheet = workbook.Sheets[workbook.SheetNames[0]];
-    const rawData: any[] = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: null });
+    console.log('[AMIS Import] Buffer size:', buffer.byteLength);
 
-    if (rawData.length < 2) return NextResponse.json({ error: 'File rỗng' }, { status: 400 });
+    const XLSX = (await import('xlsx')).default;
+    console.log('[AMIS Import] XLSX loaded');
+
+    const workbook = XLSX.read(new Uint8Array(buffer), { type: 'array' });
+    console.log('[AMIS Import] Workbook parsed, sheets:', workbook.SheetNames);
+
+    const sheet = workbook.Sheets[workbook.SheetNames[0]];
+    if (!sheet) return NextResponse.json({ error: 'Sheet không tồn tại' }, { status: 400 });
+
+    const rawData: any[] = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: null });
+    console.log('[AMIS Import] Raw data rows:', rawData.length);
+
+    if (rawData.length < 2) return NextResponse.json({ error: 'File rỗng hoặc không có dữ liệu' }, { status: 400 });
 
     // Dòng 1 là header (index 1)
     const headers = rawData[1] as string[];
