@@ -49,40 +49,54 @@ export async function PUT(
 
   try {
     const body = await req.json();
-    const { metadata } = body;
 
-    if (!metadata) {
-      return NextResponse.json({ error: 'Thiếu metadata' }, { status: 400 });
+    // Các field cho phép cập nhật từ dashboard
+    const allowedFields = [
+      'box_name', 'customer_name', 'customer_phone', 'customer_address',
+      'vehicle_info', 'dealer_name', 'installation_date',
+      'status', 'warranty_until', 'notes', 'metadata'
+    ];
+
+    const updates: any = {};
+    for (const key of allowedFields) {
+      if (body[key] !== undefined) {
+        updates[key] = body[key];
+      }
     }
 
-    // Validate metadata
-    if (typeof metadata !== 'object' || Array.isArray(metadata) || metadata === null) {
-      return NextResponse.json({ error: 'metadata phải là object' }, { status: 400 });
+    if (Object.keys(updates).length === 0) {
+      return NextResponse.json({ error: 'Không có dữ liệu để cập nhật' }, { status: 400 });
     }
 
-    // Giới hạn kích thước metadata (max 50KB)
-    const metadataStr = JSON.stringify(metadata);
-    if (metadataStr.length > 50_000) {
-      return NextResponse.json({ error: 'metadata quá lớn (max 50KB)' }, { status: 400 });
+    // Validate metadata nếu có
+    if (updates.metadata) {
+      if (typeof updates.metadata !== 'object' || Array.isArray(updates.metadata) || updates.metadata === null) {
+        return NextResponse.json({ error: 'metadata phải là object' }, { status: 400 });
+      }
+      const metadataStr = JSON.stringify(updates.metadata);
+      if (metadataStr.length > 50_000) {
+        return NextResponse.json({ error: 'metadata quá lớn (max 50KB)' }, { status: 400 });
+      }
     }
 
-    // Chỉ cho phép các key hợp lệ
-    const allowedKeys = ['note', 'customer_name', 'location', 'installation_date'];
-    const invalidKeys = Object.keys(metadata).filter(k => !allowedKeys.includes(k));
-    if (invalidKeys.length > 0) {
-      return NextResponse.json({ error: `Key không hợp lệ: ${invalidKeys.join(', ')}` }, { status: 400 });
+    // Validate status
+    if (updates.status) {
+      const validStatuses = ['active', 'inactive', 'warranty', 'returned', 'defective'];
+      if (!validStatuses.includes(updates.status)) {
+        return NextResponse.json({ error: `status không hợp lệ. Phải là: ${validStatuses.join(', ')}` }, { status: 400 });
+      }
     }
 
     const db = admin();
     const { data, error } = await db
       .from('boxes')
-      .update({ metadata })
+      .update(updates)
       .eq('id', id)
       .select()
       .single();
 
     if (error) {
-      console.error('DB error updating box metadata:', error);
+      console.error('DB error updating box:', error);
       return NextResponse.json({ error: 'Lỗi cập nhật dữ liệu' }, { status: 500 });
     }
 
