@@ -64,6 +64,7 @@ export const GROUPS: { title: string; items: LinkDef[] }[] = [
     items: [
       // Trợ lý: tạm ẩn cho số đông — chỉ admin thấy + phải bật trong Cài đặt (TRO_LY_SHOW)
       { href: '/tro-ly', label: 'Trợ lý', icon: ICON.chat, needs: ['quan_ly_cai_dat'] },
+      { href: '/quan-tri/box', label: 'Quản lý Box', icon: ICON.package, needs: ['xem_box', 'quan_ly_cai_dat'] },
       { href: '/quan-tri', label: 'Cài đặt chung', icon: ICON.settings, needs: ['quan_ly_nguoi_dung', 'quan_ly_danh_muc', 'quan_ly_cai_dat', 'xem_log'] },
     ],
   },
