@@ -38,7 +38,7 @@ export default function BoxDetailPage() {
 function BoxDetailContent() {
   const params = useParams();
   const id = params?.id as string;
-  const { can } = useAuth();
+  const { can, isLoading: authLoading } = useAuth();
   const router = useRouter();
   const [box, setBox] = useState<Box | null>(null);
   const [loading, setLoading] = useState(true);
@@ -71,7 +71,9 @@ function BoxDetailContent() {
     }
   }
 
-  useEffect(() => { if (canView) loadBox(); }, [canView]);
+  useEffect(() => {
+    if (!authLoading && canView) loadBox();
+  }, [canView, authLoading]);
 
   async function handleActivate() {
     if (!activationCode.trim()) {

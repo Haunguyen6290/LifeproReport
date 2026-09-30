@@ -5,6 +5,7 @@ import { supabase } from '@/lib/supabase/client';
 type Ctx = {
   userId: string; username: string; fullName: string; avatarUrl: string; role: string; permissions: string[];
   can: (p: string) => boolean; signOut: () => Promise<void>; refresh: () => Promise<void>;
+  isLoading: boolean;
 } | null;
 
 const AuthCtx = createContext<Ctx>(null);
@@ -64,6 +65,7 @@ export function RequireAuth({ children }: { children: ReactNode }) {
         can: (perm) => perms.includes(perm),
         signOut: doSignOut,
         refresh,
+        isLoading: false,
       };
       cachedCtx = next; cachedReady = true;
       setCtx(next);
@@ -71,6 +73,6 @@ export function RequireAuth({ children }: { children: ReactNode }) {
     })();
   }, []);
 
-  if (!ready) return <div className="min-h-screen bg-[#f0f4f8]" aria-hidden />;
+  if (!ready || !ctx) return <div className="min-h-screen bg-[#f0f4f8]" aria-hidden />;
   return <AuthCtx.Provider value={ctx}>{children}</AuthCtx.Provider>;
 }

@@ -213,8 +213,19 @@ export default function BoxPage() {
 }
 
 function BoxPageContent() {
-  const { can } = useAuth();
+  const { can, isLoading } = useAuth();
   const canView = can('xem_box') || can('quan_ly_cai_dat');
+
+  // Đợi permissions load xong
+  if (isLoading) {
+    return (
+      <AppSidebar>
+        <main className="w-full px-4 py-6 sm:px-6">
+          <div className="py-10 text-center text-sm text-slate-600">Đang tải quyền...</div>
+        </main>
+      </AppSidebar>
+    );
+  }
 
   return (
     <AppSidebar>
