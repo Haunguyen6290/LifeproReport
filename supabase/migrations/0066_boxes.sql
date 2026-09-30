@@ -84,7 +84,7 @@ CREATE POLICY "Allow authenticated update with permission" ON boxes
             SELECT 1 FROM profiles p
             JOIN roles r ON r.id = p.role_id
             WHERE p.id = auth.uid()
-            AND 'xem_box' = ANY(r.permissions)
+            AND r.permissions @> ARRAY['xem_box']::text[]
         )
     );
 
