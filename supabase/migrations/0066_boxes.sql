@@ -97,43 +97,23 @@ COMMENT ON COLUMN boxes.activation_code IS 'Mã kích hoạt từ phía admin - 
 COMMENT ON COLUMN boxes.metadata IS 'JSON linh hoạt cho thông tin bổ sung (vị trí GPS lần đầu, tên khách hàng, ghi chú...)';
 
 -- 9. Thêm quyền mới vào các role
--- Lấy role IDs
 DO $$
-DECLARE
-    kinh_doanh_id UUID;
-    giam_doc_id UUID;
-    admin_id UUID;
 BEGIN
-    -- Tìm role Kinh doanh
-    SELECT id INTO kinh_doanh_id FROM roles WHERE name = 'Kinh doanh' LIMIT 1;
-
-    -- Tìm role Giám đốc
-    SELECT id INTO giam_doc_id FROM roles WHERE name = 'Giám đốc' LIMIT 1;
-
-    -- Tìm role Admin
-    SELECT id INTO admin_id FROM roles WHERE name = 'Admin' LIMIT 1;
-
     -- Thêm quyền xem_box vào Kinh doanh
-    IF kinh_doanh_id IS NOT NULL THEN
-        UPDATE roles
-        SET permissions = array_append(permissions, 'xem_box')
-        WHERE id = kinh_doanh_id
-        AND NOT ('xem_box' = ANY(permissions));
-    END IF;
+    UPDATE roles
+    SET permissions = array_append(permissions, 'xem_box')
+    WHERE name = 'Kinh doanh'
+    AND NOT (permissions @> ARRAY['xem_box']);
 
     -- Thêm quyền xem_box vào Giám đốc
-    IF giam_doc_id IS NOT NULL THEN
-        UPDATE roles
-        SET permissions = array_append(permissions, 'xem_box')
-        WHERE id = giam_doc_id
-        AND NOT ('xem_box' = ANY(permissions));
-    END IF;
+    UPDATE roles
+    SET permissions = array_append(permissions, 'xem_box')
+    WHERE name = 'Giám đốc'
+    AND NOT (permissions @> ARRAY['xem_box']);
 
     -- Thêm quyền xem_box vào Admin
-    IF admin_id IS NOT NULL THEN
-        UPDATE roles
-        SET permissions = array_append(permissions, 'xem_box')
-        WHERE id = admin_id
-        AND NOT ('xem_box' = ANY(permissions));
-    END IF;
+    UPDATE roles
+    SET permissions = array_append(permissions, 'xem_box')
+    WHERE name = 'Admin'
+    AND NOT (permissions @> ARRAY['xem_box']);
 END $$;
