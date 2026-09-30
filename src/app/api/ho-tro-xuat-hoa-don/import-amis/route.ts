@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
+import * as XLSX from 'xlsx';
 
 // Force Node.js runtime instead of Edge
 export const runtime = 'nodejs';
@@ -45,8 +46,7 @@ export async function POST(req: NextRequest) {
     const buffer = Buffer.from(await file.arrayBuffer());
     console.log('[AMIS Import] Buffer size:', buffer.byteLength);
 
-    const XLSX = (await import('xlsx')).default;
-    console.log('[AMIS Import] XLSX loaded');
+    console.log('[AMIS Import] XLSX loaded (static import)');
 
     const workbook = XLSX.read(buffer, { type: 'buffer' });
     console.log('[AMIS Import] Workbook parsed, sheets:', workbook.SheetNames);
