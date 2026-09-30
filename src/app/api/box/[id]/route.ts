@@ -21,13 +21,14 @@ async function checkPerm(req: NextRequest): Promise<{ ok: boolean; userId?: stri
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   const perm = await checkPerm(req);
   if (!perm.ok) return NextResponse.json({ error: 'Không có quyền' }, { status: 403 });
 
   const db = admin();
-  const { data, error } = await db.from('boxes').select('*').eq('id', params.id).single();
+  const { data, error } = await db.from('boxes').select('*').eq('id', id).single();
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
   if (!data) return NextResponse.json({ error: 'Không tìm thấy box' }, { status: 404 });
@@ -37,8 +38,9 @@ export async function GET(
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   const perm = await checkPerm(req);
   if (!perm.ok) return NextResponse.json({ error: 'Không có quyền' }, { status: 403 });
 
@@ -54,7 +56,7 @@ export async function PUT(
     const { data, error } = await db
       .from('boxes')
       .update({ metadata })
-      .eq('id', params.id)
+      .eq('id', id)
       .select()
       .single();
 

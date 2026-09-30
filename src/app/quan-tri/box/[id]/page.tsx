@@ -26,7 +26,13 @@ type Box = {
 
 const fmtDate = (d: string) => new Date(d).toLocaleString('vi-VN', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' });
 
-export default function BoxDetailPage({ params }: { params: { id: string } }) {
+export default async function BoxDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+
+  return <BoxDetailContent id={id} />;
+}
+
+function BoxDetailContent({ id }: { id: string }) {
   const { can } = useAuth();
   const router = useRouter();
   const [box, setBox] = useState<Box | null>(null);
@@ -45,7 +51,7 @@ export default function BoxDetailPage({ params }: { params: { id: string } }) {
     try {
       const { data } = await supabase.auth.getSession();
       const token = data.session?.access_token ?? '';
-      const r = await fetch(`/api/box/${params.id}`, { headers: token ? { Authorization: `Bearer ${token}` } : {} });
+      const r = await fetch(`/api/box/${id}`, { headers: token ? { Authorization: `Bearer ${token}` } : {} });
       const j = await r.json();
       if (r.ok) {
         setBox(j);
@@ -74,7 +80,7 @@ export default function BoxDetailPage({ params }: { params: { id: string } }) {
       const r = await fetch('/api/box/activate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}) },
-        body: JSON.stringify({ id: params.id, activation_code: activationCode.trim() }),
+        body: JSON.stringify({ id, activation_code: activationCode.trim() }),
       });
       const j = await r.json();
       if (r.ok) {
@@ -95,7 +101,7 @@ export default function BoxDetailPage({ params }: { params: { id: string } }) {
     try {
       const { data } = await supabase.auth.getSession();
       const token = data.session?.access_token ?? '';
-      const r = await fetch(`/api/box/${params.id}`, {
+      const r = await fetch(`/api/box/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}) },
         body: JSON.stringify({ metadata: { ...(box?.metadata ?? {}), note: note.trim() } }),
