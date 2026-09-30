@@ -50,7 +50,7 @@ function DebtTable({ rows, han, onRowClick }: { rows: DebtRow[]; han: number; on
       'STT': i + 1, 'Mã KH': r.ma_kh, 'Tên KH': r.ten_kh, 'NVKD': r.nvkd, 'Tỉnh/TP': r.tinh,
       'Công nợ hiện tại': r.con_no_hien_tai ?? '', 'Công nợ đầu kỳ': r.cong_no_dau_ky, 'Doanh số phát sinh trong kỳ': r.doanh_thu,
       'Doanh số hàng trả lại': r.tra_lai, 'Doanh thu thu tiền': r.thu_tien,
-      'Tổng giảm trừ': r.tong_giam_tru, 'Số còn thiếu': r.con_thieu,
+      'Tổng giảm trừ': r.tong_giam_tru, 'Nợ quá hạn': r.con_thieu,
       'Cảnh báo': r.qua_han ? 'QUÁ HẠN' : 'Đạt yêu cầu',
     }));
     const ws = XLSX.utils.json_to_sheet(data);
@@ -121,7 +121,7 @@ function DebtTable({ rows, han, onRowClick }: { rows: DebtRow[]; han: number; on
               <th className="border-b border-slate-200 px-3 py-2 text-right font-bold leading-tight whitespace-normal break-words align-bottom" style={{ width: W_MONEY, minWidth: W_MONEY, maxWidth: W_MONEY }}>Tổng giảm trừ</th>
               <th className="border-b border-slate-200 px-3 py-2 align-bottom" style={{ width: W_MONEY, minWidth: W_MONEY, maxWidth: W_MONEY }}>
                 <button onClick={() => { if (sortKey === 'con_thieu') setSortDir((d) => (d === 'asc' ? 'desc' : 'asc')); else { setSortKey('con_thieu'); setSortDir('desc'); } }} className="flex w-full items-end justify-end gap-1 text-right font-bold leading-tight">
-                  <span className="whitespace-normal break-words">Số còn thiếu</span>{sortKey === 'con_thieu' ? <span className="shrink-0">{sortDir === 'asc' ? '↑' : '↓'}</span> : <span className="shrink-0 text-slate-400">↕</span>}
+                  <span className="whitespace-normal break-words">Nợ quá hạn</span>{sortKey === 'con_thieu' ? <span className="shrink-0">{sortDir === 'asc' ? '↑' : '↓'}</span> : <span className="shrink-0 text-slate-400">↕</span>}
                 </button>
               </th>
               <th className="whitespace-nowrap border-b border-slate-200 px-3 py-2 font-bold">Cảnh báo</th>
