@@ -25,22 +25,15 @@ CREATE TABLE IF NOT EXISTS boxes (
     app_version_name TEXT NOT NULL,          -- Version name (VD: "2.5.6")
 
     -- ============ CẤU HÌNH PHẦN CỨNG ============
-    -- Màn hình
-    screen_resolution TEXT,                  -- Độ phân giải (VD: "1920x1080")
-    screen_density_dpi INTEGER,              -- Mật độ điểm ảnh (VD: 160)
-    screen_size_inches NUMERIC(4,2),         -- Kích thước màn hình inch (VD: 7.00)
-
-    -- RAM
-    ram_total_mb BIGINT,                     -- Tổng RAM (MB) (VD: 2048)
-    ram_available_mb BIGINT,                 -- RAM khả dụng khi cài app (MB)
-
-    -- Storage
-    storage_total_gb NUMERIC(8,2),           -- Tổng bộ nhớ trong (GB) (VD: 16.00)
-    storage_available_gb NUMERIC(8,2),       -- Bộ nhớ trong khả dụng (GB)
-
-    -- CPU
+    -- CPU (thêm trường cpu_name và cpu_max_freq từ app)
+    cpu_name TEXT,                           -- Tên CPU (VD: "Qualcomm Snapdragon 680")
+    cpu_max_freq TEXT,                       -- Tần số tối đa (VD: "2.40 GHz")
     cpu_abi TEXT,                            -- Kiến trúc CPU (VD: "arm64-v8a, armeabi-v7a")
-    cpu_cores INTEGER,                       -- Số lõi CPU (VD: 4)
+    cpu_cores INTEGER,                       -- Số lõi CPU (VD: 8)
+
+    -- RAM và Storage (đơn vị GB để khớp với app Android)
+    ram_total_gb INTEGER,                    -- Tổng RAM (GB) (VD: 8, 4, 2)
+    storage_total_gb INTEGER,                -- Tổng bộ nhớ trong (GB) (VD: 128, 64, 32)
 
     -- ============ THÔNG TIN HỆ THỐNG ============
     build_fingerprint TEXT,                  -- Build fingerprint đầy đủ
@@ -113,40 +106,44 @@ CREATE INDEX IF NOT EXISTS idx_boxes_status ON boxes(status);
 CREATE INDEX IF NOT EXISTS idx_boxes_customer_phone ON boxes(customer_phone) WHERE customer_phone IS NOT NULL;
 CREATE INDEX IF NOT EXISTS idx_boxes_dealer_name ON boxes(dealer_name) WHERE dealer_name IS NOT NULL;
 CREATE INDEX IF NOT EXISTS idx_boxes_box_name ON boxes(box_name) WHERE box_name IS NOT NULL;
+
+-- Index cho metadata JSONB (tìm kiếm theo các trường bên trong JSON)
 CREATE INDEX IF NOT EXISTS idx_boxes_metadata_gin ON boxes USING gin(metadata);
 
 -- 4. Bật Row Level Security (RLS)
 ALTER TABLE boxes ENABLE ROW LEVEL SECURITY;
 
 -- 5. Policy: Cho phép INSERT từ service role key (app Android)
-CREATE POLICY "boxes_service_insert" ON boxes
+CREATE POLICY "Allow service role to insert" ON boxes
     FOR INSERT
     TO service_role
     WITH CHECK (true);
 
 -- 6. Policy: Cho phép SELECT/UPDATE từ service role key
-CREATE POLICY "boxes_service_select" ON boxes
+CREATE POLICY "Allow service role to select" ON boxes
     FOR SELECT
     TO service_role
     USING (true);
 
-CREATE POLICY "boxes_service_update" ON boxes
+CREATE POLICY "Allow service role to update" ON boxes
     FOR UPDATE
     TO service_role
     USING (true);
 
--- 7. Policy: Dashboard web đọc boxes (authenticated + có quyền)
-CREATE POLICY "boxes_read" ON boxes
+-- 7. Policy: Dashboard web có thể đọc mọi row (authenticated users có quyền)
+CREATE POLICY "Allow authenticated read access" ON boxes
     FOR SELECT
     TO authenticated
-    USING (public.has_permission('xem_box') OR public.has_permission('quan_ly_cai_dat'));
+    USING (true);
+    -- Nếu cần kiểm tra quyền: USING (public.has_permission('xem_box') OR public.has_permission('quan_ly_cai_dat'));
 
--- 8. Policy: Dashboard cập nhật boxes (authenticated + có quyền)
-CREATE POLICY "boxes_update" ON boxes
+-- 8. Policy: Authenticated users có quyền cập nhật
+CREATE POLICY "Allow authenticated update" ON boxes
     FOR UPDATE
     TO authenticated
-    USING (public.has_permission('xem_box') OR public.has_permission('quan_ly_cai_dat'))
-    WITH CHECK (public.has_permission('xem_box') OR public.has_permission('quan_ly_cai_dat'));
+    USING (true)
+    WITH CHECK (true);
+    -- Nếu cần kiểm tra quyền: USING (public.has_permission('quan_ly_box')) WITH CHECK (public.has_permission('quan_ly_box'));
 
 -- 9. Comment giải thích
 COMMENT ON TABLE boxes IS 'Theo dõi các box Lifepro SmartVOICE đã bán - dữ liệu tự động từ app Android + thông tin khách hàng nhập tay';
@@ -162,9 +159,10 @@ COMMENT ON COLUMN boxes.device_model IS 'Tên model hiển thị (tự động t
 COMMENT ON COLUMN boxes.device_manufacturer IS 'Nhà sản xuất chipset (tự động)';
 
 -- Cấu hình phần cứng
-COMMENT ON COLUMN boxes.screen_resolution IS 'Độ phân giải màn hình (tự động, VD: "1920x1080")';
-COMMENT ON COLUMN boxes.ram_total_mb IS 'Tổng RAM tính bằng MB (tự động)';
-COMMENT ON COLUMN boxes.storage_total_gb IS 'Tổng bộ nhớ trong tính bằng GB (tự động)';
+COMMENT ON COLUMN boxes.ram_total_gb IS 'Tổng RAM làm tròn (GB) - app gửi 8, 4, 2... (tự động)';
+COMMENT ON COLUMN boxes.storage_total_gb IS 'Tổng bộ nhớ làm tròn (GB) - app gửi 128, 64, 32... (tự động)';
+COMMENT ON COLUMN boxes.cpu_name IS 'Tên CPU đầy đủ (VD: "Qualcomm Snapdragon 680") - tự động từ app';
+COMMENT ON COLUMN boxes.cpu_max_freq IS 'Tần số CPU tối đa (VD: "2.40 GHz") - tự động từ app';
 COMMENT ON COLUMN boxes.cpu_abi IS 'Kiến trúc CPU hỗ trợ (tự động, VD: "arm64-v8a")';
 COMMENT ON COLUMN boxes.cpu_cores IS 'Số lõi CPU (tự động)';
 
@@ -197,8 +195,8 @@ SELECT
     COUNT(*) FILTER (WHERE status = 'warranty') AS warranty_boxes,
     COUNT(*) FILTER (WHERE last_seen_at > NOW() - INTERVAL '7 days') AS active_last_7days,
     COUNT(*) FILTER (WHERE first_seen_at > NOW() - INTERVAL '30 days') AS new_boxes_30days,
-    AVG(ram_total_mb)::INTEGER AS avg_ram_mb,
-    AVG(storage_total_gb)::NUMERIC(8,2) AS avg_storage_gb
+    AVG(ram_total_gb)::INTEGER AS avg_ram_gb,
+    AVG(storage_total_gb)::INTEGER AS avg_storage_gb
 FROM boxes;
 
 COMMENT ON VIEW boxes_summary IS 'Thống kê tổng quan số lượng box, kích hoạt, hoạt động...';

@@ -490,15 +490,37 @@ function Screen() {
   }
 
   async function luuXuat() {
-    const h = await authHeader();
+    // Kiểm tra có dữ liệu hợp lệ không
+    const validRows = inv.filter((x) => x.ma && parseDot(x.sl) > 0);
+    if (validRows.length === 0) {
+      setGoiyMsg('❌ Chưa có dòng nào hợp lệ (cần có mã + số lượng > 0)');
+      return;
+    }
+
+    // Kiểm tra tổng tiền
     const tong = inv.reduce((s, r) => s + (parseDot(r.sl) || 0) * (parseDot(r.giaDa) || 0), 0);
+    if (tong <= 0) {
+      setGoiyMsg('❌ Tổng tiền = 0, không thể lưu');
+      return;
+    }
+
+    // Kiểm tra lệch (chỉ cảnh báo, vẫn cho lưu nếu user muốn)
+    const lech = Math.abs(tong - target);
+    if (target > 0 && lech > 10000) {
+      if (!confirm(`⚠️ Lệch ${lech.toLocaleString('vi-VN')}đ (>10k).\n\nVẫn muốn lưu & xuất?`)) {
+        setGoiyMsg('Đã hủy — bấm "Sửa giá dòng chọn" để khớp 100%');
+        return;
+      }
+    }
+
+    const h = await authHeader();
     const r = await fetch('/api/ho-tro-xuat-hoa-don/hoa-don', { method: 'POST', headers: { ...h, 'Content-Type': 'application/json' }, body: JSON.stringify({ ngay, khach_ma: khach || null, khach_ten: khach ? (khachList.find((k:any)=>k.ma_kh===khach)?.ten_kh ?? null) : null, tu_ngay: khTu, den_ngay: khDen, tong_vat: tong, dong: inv }) });
     if (r.ok) {
       setGoiyMsg('Đã lưu & xuất ✓');
       // xuất Excel MISA ngay
       try {
         const XLSX = await import('xlsx');
-        const rows = inv.filter((x) => x.ma && parseDot(x.sl) > 0).map((x) => ({
+        const rows = validRows.map((x) => ({
           'Mã hàng': x.ma,
           'Tên hàng': x.ten,
           'Số lượng': parseDot(x.sl),
