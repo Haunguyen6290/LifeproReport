@@ -34,7 +34,7 @@ export async function GET(req: NextRequest) {
   if (tu && /^\d{4}-\d{2}-\d{2}$/.test(tu)) query = query.gte('ngay_hach_toan', tu);
   if (den && /^\d{4}-\d{2}-\d{2}$/.test(den)) query = query.lte('ngay_hach_toan', den);
 
-  const { data, error } = await query.limit(5000);
+  const { data, error } = await query.limit(20000);
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
   // Lấy danh sách khách hàng unique
