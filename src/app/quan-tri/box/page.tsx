@@ -205,27 +205,33 @@ function BoxList() {
 }
 
 export default function BoxPage() {
+  return (
+    <RequireAuth>
+      <BoxPageContent />
+    </RequireAuth>
+  );
+}
+
+function BoxPageContent() {
   const { can } = useAuth();
   const canView = can('xem_box') || can('quan_ly_cai_dat');
 
   return (
-    <RequireAuth>
-      <AppSidebar>
-        <main className="w-full px-4 py-6 sm:px-6">
-          <div className="mb-6">
-            <h1 className="text-2xl font-bold tracking-tight text-[#0f2a4a]">Quản lý Android Box</h1>
-            <p className="mt-1 text-sm text-slate-600">Theo dõi các box Lifepro SmartVOICE đã bán</p>
-          </div>
+    <AppSidebar>
+      <main className="w-full px-4 py-6 sm:px-6">
+        <div className="mb-6">
+          <h1 className="text-2xl font-bold tracking-tight text-[#0f2a4a]">Quản lý Android Box</h1>
+          <p className="mt-1 text-sm text-slate-600">Theo dõi các box Lifepro SmartVOICE đã bán</p>
+        </div>
 
-          {!canView ? (
-            <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
-              Bạn không có quyền xem module này. Liên hệ quản trị viên để được cấp quyền <b>xem_box</b>.
-            </div>
-          ) : (
-            <BoxList />
-          )}
-        </main>
-      </AppSidebar>
-    </RequireAuth>
+        {!canView ? (
+          <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+            Bạn không có quyền xem module này. Liên hệ quản trị viên để được cấp quyền <b>xem_box</b>.
+          </div>
+        ) : (
+          <BoxList />
+        )}
+      </main>
+    </AppSidebar>
   );
 }
