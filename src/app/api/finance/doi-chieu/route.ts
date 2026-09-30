@@ -47,15 +47,38 @@ export async function GET(req: NextRequest) {
   const dauKyBaoCao = dauKy + phatSinhTruoc;
   const rows = rowsRes.data ?? [];
 
+  const all: Row[] = [];
+  for (const r of rows as any[]) {
+    const row: Row = { ngay: r.ngay, so_ct: r.so_ct ?? '', dien_giai: r.dien_giai ?? '', tk_doi_ung: r.tk_doi_ung ?? '', so_no: Number(r.so_no ?? 0), so_co: Number(r.so_co ?? 0) };
+    all.push(row);
+  }
+
+  // Bước 1: Tìm các cặp điều chỉnh (cùng ngày, số tiền đối xứng Nợ/Có) và đánh dấu
+  const dieuChinh: Item[] = [];
+  const used = new Set<number>();
+  for (let i = 0; i < all.length; i++) {
+    if (used.has(i)) continue;
+    const a = all[i];
+    for (let j = i + 1; j < all.length; j++) {
+      if (used.has(j)) continue;
+      const b = all[j];
+      if (a.ngay === b.ngay && Math.abs(a.so_no - b.so_co) < 1 && Math.abs(a.so_co - b.so_no) < 1 && (a.so_no > 0 || a.so_co > 0)) {
+        dieuChinh.push({ ngay: a.ngay, so_ct: a.so_ct || b.so_ct, dien_giai: a.dien_giai || b.dien_giai || 'Điều chỉnh sổ', tien: 0 });
+        used.add(i); used.add(j);
+        break;
+      }
+    }
+  }
+
+  // Bước 2: Phân loại các dòng CHƯA được ghép cặp điều chỉnh
   const muaMap = new Map<string, VoucherItem>();
   const traHangMap = new Map<string, VoucherItem>();
   const traTien: Item[] = [];
   const khauTru: Item[] = [];
-  const all: Row[] = [];
 
-  for (const r of rows as any[]) {
-    const row: Row = { ngay: r.ngay, so_ct: r.so_ct ?? '', dien_giai: r.dien_giai ?? '', tk_doi_ung: r.tk_doi_ung ?? '', so_no: Number(r.so_no ?? 0), so_co: Number(r.so_co ?? 0) };
-    all.push(row);
+  for (let i = 0; i < all.length; i++) {
+    if (used.has(i)) continue; // Bỏ qua dòng đã ghép cặp điều chỉnh
+    const row = all[i];
     const tk = (row.tk_doi_ung ?? '').trim();
 
     if (/^511/.test(tk) && row.so_no > 0) {
@@ -76,22 +99,6 @@ export async function GET(req: NextRequest) {
   }
   const muaHang: VoucherItem[] = [...muaMap.values()].sort((a, b) => a.ngay.localeCompare(b.ngay));
   const traHang: VoucherItem[] = [...traHangMap.values()].sort((a, b) => a.ngay.localeCompare(b.ngay));
-
-  const dieuChinh: Item[] = [];
-  const used = new Set<number>();
-  for (let i = 0; i < all.length; i++) {
-    if (used.has(i)) continue;
-    const a = all[i];
-    for (let j = i + 1; j < all.length; j++) {
-      if (used.has(j)) continue;
-      const b = all[j];
-      if (a.ngay === b.ngay && Math.abs(a.so_no - b.so_co) < 1 && Math.abs(a.so_co - b.so_no) < 1 && (a.so_no > 0 || a.so_co > 0)) {
-        dieuChinh.push({ ngay: a.ngay, so_ct: a.so_ct || b.so_ct, dien_giai: a.dien_giai || b.dien_giai || 'Điều chỉnh sổ', tien: 0 });
-        used.add(i); used.add(j);
-        break;
-      }
-    }
-  }
 
   const tongMua = muaHang.reduce((s, x) => s + x.tien, 0);
   const tongTra = traTien.reduce((s, x) => s + x.tien, 0);
