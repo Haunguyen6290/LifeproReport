@@ -84,7 +84,7 @@ CREATE POLICY "Allow authenticated update with permission" ON boxes
             SELECT 1 FROM profiles p
             JOIN roles r ON r.id = p.role_id
             WHERE p.id = auth.uid()
-            AND r.permissions @> ARRAY['xem_box']
+            AND r.permissions ? 'xem_box'
         )
     );
 
@@ -101,19 +101,19 @@ DO $$
 BEGIN
     -- Thêm quyền xem_box vào Kinh doanh
     UPDATE roles
-    SET permissions = array_append(permissions, 'xem_box')
+    SET permissions = permissions || 'xem_box'
     WHERE name = 'Kinh doanh'
-    AND NOT (permissions @> ARRAY['xem_box']);
+    AND NOT (permissions ? 'xem_box');
 
     -- Thêm quyền xem_box vào Giám đốc
     UPDATE roles
-    SET permissions = array_append(permissions, 'xem_box')
+    SET permissions = permissions || 'xem_box'
     WHERE name = 'Giám đốc'
-    AND NOT (permissions @> ARRAY['xem_box']);
+    AND NOT (permissions ? 'xem_box');
 
     -- Thêm quyền xem_box vào Admin
     UPDATE roles
-    SET permissions = array_append(permissions, 'xem_box')
+    SET permissions = permissions || 'xem_box'
     WHERE name = 'Admin'
-    AND NOT (permissions @> ARRAY['xem_box']);
+    AND NOT (permissions ? 'xem_box');
 END $$;
