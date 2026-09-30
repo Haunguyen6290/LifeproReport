@@ -103,17 +103,17 @@ BEGIN
     UPDATE roles
     SET permissions = array_append(permissions, 'xem_box')
     WHERE name = 'Kinh doanh'
-    AND NOT ('xem_box' = ANY(permissions));
+    AND NOT (permissions @> ARRAY['xem_box']::text[]);
 
     -- Thêm quyền xem_box vào Giám đốc
     UPDATE roles
     SET permissions = array_append(permissions, 'xem_box')
     WHERE name = 'Giám đốc'
-    AND NOT ('xem_box' = ANY(permissions));
+    AND NOT (permissions @> ARRAY['xem_box']::text[]);
 
     -- Thêm quyền xem_box vào Admin
     UPDATE roles
     SET permissions = array_append(permissions, 'xem_box')
     WHERE name = 'Admin'
-    AND NOT ('xem_box' = ANY(permissions));
+    AND NOT (permissions @> ARRAY['xem_box']::text[]);
 END $$;
