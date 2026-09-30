@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { RequireAuth, useAuth } from '@/components/RequireAuth';
 import { AppSidebar } from '@/components/AppSidebar';
 import { supabase } from '@/lib/supabase/client';
-import Link from 'next/link';
+import { BoxDetailDialog } from '@/components/BoxDetailDialog';
 
 type Box = {
   id: string;
@@ -43,6 +43,7 @@ function BoxList() {
   const [totalPages, setTotalPages] = useState(1);
   const [search, setSearch] = useState('');
   const [filterActivated, setFilterActivated] = useState<string>('all'); // 'all' | 'true' | 'false'
+  const [selectedBoxId, setSelectedBoxId] = useState<string | null>(null);
 
   async function loadStats() {
     try {
@@ -171,7 +172,12 @@ function BoxList() {
                     )}
                   </td>
                   <td className="whitespace-nowrap px-3 py-2">
-                    <Link href={`/quan-tri/box/${box.id}`} className="text-sm font-semibold text-[#1e3a8a] hover:underline">Chi tiết</Link>
+                    <button
+                      onClick={() => setSelectedBoxId(box.id)}
+                      className="text-sm font-semibold text-[#1e3a8a] hover:underline"
+                    >
+                      Chi tiết
+                    </button>
                   </td>
                 </tr>
               ))}
@@ -199,6 +205,14 @@ function BoxList() {
             Sau →
           </button>
         </div>
+      )}
+
+      {/* Dialog */}
+      {selectedBoxId && (
+        <BoxDetailDialog
+          boxId={selectedBoxId}
+          onClose={() => setSelectedBoxId(null)}
+        />
       )}
     </div>
   );
