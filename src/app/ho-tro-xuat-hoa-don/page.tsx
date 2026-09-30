@@ -21,7 +21,7 @@ const fmtD = (d: string) => (d ? d.split('-').reverse().join('/') : '');
 function Screen() {
   const { can } = useAuth();
   const today = useToday();
-  const [tab, setTab] = useState<'dm' | 'ton' | 'goiy' | 'ls'>('goiy');
+  const [tab, setTab] = useState<'dm' | 'ton' | 'goiy' | 'ls' | 'amis'>('goiy');
   const [ngay, setNgay] = useState(today);
 
   // DM
@@ -67,6 +67,16 @@ function Screen() {
 
   // Lich su
   const [ls, setLs] = useState<any[]>([]);
+
+  // AMIS
+  const [amisRows, setAmisRows] = useState<any[]>([]);
+  const [amisKhachList, setAmisKhachList] = useState<any[]>([]);
+  const [amisMaKh, setAmisMaKh] = useState('');
+  const [amisTu, setAmisTu] = useState('2026-09-01');
+  const [amisDen, setAmisDen] = useState(today);
+  const [amisLoading, setAmisLoading] = useState(false);
+  const [amisMsg, setAmisMsg] = useState('');
+  const [amisUploadMsg, setAmisUploadMsg] = useState('');
 
   // Edit inline DM
   const [editThue, setEditThue] = useState<null | { ma: string; ten: string; cap1: string; cap2: string; gia: string; vat: string }>(null);
@@ -508,6 +518,74 @@ function Screen() {
     else { const j = await r.json(); setGoiyMsg(j.error ?? 'Lỗi'); }
   }
 
+  async function loadAmis() {
+    setAmisLoading(true); setAmisMsg('');
+    try {
+      const h = await authHeader();
+      const params = new URLSearchParams();
+      if (amisMaKh) params.set('ma_kh', amisMaKh);
+      if (amisTu) params.set('tu', amisTu);
+      if (amisDen) params.set('den', amisDen);
+      const r = await fetch(`/api/ho-tro-xuat-hoa-don/amis?${params}`, { headers: h });
+      const j = await r.json();
+      if (r.ok) {
+        setAmisRows(j.rows ?? []);
+        setAmisKhachList(j.khach_list ?? []);
+      } else {
+        setAmisMsg(j.error ?? 'Lỗi');
+      }
+    } catch (e: any) {
+      setAmisMsg(e?.message ?? 'Lỗi kết nối');
+    } finally {
+      setAmisLoading(false);
+    }
+  }
+
+  async function uploadAmis(file: File) {
+    setAmisUploadMsg('Đang xử lý...');
+    try {
+      const h = await authHeader();
+      const fd = new FormData();
+      fd.append('file', file);
+      const r = await fetch('/api/ho-tro-xuat-hoa-don/import-amis', { method: 'POST', headers: h, body: fd });
+      const j = await r.json();
+      if (r.ok) {
+        setAmisUploadMsg(`✓ Import thành công: ${j.total} dòng (Mới: ${j.new}, Cập nhật: ${j.updated} CT). Số CT: ${j.so_ct_tu} → ${j.so_ct_den}`);
+        loadAmis();
+      } else {
+        setAmisUploadMsg(`✗ ${j.error ?? 'Lỗi'}`);
+      }
+    } catch (e: any) {
+      setAmisUploadMsg(`✗ ${e?.message ?? 'Lỗi'}`);
+    }
+  }
+
+  async function exportAmis() {
+    try {
+      const h = await authHeader();
+      const params = new URLSearchParams();
+      if (amisMaKh) params.set('ma_kh', amisMaKh);
+      if (amisTu) params.set('tu', amisTu);
+      if (amisDen) params.set('den', amisDen);
+      const r = await fetch(`/api/ho-tro-xuat-hoa-don/export-amis?${params}`, { headers: h });
+      if (r.ok) {
+        const blob = await r.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `AMIS_Export_${new Date().toISOString().slice(0, 10)}.xlsx`;
+        a.click();
+        window.URL.revokeObjectURL(url);
+        setAmisMsg('✓ Đã xuất Excel');
+      } else {
+        const j = await r.json();
+        setAmisMsg(`✗ ${j.error ?? 'Lỗi'}`);
+      }
+    } catch (e: any) {
+      setAmisMsg(`✗ ${e?.message ?? 'Lỗi'}`);
+    }
+  }
+
   if (!can('quan_ly_cai_dat') && !can('ke_toan') && !can('xem_tai_chinh')) {
     return <AppSidebar><main className="p-6 text-sm text-slate-600">Không có quyền xem (cần quyền Kế toán / Quản lý cài đặt).</main></AppSidebar>;
   }
@@ -524,7 +602,7 @@ function Screen() {
         </div>
 
         <div className="mb-4 flex gap-2 border-b border-slate-200">
-          {([['dm', 'Danh mục'], ['ton', 'So tồn'], ['goiy', 'Gợi ý hóa đơn'], ['ls', 'Lịch sử']] as const).map(([k, label]) => (
+          {([['dm', 'Danh mục'], ['ton', 'Sổ tồn'], ['goiy', 'Gợi ý hóa đơn'], ['ls', 'Lịch sử'], ['amis', 'AMIS']] as const).map(([k, label]) => (
             <button key={k} onClick={() => setTab(k as any)} className={`rounded-t-lg px-4 py-2 text-sm font-semibold ${tab === k ? 'border border-b-0 border-slate-200 bg-white text-[#1e3a8a]' : 'text-slate-600 hover:text-slate-900'}`}>{label}</button>
           ))}
         </div>
@@ -877,6 +955,146 @@ function Screen() {
 
         {tab === 'ls' && (
           <LsHistory ls={ls} />
+        )}
+
+        {tab === 'amis' && (
+          <div className="space-y-4">
+            <div className="rounded-xl border border-slate-200 bg-white p-4">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <b className="text-sm text-[#0f2a4a]">AMIS - Import từ Odoo</b>
+                <div className="flex flex-wrap items-center gap-2">
+                  <input
+                    type="file"
+                    accept=".xlsx,.xls"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) uploadAmis(file);
+                      e.target.value = '';
+                    }}
+                    className="hidden"
+                    id="amis-upload"
+                  />
+                  <label htmlFor="amis-upload" className="cursor-pointer rounded-lg bg-[#1e3a8a] px-4 py-2 text-sm font-semibold text-white hover:bg-[#1e3a8a]/90">
+                    📥 Import file AMIS
+                  </label>
+                </div>
+              </div>
+              {amisUploadMsg && <p className="mt-2 text-xs text-slate-600">{amisUploadMsg}</p>}
+            </div>
+
+            <div className="rounded-xl border border-slate-200 bg-white p-4">
+              <div className="flex flex-wrap items-center gap-3">
+                <select
+                  value={amisMaKh}
+                  onChange={(e) => setAmisMaKh(e.target.value)}
+                  className="rounded-md border border-slate-200 px-3 py-1.5 text-sm"
+                >
+                  <option value="">Tất cả khách hàng</option>
+                  {amisKhachList.map((k: any) => (
+                    <option key={k.ma_kh} value={k.ma_kh}>
+                      {k.ma_kh} - {k.ten_khach_hang}
+                    </option>
+                  ))}
+                </select>
+                <input
+                  type="date"
+                  value={amisTu}
+                  onChange={(e) => setAmisTu(e.target.value)}
+                  className="rounded-md border border-slate-200 px-3 py-1.5 text-sm"
+                />
+                <span className="text-xs text-slate-500">→</span>
+                <input
+                  type="date"
+                  value={amisDen}
+                  onChange={(e) => setAmisDen(e.target.value)}
+                  className="rounded-md border border-slate-200 px-3 py-1.5 text-sm"
+                />
+                <button
+                  onClick={loadAmis}
+                  disabled={amisLoading}
+                  className="rounded-lg bg-[#1e3a8a] px-4 py-1.5 text-sm font-semibold text-white disabled:opacity-50"
+                >
+                  {amisLoading ? 'Đang tải...' : 'Xem dữ liệu'}
+                </button>
+                <button
+                  onClick={exportAmis}
+                  disabled={!amisRows.length}
+                  className="rounded-lg border border-slate-200 px-4 py-1.5 text-sm font-semibold hover:border-[#1e3a8a] disabled:opacity-50"
+                >
+                  📤 Xuất Excel để import Misa
+                </button>
+              </div>
+              {amisMsg && <p className="mt-2 text-xs text-slate-600">{amisMsg}</p>}
+            </div>
+
+            <div className="rounded-xl border border-slate-200 bg-white p-3">
+              <div className="mb-2 flex items-center justify-between">
+                <span className="text-sm font-bold text-[#0f2a4a]">
+                  Dữ liệu AMIS ({amisRows.length} dòng)
+                </span>
+                <span className="text-[11px] text-slate-400">
+                  ✓ Chuẩn: Số CT giữ nguyên | ⚠ Không chuẩn: Số CT có _MTK
+                </span>
+              </div>
+              <div className="max-h-[600px] overflow-auto rounded-lg border border-slate-200">
+                <table className="w-full text-xs">
+                  <thead className="sticky top-0 bg-slate-50 text-left text-slate-600">
+                    <tr>
+                      <th className="px-2 py-2 whitespace-nowrap">Trạng thái</th>
+                      <th className="px-2 py-2 whitespace-nowrap">Ngày HT</th>
+                      <th className="px-2 py-2 whitespace-nowrap">Số CT</th>
+                      <th className="px-2 py-2 whitespace-nowrap">Mã KH</th>
+                      <th className="px-2 py-2">Tên KH</th>
+                      <th className="px-2 py-2 whitespace-nowrap">Mã hàng</th>
+                      <th className="px-2 py-2">Tên hàng</th>
+                      <th className="px-2 py-2 text-right whitespace-nowrap">SL</th>
+                      <th className="px-2 py-2 text-right whitespace-nowrap">Đơn giá</th>
+                      <th className="px-2 py-2 text-right whitespace-nowrap">Thành tiền</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {amisRows.map((r: any, i: number) => (
+                      <tr key={i} className="border-t border-slate-100 hover:bg-slate-50">
+                        <td className="px-2 py-1.5">
+                          {r.trang_thai === 'chuan' ? (
+                            <span className="rounded-full bg-green-100 px-2 py-0.5 text-[10px] font-bold text-green-700">
+                              ✓ Chuẩn
+                            </span>
+                          ) : (
+                            <span className="rounded-full bg-yellow-100 px-2 py-0.5 text-[10px] font-bold text-yellow-700">
+                              ⚠ Không chuẩn
+                            </span>
+                          )}
+                        </td>
+                        <td className="px-2 py-1.5 whitespace-nowrap">{fmtD(r.ngay_hach_toan)}</td>
+                        <td className="px-2 py-1.5 whitespace-nowrap font-mono text-[11px]">{r.so_ct}</td>
+                        <td className="px-2 py-1.5 whitespace-nowrap">{r.ma_kh}</td>
+                        <td className="px-2 py-1.5 max-w-[200px] truncate" title={r.ten_khach_hang}>
+                          {r.ten_khach_hang}
+                        </td>
+                        <td className="px-2 py-1.5 whitespace-nowrap font-mono text-[11px]">{r.ma_hang}</td>
+                        <td className="px-2 py-1.5 max-w-[250px] truncate" title={r.ten_hang}>
+                          {r.ten_hang}
+                        </td>
+                        <td className="px-2 py-1.5 text-right tabular-nums">{r.so_luong || ''}</td>
+                        <td className="px-2 py-1.5 text-right tabular-nums">{r.don_gia ? fmt(r.don_gia) : ''}</td>
+                        <td className="px-2 py-1.5 text-right tabular-nums font-semibold">
+                          {r.thanh_tien ? fmt(r.thanh_tien) : ''}
+                        </td>
+                      </tr>
+                    ))}
+                    {!amisRows.length && !amisLoading && (
+                      <tr>
+                        <td colSpan={10} className="px-3 py-6 text-center text-slate-500">
+                          Chưa có dữ liệu. Import file hoặc chọn bộ lọc và bấm "Xem dữ liệu"
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
         )}
       </main>
     </AppSidebar>

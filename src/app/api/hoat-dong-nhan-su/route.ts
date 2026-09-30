@@ -48,13 +48,14 @@ export async function GET(req: NextRequest) {
   const denTs = `${den}T23:59:59+07:00`;
   const db = admin();
 
-  const [profiles, plans, reports, inters, audits, customers] = await Promise.all([
+  const [profiles, plans, reports, inters, audits, customers, amisLogs] = await Promise.all([
     fetchAll(() => db.from('profiles').select('id,full_name,status,roles(name)').order('full_name')),
     fetchAll(() => db.from('weekly_plans').select('id,user_id,tuan_tu,tuan_den,muc_tieu_tuan,noi_dung,trang_thai_duyet,created_at').gte('created_at', tuTs).lte('created_at', denTs)),
     fetchAll(() => db.from('weekly_reports').select('id,user_id,tuan_tu,tuan_den,noi_dung,diem_noi_bat,kho_khan,de_xuat,ty_le_ht,trang_thai_duyet,created_at').gte('created_at', tuTs).lte('created_at', denTs)),
     fetchAll(() => db.from('customer_interactions').select('id,customer_id,loai,noi_dung,ngay,hen_nhac,nguoi_tao,created_at').gte('ngay', tu).lte('ngay', den)),
     fetchAll(() => db.from('audit_logs').select('id,actor_id,action,entity_type,entity_id,details,created_at').gte('created_at', tuTs).lte('created_at', denTs)),
     fetchAll(() => db.from('customers').select('id,ma_kh,ten_kh,created_by,created_at').gte('created_at', tuTs).lte('created_at', denTs)),
+    fetchAll(() => db.from('amis_logs').select('id,user_id,action,file_name,so_dong,so_ct_tu,so_ct_den,filters,created_at').gte('created_at', tuTs).lte('created_at', denTs)),
   ]);
 
   // Tên khách cho tương tác/cập nhật
@@ -104,6 +105,21 @@ export async function GET(req: NextRequest) {
       loai: a.action, thoi_gian: a.created_at,
       tieu_de: a.entity_type === 'customer' ? (custName.get(a.entity_id) ?? 'Khách') : (d.title ?? d.ten ?? a.entity_type ?? ''),
       noi_dung: noi,
+    });
+  }
+  for (const log of amisLogs) {
+    const f = log.filters ? (typeof log.filters === 'string' ? JSON.parse(log.filters) : log.filters) : {};
+    const title = log.action === 'import'
+      ? `Import ${log.file_name || 'file AMIS'}`
+      : `Xuất Excel ${f.ma_kh ? `KH: ${f.ma_kh}` : ''}`;
+    const detail = log.action === 'import'
+      ? `${log.so_dong || 0} dòng · Số CT: ${log.so_ct_tu || ''} → ${log.so_ct_den || ''}`
+      : `${f.tu ? `Từ ${f.tu}` : ''} ${f.den ? `đến ${f.den}` : ''}`;
+    push(log.user_id, 'mua_kho', {
+      loai: log.action === 'import' ? 'Import AMIS' : 'Xuất AMIS',
+      thoi_gian: log.created_at,
+      tieu_de: title,
+      noi_dung: detail,
     });
   }
 
