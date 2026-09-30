@@ -36,8 +36,9 @@ CREATE TABLE IF NOT EXISTS boxes (
     -- Metadata bổ sung (JSON linh hoạt)
     metadata JSONB DEFAULT '{}'::jsonb,
 
-    -- Index để tìm kiếm nhanh
-    CONSTRAINT unique_identifiers UNIQUE NULLS NOT DISTINCT (android_id, imei, serial_number)
+    -- Constraints
+    CONSTRAINT unique_identifiers UNIQUE NULLS NOT DISTINCT (android_id, imei, serial_number),
+    CONSTRAINT at_least_one_identifier CHECK (android_id IS NOT NULL OR imei IS NOT NULL OR serial_number IS NOT NULL)
 );
 
 -- 2. Index cho tìm kiếm nhanh
