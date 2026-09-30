@@ -87,7 +87,7 @@ BEGIN
         UNIQUE NULLS NOT DISTINCT (android_id, imei, serial_number);
 
     ALTER TABLE boxes ADD CONSTRAINT at_least_one_identifier
-        CHECK (android_id IS NOT NULL OR imei IS NOT NULL OR serial_number IS NOT NULL);
+        CHECK (android_id IS NOT NULL OR serial_number IS NOT NULL);
 
     ALTER TABLE boxes ADD CONSTRAINT valid_status
         CHECK (status IN ('active', 'inactive', 'warranty', 'returned', 'defective'));
@@ -151,7 +151,7 @@ CREATE POLICY "Allow authenticated update" ON boxes
 -- 10. Comment giải thích
 COMMENT ON TABLE boxes IS 'Theo dõi các box Lifepro SmartVOICE đã bán - dữ liệu tự động từ app Android + thông tin khách hàng nhập tay';
 COMMENT ON COLUMN boxes.android_id IS 'Settings.Secure.ANDROID_ID - định danh duy nhất (99% trường hợp)';
-COMMENT ON COLUMN boxes.imei IS 'IMEI thiết bị (cần quyền READ_PHONE_STATE)';
+COMMENT ON COLUMN boxes.imei IS 'IMEI thiết bị (thường trống vì app không có quyền READ_PHONE_STATE)';
 COMMENT ON COLUMN boxes.serial_number IS 'Build.SERIAL - có thể trùng lặp giữa các box Trung Quốc';
 COMMENT ON COLUMN boxes.box_name IS 'Tên tùy chỉnh cho box (VD: "Box Xe Audi - HN001") - nhập tay từ dashboard';
 COMMENT ON COLUMN boxes.device_model IS 'Tên model hiển thị (tự động từ app)';
