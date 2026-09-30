@@ -20,10 +20,12 @@ type Box = {
   screen_resolution: string | null;
   screen_density_dpi: number | null;
   screen_size_inches: number | null;
-  ram_total_mb: number | null;
+  ram_total_gb: number | null;
   ram_available_mb: number | null;
   storage_total_gb: number | null;
   storage_available_gb: number | null;
+  cpu_name: string | null;
+  cpu_max_freq: string | null;
   cpu_abi: string | null;
   cpu_cores: number | null;
 
@@ -297,9 +299,10 @@ export function BoxDetailDialog({ boxId, onClose }: Props) {
                 <div className="rounded-lg border bg-slate-50 p-4 space-y-3">
                   <h3 className="font-medium text-[#0f2a4a]">Cấu hình phần cứng</h3>
                   <div className="space-y-2 text-sm">
-                    <div><span className="text-slate-600">RAM:</span> {fmtMB(box.ram_total_mb)} {box.ram_available_mb && `(free: ${fmtMB(box.ram_available_mb)})`}</div>
+                    <div><span className="text-slate-600">CPU:</span> {box.cpu_name || '—'} {box.cpu_max_freq && `@ ${box.cpu_max_freq}`}</div>
+                    <div><span className="text-slate-600">Số nhân CPU:</span> {box.cpu_cores ? `${box.cpu_cores} cores` : '—'} {box.cpu_abi && `(${box.cpu_abi})`}</div>
+                    <div><span className="text-slate-600">RAM:</span> {box.ram_total_gb ? `${box.ram_total_gb} GB` : '—'}</div>
                     <div><span className="text-slate-600">Storage:</span> {fmtGB(box.storage_total_gb)} {box.storage_available_gb && `(free: ${fmtGB(box.storage_available_gb)})`}</div>
-                    <div><span className="text-slate-600">CPU:</span> {box.cpu_cores ? `${box.cpu_cores} cores` : '—'} {box.cpu_abi && `(${box.cpu_abi})`}</div>
                     <div><span className="text-slate-600">Màn hình:</span> {box.screen_resolution || '—'} {box.screen_size_inches && `(${box.screen_size_inches}")`}</div>
                   </div>
                 </div>
