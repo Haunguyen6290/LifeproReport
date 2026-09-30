@@ -89,25 +89,3 @@ COMMENT ON COLUMN boxes.imei IS 'IMEI thiết bị (cần quyền READ_PHONE_STA
 COMMENT ON COLUMN boxes.serial_number IS 'Build.SERIAL - thường có nhưng có thể trùng lặp giữa các box Trung Quốc';
 COMMENT ON COLUMN boxes.activation_code IS 'Mã kích hoạt từ phía admin - để trống khi box chưa được kích hoạt';
 COMMENT ON COLUMN boxes.metadata IS 'JSON linh hoạt cho thông tin bổ sung (vị trí GPS lần đầu, tên khách hàng, ghi chú...)';
-
--- 9. Thêm quyền mới vào các role
-DO $$
-BEGIN
-    -- Thêm quyền xem_box vào Admin
-    IF EXISTS (SELECT 1 FROM public.roles WHERE name = 'Admin')
-       AND NOT EXISTS (SELECT 1 FROM jsonb_array_elements_text((SELECT permissions FROM public.roles WHERE name='Admin')) e WHERE e = 'xem_box') THEN
-        UPDATE public.roles SET permissions = (permissions || '["xem_box"]'::jsonb) WHERE name = 'Admin';
-    END IF;
-
-    -- Thêm quyền xem_box vào Giám đốc
-    IF EXISTS (SELECT 1 FROM public.roles WHERE name = 'Giám đốc')
-       AND NOT EXISTS (SELECT 1 FROM jsonb_array_elements_text((SELECT permissions FROM public.roles WHERE name='Giám đốc')) e WHERE e = 'xem_box') THEN
-        UPDATE public.roles SET permissions = (permissions || '["xem_box"]'::jsonb) WHERE name = 'Giám đốc';
-    END IF;
-
-    -- Thêm quyền xem_box vào Kinh doanh
-    IF EXISTS (SELECT 1 FROM public.roles WHERE name = 'Kinh doanh')
-       AND NOT EXISTS (SELECT 1 FROM jsonb_array_elements_text((SELECT permissions FROM public.roles WHERE name='Kinh doanh')) e WHERE e = 'xem_box') THEN
-        UPDATE public.roles SET permissions = (permissions || '["xem_box"]'::jsonb) WHERE name = 'Kinh doanh';
-    END IF;
-END $$;
