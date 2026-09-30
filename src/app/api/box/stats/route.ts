@@ -24,46 +24,42 @@ export async function GET(req: NextRequest) {
   if (!perm.ok) return NextResponse.json({ error: 'Không có quyền' }, { status: 403 });
 
   const db = admin();
+  const today = new Date().toISOString().slice(0, 10);
+  const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
 
-  // Tổng số box
-  const { count: total } = await db.from('boxes').select('*', { count: 'exact', head: true });
+  // Chạy các query count song song để giảm latency
+  const [
+    { count: total },
+    { count: activated },
+    { count: newToday },
+    { count: active7days },
+    { data: recentBoxes },
+    { data: allBoxes },
+  ] = await Promise.all([
+    db.from('boxes').select('*', { count: 'exact', head: true }),
+    db.from('boxes').select('*', { count: 'exact', head: true }).eq('is_activated', true),
+    db.from('boxes').select('*', { count: 'exact', head: true })
+      .gte('first_seen_at', `${today}T00:00:00Z`)
+      .lte('first_seen_at', `${today}T23:59:59Z`),
+    db.from('boxes').select('*', { count: 'exact', head: true })
+      .gte('last_seen_at', sevenDaysAgo),
+    db.from('boxes').select('first_seen_at')
+      .gte('first_seen_at', sevenDaysAgo)
+      .order('first_seen_at', { ascending: true }),
+    db.from('boxes').select('device_model, android_version').limit(10000),
+  ]);
 
-  // Đã kích hoạt
-  const { count: activated } = await db.from('boxes').select('*', { count: 'exact', head: true }).eq('is_activated', true);
-
-  // Chưa kích hoạt
   const notActivated = (total ?? 0) - (activated ?? 0);
 
-  // Box mới hôm nay
-  const today = new Date().toISOString().slice(0, 10);
-  const { count: newToday } = await db
-    .from('boxes')
-    .select('*', { count: 'exact', head: true })
-    .gte('first_seen_at', `${today}T00:00:00Z`)
-    .lte('first_seen_at', `${today}T23:59:59Z`);
-
-  // Box hoạt động 7 ngày qua
-  const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
-  const { count: active7days } = await db
-    .from('boxes')
-    .select('*', { count: 'exact', head: true })
-    .gte('last_seen_at', sevenDaysAgo);
-
   // Biểu đồ: Box mới mỗi ngày (7 ngày gần nhất)
-  const { data: recentBoxes } = await db
-    .from('boxes')
-    .select('first_seen_at')
-    .gte('first_seen_at', sevenDaysAgo)
-    .order('first_seen_at', { ascending: true });
-
   const chartData: Record<string, number> = {};
   (recentBoxes ?? []).forEach((box: any) => {
     const date = box.first_seen_at.slice(0, 10);
     chartData[date] = (chartData[date] ?? 0) + 1;
   });
 
-  // Phân bố theo model
-  const { data: allBoxes } = await db.from('boxes').select('device_model, android_version');
+  // Phân bố theo model - GIỚI HẠN để tránh OOM
+  // Với số lượng lớn (>10k boxes) nên dùng RPC aggregation thay vì fetch all
   const modelCount: Record<string, number> = {};
   const androidCount: Record<string, number> = {};
 
@@ -82,5 +78,6 @@ export async function GET(req: NextRequest) {
     chartData,
     modelCount,
     androidCount,
+    _note: allBoxes && allBoxes.length >= 10000 ? 'Stats limited to 10k boxes' : undefined,
   });
 }
