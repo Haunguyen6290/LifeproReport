@@ -30,7 +30,10 @@ export async function GET(
   const db = admin();
   const { data, error } = await db.from('boxes').select('*').eq('id', id).single();
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  if (error) {
+    console.error('DB error fetching box:', error);
+    return NextResponse.json({ error: 'Lỗi truy vấn dữ liệu' }, { status: 500 });
+  }
   if (!data) return NextResponse.json({ error: 'Không tìm thấy box' }, { status: 404 });
 
   return NextResponse.json(data);
@@ -52,6 +55,24 @@ export async function PUT(
       return NextResponse.json({ error: 'Thiếu metadata' }, { status: 400 });
     }
 
+    // Validate metadata
+    if (typeof metadata !== 'object' || Array.isArray(metadata) || metadata === null) {
+      return NextResponse.json({ error: 'metadata phải là object' }, { status: 400 });
+    }
+
+    // Giới hạn kích thước metadata (max 50KB)
+    const metadataStr = JSON.stringify(metadata);
+    if (metadataStr.length > 50_000) {
+      return NextResponse.json({ error: 'metadata quá lớn (max 50KB)' }, { status: 400 });
+    }
+
+    // Chỉ cho phép các key hợp lệ
+    const allowedKeys = ['note', 'customer_name', 'location', 'installation_date'];
+    const invalidKeys = Object.keys(metadata).filter(k => !allowedKeys.includes(k));
+    if (invalidKeys.length > 0) {
+      return NextResponse.json({ error: `Key không hợp lệ: ${invalidKeys.join(', ')}` }, { status: 400 });
+    }
+
     const db = admin();
     const { data, error } = await db
       .from('boxes')
@@ -60,10 +81,14 @@ export async function PUT(
       .select()
       .single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) {
+      console.error('DB error updating box metadata:', error);
+      return NextResponse.json({ error: 'Lỗi cập nhật dữ liệu' }, { status: 500 });
+    }
 
     return NextResponse.json({ success: true, box: data });
   } catch (e: any) {
-    return NextResponse.json({ error: e?.message ?? 'Lỗi' }, { status: 500 });
+    console.error('Error in PUT /api/box/[id]:', e);
+    return NextResponse.json({ error: 'Lỗi hệ thống' }, { status: 500 });
   }
 }
