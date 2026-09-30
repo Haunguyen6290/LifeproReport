@@ -69,11 +69,11 @@ CREATE POLICY "Allow service role to update" ON boxes
     TO service_role
     USING (true);
 
--- 6. Policy: Dashboard web có thể đọc mọi row (dùng anon key hoặc authenticated user)
-CREATE POLICY "Allow public read access" ON boxes
+-- 6. Policy: Dashboard web có thể đọc mọi row (authenticated users có quyền)
+CREATE POLICY "Allow authenticated read access" ON boxes
     FOR SELECT
-    TO anon, authenticated
-    USING (true);
+    TO authenticated
+    USING (public.has_permission('xem_box') OR public.has_permission('quan_ly_cai_dat'));
 
 -- 7. Policy: Authenticated users có quyền xem_box có thể update
 CREATE POLICY "Allow authenticated update with permission" ON boxes
