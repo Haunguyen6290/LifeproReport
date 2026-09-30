@@ -27,6 +27,14 @@ type Box = {
 const fmtDate = (d: string) => new Date(d).toLocaleString('vi-VN', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' });
 
 export default function BoxDetailPage({ params }: { params: { id: string } }) {
+  return (
+    <RequireAuth>
+      <BoxDetailContent id={params.id} />
+    </RequireAuth>
+  );
+}
+
+function BoxDetailContent({ id }: { id: string }) {
   const { can } = useAuth();
   const router = useRouter();
   const [box, setBox] = useState<Box | null>(null);
@@ -45,7 +53,7 @@ export default function BoxDetailPage({ params }: { params: { id: string } }) {
     try {
       const { data } = await supabase.auth.getSession();
       const token = data.session?.access_token ?? '';
-      const r = await fetch(`/api/box/${params.id}`, { headers: token ? { Authorization: `Bearer ${token}` } : {} });
+      const r = await fetch(`/api/box/${id}`, { headers: token ? { Authorization: `Bearer ${token}` } : {} });
       const j = await r.json();
       if (r.ok) {
         setBox(j);
@@ -74,7 +82,7 @@ export default function BoxDetailPage({ params }: { params: { id: string } }) {
       const r = await fetch('/api/box/activate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}) },
-        body: JSON.stringify({ id: params.id, activation_code: activationCode.trim() }),
+        body: JSON.stringify({ id, activation_code: activationCode.trim() }),
       });
       const j = await r.json();
       if (r.ok) {
@@ -95,7 +103,7 @@ export default function BoxDetailPage({ params }: { params: { id: string } }) {
     try {
       const { data } = await supabase.auth.getSession();
       const token = data.session?.access_token ?? '';
-      const r = await fetch(`/api/box/${params.id}`, {
+      const r = await fetch(`/api/box/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}) },
         body: JSON.stringify({ metadata: { ...(box?.metadata ?? {}), note: note.trim() } }),
@@ -115,21 +123,18 @@ export default function BoxDetailPage({ params }: { params: { id: string } }) {
 
   if (!canView) {
     return (
-      <RequireAuth>
-        <AppSidebar>
-          <main className="w-full px-4 py-6 sm:px-6">
-            <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
-              Bạn không có quyền xem module này.
-            </div>
-          </main>
-        </AppSidebar>
-      </RequireAuth>
+      <AppSidebar>
+        <main className="w-full px-4 py-6 sm:px-6">
+          <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+            Bạn không có quyền xem module này.
+          </div>
+        </main>
+      </AppSidebar>
     );
   }
 
   return (
-    <RequireAuth>
-      <AppSidebar>
+    <AppSidebar>
         <main className="w-full px-4 py-6 sm:px-6">
           <div className="mb-4 flex items-center gap-3">
             <Link href="/quan-tri/box" className="text-sm text-[#1e3a8a] hover:underline">← Quay lại</Link>
@@ -251,6 +256,5 @@ export default function BoxDetailPage({ params }: { params: { id: string } }) {
           )}
         </main>
       </AppSidebar>
-    </RequireAuth>
   );
 }
