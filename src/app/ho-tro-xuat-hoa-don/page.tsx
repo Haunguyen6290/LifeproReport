@@ -516,7 +516,6 @@ function Screen() {
     const h = await authHeader();
     const r = await fetch('/api/ho-tro-xuat-hoa-don/hoa-don', { method: 'POST', headers: { ...h, 'Content-Type': 'application/json' }, body: JSON.stringify({ ngay, khach_ma: khach || null, khach_ten: khach ? (khachList.find((k:any)=>k.ma_kh===khach)?.ten_kh ?? null) : null, tu_ngay: khTu, den_ngay: khDen, tong_vat: tong, dong: inv }) });
     if (r.ok) {
-      setGoiyMsg('Đã lưu & xuất ✓');
       // xuất Excel MISA ngay
       try {
         const XLSX = await import('xlsx');
@@ -535,7 +534,9 @@ function Screen() {
         XLSX.utils.book_append_sheet(wb, ws, 'HoaDon');
         XLSX.writeFile(wb, `HoaDon_${ngay}_${Date.now()}.xlsx`);
       } catch {}
-      loadLs(); loadSoTon();
+      // Đợi load lại tồn (đã trừ) trước khi báo xong - để gợi ý lần sau dùng data mới
+      await Promise.all([loadLs(), loadSoTon()]);
+      setGoiyMsg('Đã lưu & xuất ✓');
     }
     else { const j = await r.json(); setGoiyMsg(j.error ?? 'Lỗi'); }
   }
