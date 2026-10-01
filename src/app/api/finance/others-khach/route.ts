@@ -78,6 +78,8 @@ export async function GET(req: NextRequest) {
     dbgPush(`nvkdDirect co ma nay khong: ${nvkdDirect.has(debugMa) ? `CO -> ${JSON.stringify(nvkdDirect.get(debugMa))}` : 'KHONG'}`);
     dbgPush(`khoang ngay quet: tu ${tu} den truoc ${den}`);
   }
+  let scanTotal = 0;
+  const nearMiss = new Map<string, number>();
   for (;;) {
     const { data, error } = await db.from('receivable_rows')
       .select('ma_kh, ten_kh, tk_doi_ung, so_no, so_co')
@@ -86,6 +88,14 @@ export async function GET(req: NextRequest) {
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
     for (const r of (data ?? []) as any[]) {
       const isDbg = !!dbg && r.ma_kh === debugMa;
+      scanTotal++;
+      if (dbg && !isDbg) {
+        // Ghi lại mã gần giống để phát hiện lệch byte/ký tự lạ
+        const m = String(r.ma_kh ?? '');
+        if (debugMa && (m.includes(debugMa.slice(0, 4)) || debugMa.includes(m.slice(0, 4))) && m !== debugMa) {
+          nearMiss.set(JSON.stringify(m), (nearMiss.get(JSON.stringify(m)) ?? 0) + 1);
+        }
+      }
       if (isDbg) dbgPush(`thay trong so: tk=${r.tk_doi_ung} no=${r.so_no} co=${r.so_co}`);
       const n = nhom(r.tk_doi_ung ?? '');
       if (n !== 'Doanh thu' && n !== 'Trả lại' && n !== 'Thu tiền') {
@@ -119,6 +129,8 @@ export async function GET(req: NextRequest) {
     const hit = rows.filter((r) => r.ma === debugMa);
     (dbg as any).ket_qua = hit.length ? hit : 'KHONG CO trong rows tra ve';
     (dbg as any).tong_rows = rows.length;
+    (dbg as any).tong_chung_tu_da_quet = scanTotal;
+    (dbg as any).ma_gan_giong = [...nearMiss.entries()].slice(0, 10);
     return NextResponse.json({ thang, ytd, debug: dbg });
   }
   return NextResponse.json({ thang, ytd, rows });
