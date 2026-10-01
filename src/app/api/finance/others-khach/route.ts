@@ -7,6 +7,25 @@ const admin = () => createClient(URL, SRV, { auth: { autoRefreshToken: false, pe
 
 const norm = (t: unknown) => String(t ?? '').toLowerCase().replace(/[^\p{L}\p{N}]/gu, '');
 
+// Số dòng tối đa Supabase trả về cho 1 request (giới hạn mặc định của PostgREST).
+// Phải phân trang đúng bằng số này: xin nhiều hơn cũng chỉ được từng này,
+// nên điều kiện dừng phải so với PAGE chứ không so với chunk lớn hơn.
+const PAGE = 1000;
+
+async function fetchAll(db: any, table: string, cols: string, orderCol: string) {
+  const out: any[] = [];
+  let from = 0;
+  for (;;) {
+    const { data, error } = await db.from(table).select(cols).order(orderCol).range(from, from + PAGE - 1);
+    if (error) throw new Error(error.message);
+    if (!data || data.length === 0) break;
+    out.push(...data);
+    if (data.length < PAGE) break;
+    from += PAGE;
+  }
+  return out;
+}
+
 // Chi tiết Mã - Tên từng khách trong nhóm "Khác" (tab Bán hàng thu tiền),
 // gom theo đúng tên KD quản lý của từng bảng tổng hợp (tháng và lũy kế
 // ghép khác nhau nên phải truyền ytd để ghép đúng). ytd=true: 01/01→hết tháng,
@@ -14,25 +33,25 @@ const norm = (t: unknown) => String(t ?? '').toLowerCase().replace(/[^\p{L}\p{N}
 export async function GET(req: NextRequest) {
   const thang = req.nextUrl.searchParams.get('thang') ?? '';
   const ytd = req.nextUrl.searchParams.get('ytd') === '1';
-  const debugMa = (req.nextUrl.searchParams.get('debugMa') ?? '').trim();
   if (!/^\d{4}-\d{2}$/.test(thang)) return NextResponse.json({ error: 'Thiếu tháng (YYYY-MM)' }, { status: 400 });
   const db = admin();
   const tu = ytd ? `${thang.slice(0, 4)}-01-01` : `${thang}-01`;
-  const d = new Date(`${thang}-01T00:00:00`);
-  const den = `${d.getFullYear()}-${String(d.getMonth() + 2).padStart(2, '0')}-01`;
+  const [yy, mm] = thang.split('-').map(Number);
+  // Tháng 12 phải tràn sang tháng 1 năm sau (trước đây ra "YYYY-13-01" sai).
+  const den = mm === 12 ? `${yy + 1}-01-01` : `${yy}-${String(mm + 1).padStart(2, '0')}-01`;
 
-  // 1) Tên KD từng mã KH trong sổ: ưu tiên ghép đúng logic báo cáo tổng hợp
-  // (CTE cust của finance_collections_report 0033: group by norm + tên KD),
+  // 1) Tên KD từng mã KH trong sổ: ưu tiên ghép đúng logic báo cáo tổng hợp,
   // nên tên KD bên dưới khớp 100% với tên dòng Khác bên trên.
-  const [{ data: custs }, { data: profs }, { data: mapRow }] = await Promise.all([
-    db.from('customers').select('ma_kh, assigned_to'),
-    db.from('profiles').select('id, full_name'),
-    db.from('settings').select('value').eq('key', 'RECEIVABLE_TK_MAP').single(),
+  // (Lấy đủ phân trang vì Supabase chỉ trả tối đa PAGE dòng/request.)
+  const [custs, profs, mapRow] = await Promise.all([
+    fetchAll(db, 'customers', 'ma_kh, assigned_to', 'ma_kh'),
+    fetchAll(db, 'profiles', 'id, full_name', 'id'),
+    db.from('settings').select('value').eq('key', 'RECEIVABLE_TK_MAP').single().then((r) => r.data),
   ]);
   const nameById = new Map((profs ?? []).map((p: any) => [p.id, p.full_name ?? '']));
   // Ghép tên KD đúng logic từng báo cáo tổng hợp (tháng và lũy kế ghép khác nhau):
-  // - Tháng (finance_collections_report 0032): ghép trực tiếp mã sổ = mã danh mục.
-  // - Lũy kế (finance_collections_ytd 0034, theo 0033): ghép theo mã chuẩn hóa,
+  // - Tháng (finance_collections_report): ghép trực tiếp mã sổ = mã danh mục.
+  // - Lũy kế (finance_collections_ytd): ghép theo mã chuẩn hóa,
   //   mỗi cặp (norm, tên KD) một dòng — mã sổ join norm nào thì lấy tên dòng đó.
   const nvkdDirect = new Map<string, string>();
   for (const c of (custs ?? []) as any[]) {
@@ -68,46 +87,19 @@ export async function GET(req: NextRequest) {
   type Agg = { nvkd: string; ma: string; ten: string; doanh_so: number; thu_tien: number };
   const g = new Map<string, Agg & { tra: number }>();
   const keyOf = (nvkd: string, ma: string) => `${nvkd}|${ma}`;
-  const chunk = 5000;
   let from = 0;
-  // DEBUG TẠM (sẽ gỡ sau khi chẩn đoán xong): theo dõi 1-2 mã cụ thể đi qua từng bước
-  const dbg: any = debugMa ? { ma: debugMa, steps: [] as string[] } : null;
-  const dbgPush = (s: string) => { if (dbg) dbg.steps.push(s); };
-  if (dbg) {
-    dbgPush(`tong danh muc: ${(custs ?? []).length} ma, tong nhan su: ${(profs ?? []).length}`);
-    dbgPush(`nvkdDirect co ma nay khong: ${nvkdDirect.has(debugMa) ? `CO -> ${JSON.stringify(nvkdDirect.get(debugMa))}` : 'KHONG'}`);
-    dbgPush(`khoang ngay quet: tu ${tu} den truoc ${den}`);
-  }
-  let scanTotal = 0;
-  let pageCount = 0;
-  let stoppedEarly = '';
-  const nearMiss = new Map<string, number>();
+  let truncated = false;
   for (;;) {
     const { data, error } = await db.from('receivable_rows')
       .select('ma_kh, ten_kh, tk_doi_ung, so_no, so_co')
       .gte('ngay', tu).lt('ngay', den)
-      .order('ma_kh').range(from, from + chunk - 1);
+      .order('ma_kh').range(from, from + PAGE - 1);
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-    pageCount++;
+    if (!data || data.length === 0) break;
     for (const r of (data ?? []) as any[]) {
-      const isDbg = !!dbg && r.ma_kh === debugMa;
-      scanTotal++;
-      if (dbg && !isDbg) {
-        // Ghi lại mã gần giống để phát hiện lệch byte/ký tự lạ
-        const m = String(r.ma_kh ?? '');
-        if (debugMa && (m.includes(debugMa.slice(0, 4)) || debugMa.includes(m.slice(0, 4))) && m !== debugMa) {
-          nearMiss.set(JSON.stringify(m), (nearMiss.get(JSON.stringify(m)) ?? 0) + 1);
-        }
-      }
-      if (isDbg) dbgPush(`thay trong so: tk=${r.tk_doi_ung} no=${r.so_no} co=${r.so_co}`);
       const n = nhom(r.tk_doi_ung ?? '');
-      if (n !== 'Doanh thu' && n !== 'Trả lại' && n !== 'Thu tiền') {
-        if (isDbg) dbgPush(`ROT o loc nhom TK (nhom=${JSON.stringify(n)})`);
-        continue;
-      }
-      const nvkds = nvkdOf(r.ma_kh);
-      if (isDbg) dbgPush(`nvkdOf tra ve: ${JSON.stringify(nvkds)}`);
-      for (const nvRaw of nvkds) {
+      if (n !== 'Doanh thu' && n !== 'Trả lại' && n !== 'Thu tiền') continue;
+      for (const nvRaw of nvkdOf(r.ma_kh)) {
         const nv = nvRaw || 'Khác';
         const key = keyOf(nv, r.ma_kh);
         let cur = g.get(key);
@@ -121,22 +113,12 @@ export async function GET(req: NextRequest) {
         else cur.thu_tien += Number(r.so_co) - Number(r.so_no);
       }
     }
-    if (!data || data.length < chunk) { stoppedEarly = `dung o trang ${pageCount} vi duoi chunk (lay duoc ${data?.length ?? 0} dong)`; break; }
-    from += chunk;
-    if (from > 300000) { stoppedEarly = 'dung vi vuot 300000 (gioi han cung)'; break; }
+    if (data.length < PAGE) break;
+    from += PAGE;
+    if (from > 300000) { truncated = true; break; }
   }
   const rows: Agg[] = [...g.values()]
     .map((r) => ({ nvkd: r.nvkd, ma: r.ma, ten: r.ten, doanh_so: r.doanh_so - r.tra, thu_tien: r.thu_tien }))
     .sort((a, b) => b.doanh_so - a.doanh_so);
-  if (dbg) {
-    const hit = rows.filter((r) => r.ma === debugMa);
-    (dbg as any).ket_qua = hit.length ? hit : 'KHONG CO trong rows tra ve';
-    (dbg as any).tong_rows = rows.length;
-    (dbg as any).tong_chung_tu_da_quet = scanTotal;
-    (dbg as any).so_trang_da_quet = pageCount;
-    (dbg as any).ly_do_dung = stoppedEarly || 'chua ro';
-    (dbg as any).ma_gan_giong = [...nearMiss.entries()].slice(0, 10);
-    return NextResponse.json({ thang, ytd, debug: dbg });
-  }
-  return NextResponse.json({ thang, ytd, rows });
+  return NextResponse.json({ thang, ytd, rows, ...(truncated ? { truncated: true } : {}) });
 }
