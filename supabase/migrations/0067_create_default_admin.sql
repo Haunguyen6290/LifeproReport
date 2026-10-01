@@ -10,7 +10,7 @@ VALUES (
   '00000000-0000-0000-0000-000000000001',
   'Admin',
   'Quản trị viên hệ thống',
-  ARRAY['quan_ly_cai_dat', 'xem_tai_chinh', 'ke_toan', 'xem_box']
+  '["quan_ly_cai_dat", "xem_tai_chinh", "ke_toan", "xem_box"]'::jsonb
 )
 ON CONFLICT (id) DO UPDATE SET
   permissions = EXCLUDED.permissions;
