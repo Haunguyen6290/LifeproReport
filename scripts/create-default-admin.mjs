@@ -59,15 +59,30 @@ async function createDefaultAdmin() {
 
   console.log('✅ Đã tạo auth user:', authData.user.id);
 
-  // 3. Đảm bảo có role Admin
-  const ADMIN_ROLE_ID = '00000000-0000-0000-0000-000000000001';
+  // 3. Đảm bảo có role Admin với đầy đủ quyền (gộp với quyền đã có, không ghi đè)
+  const FULL_ADMIN_PERMS = [
+    "ket_luan", "quan_ly_chien_dich", "import_khach", "xoa_khach",
+    "sua_khach_bat_ky", "chuyen_khach_hang_loat",
+    "quan_ly_nguoi_dung", "quan_ly_danh_muc", "quan_ly_cai_dat", "xem_log",
+    "quan_ly_okr", "xem_okr", "bao_cao_tuan", "bao_cao_kho", "bao_cao_ban_hang",
+    "xem_tai_chinh", "import_tai_chinh", "ke_toan",
+    "xem_hoat_dong_ns", "xem_box", "xem_khach_hang"
+  ];
+  // Ưu tiên role ADMIN gốc (do migration 0001 seed), fallback sang id cố định cũ
+  const { data: existingRole } = await supabase
+    .from('roles')
+    .select('id, permissions')
+    .eq('name', 'ADMIN')
+    .maybeSingle();
+  const ADMIN_ROLE_ID = existingRole?.id ?? '00000000-0000-0000-0000-000000000001';
+  const mergedPerms = [...new Set([...(existingRole?.permissions ?? []), ...FULL_ADMIN_PERMS])];
   const { error: roleError } = await supabase
     .from('roles')
     .upsert({
       id: ADMIN_ROLE_ID,
-      name: 'Admin',
+      name: existingRole ? 'ADMIN' : 'Admin',
       description: 'Quản trị viên hệ thống',
-      permissions: ["quan_ly_cai_dat", "xem_tai_chinh", "ke_toan", "xem_box"]
+      permissions: mergedPerms
     }, { onConflict: 'id' });
 
   if (roleError) {

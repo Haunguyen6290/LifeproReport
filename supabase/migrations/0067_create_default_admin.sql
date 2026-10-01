@@ -15,9 +15,11 @@ VALUES (
 ON CONFLICT (id) DO UPDATE SET
   permissions = EXCLUDED.permissions;
 
--- 2. Tạo profile admin mặc định (chờ auth.users được tạo thủ công)
--- Lưu ý: Không thể tạo trực tiếp vào auth.users qua SQL
--- Phải dùng Supabase Dashboard hoặc API
+-- Lịch sử: bản đầu chỉ seed 4 quyền cho role Admin id cố định,
+-- gây thiếu quyền quan_ly_nguoi_dung (quản lý tài khoản) ở dự án setup mới.
+-- ĐÃ SỬA: script create-default-admin.mjs giờ gộp đủ quyền vào role ADMIN gốc.
+-- Migration này giữ nguyên để không phá dự án đã chạy; dự án mới dùng script bản mới.
+-- (Không chạy lại cũng không sao vì ON CONFLICT + script đã gộp quyền.)
 
 -- 3. Function tự động gán role admin cho user đầu tiên
 CREATE OR REPLACE FUNCTION auto_assign_first_admin()
