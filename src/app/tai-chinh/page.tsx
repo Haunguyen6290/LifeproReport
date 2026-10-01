@@ -167,7 +167,7 @@ function DebtTable({ rows, han, onRowClick }: { rows: DebtRow[]; han: number; on
   );
 }
 
-function CollectionsTable({ rows, plan, thang, tinhKhac, onTinhKhac }: { rows: CollRow[]; plan: PlanRow[]; thang: string; tinhKhac: boolean; onTinhKhac: (v: boolean) => void }) {
+function CollectionsTable({ rows, plan, thang, tinhKhac, onTinhKhac, refreshKey }: { rows: CollRow[]; plan: PlanRow[]; thang: string; tinhKhac: boolean; onTinhKhac: (v: boolean) => void; refreshKey: number }) {
   const planThang = useMemo(() => plan.filter((p) => p.thang === thang), [plan, thang]);
   const miens = useMemo(() => [...new Set(planThang.map((p) => p.mien).filter(Boolean))], [planThang]);
 
@@ -177,6 +177,18 @@ function CollectionsTable({ rows, plan, thang, tinhKhac, onTinhKhac }: { rows: C
   const knownNames = new Set(planThang.map((p) => p.ten));
   const others = rows.filter((r) => !knownNames.has(r.nvkd));
   const [otherDetail, setOtherDetail] = useState(false);
+  const [khach, setKhach] = useState<UnmatchedRow[] | null>(null);
+  useEffect(() => {
+    let alive = true;
+    (async () => {
+      try {
+        const r = await fetch(`/api/finance/unmatched?thang=${thang}`);
+        const j = await r.json();
+        if (alive) setKhach(j?.rows ?? []);
+      } catch { if (alive) setKhach([]); }
+    })();
+    return () => { alive = false; };
+  }, [thang, refreshKey]);
   const rowsTinh = tinhKhac ? rows : rows.filter((r) => knownNames.has(r.nvkd));
   const totalDS = rowsTinh.reduce((a, r) => a + r.doanh_so, 0);
   const totalThu = rowsTinh.reduce((a, r) => a + r.thu_tien, 0);
@@ -324,20 +336,9 @@ function CollectionsTable({ rows, plan, thang, tinhKhac, onTinhKhac }: { rows: C
           <p className="border-t border-slate-100 px-3 py-1 text-[11px] text-slate-500">Hàng “Khác” = {tinhKhac ? `đang hiện cột Khác và tính vào Tổng (${fmt(dsKhac)}/${fmt(thuKhac)})` : 'đang ẩn khỏi bảng và không tính vào Tổng — tích ô bên phải để hiện lại'}.</p>
           {otherDetail && (
             <div className="border-t border-slate-100 overflow-x-auto">
-              <table className="w-full text-xs">
-                <thead><tr className="bg-[#eff6ff] text-left text-[#1e3a8a]"><th className="px-3 py-1.5">Kinh doanh</th><th className="px-3 py-1.5 text-right">Doanh số</th><th className="px-3 py-1.5 text-right">Thu tiền</th><th className="px-3 py-1.5 text-right">Còn phải thu</th></tr></thead>
-                <tbody className="divide-y divide-slate-100">
-                  {others.map((r) => (
-                    <tr key={r.nvkd} className="hover:bg-slate-50">
-                      <td className="px-3 py-1.5 font-medium">{r.nvkd}</td>
-                      <td className="px-3 py-1.5 text-right tabular-nums">{fmt(r.doanh_so)}</td>
-                      <td className="px-3 py-1.5 text-right tabular-nums">{fmt(r.thu_tien)}</td>
-                      <td className="px-3 py-1.5 text-right font-semibold tabular-nums">{fmt(Math.max(r.doanh_so - r.thu_tien, 0))}</td>
-                    </tr>
-                  ))}
-                </tbody>
-                <tfoot><tr className="bg-slate-50 font-bold"><td className="px-3 py-1.5 text-right">Tổng Khác</td><td className="px-3 py-1.5 text-right tabular-nums">{fmt(dsKhac)}</td><td className="px-3 py-1.5 text-right tabular-nums">{fmt(thuKhac)}</td><td className="px-3 py-1.5 text-right tabular-nums">{fmt(Math.max(dsKhac - thuKhac, 0))}</td></tr></tfoot>
-              </table>
+              {khach === null
+                ? <p className="px-3 py-2 text-xs text-slate-500">Đang tải chi tiết khách hàng…</p>
+                : <KhacKhachBreakdown others={others} khach={khach} lastCol="con-lai" />}
             </div>
           )}
         </div>
@@ -373,6 +374,32 @@ function YtdTable({ rows, plan, thang, tinhKhac, onTinhKhac }: { rows: CollRow[]
   const knownNames = new Set([...byTen.keys()]);
   const others = rows.filter((r) => !knownNames.has(r.nvkd));
   const [otherDetail, setOtherDetail] = useState(false);
+  const [khachYtd, setKhachYtd] = useState<UnmatchedRow[] | null>(null);
+  useEffect(() => {
+    let alive = true;
+    (async () => {
+      try {
+        const [y, m] = thang.split('-').map(Number);
+        const all: UnmatchedRow[] = [];
+        for (let i = 1; i <= m; i++) {
+          const t = `${y}-${String(i).padStart(2, '0')}`;
+          const r = await fetch(`/api/finance/unmatched?thang=${t}`);
+          const j = await r.json();
+          for (const k of j?.rows ?? []) all.push(k);
+        }
+        if (!alive) return;
+        const g = new Map<string, UnmatchedRow>();
+        for (const k of all) {
+          const key = `${k.ma_so}|${k.ma_chuan ?? ''}`;
+          const cur = g.get(key);
+          if (cur) { cur.doanh_thu += k.doanh_thu; cur.tra_lai += k.tra_lai; cur.thu_tien += k.thu_tien; cur.so_dong += k.so_dong; }
+          else g.set(key, { ...k });
+        }
+        setKhachYtd([...g.values()]);
+      } catch { if (alive) setKhachYtd([]); }
+    })();
+    return () => { alive = false; };
+  }, [thang]);
   const rowsTinh = tinhKhac ? rows : rows.filter((r) => knownNames.has(r.nvkd));
 
   const ratio = (thu: number, ban: number) => (ban ? `${((thu / ban) * 100).toFixed(1)}%` : '—');
@@ -545,20 +572,9 @@ function YtdTable({ rows, plan, thang, tinhKhac, onTinhKhac }: { rows: CollRow[]
           </div>
           {otherDetail && (
             <div className="border-t border-slate-100 overflow-x-auto">
-              <table className="w-full text-xs">
-                <thead><tr className="bg-[#eff6ff] text-left text-[#1e3a8a]"><th className="px-3 py-1.5">Kinh doanh</th><th className="px-3 py-1.5 text-right">Doanh số</th><th className="px-3 py-1.5 text-right">Thu tiền</th><th className="px-3 py-1.5 text-right">% Thu/Bán</th></tr></thead>
-                <tbody className="divide-y divide-slate-100">
-                  {others.map((r) => (
-                    <tr key={r.nvkd} className="hover:bg-slate-50">
-                      <td className="px-3 py-1.5 font-medium">{r.nvkd}</td>
-                      <td className="px-3 py-1.5 text-right tabular-nums">{fmt(r.doanh_so)}</td>
-                      <td className="px-3 py-1.5 text-right tabular-nums">{fmt(r.thu_tien)}</td>
-                      <td className="px-3 py-1.5 text-right font-semibold tabular-nums">{ratio(r.thu_tien, r.doanh_so)}</td>
-                    </tr>
-                  ))}
-                </tbody>
-                <tfoot><tr className="bg-slate-50 font-bold"><td className="px-3 py-1.5 text-right">Tổng Khác</td><td className="px-3 py-1.5 text-right tabular-nums">{fmt(dsKhac)}</td><td className="px-3 py-1.5 text-right tabular-nums">{fmt(thuKhac)}</td><td className="px-3 py-1.5 text-right tabular-nums">{ratio(thuKhac, dsKhac)}</td></tr></tfoot>
-              </table>
+              {khachYtd === null
+                ? <p className="px-3 py-2 text-xs text-slate-500">Đang tải chi tiết khách hàng…</p>
+                : <KhacKhachBreakdown others={others} khach={khachYtd} lastCol="ratio" />}
             </div>
           )}
         </div>
@@ -568,6 +584,54 @@ function YtdTable({ rows, plan, thang, tinhKhac, onTinhKhac }: { rows: CollRow[]
 }
 
 type UnmatchedRow = { ma_so: string; ten_so: string; ma_chuan: string | null; ten_chuan: string | null; doanh_thu: number; tra_lai: number; thu_tien: number; so_dong: number; chua_gan_kd: boolean };
+
+// Chi tiết khách hàng trong nhóm "Khác": dưới mỗi dòng KD quản lý liệt kê
+// Mã - Tên từng khách để soi số cho chuẩn. Dùng ngay dữ liệu bảng
+// "Khách chưa khớp" nên số khớp 100% với dòng Khác (cùng một nguồn tính toán).
+function KhacKhachBreakdown({ others, khach, lastCol }: { others: CollRow[]; khach: UnmatchedRow[]; lastCol: 'con-lai' | 'ratio' }) {
+  const ratio = (thu: number, ban: number) => (ban ? `${((thu / ban) * 100).toFixed(1)}%` : '—');
+  const khac = others.find((r) => r.nvkd === 'Khác');
+  const named = others.filter((r) => r.nvkd !== 'Khác');
+  const list = khach.map((r) => ({
+    ma: r.ma_chuan ?? r.ma_so,
+    ten: r.ten_chuan ?? r.ten_so,
+    ds: r.doanh_thu - r.tra_lai,
+    thu: r.thu_tien,
+  }));
+  return (
+    <table className="w-full text-xs">
+      <thead><tr className="bg-[#eff6ff] text-left text-[#1e3a8a]"><th className="px-3 py-1.5">Kinh doanh quản lý / Mã — Tên khách</th><th className="px-3 py-1.5 text-right">Doanh số</th><th className="px-3 py-1.5 text-right">Thu tiền</th><th className="px-3 py-1.5 text-right">{lastCol === 'ratio' ? '% Thu/Bán' : 'Còn phải thu'}</th></tr></thead>
+      <tbody className="divide-y divide-slate-100">
+        {khac && (
+          <Fragment>
+            <tr className="bg-slate-50">
+              <td className="px-3 py-1.5 font-bold text-[#0f2a4a]">KD quản lý: {khac.nvkd} ({list.length} khách)</td>
+              <td className="px-3 py-1.5 text-right font-bold tabular-nums">{fmt(khac.doanh_so)}</td>
+              <td className="px-3 py-1.5 text-right font-bold tabular-nums">{fmt(khac.thu_tien)}</td>
+              <td className="px-3 py-1.5 text-right font-bold tabular-nums">{lastCol === 'ratio' ? ratio(khac.thu_tien, khac.doanh_so) : fmt(Math.max(khac.doanh_so - khac.thu_tien, 0))}</td>
+            </tr>
+            {list.map((k) => (
+              <tr key={`khac-${k.ma}`} className="hover:bg-slate-50">
+                <td className="px-3 py-1.5 pl-6 text-slate-700"><span className="font-mono font-semibold">{k.ma}</span><span className="mx-1.5 text-slate-300">—</span>{k.ten || '—'}</td>
+                <td className="px-3 py-1.5 text-right tabular-nums">{fmt(k.ds)}</td>
+                <td className="px-3 py-1.5 text-right tabular-nums">{fmt(k.thu)}</td>
+                <td className="px-3 py-1.5 text-right tabular-nums">{lastCol === 'ratio' ? ratio(k.thu, k.ds) : fmt(Math.max(k.ds - k.thu, 0))}</td>
+              </tr>
+            ))}
+          </Fragment>
+        )}
+        {named.map((o) => (
+          <tr key={`gan-${o.nvkd}`} className="bg-sky-50/60">
+            <td className="px-3 py-1.5 font-bold text-[#0f2a4a]">KD quản lý: {o.nvkd} <span className="ml-1 font-medium text-sky-700">(có trong DM, chưa gán KD — gán xong số sẽ về đúng KD)</span></td>
+            <td className="px-3 py-1.5 text-right font-bold tabular-nums">{fmt(o.doanh_so)}</td>
+            <td className="px-3 py-1.5 text-right font-bold tabular-nums">{fmt(o.thu_tien)}</td>
+            <td className="px-3 py-1.5 text-right font-bold tabular-nums">{lastCol === 'ratio' ? ratio(o.thu_tien, o.doanh_so) : fmt(Math.max(o.doanh_so - o.thu_tien, 0))}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+}
 function UnmatchedPanel({ thang, refreshKey }: { thang: string; refreshKey: number }) {
   const [rows, setRows] = useState<UnmatchedRow[] | null>(null);
   const [open, setOpen] = useState(false);
@@ -790,7 +854,7 @@ function Screen() {
         {!loading && tab === 'thu-tien' && coll && (
           <>
             <KeHoachBox thang={thang} onSaved={() => setRefreshKey((k) => k + 1)} />
-            <CollectionsTable rows={coll.rows ?? []} plan={coll.plan ?? []} thang={thang} tinhKhac={tinhKhac} onTinhKhac={onTinhKhac} />
+            <CollectionsTable rows={coll.rows ?? []} plan={coll.plan ?? []} thang={thang} tinhKhac={tinhKhac} onTinhKhac={onTinhKhac} refreshKey={refreshKey} />
             {ytd && <YtdTable rows={ytd.rows ?? []} plan={ytd.plan ?? []} thang={thang} tinhKhac={tinhKhac} onTinhKhac={onTinhKhac} />}
             {ytdErr && (
               <div className="mt-4 rounded-md border border-amber-200 bg-amber-50 px-4 py-2 text-sm text-amber-800">
