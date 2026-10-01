@@ -8,6 +8,7 @@ import { FinanceSettingsPanel } from '@/components/FinanceSettingsPanel';
 
 const KEYS = [
   { key: 'APP_NAME', label: 'Tên ứng dụng (hiện ở sidebar)' },
+  { key: 'APP_TAB_TITLE', label: 'Tên hiển thị trên tab trình duyệt' },
   { key: 'LOGIN_TITLE', label: 'Dòng chào mừng (trang đăng nhập)' },
   { key: 'LOGIN_SUBTITLE', label: 'Dòng phụ đề (trang đăng nhập)' },
   { key: 'TEN_DOANH_NGHIEP', label: 'Tên doanh nghiệp' },
