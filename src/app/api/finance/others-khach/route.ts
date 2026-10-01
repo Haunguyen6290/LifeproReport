@@ -8,8 +8,9 @@ const admin = () => createClient(URL, SRV, { auth: { autoRefreshToken: false, pe
 const norm = (t: unknown) => String(t ?? '').toLowerCase().replace(/[^\p{L}\p{N}]/gu, '');
 
 // Chi tiết Mã - Tên từng khách trong nhóm "Khác" (tab Bán hàng thu tiền),
-// gom theo đúng tên KD quản lý của bảng tổng hợp (kể cả trước chuẩn hóa 0033).
-// p ytd=true: gom từ 01/01 đến hết tháng; ngược lại chỉ đúng tháng p_thang.
+// gom theo đúng tên KD quản lý của từng bảng tổng hợp (tháng và lũy kế
+// ghép khác nhau nên phải truyền ytd để ghép đúng). ytd=true: 01/01→hết tháng,
+// ngược lại chỉ đúng tháng p_thang.
 export async function GET(req: NextRequest) {
   const thang = req.nextUrl.searchParams.get('thang') ?? '';
   const ytd = req.nextUrl.searchParams.get('ytd') === '1';
@@ -28,24 +29,25 @@ export async function GET(req: NextRequest) {
     db.from('settings').select('value').eq('key', 'RECEIVABLE_TK_MAP').single(),
   ]);
   const nameById = new Map((profs ?? []).map((p: any) => [p.id, p.full_name ?? '']));
-  // ma_norm -> tên KD: đúng CTE cust của finance_collections_report (0033):
-  // mỗi cặp (norm, tên KD) một dòng — mã sổ join norm nào thì lấy tên dòng đó,
-  // nên tên KD bên dưới khớp 100% với dòng Khác bên trên.
+  // Ghép tên KD đúng logic từng báo cáo tổng hợp (tháng và lũy kế ghép khác nhau):
+  // - Tháng (finance_collections_report 0032): ghép trực tiếp mã sổ = mã danh mục.
+  // - Lũy kế (finance_collections_ytd 0034, theo 0033): ghép theo mã chuẩn hóa,
+  //   mỗi cặp (norm, tên KD) một dòng — mã sổ join norm nào thì lấy tên dòng đó.
+  const nvkdDirect = new Map<string, string>();
+  for (const c of (custs ?? []) as any[]) {
+    if (!nvkdDirect.has(c.ma_kh)) nvkdDirect.set(c.ma_kh, nameById.get(c.assigned_to) ?? '');
+  }
   const nvkdByNorm = new Map<string, { nvkd: string; ma: string }>();
   for (const c of (custs ?? []) as any[]) {
     const k = `${norm(c.ma_kh)}|${nameById.get(c.assigned_to) ?? ''}`;
     if (!nvkdByNorm.has(k)) nvkdByNorm.set(k, { nvkd: nameById.get(c.assigned_to) ?? '', ma: c.ma_kh });
   }
   const nvkdOf = (maSo: string): string[] => {
-    // Đúng CTE cust của finance_collections_report (0033): mã sổ join với MỌI
-    // dòng danh mục cùng mã chuẩn hóa — mỗi dòng một tên KD. Nếu danh mục có
-    // 2 khách trùng norm (một gán Trần Hồng, một chưa gán ai) thì cùng 1 mã sổ
-    // sinh ra 2 dòng tổng hợp, số tính 2 lần. Chi tiết phải liệt kê y hệt để khớp.
+    if (!ytd) return [nvkdDirect.get(maSo) ?? ''];
     const n = norm(maSo);
     const out: string[] = [];
     for (const [k, v] of nvkdByNorm) {
       if (k.split('|')[0] !== n) continue;
-      // mã sổ trùng khít mã danh mục (kể cả trước chuẩn hóa 0033) thì chỉ lấy tên dòng đó
       if (v.ma === maSo) return [v.nvkd];
       out.push(v.nvkd);
     }
