@@ -14,6 +14,7 @@ const norm = (t: unknown) => String(t ?? '').toLowerCase().replace(/[^\p{L}\p{N}
 export async function GET(req: NextRequest) {
   const thang = req.nextUrl.searchParams.get('thang') ?? '';
   const ytd = req.nextUrl.searchParams.get('ytd') === '1';
+  const debugMa = (req.nextUrl.searchParams.get('debugMa') ?? '').trim();
   if (!/^\d{4}-\d{2}$/.test(thang)) return NextResponse.json({ error: 'Thiếu tháng (YYYY-MM)' }, { status: 400 });
   const db = admin();
   const tu = ytd ? `${thang.slice(0, 4)}-01-01` : `${thang}-01`;
@@ -69,6 +70,14 @@ export async function GET(req: NextRequest) {
   const keyOf = (nvkd: string, ma: string) => `${nvkd}|${ma}`;
   const chunk = 5000;
   let from = 0;
+  // DEBUG TẠM (sẽ gỡ sau khi chẩn đoán xong): theo dõi 1-2 mã cụ thể đi qua từng bước
+  const dbg: any = debugMa ? { ma: debugMa, steps: [] as string[] } : null;
+  const dbgPush = (s: string) => { if (dbg) dbg.steps.push(s); };
+  if (dbg) {
+    dbgPush(`tong danh muc: ${(custs ?? []).length} ma, tong nhan su: ${(profs ?? []).length}`);
+    dbgPush(`nvkdDirect co ma nay khong: ${nvkdDirect.has(debugMa) ? `CO -> ${JSON.stringify(nvkdDirect.get(debugMa))}` : 'KHONG'}`);
+    dbgPush(`khoang ngay quet: tu ${tu} den truoc ${den}`);
+  }
   for (;;) {
     const { data, error } = await db.from('receivable_rows')
       .select('ma_kh, ten_kh, tk_doi_ung, so_no, so_co')
@@ -76,9 +85,16 @@ export async function GET(req: NextRequest) {
       .order('ma_kh').range(from, from + chunk - 1);
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
     for (const r of (data ?? []) as any[]) {
+      const isDbg = !!dbg && r.ma_kh === debugMa;
+      if (isDbg) dbgPush(`thay trong so: tk=${r.tk_doi_ung} no=${r.so_no} co=${r.so_co}`);
       const n = nhom(r.tk_doi_ung ?? '');
-      if (n !== 'Doanh thu' && n !== 'Trả lại' && n !== 'Thu tiền') continue;
-      for (const nvRaw of nvkdOf(r.ma_kh)) {
+      if (n !== 'Doanh thu' && n !== 'Trả lại' && n !== 'Thu tiền') {
+        if (isDbg) dbgPush(`ROT o loc nhom TK (nhom=${JSON.stringify(n)})`);
+        continue;
+      }
+      const nvkds = nvkdOf(r.ma_kh);
+      if (isDbg) dbgPush(`nvkdOf tra ve: ${JSON.stringify(nvkds)}`);
+      for (const nvRaw of nvkds) {
         const nv = nvRaw || 'Khác';
         const key = keyOf(nv, r.ma_kh);
         let cur = g.get(key);
@@ -99,5 +115,11 @@ export async function GET(req: NextRequest) {
   const rows: Agg[] = [...g.values()]
     .map((r) => ({ nvkd: r.nvkd, ma: r.ma, ten: r.ten, doanh_so: r.doanh_so - r.tra, thu_tien: r.thu_tien }))
     .sort((a, b) => b.doanh_so - a.doanh_so);
+  if (dbg) {
+    const hit = rows.filter((r) => r.ma === debugMa);
+    (dbg as any).ket_qua = hit.length ? hit : 'KHONG CO trong rows tra ve';
+    (dbg as any).tong_rows = rows.length;
+    return NextResponse.json({ thang, ytd, debug: dbg });
+  }
   return NextResponse.json({ thang, ytd, rows });
 }
