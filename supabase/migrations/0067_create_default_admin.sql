@@ -5,18 +5,15 @@
 -- ===================================================================
 
 -- 1. Đảm bảo có role admin
-INSERT INTO roles (id, name, description, permissions, created_at, updated_at)
+INSERT INTO roles (id, name, description, permissions)
 VALUES (
   '00000000-0000-0000-0000-000000000001',
   'Admin',
   'Quản trị viên hệ thống',
-  ARRAY['quan_ly_cai_dat', 'xem_tai_chinh', 'ke_toan', 'xem_box'],
-  NOW(),
-  NOW()
+  ARRAY['quan_ly_cai_dat', 'xem_tai_chinh', 'ke_toan', 'xem_box']
 )
 ON CONFLICT (id) DO UPDATE SET
-  permissions = EXCLUDED.permissions,
-  updated_at = NOW();
+  permissions = EXCLUDED.permissions;
 
 -- 2. Tạo profile admin mặc định (chờ auth.users được tạo thủ công)
 -- Lưu ý: Không thể tạo trực tiếp vào auth.users qua SQL
