@@ -79,6 +79,8 @@ export async function GET(req: NextRequest) {
     dbgPush(`khoang ngay quet: tu ${tu} den truoc ${den}`);
   }
   let scanTotal = 0;
+  let pageCount = 0;
+  let stoppedEarly = '';
   const nearMiss = new Map<string, number>();
   for (;;) {
     const { data, error } = await db.from('receivable_rows')
@@ -86,6 +88,7 @@ export async function GET(req: NextRequest) {
       .gte('ngay', tu).lt('ngay', den)
       .order('ma_kh').range(from, from + chunk - 1);
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    pageCount++;
     for (const r of (data ?? []) as any[]) {
       const isDbg = !!dbg && r.ma_kh === debugMa;
       scanTotal++;
@@ -118,9 +121,9 @@ export async function GET(req: NextRequest) {
         else cur.thu_tien += Number(r.so_co) - Number(r.so_no);
       }
     }
-    if (!data || data.length < chunk) break;
+    if (!data || data.length < chunk) { stoppedEarly = `dung o trang ${pageCount} vi duoi chunk (lay duoc ${data?.length ?? 0} dong)`; break; }
     from += chunk;
-    if (from > 300000) break;
+    if (from > 300000) { stoppedEarly = 'dung vi vuot 300000 (gioi han cung)'; break; }
   }
   const rows: Agg[] = [...g.values()]
     .map((r) => ({ nvkd: r.nvkd, ma: r.ma, ten: r.ten, doanh_so: r.doanh_so - r.tra, thu_tien: r.thu_tien }))
@@ -130,6 +133,8 @@ export async function GET(req: NextRequest) {
     (dbg as any).ket_qua = hit.length ? hit : 'KHONG CO trong rows tra ve';
     (dbg as any).tong_rows = rows.length;
     (dbg as any).tong_chung_tu_da_quet = scanTotal;
+    (dbg as any).so_trang_da_quet = pageCount;
+    (dbg as any).ly_do_dung = stoppedEarly || 'chua ro';
     (dbg as any).ma_gan_giong = [...nearMiss.entries()].slice(0, 10);
     return NextResponse.json({ thang, ytd, debug: dbg });
   }
