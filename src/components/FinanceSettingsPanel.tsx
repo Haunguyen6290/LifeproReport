@@ -22,6 +22,15 @@ const DEFAULT_TK_MAP: TkMapItem[] = [
 
 const NHOMS = ['Doanh thu', 'Trả lại', 'Thu tiền'];
 
+const fmtD = (d: string) => (d ? d.split('-').reverse().join('/') : '');
+const fmtN = (n: number) => Number(n || 0).toLocaleString('vi-VN');
+const ngayTruoc = (d: string) => {
+  if (!d) return '';
+  const x = new Date(d + 'T00:00:00Z');
+  x.setUTCDate(x.getUTCDate() - 1);
+  return x.toISOString().slice(0, 10);
+};
+
 export function FinanceSettingsPanel() {
   const { userId, can } = useAuth();
   const [graceDays, setGraceDays] = useState('90');
@@ -32,16 +41,23 @@ export function FinanceSettingsPanel() {
   const [rebaseDate, setRebaseDate] = useState('');
   const [rebaseMsg, setRebaseMsg] = useState('');
   const [purgeConfirm, setPurgeConfirm] = useState('');
+  const [baseDate, setBaseDate] = useState('');
+  const [obMoc, setObMoc] = useState('');
+  const [obFile, setObFile] = useState<File | null>(null);
+  const [obPreview, setObPreview] = useState<any>(null);
+  const [obMsg, setObMsg] = useState('');
 
   const sel = 'rounded-md border-[1.5px] border-[var(--color-muted)] bg-white px-3 py-2 text-sm outline-none focus:border-[var(--color-ring)]';
   const card = 'rounded-xl border border-slate-200 bg-white p-4 backdrop-blur sm:p-5';
   const editable = can('quan_ly_cai_dat');
 
   async function load() {
-    const { data } = await supabase.from('settings').select('key, value').in('key', ['DEBT_GRACE_DAYS', 'RECEIVABLE_TK_MAP', 'FINANCE_PLAN']);
+    const { data } = await supabase.from('settings').select('key, value').in('key', ['DEBT_GRACE_DAYS', 'RECEIVABLE_TK_MAP', 'FINANCE_PLAN', 'DEBT_BASE_DATE']);
     const v: Record<string, string> = {};
     for (const r of (data ?? []) as { key: string; value: string }[]) v[r.key] = r.value;
     setGraceDays(v.DEBT_GRACE_DAYS || '90');
+    setBaseDate(v.DEBT_BASE_DATE || '');
+    setObMoc((cur) => cur || v.DEBT_BASE_DATE || '');
     try {
       const m = JSON.parse(v.RECEIVABLE_TK_MAP ?? '[]');
       setTkMap(Array.isArray(m) ? m : DEFAULT_TK_MAP);
@@ -81,6 +97,54 @@ export function FinanceSettingsPanel() {
       if (j.error) setRebaseMsg('Lỗi: ' + j.error);
       else { setRebaseMsg(`Đã xóa ${j.daXoa?.toLocaleString('vi-VN')} chứng từ trước ${j.baseDate}.`); setPurgeConfirm(''); }
     } catch (e: any) { setRebaseMsg('Lỗi: ' + (e?.message ?? e)); }
+    finally { setBusy(false); }
+  }
+
+  async function taiFileMau() {
+    const XLSX = await import('xlsx');
+    const rows = [
+      ['Mã khách', 'Tên khách', 'Dư Nợ', 'Dư Có', 'Kinh doanh quản lý', 'SĐT', 'Địa chỉ', 'Quận/Huyện', 'Tỉnh/TP', 'Người quyết định', 'Chức vụ', 'Facebook', 'Google Maps', 'Trạng thái', 'Ghi chú'],
+      ['LP1001', 'Gara ô tô Minh Ngọc', 15000000, 0, 'Nguyễn Văn A', '0905123456', '12 Lê Lợi', 'Hải Châu', 'Đà Nẵng', '', '', '', '', 'Đang theo dõi', 'Khách còn nợ'],
+      ['LP1002', 'Auto Hoàng Sơn', 0, 2000000, '', '', '', '', '', '', '', '', '', '', 'Khách trả trước'],
+    ];
+    const ws = XLSX.utils.aoa_to_sheet(rows);
+    ws['!cols'] = rows[0].map((h, i) => ({ wch: i === 1 ? 34 : Math.max(12, String(h).length + 2) }));
+    const hd = [
+      ['HƯỚNG DẪN'],
+      ['1. Bắt buộc: Mã khách, Tên khách, Dư Nợ, Dư Có. Các cột còn lại không bắt buộc, để trống cũng được.'],
+      ['2. Số dư lấy theo CUỐI NGÀY trước ngày mốc. Mốc 01/01/2026 thì lấy số dư cuối ngày 31/12/2025.'],
+      ['3. Khách còn nợ ghi Dư Nợ, khách trả trước ghi Dư Có. Không ghi cả 2 cột, không ghi số âm.'],
+      ['4. Mã khách phải trùng mã trong sổ 131. Mã chưa có thì phần mềm tạo khách mới.'],
+      ['5. Mã đã có: phần mềm lấy Tên khách theo file này và cập nhật các cột có dữ liệu. Ô trống không xóa dữ liệu cũ.'],
+      ['6. Import file này sẽ THAY TOÀN BỘ số dư đầu kỳ cũ.'],
+      ['7. Xong thì import sổ 131 bắt đầu TỪ ngày mốc (VD từ 01/01/2026).'],
+    ];
+    const ws2 = XLSX.utils.aoa_to_sheet(hd);
+    ws2['!cols'] = [{ wch: 110 }];
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'So_du_dau_ky');
+    XLSX.utils.book_append_sheet(wb, ws2, 'Huong_dan');
+    XLSX.writeFile(wb, 'Mau_So_du_dau_ky.xlsx');
+  }
+
+  async function guiSoDu(mode: 'preview' | 'commit') {
+    if (!obFile || !obMoc) return;
+    setBusy(true); setObMsg('');
+    if (mode === 'preview') setObPreview(null);
+    try {
+      const { data } = await supabase.auth.getSession();
+      const fd = new FormData();
+      fd.append('file', obFile); fd.append('ngayMoc', obMoc); fd.append('mode', mode);
+      const r = await fetch('/api/finance/opening-balance', { method: 'POST', headers: { Authorization: `Bearer ${data.session?.access_token ?? ''}` }, body: fd });
+      const j = await r.json();
+      if (!r.ok) { setObMsg('Lỗi: ' + (j.error ?? r.status)); if (j.errors) setObPreview({ errors: j.errors }); return; }
+      if (mode === 'preview') setObPreview(j);
+      else {
+        setObPreview(null); setObFile(null);
+        setObMsg(`Đã import số dư đầu kỳ ${j.soKhach} khách (thêm mới ${j.themKhach}, cập nhật ${j.capNhatKhach}). Ngày mốc: ${fmtD(j.ngayMoc)}. Giờ import sổ 131 từ ${fmtD(j.ngayMoc)}.`);
+        load();
+      }
+    } catch (e: any) { setObMsg('Lỗi: ' + (e?.message ?? e)); }
     finally { setBusy(false); }
   }
 
@@ -150,6 +214,75 @@ export function FinanceSettingsPanel() {
         </p>
         <a href="/ke-hoach" className="inline-block rounded-md bg-[#1e3a8a] px-4 py-2 text-sm font-semibold text-white hover:bg-[#1e40af]">Mở trang Kế hoạch bán hàng →</a>
         {plans.length > 0 && <p className="mt-2 text-xs text-slate-500">Đang có {new Set(plans.map((p) => p.thang)).size} tháng với {plans.length} dòng kế hoạch.</p>}
+      </div>
+
+      <div className={card}>
+        <h2 className="mb-1 text-sm font-bold text-[#1e3a8a]">Import số dư đầu kỳ + danh sách khách hàng</h2>
+        <p className="mb-3 text-xs text-slate-600">
+          Ngày mốc hiện tại: <strong>{baseDate ? fmtD(baseDate) : 'chưa có'}</strong>.
+          File này <strong>thay toàn bộ</strong> số dư đầu kỳ cũ, đồng thời thêm khách mới và cập nhật tên + thông tin khách đã có.
+        </p>
+        <div className="flex flex-wrap items-end gap-2">
+          <div>
+            <label className="mb-1 block text-xs font-semibold text-slate-600">Ngày mốc (bắt đầu sổ 131)</label>
+            <input type="date" value={obMoc} onChange={(e) => { setObMoc(e.target.value); setObPreview(null); }} className={sel} />
+          </div>
+          <button onClick={taiFileMau} className="rounded-md border border-[var(--color-muted)] px-3 py-2 text-sm hover:border-[var(--color-primary)]">⬇ Tải file mẫu</button>
+          <label className="cursor-pointer rounded-md border border-[var(--color-muted)] px-3 py-2 text-sm hover:border-[var(--color-primary)]">
+            {obFile ? `📄 ${obFile.name}` : '📂 Chọn file Excel'}
+            <input type="file" accept=".xlsx,.xls" className="hidden" onChange={(e) => { setObFile(e.target.files?.[0] ?? null); setObPreview(null); setObMsg(''); e.target.value = ''; }} />
+          </label>
+          <button onClick={() => guiSoDu('preview')} disabled={busy || !obFile || !obMoc} className="rounded-md bg-[var(--color-primary)] px-4 py-2 text-sm font-semibold text-white hover:bg-[var(--color-primary-hover)] disabled:opacity-60">
+            {busy ? 'Đang đọc…' : 'Kiểm tra file'}
+          </button>
+        </div>
+        {obMoc && (
+          <p className="mt-2 rounded-md bg-amber-50 px-3 py-2 text-xs text-amber-800">
+            Nhập số dư <strong>cuối ngày {fmtD(ngayTruoc(obMoc))}</strong>, sau đó import sổ 131 <strong>từ ngày {fmtD(obMoc)}</strong>.
+          </p>
+        )}
+        {obMsg && <p className="mt-2 text-sm text-[#1e3a8a]">{obMsg}</p>}
+
+        {obPreview && (
+          <div className="mt-3 space-y-2 rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm">
+            {obPreview.soKhach != null && (
+              <>
+                <div className="grid gap-x-6 gap-y-1 sm:grid-cols-2">
+                  <div>Số khách: <b>{obPreview.soKhach}</b> (mới {obPreview.khachMoi}, đã có {obPreview.khachDaCo})</div>
+                  <div>Tổng Dư Nợ: <b>{fmtN(obPreview.tongNo)}</b></div>
+                  <div>Tổng Dư Có: <b>{fmtN(obPreview.tongCo)}</b></div>
+                  <div>Số dư đầu kỳ (Nợ − Có): <b className="text-[#1e3a8a]">{fmtN(obPreview.soDu)}</b></div>
+                </div>
+                <p className="text-xs text-slate-500">Đối chiếu số dư trên với dòng "Số dư đầu kỳ" của sổ 131 tại ngày {fmtD(obPreview.ngayMoc)}.</p>
+              </>
+            )}
+            {(obPreview.canhBao ?? []).map((c: string, i: number) => <p key={i} className="text-xs text-amber-700">⚠ {c}</p>)}
+            {(obPreview.doiTen ?? []).length > 0 && (
+              <details>
+                <summary className="cursor-pointer text-xs font-semibold text-slate-700">{obPreview.doiTen.length} khách sẽ đổi tên theo file</summary>
+                <ul className="mt-1 max-h-48 space-y-0.5 overflow-y-auto text-xs text-slate-600">
+                  {obPreview.doiTen.map((d: any) => <li key={d.ma_kh}><span className="font-mono">{d.ma_kh}</span>: {d.ten_cu} → <b>{d.ten_moi}</b></li>)}
+                </ul>
+              </details>
+            )}
+            {(obPreview.errors ?? []).length > 0 && (
+              <details open>
+                <summary className="cursor-pointer text-xs font-semibold text-red-700">{obPreview.errors.length} dòng lỗi (bị bỏ qua)</summary>
+                <ul className="mt-1 max-h-48 space-y-0.5 overflow-y-auto text-xs text-slate-600">
+                  {obPreview.errors.map((e: any, i: number) => <li key={i}>Dòng {e.dong} {e.ma_kh && <span className="font-mono">({e.ma_kh})</span>}: {e.lyDo}</li>)}
+                </ul>
+              </details>
+            )}
+            {obPreview.soKhach != null && (
+              <div className="flex justify-end pt-1">
+                <button onClick={() => { if (confirm(`Thay toàn bộ số dư đầu kỳ bằng ${obPreview.soKhach} khách, ngày mốc ${fmtD(obPreview.ngayMoc)}?`)) guiSoDu('commit'); }} disabled={busy}
+                  className="rounded-md bg-green-700 px-4 py-2 text-sm font-semibold text-white hover:bg-green-800 disabled:opacity-60">
+                  {busy ? 'Đang import…' : 'Xác nhận import'}
+                </button>
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
       <div className={card}>

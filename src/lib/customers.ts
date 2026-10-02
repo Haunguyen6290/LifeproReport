@@ -47,6 +47,8 @@ export function sortCustomers<T extends { ten_kh: string; tier?: { code?: string
 export type IncomingRow = Record<string, string>;
 export type ImportResult = {
   added: IncomingRow[];
+  /** Trùng mã đã có → chỉ bổ sung các cột có dữ liệu (không đổi mã, không đổi tên). */
+  updates: { MaKH: string; data: IncomingRow }[];
   dupes: { MaKH: string; lyDo: string }[];
   errors: { MaKH: string; ten: string; lyDo: string }[];
   pending: { MaKH: string; ten: string; sdt: string; kinhDoanh: string; data: IncomingRow }[];
@@ -59,17 +61,28 @@ export function applyImportRules(
   existingSdt: Readonly<Record<string, string>>,
   knownUsers: ReadonlySet<string>,
 ): ImportResult {
-  const out: ImportResult = { added: [], dupes: [], errors: [], pending: [], warnings: [] };
+  const out: ImportResult = { added: [], updates: [], dupes: [], errors: [], pending: [], warnings: [] };
   const sdtSeen: Record<string, string> = { ...existingSdt };
   let maSet = new Set(existingMa);
+  // Mã trong DB có thể viết thường / có khoảng trắng (mã từ sổ 131) → so khớp không phân biệt hoa thường
+  const dbMa = new Map<string, string>();
+  for (const m of existingMa) dbMa.set(m.trim().toUpperCase().replace(/\s+/g, '_'), m);
+  const daCapNhat = new Set<string>();
   for (const it of incoming) {
     const ma = String(it.MaKH || '').trim().toUpperCase().replace(/\s+/g, '_');
     const ten = String(it.TenKH || '').trim();
     const sdt = String(it.SDT || '').trim();
     if (!ma) { out.errors.push({ MaKH: '(thiếu mã)', ten, lyDo: 'Thiếu Mã khách hàng' }); continue; }
+    const maCu = dbMa.get(ma);
+    if (maCu) {
+      if (daCapNhat.has(maCu)) { out.dupes.push({ MaKH: ma, lyDo: 'Mã lặp trong file — chỉ lấy dòng đầu' }); continue; }
+      daCapNhat.add(maCu);
+      out.updates.push({ MaKH: maCu, data: it });
+      continue;
+    }
     if (!ten) { out.errors.push({ MaKH: ma, ten: '', lyDo: 'Thiếu Tên khách hàng' }); continue; }
     if (!sdt) { out.errors.push({ MaKH: ma, ten, lyDo: 'Thiếu Số điện thoại' }); continue; }
-    if (maSet.has(ma)) { out.dupes.push({ MaKH: ma, lyDo: 'Trùng mã đã tồn tại — bỏ qua' }); continue; }
+    if (maSet.has(ma)) { out.dupes.push({ MaKH: ma, lyDo: 'Mã lặp trong file — chỉ lấy dòng đầu' }); continue; }
     const owner = String(it.KinhDoanh || '').trim().toLowerCase();
     if (!knownUsers.has(owner)) {
       out.pending.push({ MaKH: ma, ten, sdt, kinhDoanh: it.KinhDoanh || '(trống)', data: it });

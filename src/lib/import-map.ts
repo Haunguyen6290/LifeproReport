@@ -1,8 +1,8 @@
 import { fmtPhone, normText } from './format';
 
 export const IMPORT_MAP: Record<string, string> = {
-  'ma khach hang': 'MaKH', 'ma kh': 'MaKH', 'makh': 'MaKH',
-  'ten khach hang': 'TenKH', 'ten kh': 'TenKH', 'tenkh': 'TenKH',
+  'ma khach hang': 'MaKH', 'ma khach': 'MaKH', 'ma kh': 'MaKH', 'makh': 'MaKH',
+  'ten khach hang': 'TenKH', 'ten khach': 'TenKH', 'ten kh': 'TenKH', 'tenkh': 'TenKH',
   'kinh doanh quan ly': 'KinhDoanh', 'kinhdoanh quan ly': 'KinhDoanh', 'kinh doanh': 'KinhDoanh', 'kinhdoanh': 'KinhDoanh', 'nguoi phu trach': 'KinhDoanh',
   'sdt': 'SDT', 'so dien thoai': 'SDT', 'dien thoai': 'SDT',
   'mo hinh kinh doanh': 'MoHinhKD', 'mo hinh kd': 'MoHinhKD', 'loai kh': 'MoHinhKD', 'loai khach hang': 'MoHinhKD',

@@ -28,9 +28,21 @@ describe('applyImportRules', () => {
     ];
     const r = applyImportRules(incoming, new Set(['LP_DONGTIN']), { '0905123456': 'LP_DONGTIN' }, new Set(['trungchinh']));
     expect(r.added.map((a) => a.MaKH)).toEqual(['NEW1']);
-    expect(r.dupes).toHaveLength(1);
+    expect(r.updates.map((u) => u.MaKH)).toEqual(['LP_DONGTIN']);
+    expect(r.dupes).toHaveLength(0);
     expect(r.errors).toHaveLength(1);
     expect(r.pending).toHaveLength(1);
     expect(r.warnings.length).toBeGreaterThan(0);
+  });
+
+  it('trùng mã → cập nhật, không cần SĐT, khớp cả mã viết thường; lặp mã trong file thì bỏ dòng sau', () => {
+    const incoming = [
+      { MaKH: 'lp-duytung', TenKH: '', SDT: '', TinhTP: 'Bình Định' },
+      { MaKH: 'LP-DUYTUNG', TenKH: 'Lặp', SDT: '', TinhTP: 'Khác' },
+    ];
+    const r = applyImportRules(incoming, new Set(['LP-Duytung']), {}, new Set());
+    expect(r.updates).toEqual([{ MaKH: 'LP-Duytung', data: incoming[0] }]);
+    expect(r.dupes).toHaveLength(1);
+    expect(r.errors).toHaveLength(0);
   });
 });

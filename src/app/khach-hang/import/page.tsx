@@ -8,6 +8,7 @@ import { mapTable } from '@/lib/import-map';
 import { normText } from '@/lib/format';
 import { applyImportRules, type ImportResult } from '@/lib/customers';
 import { notifyTelegram } from '@/lib/notify';
+import { customerPatch } from '@/lib/customer-patch';
 
 type Preview = ImportResult & { total: number };
 
@@ -34,13 +35,17 @@ function Screen() {
     const ws = wb.Sheets[wb.SheetNames[0]];
     const table = XLSX.utils.sheet_to_json<any[]>(ws, { header: 1, defval: '' });
     const mapped = mapTable(table);
-    const [{ data: existing }, { data: freshUsers }] = await Promise.all([
-      supabase.from('customers').select('ma_kh, sdt'),
-      supabase.from('profiles').select('username, full_name').eq('status', 'ACTIVE'),
-    ]);
-    const maSet = new Set(((existing ?? []) as { ma_kh: string }[]).map((x) => x.ma_kh));
+    // Đọc đủ danh mục (Supabase trả tối đa 1000 dòng/lần) để không nhận nhầm khách cũ thành khách mới
+    const existing: { ma_kh: string; sdt: string }[] = [];
+    for (let from = 0; ; from += 1000) {
+      const { data } = await supabase.from('customers').select('ma_kh, sdt').range(from, from + 999);
+      existing.push(...((data ?? []) as { ma_kh: string; sdt: string }[]));
+      if ((data ?? []).length < 1000) break;
+    }
+    const { data: freshUsers } = await supabase.from('profiles').select('username, full_name').eq('status', 'ACTIVE');
+    const maSet = new Set(existing.map((x) => x.ma_kh));
     const sdtMap: Record<string, string> = {};
-    for (const r of (existing ?? []) as { ma_kh: string; sdt: string }[]) {
+    for (const r of existing) {
       for (const n of String(r.sdt || '').split(/[,;/]+/)) { const d = n.replace(/\D+/g, ''); if (d) sdtMap[d] = r.ma_kh; }
     }
     const freshKnown = new Set([
@@ -109,6 +114,14 @@ function Screen() {
       const { error } = await supabase.from('customers').insert(payload);
       if (!error) pendingImported++;
     }
+    // 3) Trùng mã đã có: chỉ bổ sung các cột có dữ liệu (giữ nguyên mã + tên)
+    let updatedCount = 0, updateBlocked = 0;
+    for (const u of preview.updates) {
+      const patch = customerPatch(u.data, { findUserId, findStatusId: (n) => statusByName.get(n) ?? null });
+      if (!Object.keys(patch).length) continue;
+      const { data: upd, error } = await supabase.from('customers').update({ ...patch, updated_by: userId, updated_at: new Date().toISOString() }).eq('ma_kh', u.MaKH).select('id');
+      if (!error && (upd ?? []).length) updatedCount++; else updateBlocked++;
+    }
     await supabase.from('import_batches').insert({
       file_name: 'upload', added: addedCount + pendingImported, dupes: preview.dupes.length,
       errors: preview.errors, pending: preview.pending.map((p) => ({ MaKH: p.MaKH, ten: p.ten, kinhDoanh: p.kinhDoanh })),
@@ -118,7 +131,8 @@ function Screen() {
     try { const { data: me2 } = await supabase.from('profiles').select('full_name').eq('id', userId).single(); _nmI = (me2 as any)?.full_name ?? ''; await supabase.from('audit_logs').insert({ actor_id: userId, action: 'Import Excel', entity_type: 'customer', entity_id: null, details: { added: addedCount, pending_imported: pendingImported, dupes: preview.dupes.length, errors: preview.errors.length, pending: 0, full_name: _nmI } }); } catch {}
     notifyTelegram('TB_IMPORT', `[Import] Thêm ${addedCount} khách, ${preview.dupes.length} trùng\nNgười import: ${_nmI}`);
     setBusy(false);
-    setMsg(`Đã thêm ${addedCount + pendingImported} khách (${addedCount} khớp Kinh doanh, ${pendingImported} tạm gán về bạn — yêu cầu kinh doanh sửa phụ trách sau).`);
+    setMsg(`Đã thêm ${addedCount + pendingImported} khách (${addedCount} khớp Kinh doanh, ${pendingImported} tạm gán về bạn — yêu cầu kinh doanh sửa phụ trách sau). Cập nhật thêm thông tin ${updatedCount} khách đã có.`
+      + (updateBlocked ? ` ${updateBlocked} khách không cập nhật được (không phải khách của bạn — cần quyền "Sửa khách bất kỳ").` : ''));
   }
 
   async function assignPending(p: { MaKH: string; ten: string; sdt: string; data: Record<string, string> }, toUser: string) {
@@ -156,7 +170,7 @@ function Screen() {
       <main className="w-full px-4 py-6 sm:px-6">
         <h1 className="mb-5 text-2xl font-bold tracking-tight">Import khách hàng từ Excel</h1>
         <div className={`${card} mb-4`}>
-          <p className="mb-3 text-sm text-slate-600">Chọn file .xlsx/.csv. Dòng đầu phải là tên cột. Trùng mã sẽ bỏ qua, thiếu SĐT báo lỗi, không khớp người phụ trách đưa vào hàng chờ.</p>
+          <p className="mb-3 text-sm text-slate-600">Chọn file .xlsx/.csv. Dòng đầu phải là tên cột. Trùng mã đã có: giữ nguyên mã + tên, chỉ bổ sung các cột có dữ liệu (ô trống không xóa dữ liệu cũ). Khách mới thiếu SĐT báo lỗi, không khớp người phụ trách đưa vào hàng chờ.</p>
           <input type="file" accept=".xlsx,.xls,.csv" onChange={onFile} className="text-sm" />
         </div>
 
@@ -167,11 +181,12 @@ function Screen() {
                 <div className="text-sm">
                   Tổng <b>{preview.total}</b> dòng ·
                   <span className="ml-2 text-green-700">thêm {preview.added.length}</span> ·
-                  <span className="ml-2 text-slate-600">trùng {preview.dupes.length}</span> ·
+                  <span className="ml-2 text-blue-700">cập nhật {preview.updates.length}</span> ·
+                  <span className="ml-2 text-slate-600">lặp {preview.dupes.length}</span> ·
                   <span className="ml-2 text-[var(--color-destructive)]">lỗi {preview.errors.length}</span> ·
                   <span className="ml-2 text-amber-700">chờ gán {preview.pending.length}</span>
                 </div>
-                <button onClick={doImport} disabled={busy || (preview.added.length + preview.pending.length === 0)} className="rounded-md bg-[var(--color-primary)] px-4 py-2 text-sm font-semibold text-white hover:bg-[var(--color-primary-hover)] disabled:opacity-60">{busy ? 'Đang import…' : 'Thực hiện import'}</button>
+                <button onClick={doImport} disabled={busy || (preview.added.length + preview.pending.length + preview.updates.length === 0)} className="rounded-md bg-[var(--color-primary)] px-4 py-2 text-sm font-semibold text-white hover:bg-[var(--color-primary-hover)] disabled:opacity-60">{busy ? 'Đang import…' : 'Thực hiện import'}</button>
               </div>
               {msg && <p className="text-sm font-medium text-[#1e3a8a]">{msg}</p>}
               {preview.warnings.length > 0 && <ul className="mt-2 space-y-0.5 text-xs text-amber-700">{preview.warnings.map((w, i) => <li key={i}>{w}</li>)}</ul>}
