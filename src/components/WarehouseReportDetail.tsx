@@ -154,9 +154,9 @@ export function WarehouseReportDetail({ id }: { id: string }) {
 
         <div className={`${card} mt-4`}>
           <h3 className="text-sm font-bold text-[#1e3a8a]">Cập nhật</h3>
-          <GrowArea value={newContent} onChange={(e) => setNewContent(e.target.value)} onPaste={(e) => { const f = imagesFromPaste(e); if(f.length){ e.preventDefault(); (async()=>{for(const x of f){try{const up=await uploadImage(x); setImgs((p)=>[...p,up])}catch{}}})(); } }} placeholder="Thêm cập nhật cho phiếu này… (Ctrl+V dán ảnh)" rows={2} className="mt-2 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-[#1e3a8a] focus:ring-1 focus:ring-[#1e3a8a]" />
-          <div className="mt-2">
-            <AttachmentInput value={imgs} onChange={setImgs} />
+          <div className="mt-2 flex items-center gap-2">
+            <GrowArea value={newContent} onChange={(e) => setNewContent(e.target.value)} onPaste={(e) => { const f = imagesFromPaste(e); if(f.length){ e.preventDefault(); (async()=>{for(const x of f){try{const up=await uploadImage(x); setImgs((p)=>[...p,up])}catch{}}})(); } }} placeholder="Thêm cập nhật cho phiếu này… (Ctrl+V dán ảnh)" rows={2} className="min-w-0 flex-1 rounded-md border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-[#1e3a8a] focus:ring-1 focus:ring-[#1e3a8a]" />
+            <AttachmentInput value={imgs} onChange={setImgs} perRow={3} />
           </div>
           <div className="mt-2 flex justify-end">
             <button onClick={postUpdate} disabled={busy || !newContent.trim()} className="rounded-lg bg-[#1e3a8a] px-4 py-2 text-sm font-semibold text-white hover:bg-[#1e40af] disabled:opacity-60">
