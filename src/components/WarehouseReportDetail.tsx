@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase/client';
 import { useAuth } from '@/components/RequireAuth';
 import { CommentList } from '@/components/CommentList';
+import { Avatar } from '@/components/Avatar';
 import { GrowArea } from '@/components/GrowArea';
 import { AttachmentInput } from '@/components/AttachmentInput';
 import { ClickableImages } from '@/components/ClickableImages';
@@ -26,7 +27,7 @@ type Row = {
   user?: { full_name?: string };
 };
 
-type Update = { id: string; content: string; created_at: string; reporter?: { full_name?: string } | null };
+type Update = { id: string; content: string; created_at: string; reporter?: { full_name?: string; avatar_url?: string | null } | null };
 
 function StatusDot({ v }: { v: string }) {
   const cls = v === 'Đã xử lý' ? 'bg-emerald-500' : v === 'Đang giải quyết' ? 'bg-amber-500' : 'bg-red-500';
@@ -44,6 +45,8 @@ export function WarehouseReportDetail({ id }: { id: string }) {
   const [newContent, setNewContent] = useState('');
   const [imgs, setImgs] = useState<{ storage_path: string; public_url: string }[]>([]);
   const [busy, setBusy] = useState(false);
+  // Khung thảo luận chung cũ (gắn cả phiếu): chỉ hiện khi phiếu đã có bình luận cũ
+  const [oldComments, setOldComments] = useState(0);
 
   async function load() {
     const { data: r } = await supabase
@@ -63,13 +66,19 @@ export function WarehouseReportDetail({ id }: { id: string }) {
       setVdName((c as any)?.name ?? '');
     } else setVdName('');
 
-    const { data: ups } = await supabase
+    const sel = (cols: string) => supabase
       .from('warehouse_report_updates')
-      .select('id, content, created_at, reporter:profiles!warehouse_report_updates_reporter_id_fkey(full_name)')
+      .select(`id, content, created_at, reporter:profiles!warehouse_report_updates_reporter_id_fkey(${cols})`)
       .eq('report_id', id)
       .order('created_at', { ascending: false });
+    let { data: ups, error: upErr } = await sel('full_name, avatar_url');
+    if (upErr && String(upErr.message).includes('avatar_url')) ({ data: ups } = await sel('full_name'));
     // fallback gracefully if table not yet migrated
     if (ups) setUpdates(ups as any);
+
+    const { count } = await supabase.from('comments').select('id', { count: 'exact', head: true })
+      .eq('target_type', 'warehouse_report').eq('target_id', id).is('deleted_at', null);
+    setOldComments(count ?? 0);
     if (ups && ups.length) {
       const ids = (ups as any[]).map((u: any) => u.id);
       const { data: atts } = await supabase.from('attachments').select('public_url, owner_id').eq('owner_type', 'warehouse_report').in('owner_id', ids);
@@ -154,21 +163,28 @@ export function WarehouseReportDetail({ id }: { id: string }) {
               {busy ? 'Đang gửi…' : 'Gửi cập nhật'}
             </button>
           </div>
-          <div className="mt-4 space-y-3">
-            {updates.length === 0 ? <p className="text-sm text-slate-600">Chưa có cập nhật nào.</p> : updates.map((u) => (
-              <div key={u.id} className="rounded-lg border border-slate-200 bg-white p-3">
-                <div className="flex items-center gap-2 text-xs text-slate-600">
-                  <span className="font-semibold text-slate-900">{u.reporter?.full_name ?? ''}</span>
-                  <span>·</span>
-                  <span>{fmtCommentTimeVN(u.created_at)}</span>
-                </div>
-                <p className="mt-1 whitespace-pre-wrap text-sm text-slate-900">{u.content}</p>
-                {updateImgs[u.id]?.length ? <ClickableImages imgs={updateImgs[u.id]} thumbClass="h-16 w-16 rounded-md border object-cover" /> : null}
-              </div>
-            ))}
-          </div>
         </div>
 
-        <CommentList targetType="warehouse_report" targetId={id} /></div>
+        <h2 className="mb-2 mt-4 text-sm font-bold text-[#1e3a8a]">Bản cập nhật ({updates.length})</h2>
+        {updates.length === 0 ? <p className="py-6 text-center text-sm text-slate-600">Chưa có cập nhật nào.</p> : (
+          <ul className="space-y-3">
+            {updates.map((u) => (
+              <li key={u.id} className="rounded-xl border border-[#1e3a8a] bg-white p-4 shadow-[0_1px_3px_rgba(15,23,42,0.06)] sm:p-5">
+                <div className="flex items-center gap-2.5">
+                  <Avatar name={u.reporter?.full_name ?? '?'} src={u.reporter?.avatar_url ?? null} size={36} viewable />
+                  <div className="min-w-0">
+                    <div className="truncate text-sm font-semibold text-slate-900">{u.reporter?.full_name ?? ''}</div>
+                    <div className="text-xs text-slate-500">{fmtCommentTimeVN(u.created_at)}</div>
+                  </div>
+                </div>
+                <p className="mt-2 whitespace-pre-wrap text-sm text-slate-900">{u.content}</p>
+                {updateImgs[u.id]?.length ? <ClickableImages imgs={updateImgs[u.id]} thumbClass="h-16 w-16 rounded-md border object-cover" /> : null}
+                <CommentList targetType="warehouse_report_update" targetId={u.id} />
+              </li>
+            ))}
+          </ul>
+        )}
+
+        {oldComments > 0 && <CommentList targetType="warehouse_report" targetId={id} />}</div>
   );
 }

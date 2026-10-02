@@ -18,7 +18,7 @@ export type Comment = {
   images?: { id: string; public_url: string }[];
 };
 
-export function CommentList({ targetType, targetId, initialComments }: { targetType: 'news' | 'campaign_update' | 'warehouse_report'; targetId: string; initialComments?: Comment[] }) {
+export function CommentList({ targetType, targetId, initialComments }: { targetType: 'news' | 'campaign_update' | 'warehouse_report' | 'warehouse_report_update'; targetId: string; initialComments?: Comment[] }) {
   const { userId, can } = useAuth();
   const [items, setItems] = useState<Comment[]>(initialComments ?? []);
   const [profiles, setProfiles] = useState<MentionProfile[]>([]);
@@ -129,8 +129,8 @@ export function CommentList({ targetType, targetId, initialComments }: { targetT
       for (const im of imgs) await supabase.from('attachments').insert({ owner_type: 'comment', owner_id: insertedId, storage_path: im.storage_path, public_url: im.public_url, uploader_id: userId });
       let _nm = '';
       try { const { data: me2 } = await supabase.from('profiles').select('full_name').eq('id', userId).single(); _nm = (me2 as any)?.full_name ?? '';
-        const actionMap: Record<string, string> = { news: 'Bình luận tin thị trường', campaign_update: 'Bình luận chiến dịch', warehouse_report: 'Bình luận báo cáo kho' };
-        const entityMap: Record<string, string> = { news: 'news', campaign_update: 'campaign', warehouse_report: 'warehouse_report' };
+        const actionMap: Record<string, string> = { news: 'Bình luận tin thị trường', campaign_update: 'Bình luận chiến dịch', warehouse_report: 'Bình luận báo cáo kho', warehouse_report_update: 'Bình luận cập nhật kho' };
+        const entityMap: Record<string, string> = { news: 'news', campaign_update: 'campaign', warehouse_report: 'warehouse_report', warehouse_report_update: 'warehouse_report' };
         await supabase.from('audit_logs').insert({ actor_id: userId, action: actionMap[targetType] ?? 'Bình luận', entity_type: entityMap[targetType] ?? targetType, entity_id: targetId as any, details: { comment_id: insertedId, full_name: _nm } });
       } catch {}
       notifyTelegram('TB_COMMENT_MOI', `[Bình luận] ${content.trim().slice(0, 300)}\nNgười gửi: ${_nm}`);
