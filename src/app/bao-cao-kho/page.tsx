@@ -102,6 +102,7 @@ function Screen() {
   const [sanPhamMap, setSanPhamMap] = useState<Map<string, string>>(new Map());
   const [vanDeMap, setVanDeMap] = useState<Map<string, string>>(new Map());
   const [sanPhamOpts, setSanPhamOpts] = useState<CategoryItem[]>([]);
+  const [updateCounts, setUpdateCounts] = useState<Map<string, number>>(new Map());
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState('');
   const [open, setOpen] = useState(false);
@@ -156,6 +157,15 @@ function Screen() {
             for (const p of (profs ?? []) as any[]) m.set(p.id, p.full_name || p.username || p.id.slice(0, 8));
             setProfiles(m);
           } else setProfiles(new Map());
+            const rids = list.map((r) => r.id);
+            if (rids.length) {
+              const { data: ups } = await supabase.from('warehouse_report_updates').select('report_id').in('report_id', rids);
+              if (!cancelled) {
+                const cnt = new Map<string, number>();
+                for (const u of (ups ?? []) as any[]) cnt.set(u.report_id, (cnt.get(u.report_id) ?? 0) + 1);
+                setUpdateCounts(cnt);
+              }
+            } else if (!cancelled) setUpdateCounts(new Map());
         }
       } catch (e: any) {
         if (!cancelled) setMsg(e?.message ?? 'Lỗi tải dữ liệu');
@@ -254,12 +264,12 @@ function Screen() {
                   <table className="w-full table-fixed text-sm">
                     <colgroup>
                       <col style={{ width: 108 }} />
-                      <col style={{ width: 128 }} />
-                      <col style={{ width: 118 }} />
+                      <col style={{ width: 256 }} />
                       <col style={{ width: 118 }} />
                       <col />
-                      <col />
+                      <col style={{ width: 160 }} />
                       <col style={{ width: 158 }} />
+                      <col style={{ width: 52 }} />
                       <col style={{ width: 72 }} />
                     </colgroup>
                     <thead>
@@ -267,10 +277,10 @@ function Screen() {
                         <th className="whitespace-nowrap px-3 py-2">Ngày</th>
                         <th className="whitespace-nowrap px-3 py-2">Người tạo</th>
                         <th className="whitespace-nowrap px-3 py-2">Nhóm SP</th>
-                        <th className="whitespace-nowrap px-3 py-2">Nhóm vấn đề</th>
                         <th className="px-3 py-2">Thực trạng</th>
                         <th className="px-3 py-2">Đề xuất</th>
                         <th className="whitespace-nowrap px-3 py-2 text-center">Trạng thái</th>
+                        <th className="whitespace-nowrap px-3 py-2 text-center" title="Số cập nhật">Cập nhật</th>
                         <th className="px-3 py-2"></th>
                       </tr>
                     </thead>
@@ -279,7 +289,6 @@ function Screen() {
                         const canEdit = r.user_id === userId || canManage;
                         const isAdmin = can('quan_ly_nguoi_dung');
                         const spName = r.product_group_id ? (sanPhamMap.get(r.product_group_id) ?? r.product_group_id.slice(0, 8)) : '—';
-                        const vdName = r.nhom_van_de_id ? (vanDeMap.get(r.nhom_van_de_id) ?? r.nhom_van_de_id.slice(0, 8)) : '—';
                         const canDelete = isAdmin && r.trang_thai === 'Đã xử lý';
                         const ngayGio = (() => {
                           const d = fmtDateVN(r.ngay);
@@ -294,10 +303,10 @@ function Screen() {
                             <td className="truncate px-3 py-2 text-sm text-slate-700" title={ngayGio}>{ngayGio}</td>
                             <td className="break-words px-3 py-2 text-sm font-medium text-slate-900">{profiles.get(r.user_id) ?? r.user_id.slice(0, 8)}</td>
                             <td className="break-words px-3 py-2 text-sm text-slate-900">{spName}</td>
-                            <td className="break-words px-3 py-2 text-sm text-slate-700">{vdName}</td>
                             <td className="px-3 py-2"><p className="whitespace-pre-wrap break-words text-sm text-slate-900">{r.thuc_trang}</p></td>
-                            <td className="px-3 py-2"><p className="whitespace-pre-wrap break-words text-sm text-slate-700">{r.de_xuat || '—'}</p></td>
+                            <td className="px-3 py-2"><p className="whitespace-pre-wrap break-words text-sm text-slate-700" style={{ display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical' as const, overflow: 'hidden' }}>{r.de_xuat || '—'}</p></td>
                             <td className="px-3 py-2 text-center"><TrangThai v={r.trang_thai} /></td>
+                            <td className="px-3 py-2 text-center text-sm"><span className={`inline-flex min-w-6 justify-center rounded-full px-2 py-0.5 text-xs font-semibold ${(updateCounts.get(r.id) ?? 0) > 0 ? 'bg-[#eff6ff] text-[#1e3a8a]' : 'bg-slate-100 text-slate-500'}`}>{updateCounts.get(r.id) ?? 0}</span></td>
                             <td className="whitespace-nowrap px-3 py-2 text-right">
                               <span className="inline-flex items-center gap-1">
                                 <button onClick={(e) => { e.stopPropagation(); openEdit(r); }} aria-label="Sửa" className="rounded-md p-1 text-slate-600 hover:bg-slate-100 hover:text-[#1e3a8a]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
