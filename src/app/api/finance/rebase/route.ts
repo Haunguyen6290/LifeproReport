@@ -15,19 +15,29 @@ async function checkAdmin(req: NextRequest): Promise<boolean> {
   return perms.includes('quan_ly_cai_dat');
 }
 
-/** POST { ngayMoc: 'YYYY-MM-DD' } — dồn số dư gốc đến ngày mốc. */
+/** POST { ngayMoc: 'YYYY-MM-DD' } — dồn số dư gốc đến ngày mốc (nguyên tử qua RPC). */
 export async function POST(req: NextRequest) {
   if (!(await checkAdmin(req))) return NextResponse.json({ error: 'Không có quyền' }, { status: 403 });
   const { ngayMoc } = await req.json().catch(() => ({}));
   if (!ngayMoc || !/^\d{4}-\d{2}-\d{2}$/.test(ngayMoc)) return NextResponse.json({ error: 'Ngày mốc không hợp lệ (YYYY-MM-DD)' }, { status: 400 });
+
+  // Ưu tiên RPC nguyên tử (0071). Fallback khi migration chưa chạy.
   const d = db();
+  const { data: rpcData, error: rpcErr } = await (d as any).rpc('rebase_debt', { p_new_base: ngayMoc as any });
+  if (!rpcErr && rpcData) {
+    return NextResponse.json({ ok: true, soKhach: (rpcData as any).so_khach ?? (rpcData as any).soKhach ?? 0, ngayMoc });
+  }
+  if (rpcErr) {
+    const missing = String(rpcErr.code) === 'PGRST202' || String(rpcErr.code) === '42883' || rpcErr.message?.includes('does not exist');
+    if (!missing) return NextResponse.json({ error: rpcErr.message }, { status: 500 });
+  }
+
+  // Fallback — giữ logic cũ tới khi 0071 chạy
   const { data: s } = await d.from('settings').select('value').eq('key', 'DEBT_BASE_DATE').maybeSingle();
   const oldBase = (s as any)?.value ?? '2026-01-01';
   if (ngayMoc <= oldBase) return NextResponse.json({ error: `Ngày mốc mới phải sau mốc hiện tại (${oldBase})` }, { status: 400 });
 
   const { data: base } = await d.from('customer_base_balance').select('ma_kh, ten_kh, du_no');
-  // du_no(mốc X) = số dư tích lũy TÍNH ĐẾN trước ngày X → dồn sang mốc mới M:
-  // du_no(M) = du_no(oldBase) + Σ(so_no − so_co) với oldBase <= ngay < M
   const { data: ps } = await d.from('receivable_rows').select('ma_kh, ten_kh, so_no, so_co').gte('ngay', oldBase).lt('ngay', ngayMoc);
   const byKh = new Map<string, number>();
   for (const r of (ps ?? []) as any[]) byKh.set(r.ma_kh, (byKh.get(r.ma_kh) ?? 0) + Number(r.so_no) - Number(r.so_co));
@@ -37,7 +47,6 @@ export async function POST(req: NextRequest) {
     du_no: Number(b.du_no) + (byKh.get(b.ma_kh) ?? 0),
     ngay_moc: ngayMoc, updated_at: new Date().toISOString(),
   }));
-  // khách chỉ xuất hiện sau mốc cũ (không có trong base) → thêm dư nợ của họ
   for (const [ma, nu] of byKh) {
     if (!upserts.some((u) => u.ma_kh === ma)) {
       const ten = ((ps ?? []) as any[]).find((r) => r.ma_kh === ma)?.ten_kh ?? '';

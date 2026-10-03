@@ -8,11 +8,13 @@ export type RcvRow = {
 
 export type Tk131Header = { tuNgay: string; denNgay: string; soDuDauKy: number; coDauKy: boolean };
 
-const num = (v: unknown): number => {
-  if (typeof v === 'number') return v;
+const num = (v: unknown): number | null => {
+  if (typeof v === 'number') return Number.isFinite(v) ? v : null;
   if (v == null || v === '') return 0;
-  const n = Number(String(v).replace(/[,\s]/g, ''));
-  return isNaN(n) ? 0 : n;
+  const raw = String(v).replace(/[,\s]/g, '');
+  if (!raw || raw === '-' || raw === '.') return null;
+  const n = Number(raw);
+  return Number.isFinite(n) ? n : null;
 };
 
 const s = (v: unknown): string => String(v ?? '').trim();
@@ -57,7 +59,7 @@ export function parseTk131Sheet(rows: unknown[][]): { header: Tk131Header; rows:
     if (m && !tuNgay) { tuNgay = parseNgay(m[1]) ?? ''; denNgay = parseNgay(m[2]) ?? ''; }
     if (/số dư đầu kỳ/i.test(txt)) {
       // các giá trị số đầu tiên trong dòng
-      const vals = r.map((c) => num(c)).filter((n) => n !== 0);
+      const vals = r.map((c) => num(c)).filter((n): n is number => n !== null && n !== 0);
       if (vals.length) { soDuDauKy = vals[0]; coDauKy = true; }
     }
   }
@@ -73,6 +75,11 @@ export function parseTk131Sheet(rows: unknown[][]): { header: Tk131Header; rows:
     if (tkCol !== '131') continue;
     const ngay = parseNgay(r[ngayCol]);
     if (!ngay) continue;
+    const soNo = num(r[ngayCol + 5]);
+    const soCo = num(r[ngayCol + 6]);
+    // Nếu ô tiền ghi sai định dạng (không phải số) → bỏ dòng và để API báo lỗi rõ thay vì âm thầm thành 0đ
+    if (soNo === null || soCo === null) continue;
+    const duVal = r[ngayCol + 7] != null && s(r[ngayCol + 7]) !== '' ? num(r[ngayCol + 7]) : null;
     out.push({
       ngay,
       so_ct: s(r[soHieuCol]),
@@ -80,9 +87,9 @@ export function parseTk131Sheet(rows: unknown[][]): { header: Tk131Header; rows:
       ten_kh: s(r[ngayCol + 2]),
       dien_giai: s(r[ngayCol + 3]),
       tk_doi_ung: s(r[ngayCol + 4]),
-      so_no: num(r[ngayCol + 5]),
-      so_co: num(r[ngayCol + 6]),
-      du_dong: r[ngayCol + 7] != null && s(r[ngayCol + 7]) !== '' ? num(r[ngayCol + 7]) : null,
+      so_no: soNo,
+      so_co: soCo,
+      du_dong: duVal,
     });
   }
   return { header: { tuNgay, denNgay, soDuDauKy, coDauKy }, rows: out };
@@ -103,7 +110,8 @@ export function parseDataKHSheet(rows: unknown[][]): { ma: string; ten: string; 
   for (let i = 1; i < rows.length; i++) {
     const ma = s(rows[i][0]);
     if (!ma) continue;
-    out.push({ ma, ten: s(rows[i][1]), nvkd: s(rows[i][colNvkd]), duNo: num(rows[i][colDu]) });
+    const v = num(rows[i][colDu]);
+    out.push({ ma, ten: s(rows[i][1]), nvkd: s(rows[i][colNvkd]), duNo: v ?? 0 });
   }
   return out;
 }

@@ -184,17 +184,23 @@ export async function POST(req: NextRequest) {
       kiemTra.push({ ten: 'Liền mạch dòng thời gian', ok: true, chiTiet: 'Chưa có dữ liệu trước/sau vùng này — bỏ qua đối chiếu' });
     }
 
-    // Ghi theo vùng [minNgay, maxNgay]: xóa rồi chèn lại (đổi mã gộp trước khi lưu)
-    await db.from('receivable_rows').delete().gte('ngay', minNgay).lte('ngay', maxNgay);
-    let rowsToInsert = rows;
+    // Ghi theo vùng [minNgay, maxNgay]: ưu tiên RPC nguyên tử (xóa + chèn trong 1 transaction)
+    let rowsToInsert: typeof rows = rows;
     if (mergeMap.size > 0) {
       rowsToInsert = rows.map((r) => (r.ma_kh && mergeMap.has(r.ma_kh) ? { ...r, ma_kh: mergeMap.get(r.ma_kh)! } : r));
     }
-    const CHUNK = 2000;
     const insertRows = rowsToInsert.map((r) => ({ ...r, import_batch: batch }));
-    for (let i = 0; i < insertRows.length; i += CHUNK) {
-      const { error } = await db.from('receivable_rows').insert(insertRows.slice(i, i + CHUNK));
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    const { error: rpcErr } = await (db as any).rpc('replace_receivable_range', { p_rows: insertRows as any, p_min: minNgay as any, p_max: maxNgay as any });
+    if (rpcErr) {
+      const missing = rpcErr.message?.includes('does not exist') || String(rpcErr.code) === 'PGRST202' || String(rpcErr.code) === '42883';
+      if (!missing) return NextResponse.json({ error: rpcErr.message }, { status: 500 });
+      // Fallback khi migration 0070 chưa chạy — vẫn xóa trước chèn sau (sẽ hết sau khi chạy migration)
+      await db.from('receivable_rows').delete().gte('ngay', minNgay).lte('ngay', maxNgay);
+      const CHUNK = 2000;
+      for (let i = 0; i < insertRows.length; i += CHUNK) {
+        const { error } = await db.from('receivable_rows').insert(insertRows.slice(i, i + CHUNK));
+        if (error) return NextResponse.json({ error: error.message + ' — dữ liệu vùng ' + minNgay + '→' + maxNgay + ' đã xóa, cần import lại file.' }, { status: 500 });
+      }
     }
 
     // Ghi số dư gốc nếu file kèm DataKH có cột dư nợ đầu kỳ
@@ -202,8 +208,9 @@ export async function POST(req: NextRequest) {
       const { data: sBase } = await db.from('settings').select('value').eq('key', 'DEBT_BASE_DATE').maybeSingle();
       const baseDate = (sBase as any)?.value ?? '2026-01-01';
       const upserts = baseRows.map((b) => ({ ma_kh: b.ma, ten_kh: b.ten, du_no: b.duNo, ngay_moc: baseDate, updated_at: new Date().toISOString() }));
-      for (let i = 0; i < upserts.length; i += CHUNK) {
-        const { error } = await db.from('customer_base_balance').upsert(upserts.slice(i, i + CHUNK), { onConflict: 'ma_kh' });
+      const CHUNK2 = 2000;
+      for (let i = 0; i < upserts.length; i += CHUNK2) {
+        const { error } = await db.from('customer_base_balance').upsert(upserts.slice(i, i + CHUNK2) as any, { onConflict: 'ma_kh' });
         if (error) return NextResponse.json({ error: error.message }, { status: 500 });
       }
     }

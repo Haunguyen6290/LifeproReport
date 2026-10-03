@@ -38,11 +38,23 @@ function Screen() {
   const [editId, setEditId] = useState<string | null>(null);
 
   const loadRows = async () => {
-    const { data } = await supabase
-      .from('customers')
-      .select('id, ma_kh, ten_kh, sdt, tinh_thanh, assigned_to, tier_id, status_id, assigned:profiles!customers_assigned_to_fkey(full_name), tier:category_items!customers_tier_id_fkey(code,name), status:category_items!customers_status_id_fkey(name)')
-      .order('created_at', { ascending: false });
-    setRows(((data ?? []) as unknown) as KH[]);
+    const out: KH[] = [];
+    let from = 0; const STEP = 1000;
+    while (true) {
+      const { data, error } = await supabase
+        .from('customers')
+        .select('id, ma_kh, ten_kh, sdt, tinh_thanh, assigned_to, tier_id, status_id, assigned:profiles!customers_assigned_to_fkey(full_name), tier:category_items!customers_tier_id_fkey(code,name), status:category_items!customers_status_id_fkey(name)')
+        .order('created_at', { ascending: false })
+        .range(from, from + STEP - 1);
+      if (error) { setRows([]); break; }
+      const chunk = (data ?? []) as unknown as KH[];
+      if (chunk.length === 0) break;
+      out.push(...chunk);
+      if (chunk.length < STEP) break;
+      from += STEP;
+      if (out.length > 20000) break;
+    }
+    setRows(out);
     const [u, t] = await Promise.all([
       supabase.from('profiles').select('id, username, full_name').eq('status', 'ACTIVE'),
       categoryItems('phan_hang_kh'),
