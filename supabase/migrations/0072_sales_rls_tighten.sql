@@ -11,9 +11,9 @@ end $$;
 create policy sales_read on public.sales_rows
 for select to authenticated
 using (
-  public.has_permission(auth.uid(), 'bao_cao_ban_hang')
-  or public.has_permission(auth.uid(), 'xem_tai_chinh')
-  or public.has_permission(auth.uid(), 'quan_ly_cai_dat')
+  public.has_permission('bao_cao_ban_hang')
+  or public.has_permission('xem_tai_chinh')
+  or public.has_permission('quan_ly_cai_dat')
 );
 
 comment on policy sales_read on public.sales_rows is 'Chỉ cho đọc sales_rows khi có bao_cao_ban_hang / xem_tai_chinh / quan_ly_cai_dat. service_role bypass RLS nên API dùng service_role vẫn chạy sau khi đã checkPerm.';

@@ -24,8 +24,8 @@ begin
   end if;
 
   -- Bảo vệ bởi has_permission, nhưng vẫn check trong hàm để không bị gọi trực tiếp qua RPC
-  if not public.has_permission(auth.uid(), 'import_tai_chinh')
-     and not public.has_permission(auth.uid(), 'quan_ly_cai_dat') then
+  if not public.has_permission('import_tai_chinh')
+     and not public.has_permission('quan_ly_cai_dat') then
     raise exception 'Không có quyền import_tai_chinh';
   end if;
 

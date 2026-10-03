@@ -15,7 +15,7 @@ begin
     raise exception 'Thiếu ngày mốc mới';
   end if;
 
-  if not public.has_permission(auth.uid(), 'quan_ly_cai_dat') then
+  if not public.has_permission('quan_ly_cai_dat') then
     raise exception 'Không có quyền quan_ly_cai_dat';
   end if;
 
