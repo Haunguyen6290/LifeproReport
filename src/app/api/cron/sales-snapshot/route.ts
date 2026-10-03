@@ -23,14 +23,22 @@ function vnTodayISO(d = new Date()): string {
   return d.toLocaleDateString('en-CA', { timeZone: 'Asia/Ho_Chi_Minh' }); // YYYY-MM-DD
 }
 
-// GET: Vercel Cron (x-vercel-cron hoặc Authorization: Bearer CRON_SECRET) hoặc admin chạy tay (?date=YYYY-MM-DD).
+// GET: Vercel Cron (Authorization: Bearer CRON_SECRET) hoặc admin chạy tay (?date=YYYY-MM-DD).
 export async function GET(req: NextRequest) {
   const cronSecret = process.env.CRON_SECRET ?? '';
   const authHeader = req.headers.get('authorization') ?? '';
   const cronOk = !!(cronSecret && authHeader === `Bearer ${cronSecret}`);
-  const vercelCron = req.headers.get('x-vercel-cron') === '1';
-  if (!cronOk && !vercelCron) {
-    if (!(await isAdmin(req))) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  // Nếu đã cấu hình CRON_SECRET thì bắt buộc phải đúng CRON_SECRET — không tin x-vercel-cron một mình (forge được)
+  if (cronSecret) {
+    if (!cronOk) {
+      if (!(await isAdmin(req))) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+  } else {
+    // Chưa cấu hình CRON_SECRET (dev) thì cho qua nếu là Vercel cron hoặc admin
+    const vercelCron = req.headers.get('x-vercel-cron') === '1';
+    if (!vercelCron) {
+      if (!(await isAdmin(req))) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
   }
 
   const qp = req.nextUrl.searchParams.get('date');

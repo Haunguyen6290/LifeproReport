@@ -193,14 +193,24 @@ export async function POST(req: NextRequest) {
 export async function GET(req: NextRequest) {
   const cronSecret = process.env.CRON_SECRET ?? '';
   const authHeader = req.headers.get('authorization') ?? '';
-  const cronOk = cronSecret && authHeader === `Bearer ${cronSecret}`;
-  const vercelCron = req.headers.get('x-vercel-cron') === '1';
+  const cronOk = !!(cronSecret && authHeader === `Bearer ${cronSecret}`);
   let authorId: string | undefined;
-  if (!cronOk && !vercelCron) {
-    const adminCheck = await isAdmin(req);
-    if (!adminCheck.ok) return NextResponse.json({ error: 'Unauthorized cron' }, { status: 401 });
-    authorId = adminCheck.userId;
+  // Nếu đã cấu hình CRON_SECRET thì bắt buộc phải đúng CRON_SECRET — không tin x-vercel-cron một mình
+  if (cronSecret) {
+    if (!cronOk) {
+      const adminCheck = await isAdmin(req);
+      if (!adminCheck.ok) return NextResponse.json({ error: 'Unauthorized cron' }, { status: 401 });
+      authorId = adminCheck.userId;
+    }
   } else {
+    const vercelCron = req.headers.get('x-vercel-cron') === '1';
+    if (!cronOk && !vercelCron) {
+      const adminCheck = await isAdmin(req);
+      if (!adminCheck.ok) return NextResponse.json({ error: 'Unauthorized cron' }, { status: 401 });
+      authorId = adminCheck.userId;
+    }
+  }
+  if (!authorId) {
     const admin = createAdminClient();
     const { data: adminProfile } = await admin.from('profiles').select('id, roles!inner(name)').limit(1).maybeSingle();
     authorId = (adminProfile as any)?.id as string | undefined;
