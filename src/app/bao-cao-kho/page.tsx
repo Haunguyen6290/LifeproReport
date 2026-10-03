@@ -159,12 +159,21 @@ function Screen() {
           } else setProfiles(new Map());
             const rids = list.map((r) => r.id);
             if (rids.length) {
-              const { data: ups } = await supabase.from('warehouse_report_updates').select('report_id').in('report_id', rids);
-              if (!cancelled) {
-                const cnt = new Map<string, number>();
-                for (const u of (ups ?? []) as any[]) cnt.set(u.report_id, (cnt.get(u.report_id) ?? 0) + 1);
-                setUpdateCounts(cnt);
+              // Đếm số cập nhật theo từng report — chia nhỏ để tránh giới hạn 1000 dòng của PostgREST
+              const cnt = new Map<string, number>();
+              for (let i = 0; i < rids.length; i += 200) {
+                const chunk = rids.slice(i, i + 200);
+                let from = 0;
+                for (;;) {
+                  const { data: ups, error: upErr } = await supabase.from('warehouse_report_updates')
+                    .select('report_id').in('report_id', chunk).range(from, from + 999);
+                  if (upErr || !ups?.length) break;
+                  for (const u of ups as any[]) cnt.set(u.report_id, (cnt.get(u.report_id) ?? 0) + 1);
+                  if (ups.length < 1000) break;
+                  from += 1000;
+                }
               }
+              if (!cancelled) setUpdateCounts(cnt);
             } else if (!cancelled) setUpdateCounts(new Map());
         }
       } catch (e: any) {

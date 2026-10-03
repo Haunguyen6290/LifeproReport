@@ -116,16 +116,23 @@ export async function POST(req: NextRequest) {
       capNhatKhach++;
     }
 
-    // 3) Ghi đè số dư đầu kỳ (dùng đúng mã đang có trong danh mục)
-    const { error: delErr } = await db.from('customer_base_balance').delete().neq('ma_kh', '');
-    if (delErr) return NextResponse.json({ error: 'Lỗi xóa số dư cũ: ' + delErr.message }, { status: 500 });
+    // 3) Ghi đè số dư đầu kỳ (nguyên tử qua RPC — xóa + chèn trong 1 transaction)
     const maDung = new Map(daCo.map((d) => [d.row.ma_kh, d.maDb]));
-    const soDu = parsed.rows.map((r) => ({ ma_kh: maDung.get(r.ma_kh) ?? r.ma_kh, ten_kh: r.ten_kh, du_no: r.du_no, ngay_moc: ngayMoc, updated_at: now }));
-    for (let i = 0; i < soDu.length; i += 1000) {
-      const { error } = await db.from('customer_base_balance').insert(soDu.slice(i, i + 1000));
-      if (error) return NextResponse.json({ error: 'Lỗi ghi số dư: ' + error.message }, { status: 500 });
+    const soDu = parsed.rows.map((r) => ({ ma_kh: maDung.get(r.ma_kh) ?? r.ma_kh, ten_kh: r.ten_kh, du_no: r.du_no }));
+    const { error: rpcErr } = await db.rpc('replace_customer_base_balances' as any, { p_rows: soDu as any, p_ngay_moc: ngayMoc } as any);
+    if (rpcErr) {
+      const missing = rpcErr.message?.includes('does not exist') || rpcErr.message?.includes('Could not find');
+      if (!missing) return NextResponse.json({ error: 'Lỗi ghi số dư: ' + rpcErr.message }, { status: 500 });
+      // Fallback nếu migration 0069 chưa chạy: xóa toàn bộ rồi chèn lại (không nguyên tử — sẽ hết khi RPC có)
+      const { error: delErr } = await db.from('customer_base_balance').delete().not('ma_kh', 'is', null);
+      if (delErr) return NextResponse.json({ error: 'Lỗi xóa số dư cũ: ' + delErr.message }, { status: 500 });
+      for (let i = 0; i < soDu.length; i += 1000) {
+        const chunk = soDu.map((r) => ({ ...r, ngay_moc: ngayMoc, updated_at: now })).slice(i, i + 1000);
+        const { error } = await db.from('customer_base_balance').insert(chunk);
+        if (error) return NextResponse.json({ error: 'Lỗi ghi số dư: ' + error.message + ' — số dư cũ đã xóa, cần import lại file.' }, { status: 500 });
+      }
+      await db.from('settings').upsert({ key: 'DEBT_BASE_DATE', value: ngayMoc, updated_by: uid }, { onConflict: 'key' });
     }
-    await db.from('settings').upsert({ key: 'DEBT_BASE_DATE', value: ngayMoc, updated_by: uid }, { onConflict: 'key' });
 
     try {
       const { data: me } = await db.from('profiles').select('full_name').eq('id', uid).single();

@@ -45,8 +45,8 @@ export async function GET(req: NextRequest) {
 
   // Search - escape special PostgREST characters in ilike pattern
   if (search) {
-    const escapedSearch = search.replace(/,/g, '\\,').replace(/\)/g, '\\)');
-    query = query.or(`serial_number.ilike.%${escapedSearch}%`);
+    const e = search.replace(/\\/g, '\\\\').replace(/%/g, '\\%').replace(/_/g, '\\_').replace(/,/g, '\\,').replace(/\(/g, '\\(').replace(/\)/g, '\\)');
+    query = query.or(`serial_number.ilike.%${e}%`);
   }
 
   // Pagination
