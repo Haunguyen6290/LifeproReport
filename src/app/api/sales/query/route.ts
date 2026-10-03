@@ -4,6 +4,18 @@ import { normMa } from '@/lib/norm-ma';
 
 const URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const SRV = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+const ANON = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!;
+const admin = () => createClient(URL, SRV, { auth: { autoRefreshToken: false, persistSession: false } });
+async function checkPerm(req: NextRequest): Promise<boolean> {
+  const token = (req.headers.get('authorization') ?? '').replace(/^Bearer /i, '').trim();
+  if (!token) return false;
+  const anon = createClient(URL, ANON, { auth: { autoRefreshToken: false, persistSession: false } });
+  const { data: u } = await anon.auth.getUser(token);
+  if (!u.user) return false;
+  const { data: prof } = await admin().from('profiles').select('roles!inner(permissions)').eq('id', u.user.id).single();
+  const perms = ((prof as any)?.roles?.permissions ?? []) as string[];
+  return perms.includes('bao_cao_ban_hang') || perms.includes('xem_tai_chinh') || perms.includes('quan_ly_cai_dat');
+}
 
 async function fetchAllRows(admin: any, from: string, to: string) {
   const step = 1000;
@@ -174,6 +186,7 @@ async function nodeFallback(admin: any, from: string, to: string, selKd: string[
 }
 
 export async function POST(req: NextRequest) {
+  if (!(await checkPerm(req))) return NextResponse.json({ error: 'Không có quyền' }, { status: 403 });
   try {
     const body = await req.json();
     const from = String(body.from ?? '');

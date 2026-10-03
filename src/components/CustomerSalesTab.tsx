@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import * as echarts from 'echarts';
+import { supabase } from '@/lib/supabase/client';
 import { normMa } from '@/lib/norm-ma';
 
 const COLORS = ['#16A97B', '#6B60E8', '#F59E0B', '#3B82F6', '#EC4899', '#EF4444', '#0891B2', '#8B5CF6', '#F97316', '#10B981', '#7C3AED', '#DC2626'];
@@ -67,9 +68,12 @@ function DebtCard({ maKh }: { maKh: string }) {
     if (!norm) { setLoading(false); return; }
     (async () => {
       try {
+        const { data: s } = await supabase.auth.getSession();
+        const tok = s.session?.access_token ?? '';
+        const headers: HeadersInit = tok ? { Authorization: `Bearer ${tok}` } : {};
         // 1) Ưu tiên snapshot (chốt 22:00 đêm qua) — nhanh, không quét TK131.
         try {
-          const rs = await fetch(`/api/sales/customer-snapshot?ma_norm=${encodeURIComponent(norm)}&loai=debt&ky=debt`);
+          const rs = await fetch(`/api/sales/customer-snapshot?ma_norm=${encodeURIComponent(norm)}&loai=debt&ky=debt`, { headers });
           const js = await rs.json();
           if (js && js.data && js.data.con_thieu != null) {
             setVal(Number(js.data.con_thieu) || 0);
@@ -78,7 +82,7 @@ function DebtCard({ maKh }: { maKh: string }) {
           }
         } catch {}
         // 2) Fallback: tính trực tiếp = dư đầu kỳ + lũy kế (Nợ − Có) toàn bộ.
-        const r = await fetch(`/api/sales/customer-debt?ma_norm=${encodeURIComponent(norm)}`);
+        const r = await fetch(`/api/sales/customer-debt?ma_norm=${encodeURIComponent(norm)}`, { headers });
         const j = await r.json();
         if (!r.ok) throw new Error(j?.error ?? 'Lỗi công nợ');
         if (j && j.data && j.data.con_thieu != null) {
@@ -127,7 +131,10 @@ export function CustomerSalesTab({ maKh, tenKh }: { maKh: string; tenKh: string 
   useEffect(() => {
     (async () => {
       try {
-        const r = await fetch('/api/sales/meta');
+        const { data: s } = await supabase.auth.getSession();
+        const tok = s.session?.access_token ?? '';
+        const headers: HeadersInit = tok ? { Authorization: `Bearer ${tok}` } : {};
+        const r = await fetch('/api/sales/meta', { headers });
         const j = await r.json();
         if (Array.isArray(j?.months)) {
           const yrs = [...new Set((j.months as string[]).map((m: string) => Number(m.slice(0, 4))))].filter((n) => !isNaN(n)).sort((a, b) => b - a) as number[];
@@ -170,18 +177,21 @@ export function CustomerSalesTab({ maKh, tenKh }: { maKh: string; tenKh: string 
     if (!fromDate || !toDate) { setErr('Thiếu kỳ báo cáo'); return; }
     setLoading(true); setErr('');
     try {
+      const { data: s } = await supabase.auth.getSession();
+      const tok = s.session?.access_token ?? '';
+      const headers: HeadersInit = tok ? { Authorization: `Bearer ${tok}`, 'content-type': 'application/json' } : { 'content-type': 'application/json' };
       // 1) Thử đọc snapshot (đã chốt 22:00 đêm trước) — nhanh, nhẹ DB.
       const k = snapKey();
       if (k) {
         try {
-          const rs = await fetch(`/api/sales/customer-snapshot?ma_norm=${encodeURIComponent(norm)}&loai=${k.loai}&ky=${encodeURIComponent(k.ky)}`);
+          const rs = await fetch(`/api/sales/customer-snapshot?ma_norm=${encodeURIComponent(norm)}&loai=${k.loai}&ky=${encodeURIComponent(k.ky)}`, { headers });
           const js = await rs.json();
           if (js && js.data) { setResult(js.data as QueryResult); return; }
         } catch {}
       }
       // 2) Fallback: tính trực tiếp bằng sales_report (job chưa chạy / kỳ quá khứ / tùy chọn).
       const r = await fetch('/api/sales/query', {
-        method: 'POST', headers: { 'content-type': 'application/json' },
+        method: 'POST', headers,
         body: JSON.stringify({ from: fromDate, to: toDate, ma_kh_norm: [norm] }),
       });
       const j = await r.json();

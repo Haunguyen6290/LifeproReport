@@ -554,7 +554,10 @@ function KhacKhachBreakdown({ others, thang, ytd, refreshKey, lastCol }: { other
     let alive = true;
     (async () => {
       try {
-        const r = await fetch(`/api/finance/others-khach?thang=${thang}${ytd ? '&ytd=1' : ''}`);
+        const { data: s } = await supabase.auth.getSession();
+        const tok = s.session?.access_token ?? '';
+        const headers: HeadersInit = tok ? { Authorization: `Bearer ${tok}` } : {};
+        const r = await fetch(`/api/finance/others-khach?thang=${thang}${ytd ? '&ytd=1' : ''}`, { headers });
         const j = await r.json();
         if (alive) setDet(j?.rows ?? []);
       } catch { if (alive) setDet([]); }
@@ -601,7 +604,10 @@ function UnmatchedPanel({ thang, refreshKey }: { thang: string; refreshKey: numb
   useEffect(() => {
     (async () => {
       try {
-        const r = await fetch(`/api/finance/unmatched?thang=${thang}`);
+        const { data: s } = await supabase.auth.getSession();
+        const tok = s.session?.access_token ?? '';
+        const headers: HeadersInit = tok ? { Authorization: `Bearer ${tok}` } : {};
+        const r = await fetch(`/api/finance/unmatched?thang=${thang}`, { headers });
         const j = await r.json();
         setRows(j?.rows ?? []);
       } catch { setRows([]); }
@@ -718,8 +724,11 @@ function Screen() {
     (async () => {
       setLoading(true); setErr('');
       try {
+        const { data: s } = await supabase.auth.getSession();
+        const tok = s.session?.access_token ?? '';
+        const headers: HeadersInit = tok ? { Authorization: `Bearer ${tok}` } : {};
         const q = new URLSearchParams({ thang });
-        const r = await fetch(`/api/finance/debt?${q}`);
+        const r = await fetch(`/api/finance/debt?${q}`, { headers });
         const j = await r.json();
         if (!r.ok) throw new Error(j?.error ?? 'Lỗi tải báo cáo');
         setDebt(j); setHan(j.han ?? 90);
@@ -733,9 +742,12 @@ function Screen() {
     (async () => {
       setLoading(true); setErr(''); setYtdErr('');
       try {
+        const { data: s } = await supabase.auth.getSession();
+        const tok = s.session?.access_token ?? '';
+        const headers: HeadersInit = tok ? { Authorization: `Bearer ${tok}` } : {};
         const [rColl, rYtd] = await Promise.all([
-          fetch(`/api/finance/collections?thang=${thang}`),
-          fetch(`/api/finance/collections-ytd?thang=${thang}`),
+          fetch(`/api/finance/collections?thang=${thang}`, { headers }),
+          fetch(`/api/finance/collections-ytd?thang=${thang}`, { headers }),
         ]);
         const j = await rColl.json();
         if (!rColl.ok) throw new Error(j?.error ?? 'Lỗi tải báo cáo');

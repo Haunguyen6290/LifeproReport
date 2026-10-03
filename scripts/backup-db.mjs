@@ -2,8 +2,9 @@ import { createClient } from '@supabase/supabase-js';
 import { writeFileSync, mkdirSync } from 'node:fs';
 import { join } from 'node:path';
 
-const SRC_URL='https://kibxnlhgdprkevqnbtfy.supabase.co';
-const SRC_KEY=process.env.SRC_KEY ?? 'sb_secret_SB2Nzf4GaMZCYxAnfIp53w_RYEnvA8k';
+const SRC_URL=process.env.NEXT_PUBLIC_SUPABASE_URL ?? process.env.SUPABASE_URL ?? 'https://kibxnlhgdprkevqnbtfy.supabase.co';
+const SRC_KEY=process.env.SUPABASE_SERVICE_ROLE_KEY ?? process.env.SRC_KEY ?? '';
+if (!SRC_KEY) { console.error('Thiếu SUPABASE_SERVICE_ROLE_KEY (hoặc SRC_KEY) — không chạy backup.'); process.exit(1); }
 const OUT_DIR=process.env.OUT_DIR ?? `H:/Lifepro_BaoCao/backups/backup_${new Date().toISOString().slice(0,10)}_${String(new Date().getHours()).padStart(2,'0')}${String(new Date().getMinutes()).padStart(2,'0')}`;
 
 const TABLES=[

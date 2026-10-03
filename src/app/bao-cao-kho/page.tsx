@@ -81,6 +81,15 @@ function TrangThai({ v }: { v: string }) {
   );
 }
 
+function weekSortKey(r: Row): string {
+  if (r.tuan_tu) return r.tuan_tu;
+  if (r.ngay) {
+    const d = new Date(r.ngay + 'T00:00:00Z');
+    if (!isNaN(d.getTime())) return weekBounds(d).tu;
+  }
+  return r.tuan_tu ?? r.ngay ?? '';
+}
+
 function weekKey(r: Row): string {
   if (r.tuan_tu && r.tuan_den) return `${fmtDateVN(r.tuan_tu)} → ${fmtDateVN(r.tuan_den)}`;
   if (r.ngay) {
@@ -213,16 +222,18 @@ function Screen() {
     setOpen(true);
   }
 
-  // group by week for Lịch sử nhóm theo tuần
+  // group by week for Lịch sử nhóm theo tuần — sort bằng ISO key để không sai khi qua tháng/năm
   const groups = useMemo(() => {
-    const m = new Map<string, Row[]>();
+    type G = { key: string; label: string; rows: Row[]; sortKey: string };
+    const m = new Map<string, G>();
     for (const r of rows) {
       const k = weekKey(r);
-      const arr = m.get(k) ?? [];
-      arr.push(r);
-      m.set(k, arr);
+      const sk = weekSortKey(r);
+      const cur = m.get(k);
+      if (cur) cur.rows.push(r);
+      else m.set(k, { key: k, label: k, rows: [r], sortKey: sk });
     }
-    return Array.from(m.entries()).sort((a, b) => b[0].localeCompare(a[0]));
+    return Array.from(m.values()).sort((a, b) => b.sortKey.localeCompare(a.sortKey));
   }, [rows]);
 
   const sel = 'rounded-md border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-[#1e3a8a] focus:ring-1 focus:ring-[#1e3a8a]';
@@ -263,11 +274,11 @@ function Screen() {
           </div>
         ) : (
           <div className="space-y-4">
-            {groups.map(([wk, list]) => (
-              <div key={wk} className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-[0_1px_3px_rgba(15,23,42,0.06)]">
+            {groups.map((g) => (
+              <div key={g.key} className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-[0_1px_3px_rgba(15,23,42,0.06)]">
                 <div className="flex items-center justify-between border-b border-slate-200 bg-slate-50 px-4 py-2">
-                  <span className="text-xs font-bold uppercase tracking-wider text-slate-700">Tuần {wk}</span>
-                  <span className="text-xs text-slate-500">{list.length} dòng</span>
+                  <span className="text-xs font-bold uppercase tracking-wider text-slate-700">Tuần {g.label}</span>
+                  <span className="text-xs text-slate-500">{g.rows.length} dòng</span>
                 </div>
                 <div className="overflow-x-auto">
                   <table className="w-full table-fixed text-sm">
@@ -294,7 +305,7 @@ function Screen() {
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-100">
-                      {list.map((r) => {
+                      {g.rows.map((r) => {
                         const canEdit = r.user_id === userId || canManage;
                         const isAdmin = can('quan_ly_nguoi_dung');
                         const spName = r.product_group_id ? (sanPhamMap.get(r.product_group_id) ?? r.product_group_id.slice(0, 8)) : '—';

@@ -2,6 +2,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { RequireAuth } from '@/components/RequireAuth';
 import { AppSidebar } from '@/components/AppSidebar';
+import { supabase } from '@/lib/supabase/client';
 import * as echarts from 'echarts';
 
 // ── theme ──
@@ -562,7 +563,10 @@ function DashboardInner() {
   async function fetchMeta() {
     let from = '', to = '';
     try {
-      const res = await fetch('/api/sales/meta');
+      const { data: s } = await supabase.auth.getSession();
+      const tok = s.session?.access_token ?? '';
+      const headers: HeadersInit = tok ? { Authorization: `Bearer ${tok}` } : {};
+      const res = await fetch('/api/sales/meta', { headers });
       const j = await res.json();
       if (Array.isArray(j.months) && j.months.length > 0 && /^\d{4}-\d{2}$/.test(String(j.months[0]))) {
         const [yStr, mStr] = String(j.months[0]).split('-');
@@ -608,9 +612,12 @@ function DashboardInner() {
     if (f > t) { setErr('Từ ngày phải ≤ Đến ngày'); return; }
     setErr(''); setLoading(true);
     try {
+      const { data: s } = await supabase.auth.getSession();
+      const tok = s.session?.access_token ?? '';
+      const authH: HeadersInit = tok ? { Authorization: `Bearer ${tok}`, 'Content-Type': 'application/json' } : { 'Content-Type': 'application/json' };
       const body = buildFilters();
       body.from = f; body.to = t;
-      const res = await fetch('/api/sales/query', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+      const res = await fetch('/api/sales/query', { method: 'POST', headers: authH, body: JSON.stringify(body) });
       const j = await res.json();
       if (!res.ok) throw new Error(j?.error ?? 'Lỗi query');
       setResult(j);
@@ -629,11 +636,14 @@ function DashboardInner() {
     if (!ff || !tt) return;
     setDetailLoading(true);
     try {
+      const { data: s } = await supabase.auth.getSession();
+      const tok = s.session?.access_token ?? '';
+      const headers: HeadersInit = tok ? { Authorization: `Bearer ${tok}`, 'Content-Type': 'application/json' } : { 'Content-Type': 'application/json' };
       const body = buildFilters();
       body.from = ff; body.to = tt;
       body.page = page; body.limit = 20;
       if (search.trim()) body.search = search.trim();
-      const res = await fetch('/api/sales/detail', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+      const res = await fetch('/api/sales/detail', { method: 'POST', headers, body: JSON.stringify(body) });
       const j = await res.json();
       if (!res.ok) throw new Error(j?.error ?? 'Lỗi chi tiết');
       const rows: DetailRow[] = j.rows ?? [];

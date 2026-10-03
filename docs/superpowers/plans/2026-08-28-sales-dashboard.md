@@ -13,7 +13,7 @@
 ## Global Constraints
 
 - Next.js 16.3.1 — đọc `node_modules/next/dist/docs/` nếu cần, không giả định API cũ.
-- DB: Supabase project `kibxnlhgdprkevqnbtfy` — service_role `sb_secret_SB2Nzf4GaMZCYxAnfIp53w_RYEnvA8k` (đã fix `sb_`).
+- DB: Supabase project `kibxnlhgdprkevqnbtfy` — service_role lấy từ biến môi trường `SUPABASE_SERVICE_ROLE_KEY` (không ghi cứng trong docs).
 - File Excel thực tế: header ở dòng chứa `Số CT` + `Thành tiền` (row 8 trong file mẫu), không hardcode index.
 - Chỉ tính 5 NVKD ban đầu; ô trống/tên khác bỏ qua. Ánh xạ SG/Công → Chính qua settings. Thêm filter Khách hàng (Mã KH/Tên KH).
 - Ghi đè theo `sale_month` (YYYY-MM từ cột `Ngày`).

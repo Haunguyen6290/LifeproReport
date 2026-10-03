@@ -4,9 +4,22 @@ import { normMa } from '@/lib/norm-ma';
 
 const URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const SRV = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+const ANON = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!;
+const adminC = () => createClient(URL, SRV, { auth: { autoRefreshToken: false, persistSession: false } });
+async function checkPerm(req: NextRequest): Promise<boolean> {
+  const token = (req.headers.get('authorization') ?? '').replace(/^Bearer /i, '').trim();
+  if (!token) return false;
+  const anon = createClient(URL, ANON, { auth: { autoRefreshToken: false, persistSession: false } });
+  const { data: u } = await anon.auth.getUser(token);
+  if (!u.user) return false;
+  const { data: prof } = await adminC().from('profiles').select('roles!inner(permissions)').eq('id', u.user.id).single();
+  const perms = ((prof as any)?.roles?.permissions ?? []) as string[];
+  return perms.includes('bao_cao_ban_hang') || perms.includes('xem_tai_chinh') || perms.includes('quan_ly_cai_dat');
+}
 
 // GET ?ma_norm=abc&loai=year|quarter|month|debt&ky=2026|2026Q3|2026-09|debt
 export async function GET(req: NextRequest) {
+  if (!(await checkPerm(req))) return NextResponse.json({ error: 'Không có quyền' }, { status: 403 });
   const rawMa = String(req.nextUrl.searchParams.get('ma_norm') ?? '');
   const loai = String(req.nextUrl.searchParams.get('loai') ?? '').toLowerCase();
   const ky = String(req.nextUrl.searchParams.get('ky') ?? '');

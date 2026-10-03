@@ -42,6 +42,7 @@ function BoxList() {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [search, setSearch] = useState('');
+  const [appliedSearch, setAppliedSearch] = useState('');
   const [filterActivated, setFilterActivated] = useState<string>('all'); // 'all' | 'true' | 'false'
   const [selectedBoxId, setSelectedBoxId] = useState<string | null>(null);
 
@@ -60,7 +61,7 @@ function BoxList() {
     try {
       const { data } = await supabase.auth.getSession();
       const token = data.session?.access_token ?? '';
-      const params = new URLSearchParams({ page: String(page), limit: '50', search });
+      const params = new URLSearchParams({ page: String(page), limit: '50', search: appliedSearch });
       if (filterActivated !== 'all') params.set('activated', filterActivated);
       const r = await fetch(`/api/box/list?${params}`, { headers: token ? { Authorization: `Bearer ${token}` } : {} });
       const j = await r.json();
@@ -73,12 +74,12 @@ function BoxList() {
   }
 
   useEffect(() => { loadStats(); }, []);
-  useEffect(() => { loadBoxes(); }, [page, filterActivated]);
+  useEffect(() => { loadBoxes(); }, [page, filterActivated, appliedSearch]);
 
   function handleSearch(e: React.FormEvent) {
     e.preventDefault();
+    setAppliedSearch(search.trim());
     setPage(1);
-    loadBoxes();
   }
 
   return (
