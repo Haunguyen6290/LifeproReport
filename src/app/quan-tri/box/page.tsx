@@ -126,7 +126,7 @@ function BoxList() {
           <input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Tìm theo ID, IMEI, Serial, Model..."
+            placeholder="Tìm theo Serial..."
             className="w-80 rounded-md border border-slate-200 bg-white px-3 py-1.5 text-sm outline-none focus:border-[#1e3a8a]"
           />
           <button type="submit" className="rounded-md bg-[#1e3a8a] px-4 py-1.5 text-sm font-semibold text-white hover:bg-[#1e40af]">Tìm</button>
@@ -146,7 +146,7 @@ function BoxList() {
                 <th className="whitespace-nowrap border-b border-slate-200 px-3 py-2 font-bold">Nhà SX</th>
                 <th className="whitespace-nowrap border-b border-slate-200 px-3 py-2 font-bold">Android</th>
                 <th className="whitespace-nowrap border-b border-slate-200 px-3 py-2 font-bold">App Ver</th>
-                <th className="border-b border-slate-200 px-3 py-2 font-bold">Định danh</th>
+                <th className="border-b border-slate-200 px-3 py-2 font-bold">Số Serial</th>
                 <th className="whitespace-nowrap border-b border-slate-200 px-3 py-2 font-bold">Lần đầu</th>
                 <th className="whitespace-nowrap border-b border-slate-200 px-3 py-2 font-bold">Lần cuối</th>
                 <th className="whitespace-nowrap border-b border-slate-200 px-3 py-2 font-bold">Trạng thái</th>
@@ -161,7 +161,7 @@ function BoxList() {
                   <td className="whitespace-nowrap px-3 py-2 text-slate-600">{box.device_manufacturer}</td>
                   <td className="whitespace-nowrap px-3 py-2 text-slate-600">{box.android_version}</td>
                   <td className="whitespace-nowrap px-3 py-2 text-slate-600">{box.app_version_name}</td>
-                  <td className="px-3 py-2 font-mono text-xs text-slate-600">{box.android_id || box.imei || box.serial_number || 'N/A'}</td>
+                  <td className="px-3 py-2 font-mono text-xs text-slate-600">{box.serial_number || '—'}</td>
                   <td className="whitespace-nowrap px-3 py-2 text-xs text-slate-600">{fmtDate(box.first_seen_at)}</td>
                   <td className="whitespace-nowrap px-3 py-2 text-xs text-slate-600">{fmtDate(box.last_seen_at)}</td>
                   <td className="whitespace-nowrap px-3 py-2">

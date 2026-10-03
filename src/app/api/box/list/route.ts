@@ -46,7 +46,7 @@ export async function GET(req: NextRequest) {
   // Search - escape special PostgREST characters in ilike pattern
   if (search) {
     const escapedSearch = search.replace(/,/g, '\\,').replace(/\)/g, '\\)');
-    query = query.or(`android_id.ilike.%${escapedSearch}%,imei.ilike.%${escapedSearch}%,serial_number.ilike.%${escapedSearch}%,device_model.ilike.%${escapedSearch}%`);
+    query = query.or(`serial_number.ilike.%${escapedSearch}%`);
   }
 
   // Pagination
