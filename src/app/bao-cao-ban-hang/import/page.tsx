@@ -2,6 +2,7 @@
 import { useState, useRef } from 'react';
 import { RequireAuth } from '@/components/RequireAuth';
 import { AppSidebar } from '@/components/AppSidebar';
+import { supabase } from '@/lib/supabase/client';
 
 type NewCust = { ma_kh: string; ten_kh: string; dupNote?: string; mergeTo?: string };
 type Preview = {
@@ -47,10 +48,13 @@ function Inner() {
     if (!file) { setErr('Chưa chọn file'); return; }
     setBusy(true); setErr(''); reset();
     try {
+      const { data: s } = await supabase.auth.getSession();
+      const tok = s.session?.access_token ?? '';
       const fd = new FormData();
       fd.append('file', file);
       fd.append('mode', 'preview');
-      const res = await fetch('/api/sales/import', { method: 'POST', body: fd });
+      const headers: HeadersInit = tok ? { Authorization: `Bearer ${tok}` } : {};
+      const res = await fetch('/api/sales/import', { method: 'POST', headers, body: fd });
       const body = await res.json();
       if (!res.ok) throw new Error(body?.error ?? 'Không đọc được file');
       setPreview(body);
@@ -63,12 +67,15 @@ function Inner() {
     if (!file) return;
     setConfirming(true); setErr('');
     try {
+      const { data: s } = await supabase.auth.getSession();
+      const tok = s.session?.access_token ?? '';
       const fd = new FormData();
       fd.append('file', file);
       fd.append('mode', 'commit');
       fd.append('exclude', JSON.stringify([...excluded]));
       if (merged.size > 0) fd.append('merge', JSON.stringify(Object.fromEntries(merged)));
-      const res = await fetch('/api/sales/import', { method: 'POST', body: fd });
+      const headers: HeadersInit = tok ? { Authorization: `Bearer ${tok}` } : {};
+      const res = await fetch('/api/sales/import', { method: 'POST', headers, body: fd });
       const body = await res.json();
       if (!res.ok) throw new Error(body?.error ?? 'Import thất bại');
       setPreview(null);
