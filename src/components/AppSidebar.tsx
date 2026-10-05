@@ -232,7 +232,7 @@ export function AppSidebar({ children }: { children: React.ReactNode }) {
               <span className="text-sm font-bold tracking-tight text-white">Menu</span>
               <button onClick={() => setOpen(false)} aria-label="Đóng" className="grid h-8 w-8 place-items-center rounded-md text-blue-200 hover:bg-white/10 hover:text-white"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg></button>
             </div>
-            <div className="flex-1 p-3"><NavList current={path} onNav={() => setOpen(false)} badges={badges} troLyShow={troLyShow} /></div>
+            <div className="flex-1 overflow-y-auto overscroll-contain p-3"><NavList current={path} onNav={() => setOpen(false)} badges={badges} troLyShow={troLyShow} /></div>
             <div className="flex items-center justify-between gap-2 border-t border-white/10 bg-[#162c6b]/50 p-3">
               <button onClick={() => setAvatarOpen(true)} className="flex min-w-0 items-center gap-2 text-left"><Avatar name={fullName || '?'} src={avatarUrl} size={28} /><span className="min-w-0"><span className="block truncate text-sm font-semibold text-white">{fullName}</span><span className="block truncate text-xs text-blue-200">{role}</span></span></button>
               <button onClick={() => signOut()} className="shrink-0 rounded-md bg-white/10 px-2.5 py-1.5 text-xs font-semibold text-white hover:bg-white hover:text-[#1e3a8a]">Thoát</button>
