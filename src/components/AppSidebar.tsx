@@ -50,6 +50,7 @@ export const GROUPS: { title: string; items: LinkDef[] }[] = [
   {
     title: 'Điều hành',
     items: [
+      { href: '/co-van', label: 'Cố vấn Giám đốc', icon: ICON.chat, needs: ['quan_ly_cai_dat'] },
       { href: '/hoat-dong-nhan-su', label: 'Hoạt động nhân sự', icon: ICON.chart, needs: ['xem_hoat_dong_ns'] },
     ],
   },
