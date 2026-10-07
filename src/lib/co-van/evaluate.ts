@@ -14,6 +14,7 @@ export type DanhGia = {
 export type CoVanInput = {
   loai: 'ke_hoach' | 'bao_cao' | 'chien_dich' | 'tin_thi_truong';
   tieuDe: string;
+  mucTieu?: string; // riêng cho ke_hoach: muc_tieu_tuan
   noiDungTongQuan: string;
   items: { cong_viec?: string; viec_da_lam?: string; kq_can_dat?: string; phan_tram?: number | null; tu_danh_gia?: string }[];
   tuanTruoc?: { noiDung: string; items: string[] } | null;
@@ -26,7 +27,12 @@ function toUserMessage(input: CoVanInput): string {
   const parts: string[] = [];
   parts.push(`LOẠI: ${loaiLabel[input.loai] ?? input.loai} — ${input.tieuDe}`);
   if (input.okrDangChay) parts.push(`OKR ĐANG CHẠY:\n${input.okrDangChay.slice(0, 800)}`);
-  parts.push(`NỘI DUNG TỔNG QUAN:\n${(input.noiDungTongQuan || '(trống)').slice(0, 2000)}`);
+  if (input.loai === 'ke_hoach') {
+    parts.push(`MỤC TIÊU TUẦN:\n${(input.mucTieu || '(trống)').slice(0, 1000)}`);
+    parts.push(`KẾ HOẠCH TUẦN (nội dung chung):\n${(input.noiDungTongQuan || '(trống)').slice(0, 1000)}`);
+  } else {
+    parts.push(`NỘI DUNG TỔNG QUAN:\n${(input.noiDungTongQuan || '(trống)').slice(0, 2000)}`);
+  }
   if (input.items.length) {
     const lines = input.items.map((it, i) => {
       const cv = it.cong_viec ?? it.viec_da_lam ?? '';

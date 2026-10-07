@@ -4,7 +4,12 @@ import { DEFAULT_COMPANY_BRIEF } from '@/lib/chatbot/ai';
 
 const TIEU_CHI_CHUNG = 'GIAO VIỆC = MỤC TIÊU + PHẠM VI + ĐẦU RA → Thời hạn → Người chịu trách nhiệm → Kết quả.';
 
-const TIEU_CHI_KE_HOACH = 'Kế hoạch Đạt khi: Mục tiêu có số + Phạm vi rõ (khách/mã/nhóm nào) + Đầu ra đo được + Ngày làm + Người làm. Thiếu 1 ý là chưa đạt.';
+const TIEU_CHI_KE_HOACH = [
+  'Kế hoạch gồm 2 phần — chấm riêng từng phần:',
+  '1) MỤC TIÊU TUẦN: Đạt khi có Mục tiêu (muốn đạt gì) + Phạm vi (cho nhóm/khách/mã nào) + Đầu ra đo được (con số) + Thời hạn.',
+  '2) KẾ HOẠCH TUẦN (các dòng việc): Đạt khi mỗi việc có Phạm vi rõ + Đầu ra đo được + Ngày làm + Người làm. Thiếu 1 ý là chưa đạt.',
+  'Kết luận chung: cả 2 phần đều Đạt thì Đạt; 1 phần chưa đạt thì Cần sửa/Không đạt.',
+].join('\n');
 
 const TIEU_CHI_BAO_CAO = 'Báo cáo Đạt khi: Đối chiếu từng việc kế hoạch (xong/một phần/chưa, có số) + Nguyên nhân thật + Bước tiếp theo. 100% nhưng nhiều dòng Chưa xong là sai.';
 
@@ -36,8 +41,8 @@ export function buildCoVanSystem(brief: string, extraInstructions: string, loai?
   parts.push(
     'ĐẦU RA: chỉ 1 JSON duy nhất, không thêm chữ:',
     '{"ket_qua":"Dat|Can sua|Khong dat","ly_do":"...","dau_hieu_doi_pho":"...","gop_y_soan_san":"..."}',
-    '- ly_do: thiếu ý nào, < 80 từ.',
-    '- gop_y: cô đọng, ngắn gọn, đủ ý — chỉ thiếu gì + gợi ý sửa 1-2 dòng mẫu, < 100 từ. Không dài dòng. VD: "Chiến à, kế hoạch còn chung chung (thiếu Phạm vi + Đầu ra). Sửa thành: T2-T3: Gọi 15 đại lý B tuyến HN-HP chốt 5 đơn F3 Ultra."',
+    '- ly_do: nêu rõ 2 phần — "Mục tiêu: ... | Kế hoạch: ...", mỗi phần thiếu ý nào, < 100 từ.',
+    '- gop_y: cô đọng, ngắn gọn, đủ ý — chỉ thiếu gì + gợi ý sửa 1-2 dòng mẫu, < 100 từ. VD: "Chiến à, Mục tiêu còn chung chung (thiếu Đầu ra). Kế hoạch thiếu Phạm vi. Sửa: T2-T3: Gọi 15 đại lý B tuyến HN-HP chốt 5 đơn F3 Ultra."',
   );
   return parts.join('\n');
 }

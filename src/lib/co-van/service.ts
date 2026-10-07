@@ -57,7 +57,8 @@ async function loadInput(loai: Loai, targetId: string, admin: ReturnType<typeof 
     } catch {}
     return {
       loai, tieuDe,
-      noiDungTongQuan: `${(plan as any).muc_tieu_tuan ?? ''}\n${(plan as any).noi_dung ?? ''}`.trim(),
+      mucTieu: String((plan as any).muc_tieu_tuan ?? '').trim(),
+      noiDungTongQuan: String((plan as any).noi_dung ?? '').trim(),
       items: ((items ?? []) as any[]).map((r) => ({ cong_viec: r.cong_viec, kq_can_dat: r.kq_can_dat })),
       tuanTruoc, okrDangChay, lichSuNgan,
     };
