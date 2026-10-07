@@ -215,6 +215,11 @@ function DanhGiaList({ loai }: { loai: 'ke_hoach' | 'bao_cao' | 'chien_dich' | '
                                 <tbody>{(b.items ?? []).map((it: any, i: number) => <tr key={i} className="border-t border-slate-100"><td className="px-2 py-1">{i+1}</td><td className="px-2 py-1">{it.cong_viec || '—'}</td><td className="px-2 py-1">{it.kq_can_dat || '—'}</td><td className="px-2 py-1">{it.ngay_list || '—'}</td></tr>)}</tbody>
                               </table>
                             </div>
+                            {b.baoCao && <>
+                              <p className="mt-3 font-semibold text-xs text-slate-600">Báo cáo cùng tuần:</p>
+                              <p className="text-xs">Tự đánh giá: {(b.baoCao as any).tu_danh_gia ?? '—'} {(b.baoCao as any).ty_le_ht != null ? `(${(b.baoCao as any).ty_le_ht}%)` : ''}</p>
+                              {(b.bcItems ?? []).length > 0 && <div className="mt-1 overflow-x-auto rounded border border-slate-200 bg-white"><table className="w-full text-xs"><thead><tr className="bg-slate-100 text-left"><th className="px-2 py-1">#</th><th className="px-2 py-1">Việc đã làm</th><th className="px-2 py-1">%HT</th></tr></thead><tbody>{(b.bcItems ?? []).map((it: any, i: number) => <tr key={i} className="border-t border-slate-100"><td className="px-2 py-1">{i+1}</td><td className="px-2 py-1">{it.viec_da_lam || '—'}</td><td className="px-2 py-1">{it.phan_tram != null ? `${it.phan_tram}%` : '—'}</td></tr>)}</tbody></table></div>}
+                            </>}
                           </>;
                         } else if (r.loai === 'bao_cao') {
                           return <>
@@ -226,6 +231,11 @@ function DanhGiaList({ loai }: { loai: 'ke_hoach' | 'bao_cao' | 'chien_dich' | '
                                 <tbody>{(b.items ?? []).map((it: any, i: number) => <tr key={i} className="border-t border-slate-100"><td className="px-2 py-1">{i+1}</td><td className="px-2 py-1">{it.viec_da_lam || '—'}</td><td className="px-2 py-1">{it.phan_tram != null ? `${it.phan_tram}%` : '—'}</td><td className="px-2 py-1">{it.tu_danh_gia ?? '—'}</td><td className="px-2 py-1">{it.nguyen_nhan || '—'}</td></tr>)}</tbody>
                               </table>
                             </div>
+                            {b.keHoach && <>
+                              <p className="mt-3 font-semibold text-xs text-slate-600">Kế hoạch cùng tuần:</p>
+                              <p className="text-xs">Mục tiêu: {(b.keHoach as any).muc_tieu_tuan || (b.keHoach as any).noi_dung || '—'}</p>
+                              {(b.khItems ?? []).length > 0 && <div className="mt-1 overflow-x-auto rounded border border-slate-200 bg-white"><table className="w-full text-xs"><thead><tr className="bg-slate-100 text-left"><th className="px-2 py-1">#</th><th className="px-2 py-1">Công việc</th><th className="px-2 py-1">Đầu ra</th></tr></thead><tbody>{(b.khItems ?? []).map((it: any, i: number) => <tr key={i} className="border-t border-slate-100"><td className="px-2 py-1">{i+1}</td><td className="px-2 py-1">{it.cong_viec || '—'}</td><td className="px-2 py-1">{it.kq_can_dat || '—'}</td></tr>)}</tbody></table></div>}
+                            </>}
                           </>;
                         } else if (r.loai === 'chien_dich') {
                           return <><p className="font-semibold">{b.campaign?.name ?? '—'}</p>{b.campaign?.objective && <p>Mục tiêu: {b.campaign.objective}</p>}{(b.updates ?? []).slice(0,5).map((u: any, i: number) => <p key={i} className="mt-1">• {String(u.content ?? '').slice(0,200)}</p>)}</>;

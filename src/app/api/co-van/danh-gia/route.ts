@@ -29,7 +29,11 @@ export async function GET(req: NextRequest) {
   let q = admin.from('co_van_danh_gia').select('*').order('tuan_tu', { ascending: false }).limit(limit);
   if (trangThai) q = q.eq('trang_thai', trangThai);
   if (loai) q = q.eq('loai', loai);
-  if (tuanTu) q = q.eq('tuan_tu', tuanTu);
+  if (tuanTu) {
+    const den = new Date(tuanTu + 'T00:00:00Z'); den.setUTCDate(den.getUTCDate() + 6);
+    const denStr = den.toISOString().slice(0, 10);
+    q = q.gte('tuan_tu', tuanTu).lte('tuan_tu', denStr);
+  }
   const { data, error } = await q;
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 

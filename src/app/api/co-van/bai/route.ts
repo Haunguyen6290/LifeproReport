@@ -27,7 +27,18 @@ export async function GET(req: NextRequest) {
   if (loai === 'ke_hoach') {
     const { data: plan } = await admin.from('weekly_plans').select('id, tuan_tu, tuan_den, muc_tieu_tuan, noi_dung').eq('id', id).single();
     const { data: items } = await admin.from('weekly_plan_items').select('cong_viec, kq_can_dat, ngay_list, uu_tien').eq('plan_id', id).order('sort_order');
-    return NextResponse.json({ plan, items: items ?? [] });
+    // Kèm báo cáo cùng tuần để đối chiếu (nếu có)
+    let baoCao: unknown = null;
+    let bcItems: unknown[] = [];
+    if (plan) {
+      const { data: rep } = await admin.from('weekly_reports').select('id, tu_danh_gia, ty_le_ht').eq('user_id', (plan as any).user_id ?? '').eq('tuan_tu', (plan as any).tuan_tu).maybeSingle();
+      if (rep) {
+        baoCao = rep;
+        const { data: ri } = await admin.from('weekly_report_items').select('viec_da_lam, phan_tram, tu_danh_gia').eq('report_id', (rep as any).id).order('sort_order');
+        bcItems = ri ?? [];
+      }
+    }
+    return NextResponse.json({ plan, items: items ?? [], baoCao, bcItems });
   } else {
     const { data: rep } = await admin.from('weekly_reports').select('id, tuan_tu, tuan_den, tu_danh_gia, ty_le_ht, diem_noi_bat, kho_khan, de_xuat, noi_dung').eq('id', id).single();
     const { data: items } = await admin.from('weekly_report_items').select('viec_da_lam, phan_tram, tu_danh_gia, nguyen_nhan').eq('report_id', id).order('sort_order');
