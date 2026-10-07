@@ -224,6 +224,20 @@ export function ReportDialog({
       const _tuR = String(tuanTu), _denR = String(tuanDen);
       const _tdg = String(tuDanhGia);
       notifyTelegram('TB_BAO_CAO_TUAN', (nm) => `[Báo cáo tuần] ${nm}\nTuần ${_tuR} -> ${_denR}\nTự đánh giá: ${_tdg} · %HT: ${_nvR}`, uid);
+      // Tự chấm Cố vấn (fire-and-forget)
+      if (reportId) {
+        void (async () => {
+          try {
+            const { data } = await supabase.auth.getSession();
+            const tok = data.session?.access_token ?? '';
+            await fetch('/api/co-van/evaluate', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', ...(tok ? { Authorization: `Bearer ${tok}` } : {}) },
+              body: JSON.stringify({ loai: 'bao_cao', targetId: reportId }),
+            });
+          } catch {}
+        })();
+      }
       onDone();
       if (!lateHint) onClose();
     } catch (e: any) {

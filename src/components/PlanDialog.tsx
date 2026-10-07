@@ -178,6 +178,20 @@ export function PlanDialog({
       const _mt = mucTieu.trim().slice(0, 200);
       const _tu = tuanTu, _den = tuanDen;
       notifyTelegram('TB_KE_HOACH_TUAN', (nm) => `[Kế hoạch tuần] ${nm}\nTuần ${_tu} -> ${_den}\nMục tiêu: ${_mt}\nSố việc: ${_nv}`, uid);
+      // Tự chấm Cố vấn (fire-and-forget, không chặn UI)
+      if (planId) {
+        void (async () => {
+          try {
+            const { data } = await supabase.auth.getSession();
+            const tok = data.session?.access_token ?? '';
+            await fetch('/api/co-van/evaluate', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', ...(tok ? { Authorization: `Bearer ${tok}` } : {}) },
+              body: JSON.stringify({ loai: 'ke_hoach', targetId: planId }),
+            });
+          } catch {}
+        })();
+      }
       onDone();
       onClose();
     } catch (e: any) {

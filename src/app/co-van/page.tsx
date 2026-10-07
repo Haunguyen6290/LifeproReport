@@ -81,6 +81,21 @@ function DanhGiaList() {
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState<Record<string, string>>({});
   const [busyId, setBusyId] = useState<string | null>(null);
+  const [sweeping, setSweeping] = useState(false);
+
+  async function doSweep() {
+    setSweeping(true);
+    try {
+      const h = await authHeaders();
+      const r = await fetch('/api/cron/co-van-sweep', { headers: h });
+      const j = await r.json();
+      if (!r.ok) throw new Error(j.error ?? 'Lỗi');
+      alert(`Đã quét: ${j.pending ?? 0} bài chờ, đã chấm ${j.processed ?? 0} bài`);
+      load();
+    } catch (e: any) {
+      alert(e?.message ?? 'Lỗi quét');
+    } finally { setSweeping(false); }
+  }
 
   async function load() {
     setLoading(true);
@@ -120,6 +135,7 @@ function DanhGiaList() {
     <div className="rounded-xl border border-slate-200 bg-white">
       <div className="flex flex-wrap items-center gap-2 border-b border-slate-200 px-4 py-3">
         <h2 className="text-sm font-bold text-[#0f2a4a]">Cần duyệt</h2>
+        <button onClick={doSweep} disabled={sweeping} className="rounded-md bg-[#1e3a8a] px-3 py-1 text-xs font-semibold text-white disabled:opacity-50">{sweeping ? 'Đang chấm...' : 'Chấm tất cả bài chưa chấm'}</button>
         <div className="ml-auto flex gap-1">
           {(['Cho duyet', 'Da gui', 'Bo qua', ''] as const).map((v) => (
             <button key={v || 'all'} onClick={() => setFilter(v)} className={`rounded-full px-3 py-1 text-xs font-semibold ${filter === v ? 'bg-[#0f2a4a] text-white' : 'bg-slate-100 text-slate-600'}`}>

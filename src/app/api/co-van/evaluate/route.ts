@@ -8,22 +8,16 @@ const SRV = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 const ANON = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!;
 
 async function checkPerm(req: NextRequest): Promise<boolean> {
-  // Cho phép cron (CRON_SECRET) hoặc user có quan_ly_cai_dat
   const cronSecret = process.env.CRON_SECRET ?? '';
   const authHeader = req.headers.get('authorization') ?? '';
   if (cronSecret && authHeader === `Bearer ${cronSecret}`) return true;
   const token = authHeader.replace(/^Bearer /i, '').trim();
-  if (!token) {
-    // Thử lấy từ body nếu là internal call không có header (fallback)
-    return false;
-  }
+  if (!token) return false;
   const anon = createClient(URL, ANON, { auth: { autoRefreshToken: false, persistSession: false } });
   const { data: u } = await anon.auth.getUser(token);
-  if (!u.user) return false;
-  const admin = createAdminClient() as any;
-  const { data: prof } = await admin.from('profiles').select('roles!inner(permissions)').eq('id', u.user.id).single();
-  const perms = ((prof as any)?.roles?.permissions ?? []) as string[];
-  return perms.includes('quan_ly_cai_dat');
+  // Cho phép mọi user đã đăng nhập tự kích chấm bài của chính mình;
+  // Giám đốc (quan_ly_cai_dat) thì chấm được mọi bài. Không chặn user thường.
+  return !!u.user;
 }
 
 export async function POST(req: NextRequest) {
