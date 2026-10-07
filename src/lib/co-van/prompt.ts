@@ -11,7 +11,12 @@ const TIEU_CHI_KE_HOACH = [
   'Kết luận chung: cả 2 phần đều Đạt thì Đạt; 1 phần chưa đạt thì Cần sửa/Không đạt.',
 ].join('\n');
 
-const TIEU_CHI_BAO_CAO = 'Báo cáo Đạt khi: Đối chiếu từng việc kế hoạch (xong/một phần/chưa, có số) + Nguyên nhân thật + Bước tiếp theo. 100% nhưng nhiều dòng Chưa xong là sai.';
+const TIEU_CHI_BAO_CAO = [
+  'Báo cáo gồm: Kết quả từng việc + Thông tin giá trị + Đề xuất. Chấm riêng từng phần:',
+  '1) Kết quả: Đạt khi đối chiếu từng việc kế hoạch (xong/một phần/chưa, có số) + Nguyên nhân thật + Bước tiếp theo. 100% nhưng nhiều dòng Chưa xong là sai.',
+  '2) Thông tin: Đạt khi có giá trị — cụ thể, có số, có nguyên nhân sâu. Ghi chung chung "khách chê/không mua/bận/không có nhu cầu" là chưa đạt.',
+  '3) Đề xuất: Đạt khi có bước tiếp theo cụ thể (làm gì + với ai + khi nào + đầu ra gì). Ghi "cố gắng", "tiếp tục chăm sóc" là chưa đạt.',
+].join('\n');
 
 const TIEU_CHI_CHIEN_DICH = 'Chiến dịch Đạt khi: Mục tiêu có số + Phạm vi rõ (dự án/sản phẩm/nhóm khách nào) + Đầu ra đo được (doanh số, số đại lý, độ phủ) + Thời hạn + Người chịu trách nhiệm. Thiếu 1 ý là chưa đạt.';
 
