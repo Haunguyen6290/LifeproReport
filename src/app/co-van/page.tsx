@@ -21,13 +21,9 @@ function bulleted(s: string) {
   const parts = s.split(/\n/).map((x) => x.replace(/^[•\-]\s*/, '').trim()).filter(Boolean);
   if (parts.length <= 1) {
     const cleaned = s.replace(/^[•\-]\s*/, '').trim();
-    const short = cleaned.length > 180 ? cleaned.slice(0, 180) + '…' : cleaned;
-    return <span className="italic font-semibold">{short}</span>;
+    return <span>{cleaned}</span>;
   }
-  return <ul className="list-disc pl-5 space-y-0.5">{parts.map((l, i) => {
-    const short = l.length > 160 ? l.slice(0, 160) + '…' : l;
-    return <li key={i} className="italic font-semibold">{short}</li>;
-  })}</ul>;
+  return <ul className="list-disc pl-5 space-y-0.5">{parts.map((l, i) => <li key={i}>{l}</li>)}</ul>;
 }
 
 function badge(ket_qua: string) {
@@ -217,7 +213,6 @@ function DanhGiaList({ loai }: { loai: 'ke_hoach' | 'bao_cao' | 'chien_dich' | '
                 </div>
                 {r.ly_do && <div className="text-sm text-slate-700">{bulleted(r.ly_do)}</div>}
                 {r.dau_hieu_doi_pho && <div className="rounded-md bg-amber-50 px-3 py-2 text-sm text-amber-800">{bulleted(r.dau_hieu_doi_pho)}</div>}
-                {editing[r.id] && <div className="rounded-md border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">{bulleted(editing[r.id])}</div>}
                 <div className="flex flex-wrap gap-2">
                   <button onClick={() => toggleBai(r)} className="rounded-md border border-slate-200 px-3 py-1 text-xs">{expanded === r.id ? 'Ẩn' : 'Xem bài'}</button>
                   <button onClick={() => doChamLai(r)} disabled={!!busyId} className="rounded-md border border-slate-200 px-3 py-1 text-xs disabled:opacity-50">Chấm lại</button>
