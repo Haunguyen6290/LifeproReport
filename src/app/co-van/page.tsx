@@ -75,9 +75,10 @@ function ChatPanel({ full }: { full?: boolean }) {
   );
 }
 
-function DanhGiaList() {
+function DanhGiaList({ loai }: { loai: 'ke_hoach' | 'bao_cao' }) {
   const [rows, setRows] = useState<DanhGia[]>([]);
   const [filter, setFilter] = useState('Cho duyet');
+  const [tuanTu, setTuanTu] = useState('');
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState<Record<string, string>>({});
   const [busyId, setBusyId] = useState<string | null>(null);
@@ -100,7 +101,9 @@ function DanhGiaList() {
   async function load() {
     setLoading(true);
     const h = await authHeaders();
-    const r = await fetch(`/api/co-van/danh-gia?trang_thai=${encodeURIComponent(filter)}`, { headers: h });
+    const params = new URLSearchParams({ loai, trang_thai: filter });
+    if (tuanTu) params.set('tuan_tu', tuanTu);
+    const r = await fetch(`/api/co-van/danh-gia?${params.toString()}`, { headers: h });
     const j = await r.json();
     if (r.ok) {
       setRows(j.rows ?? []);
@@ -110,7 +113,7 @@ function DanhGiaList() {
     }
     setLoading(false);
   }
-  useEffect(() => { load(); }, [filter]);
+  useEffect(() => { load(); }, [filter, tuanTu, loai]);
 
   async function doGui(id: string) {
     setBusyId(id);
@@ -134,8 +137,9 @@ function DanhGiaList() {
   return (
     <div className="rounded-xl border border-slate-200 bg-white">
       <div className="flex flex-wrap items-center gap-2 border-b border-slate-200 px-4 py-3">
-        <h2 className="text-sm font-bold text-[#0f2a4a]">Cần duyệt</h2>
-        <button onClick={doSweep} disabled={sweeping} className="rounded-md bg-[#1e3a8a] px-3 py-1 text-xs font-semibold text-white disabled:opacity-50">{sweeping ? 'Đang chấm...' : 'Chấm tất cả bài chưa chấm'}</button>
+        <input type="date" value={tuanTu} onChange={(e) => setTuanTu(e.target.value)} className="rounded-md border border-slate-200 px-3 py-1 text-sm" title="Lọc theo tuần (tuan_tu)" />
+        {tuanTu && <button onClick={() => setTuanTu('')} className="rounded-md border border-slate-200 px-2 py-1 text-xs">Xóa lọc tuần</button>}
+        <button onClick={doSweep} disabled={sweeping} className="rounded-md bg-[#1e3a8a] px-3 py-1 text-xs font-semibold text-white disabled:opacity-50">{sweeping ? 'Đang chấm...' : 'Chấm tất cả chưa chấm'}</button>
         <div className="ml-auto flex gap-1">
           {(['Cho duyet', 'Da gui', 'Bo qua', ''] as const).map((v) => (
             <button key={v || 'all'} onClick={() => setFilter(v)} className={`rounded-full px-3 py-1 text-xs font-semibold ${filter === v ? 'bg-[#0f2a4a] text-white' : 'bg-slate-100 text-slate-600'}`}>
@@ -174,7 +178,7 @@ function DanhGiaList() {
 
 function Screen() {
   const { can } = useAuth();
-  const [tab, setTab] = useState<'chat' | 'duyet'>('chat');
+  const [tab, setTab] = useState<'chat' | 'ke_hoach' | 'bao_cao'>('chat');
   if (!can('quan_ly_cai_dat')) {
     return <AppSidebar><main className="p-6 text-sm text-slate-600">Không có quyền xem (cần Quản lý cài đặt).</main></AppSidebar>;
   }
@@ -186,11 +190,12 @@ function Screen() {
           <span className="text-xs text-slate-500">Chỉ ông thấy — AI chấm Kế hoạch/Báo cáo theo chuẩn SMART, ông bấm Gửi/Bỏ qua</span>
           <div className="ml-auto flex gap-1 rounded-full bg-slate-100 p-1">
             <button onClick={() => setTab('chat')} className={`rounded-full px-4 py-1.5 text-sm font-semibold ${tab === 'chat' ? 'bg-[#0f2a4a] text-white shadow' : 'text-slate-600'}`}>Chat</button>
-            <button onClick={() => setTab('duyet')} className={`rounded-full px-4 py-1.5 text-sm font-semibold ${tab === 'duyet' ? 'bg-[#0f2a4a] text-white shadow' : 'text-slate-600'}`}>Cần duyệt</button>
+            <button onClick={() => setTab('ke_hoach')} className={`rounded-full px-4 py-1.5 text-sm font-semibold ${tab === 'ke_hoach' ? 'bg-[#0f2a4a] text-white shadow' : 'text-slate-600'}`}>Kế hoạch</button>
+            <button onClick={() => setTab('bao_cao')} className={`rounded-full px-4 py-1.5 text-sm font-semibold ${tab === 'bao_cao' ? 'bg-[#0f2a4a] text-white shadow' : 'text-slate-600'}`}>Báo cáo</button>
           </div>
         </div>
-        <div className="min-h-0 flex-1">
-          {tab === 'chat' ? <ChatPanel full /> : <DanhGiaList />}
+        <div className="min-h-0 flex-1 overflow-y-auto">
+          {tab === 'chat' ? <ChatPanel full /> : tab === 'ke_hoach' ? <DanhGiaList loai="ke_hoach" /> : <DanhGiaList loai="bao_cao" />}
         </div>
       </main>
     </AppSidebar>

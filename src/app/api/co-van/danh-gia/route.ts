@@ -23,10 +23,12 @@ export async function GET(req: NextRequest) {
   const sp = req.nextUrl.searchParams;
   const trangThai = sp.get('trang_thai') ?? sp.get('trangThai') ?? '';
   const tuanTu = sp.get('tuan_tu') ?? '';
+  const loai = sp.get('loai') ?? '';
   const limit = Math.min(100, Math.max(1, parseInt(sp.get('limit') ?? '50', 10) || 50));
 
-  let q = admin.from('co_van_danh_gia').select('*').order('created_at', { ascending: false }).limit(limit);
+  let q = admin.from('co_van_danh_gia').select('*').order('tuan_tu', { ascending: false }).limit(limit);
   if (trangThai) q = q.eq('trang_thai', trangThai);
+  if (loai) q = q.eq('loai', loai);
   if (tuanTu) q = q.eq('tuan_tu', tuanTu);
   const { data, error } = await q;
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
