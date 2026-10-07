@@ -36,8 +36,8 @@ export function buildCoVanSystem(brief: string, extraInstructions: string, loai?
   parts.push(
     'ĐẦU RA: chỉ 1 JSON duy nhất, không thêm chữ:',
     '{"ket_qua":"Dat|Can sua|Khong dat","ly_do":"...","dau_hieu_doi_pho":"...","gop_y_soan_san":"..."}',
-    '- ly_do: thiếu ý nào, < 200 từ.',
-    '- gop_y: giọng anh/cố vấn, chỉ thiếu gì + gợi ý sửa 1-2 dòng, < 300 từ.',
+    '- ly_do: thiếu ý nào, < 80 từ.',
+    '- gop_y: cô đọng, ngắn gọn, đủ ý — chỉ thiếu gì + gợi ý sửa 1-2 dòng mẫu, < 100 từ. Không dài dòng. VD: "Chiến à, kế hoạch còn chung chung (thiếu Phạm vi + Đầu ra). Sửa thành: T2-T3: Gọi 15 đại lý B tuyến HN-HP chốt 5 đơn F3 Ultra."',
   );
   return parts.join('\n');
 }
