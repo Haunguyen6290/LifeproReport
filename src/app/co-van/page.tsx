@@ -23,7 +23,7 @@ function badge(ket_qua: string) {
   return 'bg-red-100 text-red-700';
 }
 
-function ChatPanel() {
+function ChatPanel({ full }: { full?: boolean }) {
   const [msgs, setMsgs] = useState<Msg[]>([]);
   const [q, setQ] = useState('');
   const [busy, setBusy] = useState(false);
@@ -56,7 +56,7 @@ function ChatPanel() {
   }
 
   return (
-    <div className="flex h-[420px] flex-col rounded-xl border border-slate-200 bg-white">
+    <div className={`flex flex-col rounded-xl border border-slate-200 bg-white ${full ? 'h-full' : 'h-[420px]'}`}>
       <div className="border-b border-slate-200 px-4 py-2 text-sm font-bold text-[#0f2a4a]">Chat với Cố vấn</div>
       <div className="flex-1 overflow-y-auto p-3 space-y-2">
         {msgs.length === 0 && <p className="text-xs text-slate-500">Hỏi như: "Tuần này ai làm dở nhất?" · "Tóm tắt team Kinh doanh tuần trước"</p>}
@@ -174,17 +174,23 @@ function DanhGiaList() {
 
 function Screen() {
   const { can } = useAuth();
+  const [tab, setTab] = useState<'chat' | 'duyet'>('chat');
   if (!can('quan_ly_cai_dat')) {
     return <AppSidebar><main className="p-6 text-sm text-slate-600">Không có quyền xem (cần Quản lý cài đặt).</main></AppSidebar>;
   }
   return (
     <AppSidebar>
-      <main className="w-full px-4 py-6 sm:px-6">
-        <h1 className="mb-4 text-2xl font-bold tracking-tight text-[#0f2a4a]">Cố vấn Giám đốc</h1>
-        <p className="mb-4 text-sm text-slate-600">Chỉ ông thấy. AI tự chấm Kế hoạch/Báo cáo tuần theo chuẩn SMART, báo ông chỗ Cần sửa/Không đạt, soạn sẵn góp ý — ông bấm Gửi/Bỏ qua. Chat hỏi như "Tuần này ai làm dở nhất?"</p>
-        <div className="grid gap-4 lg:grid-cols-[1.4fr_1fr]">
-          <DanhGiaList />
-          <ChatPanel />
+      <main className="flex h-[calc(100vh-0px)] flex-col px-4 py-4 sm:px-6">
+        <div className="mb-3 flex flex-wrap items-center gap-3">
+          <h1 className="text-xl font-bold tracking-tight text-[#0f2a4a]">Cố vấn Giám đốc</h1>
+          <span className="text-xs text-slate-500">Chỉ ông thấy — AI chấm Kế hoạch/Báo cáo theo chuẩn SMART, ông bấm Gửi/Bỏ qua</span>
+          <div className="ml-auto flex gap-1 rounded-full bg-slate-100 p-1">
+            <button onClick={() => setTab('chat')} className={`rounded-full px-4 py-1.5 text-sm font-semibold ${tab === 'chat' ? 'bg-[#0f2a4a] text-white shadow' : 'text-slate-600'}`}>Chat</button>
+            <button onClick={() => setTab('duyet')} className={`rounded-full px-4 py-1.5 text-sm font-semibold ${tab === 'duyet' ? 'bg-[#0f2a4a] text-white shadow' : 'text-slate-600'}`}>Cần duyệt</button>
+          </div>
+        </div>
+        <div className="min-h-0 flex-1">
+          {tab === 'chat' ? <ChatPanel full /> : <DanhGiaList />}
         </div>
       </main>
     </AppSidebar>
