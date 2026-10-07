@@ -17,6 +17,12 @@ async function authHeaders(): Promise<HeadersInit> {
   return tok ? { Authorization: `Bearer ${tok}`, 'Content-Type': 'application/json' } : { 'Content-Type': 'application/json' };
 }
 
+function bulleted(s: string) {
+  const lines = s.split(/\n|•/).map((x) => x.trim()).filter(Boolean);
+  if (lines.length <= 1) return <span>{s}</span>;
+  return <ul className="list-disc pl-5 space-y-0.5">{lines.map((l, i) => <li key={i} className="italic font-semibold">{l}</li>)}</ul>;
+}
+
 function badge(ket_qua: string) {
   if (ket_qua === 'Dat') return 'bg-emerald-100 text-emerald-700';
   if (ket_qua === 'Can sua') return 'bg-amber-100 text-amber-700';
@@ -184,31 +190,32 @@ function DanhGiaList({ loai }: { loai: 'ke_hoach' | 'bao_cao' | 'chien_dich' | '
       {loading ? <p className="p-6 text-center text-sm text-slate-500">Đang tải...</p>
         : rows.length === 0 ? <p className="p-6 text-center text-sm text-slate-500">Chưa có đánh giá nào.</p>
         : (
-          <div className="divide-y divide-slate-100">
+          <div className="grid gap-3 lg:grid-cols-2">
             {rows.map((r) => (
-              <div key={r.id} className="p-4 space-y-2">
+              <div key={r.id} className="rounded-xl border border-slate-200 bg-white p-4 space-y-2">
                 <div className="flex flex-wrap items-center gap-2">
+                  <span className="text-sm font-bold text-[#0f2a4a]">{r.ten_nhan_vien}</span>
                   <span className={`rounded-full px-2 py-0.5 text-xs font-bold ${badge(r.ket_qua)}`}>{r.ket_qua}</span>
-                  <span className="text-sm font-semibold">{r.ten_nhan_vien}</span>
-                  <span className="text-xs text-slate-500">{r.loai === 'ke_hoach' ? 'Kế hoạch' : 'Báo cáo'} · tuần {r.tuan_tu}→{r.tuan_den}</span>
-                  <span className="ml-auto text-xs text-slate-400">{new Date(r.created_at).toLocaleDateString('vi-VN')}</span>
+                  <span className="ml-auto text-xs text-slate-400">tuần {r.tuan_tu}→{r.tuan_den}</span>
                 </div>
-                {r.ly_do && <p className="text-sm text-slate-700">{r.ly_do}</p>}
-                {r.dau_hieu_doi_pho && <p className="rounded-md bg-amber-50 px-3 py-2 text-sm text-amber-800">{r.dau_hieu_doi_pho}</p>}
+                {r.ly_do && <div className="text-sm text-slate-700">{bulleted(r.ly_do)}</div>}
+                {r.dau_hieu_doi_pho && <div className="rounded-md bg-amber-50 px-3 py-2 text-sm text-amber-800">{bulleted(r.dau_hieu_doi_pho)}</div>}
+                {editing[r.id] && <div className="rounded-md border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">{bulleted(editing[r.id])}</div>}
                 <div className="flex flex-wrap gap-2">
-                  <button onClick={() => toggleBai(r)} className="rounded-md border border-slate-200 px-3 py-1 text-xs">{expanded === r.id ? 'Ẩn bài gốc' : 'Xem bài gốc'}</button>
+                  <button onClick={() => toggleBai(r)} className="rounded-md border border-slate-200 px-3 py-1 text-xs">{expanded === r.id ? 'Ẩn' : 'Xem bài'}</button>
                   <button onClick={() => doChamLai(r)} disabled={!!busyId} className="rounded-md border border-slate-200 px-3 py-1 text-xs disabled:opacity-50">Chấm lại</button>
+                  <button onClick={() => doGui(r.id)} disabled={!!busyId} className="ml-auto rounded-md bg-[#1e3a8a] px-3 py-1 text-xs font-semibold text-white disabled:opacity-50">{busyId === r.id ? '...' : 'Gửi'}</button>
+                  <button onClick={() => doBoQua(r.id)} disabled={!!busyId} className="rounded-md border border-slate-200 px-3 py-1 text-xs disabled:opacity-50">Bỏ qua</button>
                 </div>
                 {expanded === r.id && (
                   <div className="rounded-md border border-slate-200 bg-slate-50 p-3 text-sm">
-                    {baiLoading === r.id ? <p className="text-xs text-slate-500">Đang tải bài gốc...</p>
+                    {baiLoading === r.id ? <p className="text-xs text-slate-500">Đang tải...</p>
                       : (() => {
                         const b = baiCache[r.id];
                         if (!b) return <p className="text-xs text-slate-500">Không tải được</p>;
                         if (r.loai === 'ke_hoach') {
                           return <>
                             <p><span className="font-semibold">Mục tiêu:</span> {b.plan?.muc_tieu_tuan || '—'}</p>
-                            {b.plan?.noi_dung && b.plan.noi_dung !== b.plan.muc_tieu_tuan && <p className="mt-1 text-xs text-slate-500">Nội dung: {b.plan.noi_dung}</p>}
                             <div className="mt-2 overflow-x-auto rounded border border-slate-200 bg-white">
                               <table className="w-full text-xs">
                                 <thead><tr className="bg-slate-100 text-left"><th className="px-2 py-1">#</th><th className="px-2 py-1">Công việc</th><th className="px-2 py-1">Đầu ra</th><th className="px-2 py-1">Ngày</th></tr></thead>
@@ -245,10 +252,10 @@ function DanhGiaList({ loai }: { loai: 'ke_hoach' | 'bao_cao' | 'chien_dich' | '
                       })()}
                   </div>
                 )}
-                <textarea value={editing[r.id] ?? ''} onChange={(e) => setEditing((m) => ({ ...m, [r.id]: e.target.value }))} rows={3} className="w-full rounded-md border border-slate-200 px-3 py-2 text-sm" placeholder="Góp ý sẽ gửi..." />
+                <textarea value={editing[r.id] ?? ''} onChange={(e) => setEditing((m) => ({ ...m, [r.id]: e.target.value }))} rows={2} className="w-full rounded-md border border-slate-200 px-3 py-2 text-sm" placeholder="Góp ý (sửa trước khi gửi nếu cần)..." />
                 <div className="flex gap-2">
-                  <button onClick={() => doGui(r.id)} disabled={!!busyId} className="rounded-md bg-[#1e3a8a] px-4 py-1.5 text-sm font-semibold text-white disabled:opacity-50">{busyId === r.id ? '...' : 'Gửi'}</button>
-                  <button onClick={() => doBoQua(r.id)} disabled={!!busyId} className="rounded-md border border-slate-200 px-4 py-1.5 text-sm disabled:opacity-50">Bỏ qua</button>
+                  <button onClick={() => doGui(r.id)} disabled={!!busyId} className="rounded-md bg-[#1e3a8a] px-4 py-1 text-sm font-semibold text-white disabled:opacity-50">{busyId === r.id ? '...' : 'Gửi'}</button>
+                  <button onClick={() => doBoQua(r.id)} disabled={!!busyId} className="rounded-md border border-slate-200 px-3 py-1 text-xs disabled:opacity-50">Bỏ qua</button>
                 </div>
               </div>
             ))}
