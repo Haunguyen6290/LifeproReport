@@ -206,9 +206,30 @@ function DanhGiaList({ loai }: { loai: 'ke_hoach' | 'bao_cao' | 'chien_dich' | '
                         const b = baiCache[r.id];
                         if (!b) return <p className="text-xs text-slate-500">Không tải được</p>;
                         if (r.loai === 'ke_hoach') {
-                          return <><p className="font-semibold">Mục tiêu: {b.plan?.muc_tieu_tuan || b.plan?.noi_dung || '—'}</p>{(b.items ?? []).map((it: any, i: number) => <p key={i} className="mt-1">• {it.cong_viec}{it.kq_can_dat ? ` → ${it.kq_can_dat}` : ''}{it.ngay_list ? ` (${it.ngay_list})` : ''}</p>)}</>;
+                          return <>
+                            <p className="font-semibold">Mục tiêu: {b.plan?.muc_tieu_tuan || b.plan?.noi_dung || '—'}</p>
+                            <div className="mt-2 overflow-x-auto rounded border border-slate-200 bg-white">
+                              <table className="w-full text-xs">
+                                <thead><tr className="bg-slate-100 text-left"><th className="px-2 py-1">#</th><th className="px-2 py-1">Công việc</th><th className="px-2 py-1">Đầu ra</th><th className="px-2 py-1">Ngày</th></tr></thead>
+                                <tbody>{(b.items ?? []).map((it: any, i: number) => <tr key={i} className="border-t border-slate-100"><td className="px-2 py-1">{i+1}</td><td className="px-2 py-1">{it.cong_viec || '—'}</td><td className="px-2 py-1">{it.kq_can_dat || '—'}</td><td className="px-2 py-1">{it.ngay_list || '—'}</td></tr>)}</tbody>
+                              </table>
+                            </div>
+                          </>;
+                        } else if (r.loai === 'bao_cao') {
+                          return <>
+                            <p>Tự đánh giá: {b.report?.tu_danh_gia ?? '—'} {b.report?.ty_le_ht != null ? `(${b.report.ty_le_ht}%)` : ''}</p>
+                            {b.report?.diem_noi_bat && <p>Nổi bật: {b.report.diem_noi_bat}</p>}{b.report?.kho_khan && <p>Khó khăn: {b.report.kho_khan}</p>}{b.report?.de_xuat && <p>Đề xuất: {b.report.de_xuat}</p>}
+                            <div className="mt-2 overflow-x-auto rounded border border-slate-200 bg-white">
+                              <table className="w-full text-xs">
+                                <thead><tr className="bg-slate-100 text-left"><th className="px-2 py-1">#</th><th className="px-2 py-1">Việc đã làm</th><th className="px-2 py-1">%HT</th><th className="px-2 py-1">Tự đánh giá</th><th className="px-2 py-1">Nguyên nhân</th></tr></thead>
+                                <tbody>{(b.items ?? []).map((it: any, i: number) => <tr key={i} className="border-t border-slate-100"><td className="px-2 py-1">{i+1}</td><td className="px-2 py-1">{it.viec_da_lam || '—'}</td><td className="px-2 py-1">{it.phan_tram != null ? `${it.phan_tram}%` : '—'}</td><td className="px-2 py-1">{it.tu_danh_gia ?? '—'}</td><td className="px-2 py-1">{it.nguyen_nhan || '—'}</td></tr>)}</tbody>
+                              </table>
+                            </div>
+                          </>;
+                        } else if (r.loai === 'chien_dich') {
+                          return <><p className="font-semibold">{b.campaign?.name ?? '—'}</p>{b.campaign?.objective && <p>Mục tiêu: {b.campaign.objective}</p>}{(b.updates ?? []).slice(0,5).map((u: any, i: number) => <p key={i} className="mt-1">• {String(u.content ?? '').slice(0,200)}</p>)}</>;
                         } else {
-                          return <><p>Tự đánh giá: {b.report?.tu_danh_gia ?? '—'} {b.report?.ty_le_ht != null ? `(${b.report.ty_le_ht}%)` : ''}</p>{b.report?.diem_noi_bat && <p>Nổi bật: {b.report.diem_noi_bat}</p>}{b.report?.kho_khan && <p>Khó khăn: {b.report.kho_khan}</p>}{b.report?.de_xuat && <p>Đề xuất: {b.report.de_xuat}</p>}{(b.items ?? []).map((it: any, i: number) => <p key={i} className="mt-1">• {it.viec_da_lam} {it.phan_tram != null ? `(${it.phan_tram}%)` : ''} [{it.tu_danh_gia}]</p>)}</>;
+                          return <p>{b.news?.content ?? '—'}</p>;
                         }
                       })()}
                   </div>
