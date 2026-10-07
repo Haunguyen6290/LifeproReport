@@ -23,10 +23,10 @@ async function checkPerm(req: NextRequest): Promise<boolean> {
 export async function POST(req: NextRequest) {
   if (!(await checkPerm(req))) return NextResponse.json({ error: 'Không có quyền' }, { status: 403 });
   const body = await req.json().catch(() => ({}));
-  const loai = String(body.loai ?? '').trim() as 'ke_hoach' | 'bao_cao';
+  const loai = String(body.loai ?? '').trim() as 'ke_hoach' | 'bao_cao' | 'chien_dich' | 'tin_thi_truong';
   const targetId = String(body.targetId ?? body.target_id ?? '').trim();
   const force = !!body.force;
-  if (loai !== 'ke_hoach' && loai !== 'bao_cao') return NextResponse.json({ error: 'loai phải là ke_hoach hoặc bao_cao' }, { status: 400 });
+  if (!['ke_hoach', 'bao_cao', 'chien_dich', 'tin_thi_truong'].includes(loai)) return NextResponse.json({ error: 'loai không hợp lệ' }, { status: 400 });
   if (!targetId) return NextResponse.json({ error: 'Thiếu targetId' }, { status: 400 });
   const result = await chamMotBai(loai, targetId, force);
   if (!result.ok) return NextResponse.json({ ok: false, reason: result.reason }, { status: 500 });

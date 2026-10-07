@@ -4,9 +4,30 @@ import { loadCoVanConfig } from './config';
 import { danhGiaCoVan, type CoVanInput } from './evaluate';
 import { sendToDirector } from './telegram-private';
 
-type Loai = 'ke_hoach' | 'bao_cao';
+type Loai = 'ke_hoach' | 'bao_cao' | 'chien_dich' | 'tin_thi_truong';
 
 async function loadInput(loai: Loai, targetId: string, admin: ReturnType<typeof createAdminClient>): Promise<CoVanInput | null> {
+  if (loai === 'chien_dich') {
+    const { data: cd } = await admin.from('campaigns').select('id, name, objective, type_id, status_id, owner_id, created_at, updated_at').eq('id', targetId).single();
+    if (!cd) return null;
+    const { data: ups } = await admin.from('campaign_updates').select('content, created_at').eq('campaign_id', targetId).order('created_at', { ascending: false }).limit(10);
+    const { data: owner } = await admin.from('profiles').select('full_name').eq('id', (cd as any).owner_id).single();
+    const tieuDe = `Chiến dịch ${(cd as any).name ?? ''} — ${(owner as any)?.full_name ?? ''}`;
+    const noiDungTongQuan = [
+      (cd as any).objective ? `Mục tiêu: ${(cd as any).objective}` : '',
+      ...(ups ?? []).map((u: any) => `Cập nhật ${u.created_at?.slice(0,10) ?? ''}: ${(u.content ?? '').slice(0, 500)}`),
+    ].filter(Boolean).join('\n');
+    return { loai, tieuDe, noiDungTongQuan, items: ((ups ?? []) as any[]).map((u) => ({ cong_viec: u.content })), tuanTruoc: null, lichSuNgan: '' };
+  }
+  if (loai === 'tin_thi_truong') {
+    const { data: news } = await admin.from('market_news').select('id, content, reporter_id, created_at, updated_at, type_id').eq('id', targetId).single();
+    if (!news) return null;
+    const { data: prof } = await admin.from('profiles').select('full_name').eq('id', (news as any).reporter_id).single();
+    const tieuDe = `Tin thị trường — ${(prof as any)?.full_name ?? ''} ${(news as any).created_at?.slice(0,10) ?? ''}`;
+    const { data: recent } = await admin.from('market_news').select('content, created_at').eq('reporter_id', (news as any).reporter_id).order('created_at', { ascending: false }).limit(4);
+    const lichSuNgan = (((recent ?? []) as any[]).filter((r) => r.content !== (news as any).content).slice(0, 3).map((r) => r.content.slice(0, 200)).join('\n'));
+    return { loai, tieuDe, noiDungTongQuan: String((news as any).content ?? ''), items: [], tuanTruoc: null, lichSuNgan };
+  }
   if (loai === 'ke_hoach') {
     const { data: plan } = await admin.from('weekly_plans').select('id, user_id, tuan_tu, tuan_den, muc_tieu_tuan, noi_dung, updated_at').eq('id', targetId).single();
     if (!plan) return null;
@@ -80,11 +101,16 @@ export async function chamMotBai(loai: Loai, targetId: string, force = false): P
   const admin = createAdminClient() as any;
   const cfg = await loadCoVanConfig(admin);
 
-  // Lấy updated_at để làm phien_ban_luc (idempotent)
-  const table = loai === 'ke_hoach' ? 'weekly_plans' : 'weekly_reports';
-  const { data: row } = await admin.from(table).select('id, user_id, tuan_tu, tuan_den, updated_at').eq('id', targetId).single();
+  const TABLE_MAP: Record<string, string> = { ke_hoach: 'weekly_plans', bao_cao: 'weekly_reports', chien_dich: 'campaigns', tin_thi_truong: 'market_news' };
+  const table = TABLE_MAP[loai];
+  if (!table) return { ok: false, reason: 'Loại không hỗ trợ' };
+  const sel = loai === 'chien_dich' ? 'id, owner_id, created_at, updated_at' : loai === 'tin_thi_truong' ? 'id, reporter_id, created_at, updated_at' : 'id, user_id, tuan_tu, tuan_den, updated_at';
+  const { data: row } = await admin.from(table).select(sel).eq('id', targetId).single();
   if (!row) return { ok: false, reason: 'Không tìm thấy bài' };
   const phienBanLuc = (row as any).updated_at as string;
+  const rowUserId = (row as any).user_id ?? (row as any).owner_id ?? (row as any).reporter_id ?? null;
+  const rowTuanTu = (row as any).tuan_tu ?? (row as any).created_at?.slice(0,10) ?? new Date().toISOString().slice(0,10);
+  const rowTuanDen = (row as any).tuan_den ?? rowTuanTu;
 
   // Nếu đã chấm đúng phiên bản thì bỏ qua (trừ khi force)
   const { data: existed } = await admin.from('co_van_danh_gia').select('id, phien_ban_luc').eq('loai', loai).eq('target_id', targetId).maybeSingle();
@@ -106,9 +132,9 @@ export async function chamMotBai(loai: Loai, targetId: string, force = false): P
 
   const payload = {
     loai, target_id: targetId,
-    user_id: (row as any).user_id,
-    tuan_tu: (row as any).tuan_tu,
-    tuan_den: (row as any).tuan_den,
+    user_id: rowUserId,
+    tuan_tu: rowTuanTu,
+    tuan_den: rowTuanDen,
     ket_qua: dg.ket_qua,
     ly_do: dg.ly_do,
     dau_hieu_doi_pho: dg.dau_hieu_doi_pho,
@@ -123,10 +149,10 @@ export async function chamMotBai(loai: Loai, targetId: string, force = false): P
   // Báo Telegram riêng nếu Can sua / Khong dat và chưa bật tự gửi
   if ((dg.ket_qua === 'Can sua' || dg.ket_qua === 'Khong dat') && !cfg.autoSend) {
     try {
-      const { data: prof } = await admin.from('profiles').select('full_name').eq('id', (row as any).user_id).single();
+      const { data: prof } = await admin.from('profiles').select('full_name').eq('id', rowUserId).single();
       const ten = (prof as any)?.full_name ?? '';
-      const loaiLabel = loai === 'ke_hoach' ? 'Kế hoạch' : 'Báo cáo';
-      const text = `⚠️ <b>${loaiLabel} ${dg.ket_qua}</b> — ${ten} (tuần ${(row as any).tuan_tu}→${(row as any).tuan_den})\nLý do: ${dg.ly_do.slice(0, 300)}${dg.dau_hieu_doi_pho ? `\nDấu hiệu: ${dg.dau_hieu_doi_pho.slice(0, 200)}` : ''}\n\nGợi ý soạn sẵn:\n${dg.gop_y_soan_san.slice(0, 800)}`;
+      const loaiLabel: Record<string, string> = { ke_hoach: 'Kế hoạch', bao_cao: 'Báo cáo', chien_dich: 'Chiến dịch', tin_thi_truong: 'Tin thị trường' };
+      const text = `⚠️ <b>${loaiLabel[loai] ?? loai} ${dg.ket_qua}</b> — ${ten} (tuần ${rowTuanTu}→${rowTuanDen})\nLý do: ${dg.ly_do.slice(0, 300)}${dg.dau_hieu_doi_pho ? `\nDấu hiệu: ${dg.dau_hieu_doi_pho.slice(0, 200)}` : ''}\n\nGợi ý soạn sẵn:\n${dg.gop_y_soan_san.slice(0, 800)}`;
       // Lấy id vừa upsert để gắn nút
       const { data: saved } = await admin.from('co_van_danh_gia').select('id').eq('loai', loai).eq('target_id', targetId).single();
       const kb = saved ? [[{ text: 'Gửi cho nhân viên', callback_data: `cv:gui:${(saved as any).id}` }, { text: 'Bỏ qua', callback_data: `cv:boqua:${(saved as any).id}` }]] : undefined;
@@ -177,7 +203,7 @@ export async function guiGopY(danhGiaId: string, actorId?: string): Promise<{ ok
       is_chot: false,
     });
     if (error) return { ok: false, reason: error.message };
-  } else {
+  } else if ((dg as any).loai === 'ke_hoach') {
     const { data: plan } = await admin.from('weekly_plans').select('y_kien_quan_ly').eq('id', (dg as any).target_id).single();
     const old = String((plan as any)?.y_kien_quan_ly ?? '').trim();
     const next = old ? `${old}\n\n---\n${content}` : content;
@@ -187,6 +213,11 @@ export async function guiGopY(danhGiaId: string, actorId?: string): Promise<{ ok
       duyet_luc: new Date().toISOString(),
     }).eq('id', (dg as any).target_id);
     if (error) return { ok: false, reason: error.message };
+  } else if ((dg as any).loai === 'chien_dich') {
+    // Chiến dịch / Tin thị trường: chỉ lưu đánh giá để ông xem, chưa ghi vào bảng nghiệp vụ
+    void (dg as any).target_id;
+  } else if ((dg as any).loai === 'tin_thi_truong') {
+    void (dg as any).target_id;
   }
 
   await admin.from('co_van_danh_gia').update({ trang_thai: 'Da gui', gui_luc: new Date().toISOString(), gui_boi: directorId }).eq('id', danhGiaId);

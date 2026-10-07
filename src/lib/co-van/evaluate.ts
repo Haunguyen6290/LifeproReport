@@ -12,18 +12,19 @@ export type DanhGia = {
 };
 
 export type CoVanInput = {
-  loai: 'ke_hoach' | 'bao_cao';
-  tieuDe: string; // "Kế hoạch tuần 01/10–07/10 — Nguyễn Văn A"
-  noiDungTongQuan: string; // muc_tieu_tuan / tu_danh_gia ...
+  loai: 'ke_hoach' | 'bao_cao' | 'chien_dich' | 'tin_thi_truong';
+  tieuDe: string;
+  noiDungTongQuan: string;
   items: { cong_viec?: string; viec_da_lam?: string; kq_can_dat?: string; phan_tram?: number | null; tu_danh_gia?: string }[];
   tuanTruoc?: { noiDung: string; items: string[] } | null;
   okrDangChay?: string;
-  lichSuNgan?: string; // tóm tắt 3 tuần gần nhất để soi copy
+  lichSuNgan?: string;
 };
 
 function toUserMessage(input: CoVanInput): string {
+  const loaiLabel: Record<string, string> = { ke_hoach: 'Kế hoạch tuần', bao_cao: 'Báo cáo tuần', chien_dich: 'Chiến dịch', tin_thi_truong: 'Tin thị trường' };
   const parts: string[] = [];
-  parts.push(`LOẠI: ${input.loai === 'ke_hoach' ? 'Kế hoạch tuần' : 'Báo cáo tuần'} — ${input.tieuDe}`);
+  parts.push(`LOẠI: ${loaiLabel[input.loai] ?? input.loai} — ${input.tieuDe}`);
   if (input.okrDangChay) parts.push(`OKR ĐANG CHẠY:\n${input.okrDangChay.slice(0, 800)}`);
   parts.push(`NỘI DUNG TỔNG QUAN:\n${(input.noiDungTongQuan || '(trống)').slice(0, 2000)}`);
   if (input.items.length) {
@@ -54,7 +55,7 @@ export async function danhGiaCoVan(cfg: AIConfig, input: CoVanInput): Promise<Da
       timeout: 30_000,
       maxRetries: 0,
     });
-    const system = buildCoVanSystem(cfg.brief, '');
+    const system = buildCoVanSystem(cfg.brief, '', input.loai);
     const res = await client.messages.create({
       model: cfg.model,
       max_tokens: 1500,
