@@ -110,10 +110,42 @@ function DanhGiaList({ loai }: { loai: 'ke_hoach' | 'bao_cao' }) {
       const m: Record<string, string> = {};
       for (const x of (j.rows ?? []) as DanhGia[]) m[x.id] = x.gop_y_soan_san;
       setEditing(m);
+      // reset mở rộng khi đổi filter
+      setExpanded(null); setBaiCache({});
     }
     setLoading(false);
   }
   useEffect(() => { load(); }, [filter, tuanTu, loai]);
+
+  const [expanded, setExpanded] = useState<string | null>(null);
+  const [baiCache, setBaiCache] = useState<Record<string, any>>({});
+  const [baiLoading, setBaiLoading] = useState<string | null>(null);
+
+  async function toggleBai(r: DanhGia) {
+    if (expanded === r.id) { setExpanded(null); return; }
+    setExpanded(r.id);
+    if (baiCache[r.id]) return;
+    setBaiLoading(r.id);
+    try {
+      const h = await authHeaders();
+      const qr = await fetch(`/api/co-van/bai?loai=${r.loai}&id=${r.target_id}`, { headers: h });
+      const j = await qr.json();
+      if (qr.ok) setBaiCache((m) => ({ ...m, [r.id]: j }));
+    } catch {}
+    setBaiLoading(null);
+  }
+
+  async function doChamLai(r: DanhGia) {
+    setBusyId(r.id);
+    try {
+      const h = await authHeaders();
+      const rr = await fetch('/api/co-van/evaluate', { method: 'POST', headers: h, body: JSON.stringify({ loai: r.loai, targetId: r.target_id, force: true }) });
+      const j = await rr.json();
+      if (!rr.ok) alert(j.reason ?? j.error ?? 'Lỗi');
+      else { alert(`Đã chấm lại: ${j.ket_qua ?? ''} ${j.reason ?? ''}`.trim()); load(); }
+    } catch (e: any) { alert(e?.message ?? 'Lỗi'); }
+    setBusyId(null);
+  }
 
   async function doGui(id: string) {
     setBusyId(id);
@@ -161,11 +193,29 @@ function DanhGiaList({ loai }: { loai: 'ke_hoach' | 'bao_cao' }) {
                   <span className="text-xs text-slate-500">{r.loai === 'ke_hoach' ? 'Kế hoạch' : 'Báo cáo'} · tuần {r.tuan_tu}→{r.tuan_den}</span>
                   <span className="ml-auto text-xs text-slate-400">{new Date(r.created_at).toLocaleDateString('vi-VN')}</span>
                 </div>
-                {r.ly_do && <p className="text-sm text-slate-700"><span className="font-semibold">Lý do:</span> {r.ly_do}</p>}
-                {r.dau_hieu_doi_pho && <p className="rounded-md bg-amber-50 px-3 py-2 text-sm text-amber-800">Dấu hiệu đối phó: {r.dau_hieu_doi_pho}</p>}
-                <textarea value={editing[r.id] ?? ''} onChange={(e) => setEditing((m) => ({ ...m, [r.id]: e.target.value }))} rows={4} className="w-full rounded-md border border-slate-200 px-3 py-2 text-sm" placeholder="Góp ý soạn sẵn..." />
+                {r.ly_do && <p className="text-sm text-slate-700"><span className="font-semibold">Thiếu:</span> {r.ly_do}</p>}
+                {r.dau_hieu_doi_pho && <p className="rounded-md bg-amber-50 px-3 py-2 text-sm text-amber-800">{r.dau_hieu_doi_pho}</p>}
+                <div className="flex flex-wrap gap-2">
+                  <button onClick={() => toggleBai(r)} className="rounded-md border border-slate-200 px-3 py-1 text-xs">{expanded === r.id ? 'Ẩn bài gốc' : 'Xem bài gốc'}</button>
+                  <button onClick={() => doChamLai(r)} disabled={!!busyId} className="rounded-md border border-slate-200 px-3 py-1 text-xs disabled:opacity-50">Chấm lại</button>
+                </div>
+                {expanded === r.id && (
+                  <div className="rounded-md border border-slate-200 bg-slate-50 p-3 text-sm">
+                    {baiLoading === r.id ? <p className="text-xs text-slate-500">Đang tải bài gốc...</p>
+                      : (() => {
+                        const b = baiCache[r.id];
+                        if (!b) return <p className="text-xs text-slate-500">Không tải được</p>;
+                        if (r.loai === 'ke_hoach') {
+                          return <><p className="font-semibold">Mục tiêu: {b.plan?.muc_tieu_tuan || b.plan?.noi_dung || '—'}</p>{(b.items ?? []).map((it: any, i: number) => <p key={i} className="mt-1">• {it.cong_viec}{it.kq_can_dat ? ` → ${it.kq_can_dat}` : ''}{it.ngay_list ? ` (${it.ngay_list})` : ''}</p>)}</>;
+                        } else {
+                          return <><p>Tự đánh giá: {b.report?.tu_danh_gia ?? '—'} {b.report?.ty_le_ht != null ? `(${b.report.ty_le_ht}%)` : ''}</p>{b.report?.diem_noi_bat && <p>Nổi bật: {b.report.diem_noi_bat}</p>}{b.report?.kho_khan && <p>Khó khăn: {b.report.kho_khan}</p>}{b.report?.de_xuat && <p>Đề xuất: {b.report.de_xuat}</p>}{(b.items ?? []).map((it: any, i: number) => <p key={i} className="mt-1">• {it.viec_da_lam} {it.phan_tram != null ? `(${it.phan_tram}%)` : ''} [{it.tu_danh_gia}]</p>)}</>;
+                        }
+                      })()}
+                  </div>
+                )}
+                <textarea value={editing[r.id] ?? ''} onChange={(e) => setEditing((m) => ({ ...m, [r.id]: e.target.value }))} rows={3} className="w-full rounded-md border border-slate-200 px-3 py-2 text-sm" placeholder="Góp ý sẽ gửi..." />
                 <div className="flex gap-2">
-                  <button onClick={() => doGui(r.id)} disabled={!!busyId} className="rounded-md bg-[#1e3a8a] px-4 py-1.5 text-sm font-semibold text-white disabled:opacity-50">{busyId === r.id ? '...' : 'Gửi cho nhân viên'}</button>
+                  <button onClick={() => doGui(r.id)} disabled={!!busyId} className="rounded-md bg-[#1e3a8a] px-4 py-1.5 text-sm font-semibold text-white disabled:opacity-50">{busyId === r.id ? '...' : 'Gửi'}</button>
                   <button onClick={() => doBoQua(r.id)} disabled={!!busyId} className="rounded-md border border-slate-200 px-4 py-1.5 text-sm disabled:opacity-50">Bỏ qua</button>
                 </div>
               </div>

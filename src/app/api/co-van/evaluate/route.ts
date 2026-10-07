@@ -25,9 +25,10 @@ export async function POST(req: NextRequest) {
   const body = await req.json().catch(() => ({}));
   const loai = String(body.loai ?? '').trim() as 'ke_hoach' | 'bao_cao';
   const targetId = String(body.targetId ?? body.target_id ?? '').trim();
+  const force = !!body.force;
   if (loai !== 'ke_hoach' && loai !== 'bao_cao') return NextResponse.json({ error: 'loai phải là ke_hoach hoặc bao_cao' }, { status: 400 });
   if (!targetId) return NextResponse.json({ error: 'Thiếu targetId' }, { status: 400 });
-  const result = await chamMotBai(loai, targetId);
+  const result = await chamMotBai(loai, targetId, force);
   if (!result.ok) return NextResponse.json({ ok: false, reason: result.reason }, { status: 500 });
   return NextResponse.json({ ok: true, ket_qua: result.ket_qua, reason: result.reason });
 }

@@ -76,7 +76,7 @@ async function loadInput(loai: Loai, targetId: string, admin: ReturnType<typeof 
   }
 }
 
-export async function chamMotBai(loai: Loai, targetId: string): Promise<{ ok: boolean; ket_qua?: string; reason?: string }> {
+export async function chamMotBai(loai: Loai, targetId: string, force = false): Promise<{ ok: boolean; ket_qua?: string; reason?: string }> {
   const admin = createAdminClient() as any;
   const cfg = await loadCoVanConfig(admin);
 
@@ -86,9 +86,9 @@ export async function chamMotBai(loai: Loai, targetId: string): Promise<{ ok: bo
   if (!row) return { ok: false, reason: 'Không tìm thấy bài' };
   const phienBanLuc = (row as any).updated_at as string;
 
-  // Nếu đã chấm đúng phiên bản thì bỏ qua
+  // Nếu đã chấm đúng phiên bản thì bỏ qua (trừ khi force)
   const { data: existed } = await admin.from('co_van_danh_gia').select('id, phien_ban_luc').eq('loai', loai).eq('target_id', targetId).maybeSingle();
-  if (existed && String((existed as any).phien_ban_luc) === String(phienBanLuc)) {
+  if (!force && existed && String((existed as any).phien_ban_luc) === String(phienBanLuc)) {
     return { ok: true, reason: 'Đã chấm phiên bản này' };
   }
 
