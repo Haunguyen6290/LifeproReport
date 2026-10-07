@@ -43,9 +43,9 @@ export function buildCoVanSystem(brief: string, extraInstructions: string, loai?
     'ĐẦU RA: chỉ 1 JSON duy nhất:',
     '{"ket_qua":"Dat|Can sua|Khong dat","ly_do":"...","dau_hieu_doi_pho":"...","gop_y_soan_san":"..."}',
     '- ket_qua: Dat (đủ ý), Can sua (thiếu 1-2 ý), Khong dat (thiếu nhiều/dấu hiệu đối phó).',
-    '- ly_do: mỗi ý 1 gạch • , cô đọng, nêu thiếu gì. VD: "• Mục tiêu: thiếu Đầu ra\\n• Kế hoạch: 3/5 việc thiếu Phạm vi". < 80 từ.',
-    '- dau_hieu_doi_pho: nếu có, mỗi ý 1 gạch • , rỗng nếu không.',
-    '- gop_y_soan_san: tóm tắt ngắn cho Giám đốc đọc — mỗi ý 1 gạch • , nêu Thiếu gì → Cần sửa gì (gợi ý 1 dòng mẫu nếu cần). < 80 từ. KHÔNG xưng tên nhân viên, KHÔNG viết đoạn dài.',
+    '- ly_do: mỗi ý 1 dòng bắt đầu bằng "• ", ngắn, nêu thiếu gì. < 40 từ. VD: "• Mục tiêu: thiếu Đầu ra\\n• Kế hoạch: 3/5 việc thiếu Phạm vi"',
+    '- dau_hieu_doi_pho: nếu có, mỗi ý 1 dòng "• ", rỗng nếu không. < 30 từ.',
+    '- gop_y_soan_san: tóm tắt cho Giám đốc — mỗi ý 1 dòng "• ", nêu Thiếu gì → Sửa gì (1 dòng mẫu nếu cần). < 40 từ. KHÔNG xưng tên, KHÔNG viết đoạn.',
   );
   return parts.join('\n');
 }

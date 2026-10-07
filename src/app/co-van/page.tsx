@@ -18,9 +18,16 @@ async function authHeaders(): Promise<HeadersInit> {
 }
 
 function bulleted(s: string) {
-  const lines = s.split(/\n|•/).map((x) => x.trim()).filter(Boolean);
-  if (lines.length <= 1) return <span>{s}</span>;
-  return <ul className="list-disc pl-5 space-y-0.5">{lines.map((l, i) => <li key={i} className="italic font-semibold">{l}</li>)}</ul>;
+  const parts = s.split(/\n/).map((x) => x.replace(/^[•\-]\s*/, '').trim()).filter(Boolean);
+  if (parts.length <= 1) {
+    const cleaned = s.replace(/^[•\-]\s*/, '').trim();
+    const short = cleaned.length > 180 ? cleaned.slice(0, 180) + '…' : cleaned;
+    return <span className="italic font-semibold">{short}</span>;
+  }
+  return <ul className="list-disc pl-5 space-y-0.5">{parts.map((l, i) => {
+    const short = l.length > 160 ? l.slice(0, 160) + '…' : l;
+    return <li key={i} className="italic font-semibold">{short}</li>;
+  })}</ul>;
 }
 
 function badge(ket_qua: string) {
@@ -84,11 +91,21 @@ function ChatPanel({ full }: { full?: boolean }) {
 function DanhGiaList({ loai }: { loai: 'ke_hoach' | 'bao_cao' | 'chien_dich' | 'tin_thi_truong' }) {
   const [rows, setRows] = useState<DanhGia[]>([]);
   const [filter, setFilter] = useState('Cho duyet');
-  const [tuanTu, setTuanTu] = useState('');
+  const curWeek = (() => { const d = new Date(); const day = d.getUTCDay() || 7; const m = new Date(d); m.setUTCDate(d.getUTCDate() - (day - 1)); return m.toISOString().slice(0, 10); })();
+  const [tuanTu, setTuanTu] = useState(curWeek);
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState<Record<string, string>>({});
   const [busyId, setBusyId] = useState<string | null>(null);
   const [sweeping, setSweeping] = useState(false);
+
+  function onPickDate(v: string) {
+    if (!v) { setTuanTu(''); return; }
+    const d = new Date(v + 'T00:00:00Z');
+    const day = d.getUTCDay() || 7;
+    const m = new Date(d);
+    m.setUTCDate(d.getUTCDate() - (day - 1));
+    setTuanTu(m.toISOString().slice(0, 10));
+  }
 
   async function doSweep() {
     setSweeping(true);
@@ -175,8 +192,8 @@ function DanhGiaList({ loai }: { loai: 'ke_hoach' | 'bao_cao' | 'chien_dich' | '
   return (
     <div className="rounded-xl border border-slate-200 bg-white">
       <div className="flex flex-wrap items-center gap-2 border-b border-slate-200 px-4 py-3">
-        <input type="date" value={tuanTu} onChange={(e) => setTuanTu(e.target.value)} className="rounded-md border border-slate-200 px-3 py-1 text-sm" title="Lọc theo tuần (tuan_tu)" />
-        {tuanTu && <button onClick={() => setTuanTu('')} className="rounded-md border border-slate-200 px-2 py-1 text-xs">Xóa lọc tuần</button>}
+        <input type="date" value={tuanTu} onChange={(e) => onPickDate(e.target.value)} className="rounded-md border border-slate-200 px-3 py-1 text-sm" title="Chọn ngày bất kỳ trong tuần" />
+        <button onClick={() => setTuanTu(curWeek)} className="rounded-md border border-slate-200 px-2 py-1 text-xs">Tuần này</button>
         <button onClick={doSweep} disabled={sweeping} className="rounded-md bg-[#1e3a8a] px-3 py-1 text-xs font-semibold text-white disabled:opacity-50">{sweeping ? 'Đang chấm...' : 'Chấm tất cả chưa chấm'}</button>
         <div className="ml-auto flex gap-1">
           {(['Cho duyet', 'Da gui', 'Bo qua', ''] as const).map((v) => (
