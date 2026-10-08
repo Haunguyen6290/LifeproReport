@@ -283,16 +283,15 @@ function DanhGiaList({ loai }: { loai: 'ke_hoach' | 'bao_cao' | 'chien_dich' | '
                 </div>
                 {r.ly_do && <div className="text-sm text-slate-700">{bulleted(r.ly_do)}</div>}
                 {r.dau_hieu_doi_pho && <div className="rounded-md bg-amber-50 px-3 py-2 text-sm text-amber-800">{bulleted(r.dau_hieu_doi_pho)}</div>}
-                {editing[r.id] && <div className="rounded-md border border-slate-200 bg-white px-3 py-2 text-sm">{renderGopY(editing[r.id])}</div>}
+                {editing[r.id] ? <div className="rounded-md border border-slate-200 bg-white px-3 py-2 text-sm">{renderGopY(editing[r.id])}</div>
+                  : <div className="rounded-md border border-dashed border-slate-300 bg-slate-50 px-3 py-2 text-sm text-slate-400">Chưa có góp ý để gửi — bấm Chấm lại để tạo</div>}
                 <div className="flex flex-wrap gap-2">
                   <button onClick={() => toggleBai(r)} className="rounded-md border border-slate-200 px-3 py-1 text-xs">{expanded === r.id ? 'Ẩn' : 'Xem bài'}</button>
                   <button onClick={() => doChamLai(r)} disabled={!!busyId} className="rounded-md border border-slate-200 px-3 py-1 text-xs disabled:opacity-50">Chấm lại</button>
-                  <button onClick={() => doGui(r.id)} disabled={!!busyId} className="ml-auto rounded-md bg-[#1e3a8a] px-3 py-1 text-xs font-semibold text-white disabled:opacity-50">{busyId === r.id ? '...' : 'Gửi'}</button>
-                  <button onClick={() => doBoQua(r.id)} disabled={!!busyId} className="rounded-md border border-slate-200 px-3 py-1 text-xs disabled:opacity-50">Bỏ qua</button>
                 </div>
                 {expanded === r.id && (
                   <div className="rounded-md border border-slate-200 bg-slate-50 p-3 text-sm">
-                    {baiLoading === r.id ? <p className="text-xs text-slate-500">Đang tải...</p>
+                    {expanded === r.id && baiLoading === r.id ? <p className="text-xs text-slate-500">Đang tải...</p>
                       : (() => {
                         const b = baiCache[r.id];
                         if (!b) return <p className="text-xs text-slate-500">Không tải được</p>;
