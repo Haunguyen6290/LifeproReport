@@ -17,6 +17,7 @@ function Screen() {
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
   const [detailId, setDetailId] = useState<string | null>(null);
+  const [latestMap, setLatestMap] = useState<Map<string, { content: string; created_at: string; reporter: string }>>(new Map());
 
   async function load() {
     setLoading(true);
@@ -26,21 +27,37 @@ function Screen() {
     // Hiển thị danh sách ngay, chưa có badge
     setList(campaigns);
     setLoading(false);
+    setLatestMap(new Map());
 
-    // Load badge sau (lazy loading)
+    if (campaigns.length === 0) return;
+    const ids = campaigns.map(c => c.id);
+    // Load badge + cập nhật gần nhất song song (lazy, không chặn render)
     const { data: { session } } = await supabase.auth.getSession();
-    if (session?.access_token && campaigns.length > 0) {
-      try {
-        const res = await fetch('/api/campaign/unread', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session.access_token}` },
-          body: JSON.stringify({ campaign_ids: campaigns.map(c => c.id) }),
-        });
-        const unreadData = await res.json() as Record<string, number>;
-        // Cập nhật badge sau khi API trả về
-        setList(prev => prev.map(c => ({ ...c, unread: unreadData[c.id] ?? 0 })));
-      } catch {}
+    if (session?.access_token) {
+      fetch('/api/campaign/unread', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session.access_token}` },
+        body: JSON.stringify({ campaign_ids: ids }),
+      }).then(r => r.json()).then((unreadData: Record<string, number>) => {
+        setList(prev => prev.map(c => ({ ...c, unread: (unreadData as any)[c.id] ?? 0 })));
+      }).catch(() => {});
     }
+    // Cập nhật gần nhất: lấy bản ghi mới nhất cho mỗi campaign
+    (async () => {
+      try {
+        const m = new Map<string, { content: string; created_at: string; reporter: string }>();
+        for (let i = 0; i < ids.length; i += 200) {
+          const chunk = ids.slice(i, i + 200);
+          const { data: ups } = await supabase.from('campaign_updates')
+            .select('campaign_id, content, created_at, reporter:profiles!campaign_updates_reporter_id_fkey(full_name)')
+            .in('campaign_id', chunk).order('created_at', { ascending: false }).limit(800);
+          for (const r of (ups ?? []) as any[]) {
+            if (!m.has(r.campaign_id)) m.set(r.campaign_id, { content: r.content ?? '', created_at: r.created_at, reporter: r.reporter?.full_name ?? '' });
+          }
+        }
+        setLatestMap(m);
+      } catch {}
+    })();
   }
 
   async function refreshBadge(campaignId: string) {
@@ -98,6 +115,9 @@ function Screen() {
                   </div>
                   <div className="mt-1 text-xs text-slate-600">{c.type?.name ?? '—'} · {c.start_date ? fmtDateVN(c.start_date) : '—'} → {c.end_date ? fmtDateVN(c.end_date) : '—'}</div>
                   {c.objective && <p className="mt-1 line-clamp-1 text-sm text-slate-600">🎯 {c.objective}</p>}
+                  {(() => { const u = latestMap.get(c.id); if (!u) return null;
+                    const d = new Date(u.created_at); const t = isNaN(d.getTime()) ? '' : new Intl.DateTimeFormat('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh', day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false }).format(d);
+                    return <p className="mt-1.5 line-clamp-2 rounded-md bg-slate-50 px-2 py-1.5 text-xs leading-snug text-slate-700" title={u.content}>💬 {u.reporter ? `${u.reporter}: ` : ''}{u.content.slice(0, 160)}{u.content.length > 160 ? '…' : ''} <span className="whitespace-nowrap text-slate-400">· {t}</span></p>; })()}
                 </Selectable>
               </li>
             ))}

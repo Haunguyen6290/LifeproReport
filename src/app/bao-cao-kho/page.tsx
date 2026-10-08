@@ -112,6 +112,7 @@ function Screen() {
   const [vanDeMap, setVanDeMap] = useState<Map<string, string>>(new Map());
   const [sanPhamOpts, setSanPhamOpts] = useState<CategoryItem[]>([]);
   const [updateCounts, setUpdateCounts] = useState<Map<string, number>>(new Map());
+  const [latestKho, setLatestKho] = useState<Map<string, { content: string; created_at: string; reporter: string }>>(new Map());
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState('');
   const [open, setOpen] = useState(false);
@@ -183,7 +184,16 @@ function Screen() {
                 }
               }
               if (!cancelled) setUpdateCounts(cnt);
-            } else if (!cancelled) setUpdateCounts(new Map());
+              // Cập nhật gần nhất cho mỗi phiếu (lazy, không chặn render)
+              void supabase.from('warehouse_report_updates').select('report_id, content, created_at, reporter:profiles!warehouse_report_updates_reporter_id_fkey(full_name)')
+                .in('report_id', rids).order('created_at', { ascending: false }).limit(Math.min(rids.length * 2, 1000))
+                .then(({ data: ups }: any) => {
+                  if (cancelled) return;
+                  const m = new Map<string, { content: string; created_at: string; reporter: string }>();
+                  for (const u of (ups ?? []) as any[]) if (!m.has(u.report_id)) m.set(u.report_id, { content: u.content ?? '', created_at: u.created_at, reporter: u.reporter?.full_name ?? '' });
+                  setLatestKho(m);
+                });
+            } else if (!cancelled) { setUpdateCounts(new Map()); setLatestKho(new Map()); }
         }
       } catch (e: any) {
         if (!cancelled) setMsg(e?.message ?? 'Lỗi tải dữ liệu');
@@ -318,12 +328,14 @@ function Screen() {
                           const shortD = d.split('/').slice(0, 2).join('/') ;
                           return hh ? `${shortD} ${hh}` : d;
                         })();
+                        const lk = latestKho.get(r.id);
                         return (
+                          <>
                           <Selectable key={r.id} as="tr" onOpen={() => { setDetailId(r.id); setDetailOpen(true); }} className="cursor-pointer align-top hover:bg-slate-50">
                             <td className="truncate px-3 py-2 text-sm text-slate-700" title={ngayGio}>{ngayGio}</td>
                             <td className="break-words px-3 py-2 text-sm font-medium text-slate-900">{profiles.get(r.user_id) ?? r.user_id.slice(0, 8)}</td>
                             <td className="break-words px-3 py-2 text-sm text-slate-900">{spName}</td>
-                            <td className="px-3 py-2"><p className="whitespace-pre-wrap break-words text-sm text-slate-900">{r.thuc_trang}</p></td>
+                            <td className="px-3 py-2"><p className="whitespace-pre-wrap break-words text-sm text-slate-900">{r.thuc_trang}</p>{lk && <p className="mt-1.5 line-clamp-2 rounded bg-slate-50 px-2 py-1 text-xs leading-snug text-slate-600" title={lk.content}>💬 {lk.reporter ? `${lk.reporter}: ` : ''}{lk.content.slice(0, 140)}{lk.content.length > 140 ? '…' : ''}</p>}</td>
                             <td className="px-3 py-2"><p className="whitespace-pre-wrap break-words text-sm text-slate-700" style={{ display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical' as const, overflow: 'hidden' }}>{r.de_xuat || '—'}</p></td>
                             <td className="px-3 py-2 text-center"><TrangThai v={r.trang_thai} /></td>
                             <td className="px-3 py-2 text-center text-sm"><span className={`inline-flex min-w-6 justify-center rounded-full px-2 py-0.5 text-xs font-semibold ${(updateCounts.get(r.id) ?? 0) > 0 ? 'bg-[#eff6ff] text-[#1e3a8a]' : 'bg-slate-100 text-slate-500'}`}>{updateCounts.get(r.id) ?? 0}</span></td>
@@ -333,6 +345,7 @@ function Screen() {
                                 {canDelete && <button onClick={(e) => { e.stopPropagation(); handleDelete(r); }} aria-label="Xóa" className="rounded-md p-1 text-red-600 hover:bg-red-50"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>}</span>
                             </td>
                           </Selectable>
+                          </>
                         );
                       })}
                     </tbody>
