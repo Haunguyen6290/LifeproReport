@@ -190,9 +190,31 @@ function DanhGiaList({ loai }: { loai: 'ke_hoach' | 'bao_cao' | 'chien_dich' | '
       const rr = await fetch('/api/co-van/evaluate', { method: 'POST', headers: h, body: JSON.stringify({ loai: r.loai, targetId: r.target_id, force: true }) });
       const j = await rr.json();
       if (!rr.ok) alert(j.reason ?? j.error ?? 'Lỗi');
-      else { alert(`Đã chấm lại: ${j.ket_qua ?? ''} ${j.reason ?? ''}`.trim()); load(); }
+      else load();
     } catch (e: any) { alert(e?.message ?? 'Lỗi'); }
     setBusyId(null);
+  }
+
+  const [rechamAllBusy, setRechamAllBusy] = useState(false);
+  const [rechamProgress, setRechamProgress] = useState('');
+
+  async function doRechamAll() {
+    if (!confirm(`Chấm lại toàn bộ ${rows.length} bài đang hiển thị? Các kết quả cũ sẽ bị ghi đè.`)) return;
+    setRechamAllBusy(true);
+    setRechamProgress('');
+    let done = 0, fail = 0;
+    for (const r of rows) {
+      setRechamProgress(`Đang chấm ${done + 1}/${rows.length}: ${r.ten_nhan_vien}...`);
+      try {
+        const h = await authHeaders();
+        const rr = await fetch('/api/co-van/evaluate', { method: 'POST', headers: h, body: JSON.stringify({ loai: r.loai, targetId: r.target_id, force: true }) });
+        if (rr.ok) done++; else fail++;
+      } catch { fail++; }
+    }
+    setRechamProgress('');
+    setRechamAllBusy(false);
+    alert(`Đã chấm lại: ${done} đạt, ${fail} lỗi`);
+    load();
   }
 
   async function doGui(id: string) {
@@ -225,6 +247,8 @@ function DanhGiaList({ loai }: { loai: 'ke_hoach' | 'bao_cao' | 'chien_dich' | '
             {tuanOpts.map((t) => <option key={t} value={t}>Tuần {t}</option>)}
           </select>
           <button onClick={doSweep} disabled={sweeping} className="rounded-md bg-[#1e3a8a] px-3 py-1 text-xs font-semibold text-white disabled:opacity-50">{sweeping ? 'Đang chấm...' : 'Chấm tất cả chưa chấm'}</button>
+          <button onClick={doRechamAll} disabled={rechamAllBusy || rows.length === 0} className="rounded-md bg-amber-600 px-3 py-1 text-xs font-semibold text-white disabled:opacity-50">{rechamAllBusy ? 'Đang chấm lại...' : 'Chấm lại toàn bộ'}</button>
+          {rechamProgress && <span className="text-xs text-slate-500">{rechamProgress}</span>}
           <div className="ml-auto flex gap-1">
             {(['Cho duyet', 'Da gui', 'Bo qua', ''] as const).map((v) => (
               <button key={v || 'all'} onClick={() => setFilter(v)} className={`rounded-full px-3 py-1 text-xs font-semibold ${filter === v ? 'bg-[#0f2a4a] text-white' : 'bg-slate-100 text-slate-600'}`}>
