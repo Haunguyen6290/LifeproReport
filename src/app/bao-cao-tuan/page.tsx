@@ -250,6 +250,7 @@ function Screen() {
                         <th className="px-3 py-2">Người nộp</th>
                         <th className="px-3 py-2">Mục tiêu</th>
                         <th className="px-3 py-2">Số việc</th>
+                        <th className="px-3 py-2">Báo cáo</th>
                         <th className="px-3 py-2">Nộp</th>
                         <th className="px-3 py-2">Trạng thái</th>
                         <th className="px-3 py-2" />
@@ -258,11 +259,13 @@ function Screen() {
                     <tbody className="divide-y divide-slate-100">
                       {plans.map((p) => {
                         const late = isLate(p.created_at, deadlineKH(tu));
+                        const hasBC = reports.some(r => r.user_id === p.user_id);
                         return (
                           <Selectable key={p.id} as="tr" onOpen={() => setExpandId((v) => (v === p.id ? null : p.id))} className="cursor-pointer align-top hover:bg-slate-50">
                             <td className="px-3 py-2 font-medium text-slate-900">{profiles.get(p.user_id) ?? p.user_id.slice(0, 8)}</td>
                             <td className="max-w-[280px] px-3 py-2 text-slate-800">{p.muc_tieu_tuan || p.noi_dung}</td>
                             <td className="px-3 py-2 text-slate-700">{p.items.length}</td>
+                            <td className="px-3 py-2">{hasBC ? <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-semibold text-emerald-700">Có báo cáo</span> : <span className="rounded-full bg-amber-50 px-2 py-0.5 text-xs font-semibold text-amber-700">Chưa có</span>}</td>
                             <td className="whitespace-nowrap px-3 py-2 text-slate-700">{fmtCommentTimeVN(p.created_at)}</td>
                             <td className="whitespace-nowrap px-3 py-2"><Badge late={late} /></td>
                             <td className="px-3 py-2 text-xs text-[#1e3a8a]">{expandId === p.id ? 'Thu gọn' : 'Xem'}</td>
@@ -274,12 +277,14 @@ function Screen() {
                 </div>
                 {expandId && (() => {
                   const p = plans.find((x) => x.id === expandId);
-                  return p ? <PlanCard plan={p} ownerName={profiles.get(p.user_id) ?? ''} onEdit={() => { setEditPlan(p); setOpenPlan(true); }} onDone={onDone} /> : null;
+                  if (!p) return null;
+                  const r = reports.find(x => x.user_id === p.user_id) ?? null;
+                  return <PlanCard plan={p} ownerName={profiles.get(p.user_id) ?? ''} onEdit={() => { setEditPlan(p); setOpenPlan(true); }} onDone={onDone} pairedReport={r} pairedReportOwnerName={r ? (profiles.get(r.user_id) ?? '') : undefined} onEditReport={r ? () => setOpenReport(true) : undefined} />;
                 })()}
               </div>
             )
           ) : myPlan ? (
-            <PlanCard plan={myPlan} ownerName={profiles.get(myPlan.user_id) ?? ''} onEdit={() => { setEditPlan(myPlan); setOpenPlan(true); }} onDone={onDone} />
+            (() => { const r = reports.find(x => x.user_id === myPlan.user_id) ?? null; return <PlanCard plan={myPlan} ownerName={profiles.get(myPlan.user_id) ?? ''} onEdit={() => { setEditPlan(myPlan); setOpenPlan(true); }} onDone={onDone} pairedReport={r} pairedReportOwnerName={r ? (profiles.get(r.user_id) ?? '') : undefined} onEditReport={r ? () => setOpenReport(true) : undefined} />; })()
           ) : (
             <div className="rounded-xl border border-slate-200 bg-white p-6 text-center text-sm text-slate-500">
               Bạn chưa có kế hoạch tuần này. Bấm <b>+ Kế hoạch tuần</b> để tạo.
@@ -321,12 +326,14 @@ function Screen() {
               </div>
               {expandReportId && (() => {
                 const r = reports.find((x) => x.id === expandReportId);
-                return r ? <ReportCard report={r} ownerName={profiles.get(r.user_id) ?? ''} onEdit={() => setOpenReport(true)} onDone={onDone} /> : null;
+                if (!r) return null;
+                const p = plans.find(x => x.user_id === r.user_id) ?? null;
+                return <ReportCard report={r} ownerName={profiles.get(r.user_id) ?? ''} onEdit={() => setOpenReport(true)} onDone={onDone} pairedPlan={p} pairedPlanOwnerName={p ? (profiles.get(p.user_id) ?? '') : undefined} />;
               })()}
             </div>
           )
         ) : myReport ? (
-          <ReportCard report={myReport} ownerName={profiles.get(myReport.user_id) ?? ''} onEdit={() => setOpenReport(true)} onDone={onDone} />
+          (() => { const p = plans.find(x => x.user_id === myReport.user_id) ?? null; return <ReportCard report={myReport} ownerName={profiles.get(myReport.user_id) ?? ''} onEdit={() => setOpenReport(true)} onDone={onDone} pairedPlan={p} pairedPlanOwnerName={p ? (profiles.get(p.user_id) ?? '') : undefined} />; })()
         ) : (
           <div className="rounded-xl border border-slate-200 bg-white p-6 text-center text-sm text-slate-500">
             {myPlan ? 'Bạn chưa có báo cáo tuần này. Bấm + Báo cáo tuần để tạo.' : 'Hãy gửi Kế hoạch tuần trước rồi mới làm Báo cáo.'}
