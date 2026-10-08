@@ -112,21 +112,23 @@ function ChatPanel({ full }: { full?: boolean }) {
 function DanhGiaList({ loai }: { loai: 'ke_hoach' | 'bao_cao' | 'chien_dich' | 'tin_thi_truong' }) {
   const [rows, setRows] = useState<DanhGia[]>([]);
   const [filter, setFilter] = useState('Cho duyet');
-  const curWeek = (() => { const d = new Date(); const day = d.getUTCDay() || 7; const m = new Date(d); m.setUTCDate(d.getUTCDate() - (day - 1)); return m.toISOString().slice(0, 10); })();
-  const [tuanTu, setTuanTu] = useState(curWeek);
+  const [tuanTu, setTuanTu] = useState('');
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState<Record<string, string>>({});
   const [busyId, setBusyId] = useState<string | null>(null);
   const [sweeping, setSweeping] = useState(false);
+  const [tuanOpts, setTuanOpts] = useState<string[]>([]);
 
-  function onPickDate(v: string) {
-    if (!v) { setTuanTu(''); return; }
-    const d = new Date(v + 'T00:00:00Z');
-    const day = d.getUTCDay() || 7;
-    const m = new Date(d);
-    m.setUTCDate(d.getUTCDate() - (day - 1));
-    setTuanTu(m.toISOString().slice(0, 10));
-  }
+  useEffect(() => {
+    (async () => {
+      try {
+        const h = await authHeaders();
+        const r = await fetch(`/api/co-van/tuan?loai=${loai}`, { headers: h });
+        const j = await r.json();
+        if (r.ok && Array.isArray(j.tuans)) setTuanOpts(j.tuans);
+      } catch {}
+    })();
+  }, [loai]);
 
   async function doSweep() {
     setSweeping(true);
@@ -210,21 +212,38 @@ function DanhGiaList({ loai }: { loai: 'ke_hoach' | 'bao_cao' | 'chien_dich' | '
     setBusyId(null);
   }
 
+  const isWeekly = loai === 'ke_hoach' || loai === 'bao_cao';
+
   return (
     <div className="rounded-xl border border-slate-200 bg-white">
-      <div className="flex flex-wrap items-center gap-2 border-b border-slate-200 px-4 py-3">
-        <input type="date" value={tuanTu} onChange={(e) => onPickDate(e.target.value)} className="rounded-md border border-slate-200 px-3 py-1 text-sm" title="Chọn ngày bất kỳ trong tuần" />
-        <button onClick={() => setTuanTu(curWeek)} className="rounded-md border border-slate-200 px-2 py-1 text-xs">Tuần này</button>
-        <button onClick={doSweep} disabled={sweeping} className="rounded-md bg-[#1e3a8a] px-3 py-1 text-xs font-semibold text-white disabled:opacity-50">{sweeping ? 'Đang chấm...' : 'Chấm tất cả chưa chấm'}</button>
-        <div className="ml-auto flex gap-1">
-          {(['Cho duyet', 'Da gui', 'Bo qua', ''] as const).map((v) => (
-            <button key={v || 'all'} onClick={() => setFilter(v)} className={`rounded-full px-3 py-1 text-xs font-semibold ${filter === v ? 'bg-[#0f2a4a] text-white' : 'bg-slate-100 text-slate-600'}`}>
-              {v === '' ? 'Tất cả' : v === 'Cho duyet' ? 'Chờ duyệt' : v === 'Da gui' ? 'Đã gửi' : 'Bỏ qua'}
-            </button>
-          ))}
+      {isWeekly ? (
+        <div className="flex flex-wrap items-center gap-2 border-b border-slate-200 px-4 py-3">
+          <select value={tuanTu} onChange={(e) => setTuanTu(e.target.value)} className="rounded-md border border-slate-200 bg-white px-3 py-1 text-sm">
+            <option value="">Tất cả tuần</option>
+            {tuanOpts.map((t) => <option key={t} value={t}>Tuần {t}</option>)}
+          </select>
+          <button onClick={doSweep} disabled={sweeping} className="rounded-md bg-[#1e3a8a] px-3 py-1 text-xs font-semibold text-white disabled:opacity-50">{sweeping ? 'Đang chấm...' : 'Chấm tất cả chưa chấm'}</button>
+          <div className="ml-auto flex gap-1">
+            {(['Cho duyet', 'Da gui', 'Bo qua', ''] as const).map((v) => (
+              <button key={v || 'all'} onClick={() => setFilter(v)} className={`rounded-full px-3 py-1 text-xs font-semibold ${filter === v ? 'bg-[#0f2a4a] text-white' : 'bg-slate-100 text-slate-600'}`}>
+                {v === '' ? 'Tất cả' : v === 'Cho duyet' ? 'Chờ duyệt' : v === 'Da gui' ? 'Đã gửi' : 'Bỏ qua'}
+              </button>
+            ))}
+          </div>
+          <button onClick={load} className="rounded-md border border-slate-200 px-3 py-1 text-xs">Tải lại</button>
         </div>
-        <button onClick={load} className="rounded-md border border-slate-200 px-3 py-1 text-xs">Tải lại</button>
-      </div>
+      ) : (
+        <div className="flex flex-wrap items-center gap-2 border-b border-slate-200 px-4 py-3">
+          <div className="ml-auto flex gap-1">
+            {(['Cho duyet', 'Da gui', 'Bo qua', ''] as const).map((v) => (
+              <button key={v || 'all'} onClick={() => setFilter(v)} className={`rounded-full px-3 py-1 text-xs font-semibold ${filter === v ? 'bg-[#0f2a4a] text-white' : 'bg-slate-100 text-slate-600'}`}>
+                {v === '' ? 'Tất cả' : v === 'Cho duyet' ? 'Chờ duyệt' : v === 'Da gui' ? 'Đã gửi' : 'Bỏ qua'}
+              </button>
+            ))}
+          </div>
+          <button onClick={load} className="rounded-md border border-slate-200 px-3 py-1 text-xs">Tải lại</button>
+        </div>
+      )}
       {loading ? <p className="p-6 text-center text-sm text-slate-500">Đang tải...</p>
         : rows.length === 0 ? <p className="p-6 text-center text-sm text-slate-500">Chưa có đánh giá nào.</p>
         : (
