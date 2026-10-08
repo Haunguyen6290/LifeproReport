@@ -203,9 +203,9 @@ function DanhGiaList({ loai }: { loai: 'ke_hoach' | 'bao_cao' | 'chien_dich' | '
       {loading ? <p className="p-6 text-center text-sm text-slate-500">Đang tải...</p>
         : rows.length === 0 ? <p className="p-6 text-center text-sm text-slate-500">Chưa có đánh giá nào.</p>
         : (
-          <div className="grid gap-3 lg:grid-cols-2">
-            {rows.map((r) => (
-              <div key={r.id} className="rounded-xl border border-slate-200 bg-white p-4 space-y-2">
+          <div className="grid gap-3 lg:grid-cols-2 max-h-[min(70vh,900px)] overflow-y-auto pr-1">
+            {rows.slice(0, 20).map((r) => (
+              <div key={r.id} className="rounded-xl border-2 border-[#1e3a8a] bg-white p-4 space-y-2">
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="text-sm font-bold text-[#0f2a4a]">{r.ten_nhan_vien}</span>
                   <span className={`rounded-full px-2 py-0.5 text-xs font-bold ${badge(r.ket_qua)}`}>{r.ket_qua}</span>
@@ -264,7 +264,7 @@ function DanhGiaList({ loai }: { loai: 'ke_hoach' | 'bao_cao' | 'chien_dich' | '
                       })()}
                   </div>
                 )}
-                <textarea value={editing[r.id] ?? ''} onChange={(e) => setEditing((m) => ({ ...m, [r.id]: e.target.value }))} rows={2} className="w-full rounded-md border border-slate-200 px-3 py-2 text-sm" placeholder="Góp ý (sửa trước khi gửi nếu cần)..." />
+                <textarea value={editing[r.id] ?? ''} onChange={(e) => setEditing((m) => ({ ...m, [r.id]: e.target.value }))} rows={4} className="w-full rounded-md border-2 border-[#1e3a8a] px-3 py-2 text-sm focus:border-[#1e3a8a] focus:ring-1 focus:ring-[#1e3a8a]" placeholder="Góp ý (sửa trước khi gửi nếu cần)..." />
                 <div className="flex gap-2">
                   <button onClick={() => doGui(r.id)} disabled={!!busyId} className="rounded-md bg-[#1e3a8a] px-4 py-1 text-sm font-semibold text-white disabled:opacity-50">{busyId === r.id ? '...' : 'Gửi'}</button>
                   <button onClick={() => doBoQua(r.id)} disabled={!!busyId} className="rounded-md border border-slate-200 px-3 py-1 text-xs disabled:opacity-50">Bỏ qua</button>
