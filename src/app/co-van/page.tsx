@@ -264,7 +264,7 @@ function DanhGiaList({ loai }: { loai: 'ke_hoach' | 'bao_cao' | 'chien_dich' | '
                       })()}
                   </div>
                 )}
-                <textarea value={editing[r.id] ?? ''} onChange={(e) => setEditing((m) => ({ ...m, [r.id]: e.target.value }))} rows={4} className="w-full rounded-md border-2 border-[#1e3a8a] px-3 py-2 text-sm focus:border-[#1e3a8a] focus:ring-1 focus:ring-[#1e3a8a]" placeholder="Góp ý (sửa trước khi gửi nếu cần)..." />
+                <textarea value={editing[r.id] ?? ''} onChange={(e) => setEditing((m) => ({ ...m, [r.id]: e.target.value }))} rows={4} className="w-full rounded-md border border-slate-200 px-3 py-2 text-sm" placeholder="Góp ý (sửa trước khi gửi nếu cần)..." style={{ minHeight: '15em', overflowY: 'auto' }} />
                 <div className="flex gap-2">
                   <button onClick={() => doGui(r.id)} disabled={!!busyId} className="rounded-md bg-[#1e3a8a] px-4 py-1 text-sm font-semibold text-white disabled:opacity-50">{busyId === r.id ? '...' : 'Gửi'}</button>
                   <button onClick={() => doBoQua(r.id)} disabled={!!busyId} className="rounded-md border border-slate-200 px-3 py-1 text-xs disabled:opacity-50">Bỏ qua</button>
