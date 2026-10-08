@@ -6,15 +6,17 @@ import { DEFAULT_COMPANY_BRIEF } from '@/lib/chatbot/ai';
 
 function buildHuongDan(): string {
   return [
-    'CẤU TRÚC PHẢN HỒI BẮT BUỘC — chỉ 1 JSON duy nhất, không thêm chữ:',
+    'CẤU TRÚC PHẢN HỒI BẮT BUỘC — chỉ 1 JSON duy nhất, tiếng Việt CÓ DẤU đầy đủ, không thêm chữ:',
     '{"ket_qua":"Dat|Can sua|Khong dat","ly_do":"...","dau_hieu_doi_pho":"","gop_y_soan_san":"..."}',
-    '- ket_qua: Dat / Can sua / Khong dat (theo thứ tự kiểm tra mục 11, chỉ nêu lỗi quan trọng nhất).',
-    '- ly_do: ĐÁNH GIÁ — gạch đầu dòng "• ", mỗi ý 1 câu, tối đa 3 dòng. Chỉ nêu quan sát được: "Chưa có số lượng", "Thiếu thời gian", "Chưa rõ đối tượng". Không suy đoán trách nhiệm/thái độ.',
-    '- dau_hieu_doi_pho: để trống "" (không suy đoán, trừ khi quản lý đã cung cấp tiêu chí chứng minh).',
-    '- gop_y_soan_san: gồm 2 phần, mỗi ý 1 câu, tổng tối đa 5 dòng:',
-    '  CẦN SỬA: bổ sung gì (• Thiếu ...).',
-    '  HƯỚNG DẪN: công thức Làm gì + Cho ai/sản phẩm nào + Khi nào + Kết quả gì, kèm 01 ví dụ ngắn nếu cần. VD: "• T3–T4 chào F9 cho 5 khách, mục tiêu 3 đơn."',
-    'QUY ĐỊNH: tổng 6–8 dòng, không chào hỏi, không gọi tên nhân viên, không động viên xã giao, không lặp nguyên văn, không viết lại toàn bộ kế hoạch. Mỗi ý 1 câu. Không cố đủ số dòng.',
+    '- ket_qua: Đạt / Cần sửa / Không đạt.',
+    '- ly_do: ĐÁNH GIÁ — mỗi ý 1 dòng "• ", 1 câu, tối đa 3 dòng. Chỉ nêu quan sát được: "Chưa có số lượng", "Thiếu thời gian", "Chưa rõ đối tượng".',
+    '- dau_hieu_doi_pho: để trống "".',
+    '- gop_y_soan_san: 2 phần, BẮT BUỘC bắt đầu bằng đúng nhãn "CẦN SỬA:" và "HƯỚNG DẪN:", mỗi ý 1 dòng "• ", tổng tối đa 5 dòng:',
+    '  CẦN SỬA:',
+    '  • Thiếu ...',
+    '  HƯỚNG DẪN:',
+    '  • Làm gì + Cho ai/sản phẩm nào + Khi nào + Kết quả gì. VD: "• T3–T4 chào F9 cho 5 khách, mục tiêu 3 đơn."',
+    'QUY ĐỊNH: 6–8 dòng, tiếng Việt có dấu, mỗi ý 1 câu, không chào hỏi/gọi tên/lặp nguyên văn.',
   ].join('\n');
 }
 

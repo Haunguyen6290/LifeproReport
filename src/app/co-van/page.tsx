@@ -17,6 +17,31 @@ async function authHeaders(): Promise<HeadersInit> {
   return tok ? { Authorization: `Bearer ${tok}`, 'Content-Type': 'application/json' } : { 'Content-Type': 'application/json' };
 }
 
+function renderGopY(s: string) {
+  const raw = s.trim();
+  const canSuaIdx = raw.indexOf('CẦN SỬA');
+  const huongDanIdx = raw.indexOf('HƯỚNG DẪN');
+  if (canSuaIdx === -1 && huongDanIdx === -1) return bulleted(raw);
+  const parts: { label: string; body: string }[] = [];
+  if (canSuaIdx !== -1) {
+    const end = huongDanIdx !== -1 && huongDanIdx > canSuaIdx ? huongDanIdx : raw.length;
+    parts.push({ label: 'CẦN SỬA', body: raw.slice(canSuaIdx + 'CẦN SỬA'.length, end).replace(/^[:：]\s*/, '').trim() });
+  }
+  if (huongDanIdx !== -1) {
+    parts.push({ label: 'HƯỚNG DẪN', body: raw.slice(huongDanIdx + 'HƯỚNG DẪN'.length).replace(/^[:：]\s*/, '').trim() });
+  }
+  return (
+    <div className="space-y-1">
+      {parts.map((p) => (
+        <div key={p.label}>
+          <span className="text-xs font-bold text-[#1e3a8a]">{p.label}</span>
+          <div className="text-sm text-slate-700">{bulleted(p.body)}</div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function bulleted(s: string) {
   const parts = s.split(/\n/).map((x) => x.replace(/^[•\-]\s*/, '').trim()).filter(Boolean);
   if (parts.length <= 1) {
@@ -213,6 +238,7 @@ function DanhGiaList({ loai }: { loai: 'ke_hoach' | 'bao_cao' | 'chien_dich' | '
                 </div>
                 {r.ly_do && <div className="text-sm text-slate-700">{bulleted(r.ly_do)}</div>}
                 {r.dau_hieu_doi_pho && <div className="rounded-md bg-amber-50 px-3 py-2 text-sm text-amber-800">{bulleted(r.dau_hieu_doi_pho)}</div>}
+                {editing[r.id] && <div className="rounded-md border border-slate-200 bg-white px-3 py-2 text-sm">{renderGopY(editing[r.id])}</div>}
                 <div className="flex flex-wrap gap-2">
                   <button onClick={() => toggleBai(r)} className="rounded-md border border-slate-200 px-3 py-1 text-xs">{expanded === r.id ? 'Ẩn' : 'Xem bài'}</button>
                   <button onClick={() => doChamLai(r)} disabled={!!busyId} className="rounded-md border border-slate-200 px-3 py-1 text-xs disabled:opacity-50">Chấm lại</button>
