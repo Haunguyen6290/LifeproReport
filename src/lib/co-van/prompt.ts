@@ -1,30 +1,35 @@
-// src/lib/co-van/prompt.ts — prompt chấm theo MỤC TIÊU + PHẠM VI + ĐẦU RA
+// src/lib/co-van/prompt.ts — BOT KIỂM TRA CHẤT LƯỢNG KẾ HOẠCH (theo spec 07/10/2026)
+// Nguyên tắc cốt lõi: chấm chất lượng công việc, không chấm văn. Không suy đoán, không tự đặt chuẩn.
+// Thứ tự: Mục tiêu → Công việc → Đối tượng/Phạm vi → Thời gian → Kết quả → Liên kết Mục tiêu/Kế hoạch/OKR
 
 import { DEFAULT_COMPANY_BRIEF } from '@/lib/chatbot/ai';
 
-const TIEU_CHI_CHUNG = 'GIAO VIỆC = MỤC TIÊU + PHẠM VI + ĐẦU RA → Thời hạn → Người chịu trách nhiệm → Kết quả.';
+function buildHuongDan(): string {
+  return [
+    'CẤU TRÚC PHẢN HỒI BẮT BUỘC — chỉ 1 JSON duy nhất, không thêm chữ:',
+    '{"ket_qua":"Dat|Can sua|Khong dat","ly_do":"...","dau_hieu_doi_pho":"","gop_y_soan_san":"..."}',
+    '- ket_qua: Dat / Can sua / Khong dat (theo thứ tự kiểm tra mục 11, chỉ nêu lỗi quan trọng nhất).',
+    '- ly_do: ĐÁNH GIÁ — gạch đầu dòng "• ", mỗi ý 1 câu, tối đa 3 dòng. Chỉ nêu quan sát được: "Chưa có số lượng", "Thiếu thời gian", "Chưa rõ đối tượng". Không suy đoán trách nhiệm/thái độ.',
+    '- dau_hieu_doi_pho: để trống "" (không suy đoán, trừ khi quản lý đã cung cấp tiêu chí chứng minh).',
+    '- gop_y_soan_san: gồm 2 phần, mỗi ý 1 câu, tổng tối đa 5 dòng:',
+    '  CẦN SỬA: bổ sung gì (• Thiếu ...).',
+    '  HƯỚNG DẪN: công thức Làm gì + Cho ai/sản phẩm nào + Khi nào + Kết quả gì, kèm 01 ví dụ ngắn nếu cần. VD: "• T3–T4 chào F9 cho 5 khách, mục tiêu 3 đơn."',
+    'QUY ĐỊNH: tổng 6–8 dòng, không chào hỏi, không gọi tên nhân viên, không động viên xã giao, không lặp nguyên văn, không viết lại toàn bộ kế hoạch. Mỗi ý 1 câu. Không cố đủ số dòng.',
+  ].join('\n');
+}
 
-const TIEU_CHI_KE_HOACH = [
-  'Kế hoạch gồm 2 phần — chấm riêng:',
-  '1) MỤC TIÊU: Đạt khi có Mục tiêu + Phạm vi + Đầu ra (con số) + Thời hạn.',
-  '2) KẾ HOẠCH (từng dòng việc): Đạt khi mỗi việc có Phạm vi + Đầu ra + Ngày + Người làm.',
-].join('\n');
-
-const TIEU_CHI_BAO_CAO = [
-  'Báo cáo gồm 3 phần — chấm riêng:',
-  '1) Kết quả: đối chiếu từng việc kế hoạch (xong/một phần/chưa, có số) + Nguyên nhân + Bước tiếp theo.',
-  '2) Thông tin: phải có giá trị — cụ thể, có số, nguyên nhân sâu. Chung chung "khách chê/bận/không mua" là chưa đạt.',
-  '3) Đề xuất: phải có bước tiếp theo cụ thể (làm gì + với ai + khi nào). Chung chung là chưa đạt.',
-].join('\n');
-
-const TIEU_CHI_CHIEN_DICH = 'Chiến dịch Đạt khi: Mục tiêu có số + Phạm vi + Đầu ra (doanh số/đại lý/độ phủ) + Thời hạn + Người chịu trách nhiệm.';
-const TIEU_CHI_TIN = 'Tin TT Đạt khi: Mục tiêu + Phạm vi + Đầu ra hành động (thông tin để làm gì) + Thời hạn + Người chịu trách nhiệm.';
-
-function tieuChiTheoLoai(loai: string): string {
-  if (loai === 'chien_dich') return `${TIEU_CHI_CHUNG}\n${TIEU_CHI_CHIEN_DICH}`;
-  if (loai === 'tin_thi_truong') return `${TIEU_CHI_CHUNG}\n${TIEU_CHI_TIN}`;
-  if (loai === 'bao_cao') return `${TIEU_CHI_CHUNG}\n${TIEU_CHI_BAO_CAO}`;
-  return `${TIEU_CHI_CHUNG}\n${TIEU_CHI_KE_HOACH}`;
+function tieuChi(loai: string): string {
+  const chung = 'Nguyên tắc: chỉ kiểm tra Mục tiêu / Việc / Đối tượng-Phạm vi / Thời gian / Kết quả / Liên kết Mục tiêu→Kế hoạch→OKR. Không tự đặt chuẩn số lượng việc/khách/đơn nếu hệ thống chưa cung cấp.';
+  if (loai === 'chien_dich') return `${chung}\nChiến dịch: Mục tiêu có số + Phạm vi (dự án/sản phẩm/nhóm khách) + Đầu ra (doanh số/đại lý/độ phủ) + Thời hạn + Người chịu trách nhiệm. Kế hoạch tuần phải phục vụ mục tiêu Chiến dịch/OKR.`;
+  if (loai === 'tin_thi_truong') return `${chung}\nTin thị trường: Mục tiêu thu thập gì + Phạm vi (khu vực/nhóm khách/sản phẩm) + Đầu ra (thông tin gì, để làm gì) + Thời hạn + Người chịu trách nhiệm. Tin chung chung không có đầu ra hành động là chưa đạt.`;
+  if (loai === 'bao_cao') return `${chung}\nBáo cáo tuần: Kết quả đối chiếu từng việc kế hoạch (số liệu) + Nguyên nhân + Bước tiếp theo. Thông tin phải có giá trị cụ thể (không chung chung "khách chê/bận"). Đề xuất phải có Làm gì + Với ai + Khi nào.`;
+  return [
+    chung,
+    'Mục tiêu: Muốn đạt gì? Có đối tượng/sản phẩm, số lượng, thời hạn không?',
+    'Kế hoạch: Việc gì + Cho ai + Khi nào + Kết quả gì (nếu cần số: Việc + Đối tượng + Số lượng + Thời gian + Kết quả).',
+    'Kết quả cần đạt: có thể kiểm tra (số khách/đơn/doanh số/tỷ lệ...). Không bắt mọi việc đều có số.',
+    'Liên kết: Mục tiêu → Kế hoạch → Kết quả → OKR/KR/Mục tiêu tháng. Nếu chưa thể hiện phục vụ KR nào thì ghi "Chưa thể hiện phục vụ KR nào."',
+  ].join('\n');
 }
 
 export function buildCoVanSystem(brief: string, extraInstructions: string, loai?: string): string {
@@ -33,20 +38,13 @@ export function buildCoVanSystem(brief: string, extraInstructions: string, loai?
   const dd = String(now.getDate()).padStart(2, '0');
   const mm = String(now.getMonth() + 1).padStart(2, '0');
   const parts = [
-    'Bạn là Cố vấn Giám đốc. Chấm bài nhân viên — chỉ bắt lỗi cho Giám đốc đọc, không soạn tin nhắn gửi.',
+    'Bạn là BOT KIỂM TRA CHẤT LƯỢNG KẾ HOẠCH CÔNG VIỆC. Chấm chất lượng, không chấm văn. Không suy đoán, không tự đặt tiêu chuẩn.',
     `BỐI CẢNH:\n${company}`,
-    tieuChiTheoLoai(loai ?? ''),
+    tieuChi(loai ?? 'ke_hoach'),
     `Hôm nay: ${dd}/${mm}/${now.getFullYear()}.`,
   ];
   if (extraInstructions.trim()) parts.push(`GHI CHÚ GIÁM ĐỐC:\n${extraInstructions.trim()}`);
-  parts.push(
-    'ĐẦU RA: chỉ 1 JSON duy nhất:',
-    '{"ket_qua":"Dat|Can sua|Khong dat","ly_do":"...","dau_hieu_doi_pho":"...","gop_y_soan_san":"..."}',
-    '- ket_qua: Dat (đủ ý), Can sua (thiếu 1-2 ý), Khong dat (thiếu nhiều/dấu hiệu đối phó).',
-    '- ly_do: mỗi ý 1 dòng bắt đầu bằng "• ", ngắn, nêu thiếu gì. < 40 từ. VD: "• Mục tiêu: thiếu Đầu ra\\n• Kế hoạch: 3/5 việc thiếu Phạm vi"',
-    '- dau_hieu_doi_pho: nếu có, mỗi ý 1 dòng "• ", rỗng nếu không. < 30 từ.',
-    '- gop_y_soan_san: tóm tắt cho Giám đốc — mỗi ý 1 dòng "• ", nêu Thiếu gì → Sửa gì (1 dòng mẫu nếu cần). < 40 từ. KHÔNG xưng tên, KHÔNG viết đoạn.',
-  );
+  parts.push(buildHuongDan());
   return parts.join('\n');
 }
 
