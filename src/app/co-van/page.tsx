@@ -51,6 +51,8 @@ function bulleted(s: string) {
   return <ul className="list-disc pl-5 space-y-0.5">{parts.map((l, i) => <li key={i}>{l}</li>)}</ul>;
 }
 
+const KET_QUA_LABEL: Record<string, string> = { Dat: 'Đạt', 'Can sua': 'Cần sửa', 'Khong dat': 'Không đạt' };
+function displayKetQua(k: string) { return KET_QUA_LABEL[k] ?? k; }
 function badge(ket_qua: string) {
   if (ket_qua === 'Dat') return 'bg-emerald-100 text-emerald-700';
   if (ket_qua === 'Can sua') return 'bg-amber-100 text-amber-700';
@@ -252,7 +254,7 @@ function DanhGiaList({ loai }: { loai: 'ke_hoach' | 'bao_cao' | 'chien_dich' | '
               <div key={r.id} className="rounded-xl border-2 border-[#1e3a8a] bg-white p-4 space-y-2">
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="text-sm font-bold text-[#0f2a4a]">{r.ten_nhan_vien}</span>
-                  <span className={`rounded-full px-2 py-0.5 text-xs font-bold ${badge(r.ket_qua)}`}>{r.ket_qua}</span>
+                  <span className={`rounded-full px-2 py-0.5 text-xs font-bold ${badge(r.ket_qua)}`}>{displayKetQua(r.ket_qua)}</span>
                   <span className="ml-auto text-xs text-slate-400">tuần {r.tuan_tu}→{r.tuan_den}</span>
                 </div>
                 {r.ly_do && <div className="text-sm text-slate-700">{bulleted(r.ly_do)}</div>}
