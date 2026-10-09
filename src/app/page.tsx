@@ -20,34 +20,28 @@ const VH = ['scale_id', 'so_co_so', 'xe_ngay', 'segment', 'sp_dang_ban', 'nguon_
 const KT = ['van_de', 'sp_cty_phu_hop', 'ly_do_chon', 'tro_ngai', 'ghi_chu'];
 function filled(r: Record<string, any>, fs: string[]) { let n = 0; for (const f of fs) if (String(r[f] ?? '').trim()) n++; return n; }
 
-function OkrSummaryCard({ tu, den }: { tu: string; den: string }) {
-  const [summary, setSummary] = useState<{ total: number; cham: number; done: number } | null>(null);
+function OkrSummaryCard() {
+  const [summary, setSummary] = useState<{ total: number; overdue: number; done: number } | null>(null);
   useEffect(() => {
     let cancelled = false;
     (async () => {
-      if (!tu || !den) return;
-      const { data } = await supabase.from('okrs').select('id, tien_do, den_ngay, trang_thai').lte('tu_ngay', den).gte('den_ngay', tu).eq('is_archived', false);
+      const today = new Date().toISOString().slice(0, 10);
+      const { data } = await supabase.from('okrs').select('id, den_ngay, trang_thai, is_archived').eq('is_archived', false);
       if (cancelled) return;
       const list = (data ?? []) as any[];
-      const now = new Date();
-      const nearDeadline = (denNgay: string) => {
-        const d = new Date(denNgay + 'T00:00:00+07:00');
-        if (isNaN(d.getTime())) return false;
-        const diff = (d.getTime() - now.getTime()) / (1000 * 60 * 60 * 24);
-        return diff <= 14;
-      };
-      const cham = list.filter((r: any) => Number(r.tien_do) < 50 && nearDeadline(r.den_ngay)).length;
+      const active = list.filter((r: any) => r.trang_thai !== 'Hoàn thành');
+      const overdue = active.filter((r: any) => r.den_ngay && r.den_ngay < today).length;
       const done = list.filter((r: any) => r.trang_thai === 'Hoàn thành').length;
-      setSummary({ total: list.length, cham, done });
+      setSummary({ total: active.length, overdue, done });
     })();
     return () => { cancelled = true; };
-  }, [tu, den]);
+  }, []);
   if (!summary) return <p className="text-sm text-slate-500">Đang tải OKR…</p>;
   return (
     <div className="flex flex-wrap gap-3 text-sm">
-      <span className="rounded-full bg-slate-100 px-3 py-1 font-semibold text-slate-700">{summary.total} OKR</span>
+      <span className="rounded-full bg-slate-100 px-3 py-1 font-semibold text-slate-700">{summary.total} đang hoạt động</span>
       <span className="rounded-full bg-emerald-50 px-3 py-1 font-semibold text-emerald-700">{summary.done} hoàn thành</span>
-      {summary.cham > 0 && <span className="rounded-full bg-red-50 px-3 py-1 font-semibold text-red-700">{summary.cham} chậm (tien_do &lt; 50, gần hạn)</span>}
+      {summary.overdue > 0 && <span className="rounded-full bg-red-50 px-3 py-1 font-semibold text-red-700">⚠️ {summary.overdue} quá hạn — cần kết thúc hoặc gia hạn</span>}
       <Link href="/okr" className="rounded-full bg-[#0f2a4a] px-3 py-1 font-semibold text-white hover:bg-[#1e40af]">Xem OKR →</Link>
     </div>
   );
@@ -342,9 +336,9 @@ function TongQuanContent() {
                       <h2 className="text-sm font-bold text-[#1e3a8a]">Tổng quan OKR</h2>
                       <Link href="/okr" className="text-xs font-semibold text-[#0d6efd] hover:underline">Đi tới OKR →</Link>
                     </div>
-                    <OkrSummaryCard tu={tu} den={den} />
+                    <OkrSummaryCard />
                   </div>
-                  <OkrTree tu={tu} den={den} readOnly />
+                  <OkrTree readOnly activeOnly />
                 </div>
               )}
               {tab === 'tonghop' && <TongHopTab tu={tu} den={den} camps={camps} nhanVien={nhanVien} />}

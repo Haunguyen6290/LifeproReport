@@ -48,7 +48,7 @@ export function OkrDialog({
   onClose: () => void;
   onDone?: () => void;
   isCompany: boolean;
-  period: Period;
+  period?: Period;
 }) {
   const authAny: any = useAuth();
   const authUserId: string = (authAny?.userId ?? '') as string;

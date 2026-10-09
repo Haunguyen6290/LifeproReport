@@ -1,38 +1,19 @@
 'use client';
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import { RequireAuth, useAuth } from '@/components/RequireAuth';
 import { AppSidebar } from '@/components/AppSidebar';
 import { OkrDialog } from '@/components/OkrDialog';
 import { OkrTree } from '@/components/OkrTree';
-import { periodLabel } from '@/lib/okr';
-
-function quarterBounds(d: Date): { tu: string; den: string } {
-  const y = d.getFullYear();
-  const m = d.getMonth(); // 0-11
-  const q = Math.floor(m / 3);
-  const tuM = q * 3;
-  const denM = q * 3 + 2;
-  const tu = new Date(Date.UTC(y, tuM, 1)).toISOString().slice(0, 10);
-  const lastDay = new Date(Date.UTC(y, denM + 1, 0)).getUTCDate();
-  const den = new Date(Date.UTC(y, denM, lastDay)).toISOString().slice(0, 10);
-  return { tu, den };
-}
 
 function Screen() {
   const { can } = useAuth();
-  const defaults = useMemo(() => quarterBounds(new Date()), []);
-  const [tu, setTu] = useState(defaults.tu);
-  const [den, setDen] = useState(defaults.den);
   const [openCompany, setOpenCompany] = useState(false);
   const [openPersonal, setOpenPersonal] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
   const [showArchived, setShowArchived] = useState(false);
-
-  function onDone() {
-    setRefreshKey((k) => k + 1);
-  }
-
+  function onDone() { setRefreshKey((k) => k + 1); }
   const canManage = can('quan_ly_okr');
+  const today = new Date().toISOString().slice(0, 10);
 
   return (
     <AppSidebar>
@@ -41,74 +22,27 @@ function Screen() {
           <h1 className="text-2xl font-bold tracking-tight text-[#0f2a4a]">OKR</h1>
           <div className="flex flex-wrap gap-2">
             {canManage && (
-              <button
-                onClick={() => setOpenCompany(true)}
-                className="rounded-lg bg-[var(--color-primary)] px-4 py-2.5 text-sm font-semibold text-white shadow hover:bg-[var(--color-primary-hover)]"
-              >
-                + OKR công ty
-              </button>
+              <button onClick={() => setOpenCompany(true)} className="rounded-lg bg-[var(--color-primary)] px-4 py-2.5 text-sm font-semibold text-white shadow hover:bg-[var(--color-primary-hover)]">+ OKR công ty</button>
             )}
-            <button
-              onClick={() => setOpenPersonal(true)}
-              className="rounded-lg border border-[#1e3a8a] bg-white px-4 py-2.5 text-sm font-semibold text-[#1e3a8a] shadow-sm hover:bg-slate-50"
-            >
-              + OKR cá nhân
-            </button>
+            <button onClick={() => setOpenPersonal(true)} className="rounded-lg border border-[#1e3a8a] bg-white px-4 py-2.5 text-sm font-semibold text-[#1e3a8a] shadow-sm hover:bg-slate-50">+ OKR cá nhân</button>
           </div>
         </div>
 
-        <div className="mb-4 rounded-xl border border-slate-200 bg-white p-4 shadow-[0_1px_3px_rgba(15,23,42,0.06)]">
-          <div className="flex flex-wrap items-end gap-3">
-            <div>
-              <label className="mb-1 block text-xs font-semibold uppercase tracking-wider text-slate-700">Từ ngày</label>
-              <input
-                type="date"
-                value={tu}
-                onChange={(e) => setTu(e.target.value)}
-                className="rounded-md border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-[#1e3a8a] focus:ring-1 focus:ring-[#1e3a8a]"
-              />
-            </div>
-            <div>
-              <label className="mb-1 block text-xs font-semibold uppercase tracking-wider text-slate-700">Đến ngày</label>
-              <input
-                type="date"
-                value={den}
-                onChange={(e) => setDen(e.target.value)}
-                className="rounded-md border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-[#1e3a8a] focus:ring-1 focus:ring-[#1e3a8a]"
-              />
-            </div>
-            <div className="pb-2 text-xs text-slate-500">
-              {tu && den ? periodLabel(tu, den) : '—'}
-            </div>
-            {canManage && (
-              <label className="ml-auto flex items-center gap-1 text-xs text-slate-600">
-                <input type="checkbox" checked={showArchived} onChange={(e) => setShowArchived(e.target.checked)} />
-                Hiện đã lưu trữ
-              </label>
-            )}
-          </div>
-          <p className="mt-2 text-xs text-slate-500">
-            Tự đặt Từ ngày → Đến ngày. Cây hiển thị: O công ty → KR → O cá nhân → KR.
-          </p>
+        <div className="mb-4 flex flex-wrap items-center justify-between gap-2 rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-[0_1px_3px_rgba(15,23,42,0.06)]">
+          <p className="text-sm text-slate-700">Hiển thị tất cả OKR đang hoạt động theo <b>ngày hôm nay ({today.split('-').reverse().join('/')})</b> — chưa lưu trữ và chưa Hoàn thành. Quá hạn (đến ngày &lt; hôm nay) sẽ báo đỏ: hãy <b>Kết thúc & Lưu trữ</b> hoặc <b>Sửa OKR</b> để gia hạn.</p>
+          {canManage && (
+            <label className="flex shrink-0 items-center gap-1.5 text-sm text-slate-600">
+              <input type="checkbox" checked={showArchived} onChange={(e) => setShowArchived(e.target.checked)} />
+              Hiện đã lưu trữ
+            </label>
+          )}
         </div>
 
-        <OkrDialog
-          open={openCompany}
-          onClose={() => setOpenCompany(false)}
-          onDone={onDone}
-          isCompany={true}
-          period={{ tu, den }}
-        />
-        <OkrDialog
-          open={openPersonal}
-          onClose={() => setOpenPersonal(false)}
-          onDone={onDone}
-          isCompany={false}
-          period={{ tu, den }}
-        />
+        <OkrDialog open={openCompany} onClose={() => setOpenCompany(false)} onDone={onDone} isCompany={true} />
+        <OkrDialog open={openPersonal} onClose={() => setOpenPersonal(false)} onDone={onDone} isCompany={false} />
 
         <div key={refreshKey}>
-          <OkrTree tu={tu} den={den} showArchived={canManage ? showArchived : false} />
+          <OkrTree showArchived={canManage ? showArchived : false} activeOnly />
         </div>
       </main>
     </AppSidebar>
@@ -116,9 +50,5 @@ function Screen() {
 }
 
 export default function Page() {
-  return (
-    <RequireAuth>
-      <Screen />
-    </RequireAuth>
-  );
+  return <RequireAuth><Screen /></RequireAuth>;
 }
