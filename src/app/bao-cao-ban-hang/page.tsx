@@ -3,6 +3,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { RequireAuth } from '@/components/RequireAuth';
 import { AppSidebar } from '@/components/AppSidebar';
 import { supabase } from '@/lib/supabase/client';
+import * as XLSX from 'xlsx';
 import * as echarts from 'echarts';
 
 // ── theme ──
@@ -85,7 +86,68 @@ function Chart({ option, height = 280 }: { option: echarts.EChartsOption | null;
   return <div ref={ref} style={{ width: '100%', height }} />;
 }
 
-function NhomMonthTable({ result }: { result: QueryResult | null }) {
+// ── Export Excel helpers (dùng xlsx đã có sẵn) ──
+function fileSuffix(from: string, to: string) {
+  const a = (from ?? '').slice(0, 7) || 'tu';
+  const b = (to ?? '').slice(0, 7) || 'den';
+  return `${a}_${b}`;
+}
+function exportNhomMonth(
+  result: QueryResult | null,
+  effGran: string,
+  colKeys: string[],
+  colLabel: (c: string) => string,
+  nhoms: string[],
+  get: (nh: string, c: string) => number,
+  totOf: (nh: string) => number,
+  colTot: Map<string, number>,
+  from: string, to: string,
+) {
+  if (!result || colKeys.length === 0) return;
+  const header = ['Nhóm hàng', 'Tổng', ...colKeys.map(colLabel)];
+  const rows: (string | number)[][] = [header];
+  rows.push(['TỔNG', result.total, ...colKeys.map((c) => colTot.get(c) ?? 0)]);
+  for (const nh of nhoms) rows.push([nh, totOf(nh), ...colKeys.map((c) => get(nh, c))]);
+  const ws = XLSX.utils.aoa_to_sheet(rows as any);
+  // cột số: format #,##0 (giữ số, không phải text)
+  const range = XLSX.utils.decode_range(ws['!ref']!);
+  for (let r = 1; r <= range.e.r; r++) for (let c = 1; c <= range.e.c; c++) {
+    const addr = XLSX.utils.encode_cell({ r, c });
+    const cell: any = ws[addr];
+    if (cell && typeof cell.v === 'number') { cell.t = 'n'; cell.z = '#,##0'; }
+  }
+  ws['!cols'] = [{ wch: 28 }, { wch: 16 }, ...colKeys.map(() => ({ wch: 14 }))];
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'NhomHang x Thang');
+  XLSX.writeFile(wb, `NhomHang_x_Thang_${fileSuffix(from, to)}.xlsx`);
+}
+function exportKhachMonth(
+  rows: { ma: string; ten: string; kd: string; tot: number; byCol: Map<string, number> }[],
+  colKeys: string[],
+  colLabel: (c: string) => string,
+  grand: number,
+  colTot: (c: string) => number,
+  effGran: string, from: string, to: string,
+) {
+  if (rows.length === 0 || colKeys.length === 0) return;
+  const header = ['Tên khách', 'Mã KH', 'Kinh doanh', 'Tổng', ...colKeys.map(colLabel)];
+  const aoa: (string | number)[][] = [header];
+  aoa.push(['TỔNG', '', '', grand, ...colKeys.map((c) => colTot(c))]);
+  for (const r of rows) aoa.push([r.ten, r.ma, r.kd, r.tot, ...colKeys.map((c) => r.byCol.get(c) ?? 0)]);
+  const ws = XLSX.utils.aoa_to_sheet(aoa as any);
+  const range = XLSX.utils.decode_range(ws['!ref']!);
+  for (let r = 1; r <= range.e.r; r++) for (let c = 3; c <= range.e.c; c++) {
+    const addr = XLSX.utils.encode_cell({ r, c });
+    const cell: any = ws[addr];
+    if (cell && typeof cell.v === 'number') { cell.t = 'n'; cell.z = '#,##0'; }
+  }
+  ws['!cols'] = [{ wch: 26 }, { wch: 12 }, { wch: 16 }, { wch: 16 }, ...colKeys.map(() => ({ wch: 14 }))];
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'KhachHang x Thang');
+  XLSX.writeFile(wb, `KhachHang_x_Thang_${fileSuffix(from, to)}.xlsx`);
+}
+
+function NhomMonthTable({ result, fromDate, toDate }: { result: QueryResult | null; fromDate: string; toDate: string }) {
   const [gran, setGran] = useState<'auto' | 'month' | 'quarter' | 'year'>('auto');
   const scrollRef = useRef<HTMLDivElement>(null);
   const drag = useRef({ down: false, x: 0, y: 0, sl: 0, st: 0 });
@@ -137,10 +199,18 @@ function NhomMonthTable({ result }: { result: QueryResult | null }) {
     <div className="mt-4 rounded-xl bg-white p-4 shadow-[0_1px_4px_rgba(0,0,0,0.07),0_4px_16px_rgba(0,0,0,0.04)]">
       <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
         <div className="flex items-center gap-2 text-sm font-semibold text-[#1e293b]"><span className="h-2 w-2 rounded-full" style={{ background: '#F59E0B' }} />Doanh số theo Nhóm hàng × {effGran === 'month' ? 'Tháng' : effGran === 'quarter' ? 'Quý' : 'Năm'}</div>
-        <div className="flex items-center gap-1 rounded-full bg-[#f1f5f9] p-0.5 text-xs">
-          {(['auto', 'month', 'quarter', 'year'] as const).map((v) => (
-            <button key={v} onClick={() => setGran(v)} className={`rounded-full px-2.5 py-1 font-semibold ${gran === v ? 'bg-white text-[#1e293b] shadow' : 'text-[#64748b]'}`}>{v === 'auto' ? 'Tự động' : v === 'month' ? 'Tháng' : v === 'quarter' ? 'Quý' : 'Năm'}</button>
-          ))}
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => exportNhomMonth(result, effGran, colKeys, colLabel, nhoms, get, totOf, colTot, fromDate, toDate)}
+            className="rounded-full bg-[#16A97B] px-3 py-1 text-xs font-bold text-white hover:bg-[#0d7a59]"
+          >
+            ⤓ Xuất Excel
+          </button>
+          <div className="flex items-center gap-1 rounded-full bg-[#f1f5f9] p-0.5 text-xs">
+            {(['auto', 'month', 'quarter', 'year'] as const).map((v) => (
+              <button key={v} onClick={() => setGran(v)} className={`rounded-full px-2.5 py-1 font-semibold ${gran === v ? 'bg-white text-[#1e293b] shadow' : 'text-[#64748b]'}`}>{v === 'auto' ? 'Tự động' : v === 'month' ? 'Tháng' : v === 'quarter' ? 'Quý' : 'Năm'}</button>
+            ))}
+          </div>
         </div>
       </div>
       <div
@@ -269,7 +339,7 @@ function ExcelFilter({
   );
 }
 
-function KhachMonthTable({ result }: { result: QueryResult | null }) {
+function KhachMonthTable({ result, fromDate, toDate }: { result: QueryResult | null; fromDate: string; toDate: string }) {
   const [gran, setGran] = useState<'auto' | 'month' | 'quarter' | 'year'>('auto');
   const [fTen, setFTen] = useState<string[]>([]);
   const [fKd, setFKd] = useState<string[]>([]);
@@ -346,6 +416,7 @@ function KhachMonthTable({ result }: { result: QueryResult | null }) {
         <div className="flex items-center gap-2">
           <ExcelFilter label="Tên khách" options={tenOpts} selected={fTen} onChange={setFTen} />
           <ExcelFilter label="Kinh doanh" options={kdOpts} selected={fKd} onChange={setFKd} />
+          <button onClick={() => exportKhachMonth(rows, colKeys, colLabel, grand, colTot, effGran, fromDate, toDate)} className="rounded-full bg-[#16A97B] px-3 py-1 text-xs font-bold text-white hover:bg-[#0d7a59]">⤓ Xuất Excel</button>
           <div className="flex items-center gap-1 rounded-full bg-[#f1f5f9] p-0.5 text-xs">
             {(['auto', 'month', 'quarter', 'year'] as const).map((v) => (
               <button key={v} onClick={() => setGran(v)} className={`rounded-full px-2.5 py-1 font-semibold ${gran === v ? 'bg-white text-[#1e293b] shadow' : 'text-[#64748b]'}`}>{v === 'auto' ? 'Tự động' : v === 'month' ? 'Tháng' : v === 'quarter' ? 'Quý' : 'Năm'}</button>
@@ -863,8 +934,8 @@ function DashboardInner() {
               )}
             </div>
             {/* Doanh số theo Nhóm hàng × Tháng/Quý */}
-            <NhomMonthTable result={result} />
-            <KhachMonthTable result={result} />
+            <NhomMonthTable result={result} fromDate={fromDate} toDate={toDate} />
+            <KhachMonthTable result={result} fromDate={fromDate} toDate={toDate} />
             {result.count === 0 && <p className="mt-4 rounded-lg bg-amber-50 p-4 text-center text-sm text-amber-800">Không có dữ liệu trong kỳ/bộ lọc này.</p>}
           </>
         ) : (
