@@ -26,7 +26,7 @@ function OkrSummaryCard({ tu, den }: { tu: string; den: string }) {
     let cancelled = false;
     (async () => {
       if (!tu || !den) return;
-      const { data } = await supabase.from('okrs').select('id, tien_do, den_ngay, trang_thai').gte('tu_ngay', tu).lte('den_ngay', den);
+      const { data } = await supabase.from('okrs').select('id, tien_do, den_ngay, trang_thai').lte('tu_ngay', den).gte('den_ngay', tu).eq('is_archived', false);
       if (cancelled) return;
       const list = (data ?? []) as any[];
       const now = new Date();
