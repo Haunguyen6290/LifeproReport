@@ -20,6 +20,7 @@ export type CoVanInput = {
   tuanTruoc?: { noiDung: string; items: string[] } | null;
   okrDangChay?: string;
   lichSuNgan?: string;
+  nopMuon?: string; // VD: "NỘP MUỘN 2 ngày — hạn 17:30 T7 04/10, nộp 08/10 09:12"
 };
 
 function toUserMessage(input: CoVanInput): string {
@@ -45,6 +46,7 @@ function toUserMessage(input: CoVanInput): string {
   } else {
     parts.push('(Không có dòng công việc nào)');
   }
+  if (input.nopMuon) parts.push(`TRẠNG THÁI NỘP:\n${input.nopMuon}`);
   if (input.tuanTruoc) {
     parts.push(`TUẦN TRƯỚC (để soi copy/đối chiếu):\n${input.tuanTruoc.noiDung.slice(0, 1000)}\nCác việc tuần trước: ${input.tuanTruoc.items.join(' | ').slice(0, 1000)}`);
   }

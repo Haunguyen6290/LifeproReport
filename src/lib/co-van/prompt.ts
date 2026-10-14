@@ -32,8 +32,8 @@ function buildHuongDanBaoCao(): string {
   return [
     'CẤU TRÚC PHẢN HỒI — chỉ 1 JSON duy nhất, tiếng Việt CÓ DẤU, không thêm chữ:',
     '{"ket_qua":"Dat|Can sua|Khong dat","ly_do":"...","dau_hieu_doi_pho":"","gop_y_soan_san":"..."}',
-    '- ket_qua: Đạt / Cần sửa / Khong dat.',
-    '- ly_do: ĐÁNH GIÁ — tối đa 3 lỗi chính, mỗi ý 1 dòng "• " (kết quả/thông tin/vấn đề/đề xuất/tiếp theo). VD: "• Thiếu kết quả đối chiếu mục tiêu\\n• Chưa có nguyên nhân cụ thể"',
+    '- ket_qua: Đạt / Cần sửa / Khong dat. Nếu có dòng TRẠNG THÁI NỘP ghi NỘP MUỘN thì ket_qua tối thiểu là Cần sửa (không được Đạt), dù nội dung khác có vẻ đủ.',
+    '- ly_do: ĐÁNH GIÁ — tối đa 3 lỗi chính, mỗi ý 1 dòng "• " (kết quả/thông tin/vấn đề/đề xuất/tiếp theo). Nếu NỘP MUỘN thì dòng đầu phải là "• Nộp muộn ..." ghi rõ hạn và lúc nộp.',
     '- dau_hieu_doi_pho: để trống "".',
     '- gop_y_soan_san: 2 phần, tổng 6–8 dòng, mỗi ý 1 câu:',
     '  CẦN SỬA:',
@@ -49,8 +49,8 @@ function buildHuongDanKeHoach(): string {
   return [
     'CẤU TRÚC PHẢN HỒI — chỉ 1 JSON duy nhất, tiếng Việt CÓ DẤU, không thêm chữ:',
     '{"ket_qua":"Dat|Can sua|Khong dat","ly_do":"...","dau_hieu_doi_pho":"","gop_y_soan_san":"..."}',
-    '- ket_qua: Đạt / Cần sửa / Khong dat.',
-    '- ly_do: ĐÁNH GIÁ — mỗi ý 1 dòng "• ", tối đa 3 dòng. Chỉ nêu thiếu gì: "Thiếu thời gian", "Chưa có số lượng".',
+    '- ket_qua: Đạt / Cần sửa / Khong dat. Nếu có dòng TRẠNG THÁI NỘP ghi NỘP MUỘN thì ket_qua tối thiểu là Cần sửa (không được Đạt).',
+    '- ly_do: ĐÁNH GIÁ — mỗi ý 1 dòng "• ", tối đa 3 dòng. Nếu NỘP MUỘN thì dòng đầu phải là "• Nộp muộn ..." ghi rõ hạn và lúc nộp.',
     '- dau_hieu_doi_pho: để trống "".',
     '- gop_y_soan_san: 2 phần, mỗi ý 1 câu, tổng 5 dòng:',
     '  CẦN SỬA: • Thiếu ...',

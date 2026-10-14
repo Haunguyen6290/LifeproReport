@@ -3,6 +3,7 @@ import { createAdminClient } from '@/lib/supabase/admin';
 import { loadCoVanConfig } from './config';
 import { danhGiaCoVan, type CoVanInput } from './evaluate';
 import { sendToDirector } from './telegram-private';
+import { deadlineKH, deadlineBC } from '@/lib/week';
 
 type Loai = 'ke_hoach' | 'bao_cao' | 'chien_dich' | 'tin_thi_truong';
 
@@ -29,11 +30,25 @@ async function loadInput(loai: Loai, targetId: string, admin: ReturnType<typeof 
     return { loai, tieuDe, noiDungTongQuan: String((news as any).content ?? ''), items: [], tuanTruoc: null, lichSuNgan };
   }
   if (loai === 'ke_hoach') {
-    const { data: plan } = await admin.from('weekly_plans').select('id, user_id, tuan_tu, tuan_den, muc_tieu_tuan, noi_dung, updated_at').eq('id', targetId).single();
+    const { data: plan } = await admin.from('weekly_plans').select('id, user_id, tuan_tu, tuan_den, muc_tieu_tuan, noi_dung, created_at, updated_at').eq('id', targetId).single();
     if (!plan) return null;
     const { data: items } = await admin.from('weekly_plan_items').select('cong_viec, kq_can_dat').eq('plan_id', targetId).order('sort_order');
     const { data: prof } = await admin.from('profiles').select('full_name').eq('id', (plan as any).user_id).single();
     const tieuDe = `Kế hoạch tuần ${(plan as any).tuan_tu}–${(plan as any).tuan_den} — ${(prof as any)?.full_name ?? ''}`;
+    let nopMuon: string | undefined;
+    try {
+      const tu = String((plan as any).tuan_tu ?? '');
+      const ca = String((plan as any).created_at ?? '');
+      if (tu && ca) {
+        const dl = deadlineKH(tu);
+        const nộp = new Date(ca);
+        if (!isNaN(nộp.getTime()) && nộp.getTime() > dl.getTime()) {
+          const diffH = Math.round((nộp.getTime() - dl.getTime()) / 3_600_000);
+          const diffStr = diffH < 24 ? `${diffH} giờ` : `${Math.ceil(diffH / 24)} ngày`;
+          nopMuon = `NỘP MUỘN ${diffStr} — hạn 17:30 T7 ${dl.toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' })}, nộp ${nộp.toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' })}`;
+        }
+      }
+    } catch {}
     // Tuần trước + lịch sử 3 tuần gần nhất (để soi copy)
     const prevTu = new Date((plan as any).tuan_tu); prevTu.setDate(prevTu.getDate() - 7);
     const prevTuStr = prevTu.toISOString().slice(0, 10);
@@ -60,14 +75,28 @@ async function loadInput(loai: Loai, targetId: string, admin: ReturnType<typeof 
       mucTieu: String((plan as any).muc_tieu_tuan ?? '').trim(),
       noiDungTongQuan: String((plan as any).noi_dung ?? '').trim(),
       items: ((items ?? []) as any[]).map((r) => ({ cong_viec: r.cong_viec, kq_can_dat: r.kq_can_dat })),
-      tuanTruoc, okrDangChay, lichSuNgan,
+      tuanTruoc, okrDangChay, lichSuNgan, nopMuon,
     };
   } else {
-    const { data: rep } = await admin.from('weekly_reports').select('id, user_id, tuan_tu, tuan_den, tu_danh_gia, ty_le_ht, diem_noi_bat, kho_khan, de_xuat, noi_dung, updated_at').eq('id', targetId).single();
+    const { data: rep } = await admin.from('weekly_reports').select('id, user_id, tuan_tu, tuan_den, tu_danh_gia, ty_le_ht, diem_noi_bat, kho_khan, de_xuat, noi_dung, created_at, updated_at').eq('id', targetId).single();
     if (!rep) return null;
     const { data: items } = await admin.from('weekly_report_items').select('viec_da_lam, phan_tram, tu_danh_gia').eq('report_id', targetId).order('sort_order');
     const { data: prof } = await admin.from('profiles').select('full_name').eq('id', (rep as any).user_id).single();
     const tieuDe = `Báo cáo tuần ${(rep as any).tuan_tu}–${(rep as any).tuan_den} — ${(prof as any)?.full_name ?? ''}`;
+    let nopMuonBC: string | undefined;
+    try {
+      const tu = String((rep as any).tuan_tu ?? '');
+      const ca = String((rep as any).created_at ?? '');
+      if (tu && ca) {
+        const dl = deadlineBC(tu);
+        const nộp = new Date(ca);
+        if (!isNaN(nộp.getTime()) && nộp.getTime() > dl.getTime()) {
+          const diffH = Math.round((nộp.getTime() - dl.getTime()) / 3_600_000);
+          const diffStr = diffH < 24 ? `${diffH} giờ` : `${Math.ceil(diffH / 24)} ngày`;
+          nopMuonBC = `NỘP MUỘN ${diffStr} — hạn 17:30 T2 ${dl.toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' })}, nộp ${nộp.toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' })}`;
+        }
+      }
+    } catch {}
     // Soi kế hoạch tuần tương ứng
     let tuanTruoc: CoVanInput['tuanTruoc'] = null;
     try {
@@ -93,7 +122,7 @@ async function loadInput(loai: Loai, targetId: string, admin: ReturnType<typeof 
     return {
       loai, tieuDe, noiDungTongQuan,
       items: ((items ?? []) as any[]).map((r) => ({ viec_da_lam: r.viec_da_lam, phan_tram: r.phan_tram, tu_danh_gia: r.tu_danh_gia })),
-      tuanTruoc, lichSuNgan,
+      tuanTruoc, lichSuNgan, nopMuon: nopMuonBC,
     };
   }
 }
