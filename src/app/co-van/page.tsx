@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useMemo, useState, useRef } from 'react';
 import { RequireAuth, useAuth } from '@/components/RequireAuth';
 import { AppSidebar } from '@/components/AppSidebar';
 import { supabase } from '@/lib/supabase/client';
@@ -113,7 +113,7 @@ function ChatPanel({ full }: { full?: boolean }) {
 
 function DanhGiaList({ loai }: { loai: 'ke_hoach' | 'bao_cao' | 'chien_dich' | 'tin_thi_truong' }) {
   const [rows, setRows] = useState<DanhGia[]>([]);
-  const [filter, setFilter] = useState('Cho duyet');
+  const [chiNopMuon, setChiNopMuon] = useState(false);
   const [tuanTu, setTuanTu] = useState('');
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState<Record<string, string>>({});
@@ -149,7 +149,7 @@ function DanhGiaList({ loai }: { loai: 'ke_hoach' | 'bao_cao' | 'chien_dich' | '
   async function load() {
     setLoading(true);
     const h = await authHeaders();
-    const params = new URLSearchParams({ loai, trang_thai: filter });
+    const params = new URLSearchParams({ loai, limit: '100' });
     if (tuanTu) params.set('tuan_tu', tuanTu);
     const r = await fetch(`/api/co-van/danh-gia?${params.toString()}`, { headers: h });
     const j = await r.json();
@@ -163,7 +163,18 @@ function DanhGiaList({ loai }: { loai: 'ke_hoach' | 'bao_cao' | 'chien_dich' | '
     }
     setLoading(false);
   }
-  useEffect(() => { load(); }, [filter, tuanTu, loai]);
+  useEffect(() => { load(); }, [tuanTu, loai]);
+
+  // Tách nhãn nộp muộn từ dòng đầu ly_do (VD: "• Nộp muộn 2 ngày — hạn ...")
+  function tachNopMuon(lyDo: string): string | null {
+    const m = (lyDo ?? '').split('\n')[0].match(/[Nn]ộp muộn[^—\n]*/);
+    return m ? m[0].replace(/^[•\-]\s*/, '').trim() : null;
+  }
+  const visible = useMemo(
+    () => (chiNopMuon ? rows.filter((r) => tachNopMuon(r.ly_do)) : rows),
+    [rows, chiNopMuon],
+  );
+  const soNopMuon = useMemo(() => rows.filter((r) => tachNopMuon(r.ly_do)).length, [rows]);
 
   const [expanded, setExpanded] = useState<string | null>(null);
   const [baiCache, setBaiCache] = useState<Record<string, any>>({});
@@ -249,36 +260,28 @@ function DanhGiaList({ loai }: { loai: 'ke_hoach' | 'bao_cao' | 'chien_dich' | '
           <button onClick={doSweep} disabled={sweeping} className="rounded-md bg-[#1e3a8a] px-3 py-1 text-xs font-semibold text-white disabled:opacity-50">{sweeping ? 'Đang chấm...' : 'Chấm tất cả chưa chấm'}</button>
           <button onClick={doRechamAll} disabled={rechamAllBusy || rows.length === 0} className="rounded-md bg-amber-600 px-3 py-1 text-xs font-semibold text-white disabled:opacity-50">{rechamAllBusy ? 'Đang chấm lại...' : 'Chấm lại toàn bộ'}</button>
           {rechamProgress && <span className="text-xs text-slate-500">{rechamProgress}</span>}
-          <div className="ml-auto flex gap-1">
-            {(['Cho duyet', 'Da gui', 'Bo qua', ''] as const).map((v) => (
-              <button key={v || 'all'} onClick={() => setFilter(v)} className={`rounded-full px-3 py-1 text-xs font-semibold ${filter === v ? 'bg-[#0f2a4a] text-white' : 'bg-slate-100 text-slate-600'}`}>
-                {v === '' ? 'Tất cả' : v === 'Cho duyet' ? 'Chờ duyệt' : v === 'Da gui' ? 'Đã gửi' : 'Bỏ qua'}
-              </button>
-            ))}
-          </div>
-          <button onClick={load} className="rounded-md border border-slate-200 px-3 py-1 text-xs">Tải lại</button>
+          <button onClick={() => setChiNopMuon((v) => !v)} className={`rounded-full px-3 py-1 text-xs font-semibold ${chiNopMuon ? 'bg-red-600 text-white' : 'bg-slate-100 text-slate-600'}`}>
+            Nộp muộn ({soNopMuon})
+          </button>
+          <button onClick={load} className="ml-auto rounded-md border border-slate-200 px-3 py-1 text-xs">Tải lại</button>
         </div>
       ) : (
         <div className="flex flex-wrap items-center gap-2 border-b border-slate-200 px-4 py-3">
-          <div className="ml-auto flex gap-1">
-            {(['Cho duyet', 'Da gui', 'Bo qua', ''] as const).map((v) => (
-              <button key={v || 'all'} onClick={() => setFilter(v)} className={`rounded-full px-3 py-1 text-xs font-semibold ${filter === v ? 'bg-[#0f2a4a] text-white' : 'bg-slate-100 text-slate-600'}`}>
-                {v === '' ? 'Tất cả' : v === 'Cho duyet' ? 'Chờ duyệt' : v === 'Da gui' ? 'Đã gửi' : 'Bỏ qua'}
-              </button>
-            ))}
-          </div>
-          <button onClick={load} className="rounded-md border border-slate-200 px-3 py-1 text-xs">Tải lại</button>
+          <button onClick={load} className="ml-auto rounded-md border border-slate-200 px-3 py-1 text-xs">Tải lại</button>
         </div>
       )}
       {loading ? <p className="p-6 text-center text-sm text-slate-500">Đang tải...</p>
-        : rows.length === 0 ? <p className="p-6 text-center text-sm text-slate-500">Chưa có đánh giá nào.</p>
+        : visible.length === 0 ? <p className="p-6 text-center text-sm text-slate-500">{chiNopMuon ? 'Không có bài nộp muộn.' : 'Chưa có đánh giá nào.'}</p>
         : (
           <div className="grid gap-3 lg:grid-cols-2 max-h-[min(70vh,900px)] overflow-y-auto pr-1">
-            {rows.slice(0, 20).map((r) => (
+            {visible.slice(0, 20).map((r) => {
+              const nm = tachNopMuon(r.ly_do);
+              return (
               <div key={r.id} className="rounded-xl border-2 border-[#1e3a8a] bg-white p-4 space-y-2">
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="text-sm font-bold text-[#0f2a4a]">{r.ten_nhan_vien}</span>
                   <span className={`rounded-full px-2 py-0.5 text-xs font-bold ${badge(r.ket_qua)}`}>{displayKetQua(r.ket_qua)}</span>
+                  {nm && <span className="rounded-full bg-red-100 px-2 py-0.5 text-xs font-bold text-red-700">{nm}</span>}
                   <span className="ml-auto text-xs text-slate-400">tuần {r.tuan_tu}→{r.tuan_den}</span>
                 </div>
                 {r.ly_do && <div className="text-sm text-slate-700">{bulleted(r.ly_do)}</div>}
@@ -334,12 +337,10 @@ function DanhGiaList({ loai }: { loai: 'ke_hoach' | 'bao_cao' | 'chien_dich' | '
                       })()}
                   </div>
                 )}
-                <div className="flex gap-2">
-                  <button onClick={() => doGui(r.id)} disabled={!!busyId} className="rounded-md bg-[#1e3a8a] px-4 py-1 text-sm font-semibold text-white disabled:opacity-50">{busyId === r.id ? '...' : 'Gửi'}</button>
-                  <button onClick={() => doBoQua(r.id)} disabled={!!busyId} className="rounded-md border border-slate-200 px-3 py-1 text-xs disabled:opacity-50">Bỏ qua</button>
-                </div>
+                {/* Ông chỉ xem, không gửi cho kinh doanh */}
               </div>
-            ))}
+              );
+            })}
           </div>
         )}
     </div>
