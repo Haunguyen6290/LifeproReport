@@ -90,6 +90,7 @@ export function BoxDetailDialog({ boxId, onClose }: Props) {
   const [activationCode, setActivationCode] = useState('');
   const [editing, setEditing] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [deleting, setDeleting] = useState(false);
   const [editForm, setEditForm] = useState({
     box_name: '',
     customer_name: '',
@@ -104,6 +105,33 @@ export function BoxDetailDialog({ boxId, onClose }: Props) {
   });
 
   const canView = can('xem_box') || can('quan_ly_cai_dat');
+  const canDelete = can('quan_ly_cai_dat');
+
+  async function handleDelete() {
+    const label = box?.serial_number || box?.android_id || boxId.slice(0, 8);
+    if (!confirm(`Xóa vĩnh viễn box "${label}"? Dữ liệu test sẽ mất, không hoàn tác được.`)) return;
+    setDeleting(true);
+    try {
+      const { data } = await supabase.auth.getSession();
+      const token = data.session?.access_token ?? '';
+      const r = await fetch(`/api/box/${boxId}`, {
+        method: 'DELETE',
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
+      });
+      const j = await r.json();
+      if (r.ok) {
+        alert('Đã xóa box.');
+        onClose();
+        window.location.reload();
+      } else {
+        alert(j.error ?? 'Lỗi xóa box');
+      }
+    } catch (e: any) {
+      alert(e?.message ?? 'Lỗi');
+    } finally {
+      setDeleting(false);
+    }
+  }
 
   async function loadBox() {
     setLoading(true);
@@ -225,14 +253,25 @@ export function BoxDetailDialog({ boxId, onClose }: Props) {
         {/* Header */}
         <div className="sticky top-0 bg-white border-b px-6 py-4 flex items-center justify-between">
           <h2 className="text-xl font-semibold text-[#0f2a4a]">Chi tiết Android Box</h2>
-          <button
-            onClick={onClose}
-            className="text-slate-400 hover:text-slate-600"
-          >
+          <div className="flex items-center gap-2">
+            {canDelete && box && (
+              <button
+                onClick={handleDelete}
+                disabled={deleting}
+                className="rounded-md border border-red-200 px-3 py-1.5 text-sm font-semibold text-red-600 hover:bg-red-50 disabled:opacity-50"
+              >
+                {deleting ? 'Đang xóa...' : 'Xóa box'}
+              </button>
+            )}
+            <button
+              onClick={onClose}
+              className="text-slate-400 hover:text-slate-600"
+            >
             <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
             </svg>
-          </button>
+            </button>
+          </div>
         </div>
 
         {/* Content */}

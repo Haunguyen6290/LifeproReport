@@ -7,7 +7,7 @@ const ANON = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!;
 
 const admin = () => createClient(URL, SRV, { auth: { autoRefreshToken: false, persistSession: false } });
 
-async function checkPerm(req: NextRequest): Promise<{ ok: boolean; userId?: string }> {
+async function checkPerm(req: NextRequest): Promise<{ ok: boolean; userId?: string; perms?: string[] }> {
   const token = (req.headers.get('authorization') ?? '').replace(/^Bearer /i, '').trim();
   if (!token) return { ok: false };
   const anon = createClient(URL, ANON, { auth: { autoRefreshToken: false, persistSession: false } });
@@ -16,7 +16,7 @@ async function checkPerm(req: NextRequest): Promise<{ ok: boolean; userId?: stri
   const { data: prof } = await admin().from('profiles').select('roles!inner(permissions)').eq('id', u.user.id).single();
   const perms = ((prof as any)?.roles?.permissions ?? []) as string[];
   const ok = perms.includes('xem_box') || perms.includes('quan_ly_cai_dat');
-  return { ok, userId: u.user.id };
+  return { ok, userId: u.user.id, perms };
 }
 
 export async function GET(
@@ -103,6 +103,35 @@ export async function PUT(
     return NextResponse.json({ success: true, box: data });
   } catch (e: any) {
     console.error('Error in PUT /api/box/[id]:', e);
+    return NextResponse.json({ error: 'Lỗi hệ thống' }, { status: 500 });
+  }
+}
+
+export async function DELETE(
+  req: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const { id } = await params;
+  const perm = await checkPerm(req);
+  if (!perm.ok) return NextResponse.json({ error: 'Không có quyền' }, { status: 403 });
+  // Chi quan tri (co quyen quan_ly_cai_dat) moi duoc xoa box
+  if (!perm.perms?.includes('quan_ly_cai_dat')) {
+    return NextResponse.json({ error: 'Chỉ quản trị viên mới được xóa box' }, { status: 403 });
+  }
+
+  try {
+    const db = admin();
+    const { data: existed } = await db.from('boxes').select('id').eq('id', id).single();
+    if (!existed) return NextResponse.json({ error: 'Không tìm thấy box' }, { status: 404 });
+
+    const { error } = await db.from('boxes').delete().eq('id', id);
+    if (error) {
+      console.error('DB error deleting box:', error);
+      return NextResponse.json({ error: 'Lỗi xóa dữ liệu' }, { status: 500 });
+    }
+    return NextResponse.json({ success: true });
+  } catch (e: any) {
+    console.error('Error in DELETE /api/box/[id]:', e);
     return NextResponse.json({ error: 'Lỗi hệ thống' }, { status: 500 });
   }
 }
