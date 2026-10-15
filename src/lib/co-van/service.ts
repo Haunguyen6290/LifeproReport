@@ -158,7 +158,19 @@ export async function chamMotBai(loai: Loai, targetId: string, force = false): P
   const aiCfg = { ...cfg.ai, brief: cfg.ai.brief + (extra ? `\n\nGHI CHÚ BỔ SUNG:\n${extra}` : '') };
 
   const dg = await danhGiaCoVan(aiCfg, input);
-  if (!dg) return { ok: false, reason: 'AI không trả về (thiếu key / lỗi mạng / hết hạn)' };
+  if (!dg) {
+    // AI lỗi: báo ông ngay qua Telegram + ghi audit để không sót trong im lặng
+    try {
+      const { data: prof } = await admin.from('profiles').select('full_name').eq('id', rowUserId).single();
+      const ten = (prof as any)?.full_name ?? '';
+      const loaiLabel: Record<string, string> = { ke_hoach: 'Kế hoạch', bao_cao: 'Báo cáo', chien_dich: 'Chiến dịch', tin_thi_truong: 'Tin thị trường' };
+      await sendToDirector(`🔴 <b>Cố vấn chấm lỗi</b> — ${(loaiLabel[loai] ?? loai)} của ${ten} (tuần ${rowTuanTu}→${rowTuanDen}) chưa chấm được do AI không trả về. Ông bấm "Chấm tất cả chưa chấm" để chấm lại.`);
+    } catch {}
+    try {
+      await admin.from('audit_logs').insert({ actor_id: null, action: 'Cố vấn chấm lỗi (AI không trả về)', entity_type: loai, entity_id: targetId, details: { loai, tuan_tu: rowTuanTu } });
+    } catch {}
+    return { ok: false, reason: 'AI không trả về (thiếu key / lỗi mạng / hết hạn)' };
+  }
 
   const payload = {
     loai, target_id: targetId,

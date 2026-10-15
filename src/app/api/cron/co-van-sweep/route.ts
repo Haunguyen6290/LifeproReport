@@ -29,9 +29,15 @@ export async function GET(req: NextRequest) {
   }
 
   const admin = createAdminClient() as any;
-  // Quét các bài chưa chấm hoặc đã sửa sau lần chấm
-  const { data: plans } = await admin.from('weekly_plans').select('id, user_id, tuan_tu, updated_at').order('tuan_tu', { ascending: false }).limit(200);
-  const { data: reports } = await admin.from('weekly_reports').select('id, user_id, tuan_tu, updated_at').order('tuan_tu', { ascending: false }).limit(200);
+  // Quét các bài chưa chấm hoặc đã sửa sau lần chấm — lấy đủ để không sót
+  const { data: plans } = await admin.from('weekly_plans').select('id, user_id, tuan_tu, updated_at').order('tuan_tu', { ascending: false }).limit(1000);
+  const { data: reports } = await admin.from('weekly_reports').select('id, user_id, tuan_tu, updated_at').order('tuan_tu', { ascending: false }).limit(1000);
+  // Bài từng chấm lỗi (AI không trả về) nằm trong audit_logs — ưu tiên chấm lại trước
+  let loiTruoc: Set<string> = new Set();
+  try {
+    const { data: logs } = await admin.from('audit_logs').select('entity_type, entity_id').eq('action', 'Cố vấn chấm lỗi (AI không trả về)').order('created_at', { ascending: false }).limit(200);
+    loiTruoc = new Set(((logs ?? []) as any[]).map((l) => `${l.entity_type}:${l.entity_id}`));
+  } catch {}
   const { data: danhGia } = await admin.from('co_van_danh_gia').select('loai, target_id, phien_ban_luc');
   const doneSet = new Set(((danhGia ?? []) as any[]).map((r) => `${r.loai}:${r.target_id}:${r.phien_ban_luc}`));
 
@@ -44,11 +50,13 @@ export async function GET(req: NextRequest) {
     const key = `bao_cao:${r.id}:${r.updated_at}`;
     if (!doneSet.has(key)) pending.push({ loai: 'bao_cao', id: r.id });
   }
+  // Bài từng lỗi lên trước để không bị kẹt mãi sau hàng đợi
+  pending.sort((a, b) => (loiTruoc.has(`${b.loai}:${b.id}`) ? 1 : 0) - (loiTruoc.has(`${a.loai}:${a.id}`) ? 1 : 0));
 
   // Chấm tuần tự, mỗi bài 1 lần gọi AI — tránh burst
   const results: { loai: string; id: string; ok: boolean; ket_qua?: string; reason?: string }[] = [];
-  // Giới hạn mỗi lần quét 15 bài để không quá tải
-  for (const item of pending.slice(0, 15)) {
+  // Giới hạn mỗi lần quét 30 bài để không quá tải
+  for (const item of pending.slice(0, 30)) {
     try {
       const { chamMotBai } = await import('@/lib/co-van/service');
       const r = await chamMotBai(item.loai, item.id);
