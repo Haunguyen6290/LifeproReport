@@ -75,9 +75,10 @@ export async function danhGiaCoVan(cfg: AIConfig, input: CoVanInput): Promise<Da
     const m = text.match(/\{[\s\S]*\}/);
     if (!m) return null;
     const parsed = JSON.parse(m[0]) as Partial<DanhGia> & { ket_qua?: string };
-    const kq = String(parsed.ket_qua ?? '').trim();
+    // AI lúc trả có dấu ("Cần sửa"), lúc không ("Can sua") — chuẩn hóa hết về mã DB
+    const kqRaw = String(parsed.ket_qua ?? '').trim().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/đ/g, 'd').replace(/\s+/g, ' ');
     const norm: KetQua | null =
-      kq === 'Dat' ? 'Dat' : kq === 'Can sua' ? 'Can sua' : kq === 'Khong dat' ? 'Khong dat' : null;
+      kqRaw === 'dat' ? 'Dat' : kqRaw === 'can sua' ? 'Can sua' : kqRaw === 'khong dat' ? 'Khong dat' : null;
     if (!norm) return null;
     return {
       ket_qua: norm,
