@@ -56,37 +56,48 @@ function toUserMessage(input: CoVanInput): string {
 
 export async function danhGiaCoVan(cfg: AIConfig, input: CoVanInput): Promise<DanhGia | null> {
   if (!cfg.key) return null;
-  try {
-    const client = new Anthropic({
-      apiKey: cfg.key,
-      ...(cfg.endpoint ? { baseURL: cfg.endpoint.replace(/\/+$/, '').replace(/\/v1\/messages$/i, '') } : {}),
-      timeout: 30_000,
-      maxRetries: 0,
-    });
-    const system = buildCoVanSystem(cfg.brief, '', input.loai);
-    const res = await client.messages.create({
-      model: cfg.model,
-      max_tokens: 1500,
-      temperature: 0.2,
-      system,
-      messages: [{ role: 'user', content: toUserMessage(input) }],
-    });
-    const text = res.content.find((b) => b.type === 'text')?.text ?? '';
-    const m = text.match(/\{[\s\S]*\}/);
-    if (!m) return null;
-    const parsed = JSON.parse(m[0]) as Partial<DanhGia> & { ket_qua?: string };
-    // AI lúc trả có dấu ("Cần sửa"), lúc không ("Can sua") — chuẩn hóa hết về mã DB
-    const kqRaw = String(parsed.ket_qua ?? '').trim().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/đ/g, 'd').replace(/\s+/g, ' ');
-    const norm: KetQua | null =
-      kqRaw === 'dat' ? 'Dat' : kqRaw === 'can sua' ? 'Can sua' : kqRaw === 'khong dat' ? 'Khong dat' : null;
-    if (!norm) return null;
-    return {
-      ket_qua: norm,
-      ly_do: String(parsed.ly_do ?? '').slice(0, 1000),
-      dau_hieu_doi_pho: String(parsed.dau_hieu_doi_pho ?? '').slice(0, 1000),
-      gop_y_soan_san: String(parsed.gop_y_soan_san ?? '').slice(0, 3000),
-    };
-  } catch {
-    return null;
+  // AI thỉnh thoảng trả sai định dạng (không có JSON) — tự thử lại tối đa 3 lần
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    try {
+      const client = new Anthropic({
+        apiKey: cfg.key,
+        ...(cfg.endpoint ? { baseURL: cfg.endpoint.replace(/\/+$/, '').replace(/\/v1\/messages$/i, '') } : {}),
+        timeout: 30_000,
+        maxRetries: 0,
+      });
+      const system = buildCoVanSystem(cfg.brief, '', input.loai);
+      const res = await client.messages.create({
+        model: cfg.model,
+        max_tokens: 1500,
+        temperature: 0.2,
+        system,
+        messages: [{ role: 'user', content: toUserMessage(input) }],
+      });
+      const text = res.content.find((b) => b.type === 'text')?.text ?? '';
+      const m = text.match(/\{[\s\S]*\}/);
+      if (!m) continue;
+      let parsed: Partial<DanhGia> & { ket_qua?: string };
+      try {
+        parsed = JSON.parse(m[0]);
+      } catch {
+        continue;
+      }
+      // AI lúc trả có dấu ("Cần sửa"), lúc không ("Can sua") — chuẩn hóa hết về mã DB
+      const kqRaw = String(parsed.ket_qua ?? '').trim().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/đ/g, 'd').replace(/\s+/g, ' ');
+      const norm: KetQua | null =
+        kqRaw === 'dat' ? 'Dat' : kqRaw === 'can sua' ? 'Can sua' : kqRaw === 'khong dat' ? 'Khong dat' : null;
+      if (!norm) continue;
+      const gopY = String(parsed.gop_y_soan_san ?? '').trim();
+      if (!gopY) continue;
+      return {
+        ket_qua: norm,
+        ly_do: String(parsed.ly_do ?? '').slice(0, 1000),
+        dau_hieu_doi_pho: String(parsed.dau_hieu_doi_pho ?? '').slice(0, 1000),
+        gop_y_soan_san: gopY.slice(0, 3000),
+      };
+    } catch {
+      // lỗi mạng/timeout — thử lại
+    }
   }
+  return null;
 }
