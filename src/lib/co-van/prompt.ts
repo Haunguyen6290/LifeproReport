@@ -35,12 +35,12 @@ function buildHuongDanBaoCao(): string {
     '- ket_qua: Đạt / Cần sửa / Khong dat. Nếu có dòng TRẠNG THÁI NỘP ghi NỘP MUỘN thì ket_qua tối thiểu là Cần sửa (không được Đạt), dù nội dung khác có vẻ đủ.',
     '- ly_do: ĐÁNH GIÁ — tối đa 3 lỗi chính, mỗi ý 1 dòng "• " (kết quả/thông tin/vấn đề/đề xuất/tiếp theo). Nếu NỘP MUỘN thì dòng đầu phải là "• Nộp muộn ..." ghi rõ hạn và lúc nộp.',
     '- dau_hieu_doi_pho: để trống "".',
-    '- gop_y_soan_san: 2 phần, tổng 6–8 dòng, mỗi ý 1 câu:',
+    '- gop_y_soan_san: 2 phần, tổng 6–8 dòng, mỗi ý 1 câu. CẤM lặp lại chữ "thiếu" đã nêu ở ly_do — CẦN SỬA chỉ nêu HÀNH ĐỘNG khắc phục (bổ sung/viết lại thế nào), HƯỚNG DẪN cho công thức + VD viết lại mẫu để làm theo:',
     '  CẦN SỬA:',
-    '  • Bổ sung ...',
+    '  • Viết lại ... thành ...',
     '  HƯỚNG DẪN:',
     '  • Công thức: Đã làm gì + Kết quả (số) + Thông tin gì + Vấn đề→Nguyên nhân + Đề xuất→Kết quả dự kiến + Tiếp theo (Làm gì/Cho ai/Khi nào).',
-    '  • VD: "• Đã tiếp cận 20/20 khách, 5 đơn/7 đơn — chưa đạt do giá cao 15%, đề xuất giá X cho nhóm A, T3 gọi lại 3 khách mục tiêu 2 đơn."',
+    '  • VD viết lại: "• Đã tiếp cận 20/20 khách, 5 đơn/7 đơn — chưa đạt do giá cao 15%, đề xuất giá X cho nhóm A, T3 gọi lại 3 khách mục tiêu 2 đơn."',
     'QUY ĐỊNH: mỗi ý 1 câu, 6–8 dòng, không chào hỏi/gọi tên/lặp nguyên văn/viết lại toàn bộ.',
   ].join('\n');
 }
@@ -52,9 +52,9 @@ function buildHuongDanKeHoach(): string {
     '- ket_qua: Đạt / Cần sửa / Khong dat. Nếu có dòng TRẠNG THÁI NỘP ghi NỘP MUỘN thì ket_qua tối thiểu là Cần sửa (không được Đạt).',
     '- ly_do: ĐÁNH GIÁ — mỗi ý 1 dòng "• ", tối đa 3 dòng. Nếu NỘP MUỘN thì dòng đầu phải là "• Nộp muộn ..." ghi rõ hạn và lúc nộp.',
     '- dau_hieu_doi_pho: để trống "".',
-    '- gop_y_soan_san: 2 phần, mỗi ý 1 câu, tổng 5 dòng:',
-    '  CẦN SỬA: • Thiếu ...',
-    '  HƯỚNG DẪN: • Làm gì + Cho ai + Khi nào + Kết quả gì. VD: "• T3–T4 chào F9 cho 5 khách, mục tiêu 3 đơn."',
+    '- gop_y_soan_san: 2 phần, mỗi ý 1 câu, tổng 5 dòng. CẤM lặp lại chữ "thiếu" đã nêu ở ly_do — CẦN SỬA chỉ nêu HÀNH ĐỘNG khắc phục (viết lại thế nào), HƯỚNG DẪN cho công thức + VD viết lại mẫu:',
+    '  CẦN SỬA: • Viết lại mục tiêu/dòng việc ... thành ...',
+    '  HƯỚNG DẪN: • Làm gì + Cho ai + Khi nào + Kết quả gì. VD viết lại: "• T3–T4 chào F9 cho 5 khách, mục tiêu 3 đơn."',
     'QUY ĐỊNH: mỗi ý 1 câu, 6–8 dòng, không chào hỏi/gọi tên/lặp nguyên văn.',
   ].join('\n');
 }
