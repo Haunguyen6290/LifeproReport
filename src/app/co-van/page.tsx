@@ -111,10 +111,26 @@ function ChatPanel({ full }: { full?: boolean }) {
   );
 }
 
+/** T2 (yyyy-mm-dd) của tuần chứa hôm nay — theo giờ VN */
+function tuanHienTai(): string {
+  const vn = new Date(Date.now() + 7 * 3600_000);
+  const day = vn.getUTCDay() || 7; // T2=1..CN=7
+  const mon = new Date(vn);
+  mon.setUTCDate(vn.getUTCDate() - (day - 1));
+  return mon.toISOString().slice(0, 10);
+}
+/** T2 của tuần trước */
+function tuanTruoc(): string {
+  const cur = new Date(tuanHienTai() + 'T00:00:00Z');
+  cur.setUTCDate(cur.getUTCDate() - 7);
+  return cur.toISOString().slice(0, 10);
+}
+
 function DanhGiaList({ loai }: { loai: 'ke_hoach' | 'bao_cao' | 'chien_dich' | 'tin_thi_truong' }) {
   const [rows, setRows] = useState<DanhGia[]>([]);
   const [chiNopMuon, setChiNopMuon] = useState(false);
-  const [tuanTu, setTuanTu] = useState('');
+  // Mặc định: Kế hoạch = tuần hiện tại, Báo cáo = tuần trước
+  const [tuanTu, setTuanTu] = useState(() => (loai === 'bao_cao' ? tuanTruoc() : loai === 'ke_hoach' ? tuanHienTai() : ''));
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState<Record<string, string>>({});
   const [busyId, setBusyId] = useState<string | null>(null);
