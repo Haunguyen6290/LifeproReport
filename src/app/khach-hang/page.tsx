@@ -91,8 +91,12 @@ function Screen() {
     return users.filter((u) => ids.has(u.id));
   }, [rows, q, tierId, province, users]);
   const [sortStack, setSortStack] = useState<SortStack>([]);
+  // Pill "Chưa phân hạng": dùng mã đặc biệt '__none__' để phân biệt với '' (= không lọc)
+  const UNTIERED = '__none__';
+  const pillTierId = (code: string) => (code ? tiers.find((x) => x.code === code)?.id ?? '' : UNTIERED);
   const filtered = useMemo(() => {
-    let f = filterCustomers(rows, { q, assignedTo, tierId, statusId: '' });
+    let f = filterCustomers(rows, { q, assignedTo, tierId: tierId === UNTIERED ? '' : tierId, statusId: '' });
+    if (tierId === UNTIERED) f = f.filter((r) => !r.tier_id);
     if (province) f = f.filter((r) => r.tinh_thanh === province);
     return sortCustomers(f as any, sortStack) as KH[];
   }, [rows, q, assignedTo, tierId, province, sortStack]);
@@ -154,7 +158,7 @@ function Screen() {
         <div className="mb-4 flex flex-wrap gap-2">
           <span className="rounded-full bg-slate-900 px-3 py-1.5 text-sm font-semibold text-white">Tổng {rows.length}</span>
           {tierCounts.map((t) => (
-            <button key={t.label} onClick={() => setTierId(t.code ? tiers.find((x) => x.code === t.code)?.id ?? '' : '')} className={`rounded-full border px-3 py-1.5 text-sm font-medium transition ${tierId === (tiers.find((x) => x.code === t.code)?.id ?? '') ? 'bg-[#1e3a8a] text-white border-[#1e3a8a]' : 'bg-white border-slate-200 hover:border-[#1e3a8a] hover:text-[#1e3a8a]'}`}>
+            <button key={t.label} onClick={() => setTierId((v) => (v === pillTierId(t.code) ? '' : pillTierId(t.code)))} className={`rounded-full border px-3 py-1.5 text-sm font-medium transition ${tierId === pillTierId(t.code) ? 'bg-[#1e3a8a] text-white border-[#1e3a8a]' : 'bg-white border-slate-200 hover:border-[#1e3a8a] hover:text-[#1e3a8a]'}`}>
               <span className={`inline-block h-2 w-2 rounded-full mr-1.5 ${tierColor(t.code)}`}></span>{t.label} · {t.count}
             </button>
           ))}
