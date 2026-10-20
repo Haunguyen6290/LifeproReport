@@ -68,7 +68,8 @@ export async function danhGiaCoVan(cfg: AIConfig, input: CoVanInput): Promise<Da
       const system = buildCoVanSystem(cfg.brief, '', input.loai);
       const res = await client.messages.create({
         model: cfg.model,
-        max_tokens: 1500,
+        // Proxy Viber cắt cụt output — đặt dư để JSON không bị ngắt giữa chừng
+        max_tokens: 3000,
         temperature: 0.2,
         system,
         messages: [{ role: 'user', content: toUserMessage(input) }],

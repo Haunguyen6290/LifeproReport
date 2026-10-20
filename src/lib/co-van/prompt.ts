@@ -28,47 +28,47 @@ function tieuChiTheoLoai(loai: string): string {
   return `GIAO VIỆC = MỤC TIÊU + PHẠM VI + ĐẦU RA → Thời hạn → Người chịu trách nhiệm → Kết quả.\n${TIEU_CHI_KE_HOACH}`;
 }
 
+// Prompt chấm rút gọn (10/2026): proxy AI trả rỗng khi system quá dài (~3300 ký tự).
+// Chỉ chat mới dùng full brief công ty; chấm chỉ cần tiêu chí + cấu trúc JSON (<1500 ký tự).
+const BRIEF_NGAN = 'LifePro bán buôn phụ kiện ô tô (B2B): khách là gara/đại lý/nội thất xe.';
+
 function buildHuongDanBaoCao(): string {
   return [
-    'CẤU TRÚC PHẢN HỒI — chỉ 1 JSON duy nhất, tiếng Việt CÓ DẤU, không thêm chữ:',
+    'Trả đúng 1 JSON, tiếng Việt CÓ DẤU, không thêm chữ:',
     '{"ket_qua":"Dat|Can sua|Khong dat","ly_do":"...","dau_hieu_doi_pho":"","gop_y_soan_san":"..."}',
-    '- ket_qua: Đạt / Cần sửa / Khong dat. Nếu có dòng TRẠNG THÁI NỘP ghi NỘP MUỘN thì ket_qua tối thiểu là Cần sửa (không được Đạt), dù nội dung khác có vẻ đủ.',
-    '- ly_do: ĐÁNH GIÁ — tối đa 3 lỗi chính, mỗi ý 1 dòng "• " (kết quả/thông tin/vấn đề/đề xuất/tiếp theo). Nếu NỘP MUỘN thì dòng đầu phải là "• Nộp muộn ..." ghi rõ hạn và lúc nộp.',
-    '- dau_hieu_doi_pho: để trống "".',
-    '- gop_y_soan_san: 2 phần, tổng 6–8 dòng, mỗi ý 1 câu. CẤM lặp lại chữ "thiếu" đã nêu ở ly_do — CẦN SỬA chỉ nêu HÀNH ĐỘNG khắc phục (bổ sung/viết lại thế nào), HƯỚNG DẪN cho công thức + VD viết lại mẫu để làm theo:',
-    '  CẦN SỬA:',
-    '  • Viết lại ... thành ...',
-    '  HƯỚNG DẪN:',
-    '  • Công thức: Đã làm gì + Kết quả (số) + Thông tin gì + Vấn đề→Nguyên nhân + Đề xuất→Kết quả dự kiến + Tiếp theo (Làm gì/Cho ai/Khi nào).',
-    '  • VD viết lại: "• Đã tiếp cận 20/20 khách, 5 đơn/7 đơn — chưa đạt do giá cao 15%, đề xuất giá X cho nhóm A, T3 gọi lại 3 khách mục tiêu 2 đơn."',
-    'QUY ĐỊNH: mỗi ý 1 câu, 6–8 dòng, không chào hỏi/gọi tên/lặp nguyên văn/viết lại toàn bộ.',
+    '- ket_qua: Đạt/Cần sửa/Không đạt. Có NỘP MUỘN thì tối thiểu Cần sửa.',
+    '- ly_do: tối đa 3 lỗi, mỗi ý 1 dòng "• ". Có NỘP MUỘN thì dòng đầu là "• Nộp muộn ..." (hạn + lúc nộp).',
+    '- dau_hieu_doi_pho: "".',
+    '- gop_y_soan_san (6–8 dòng, mỗi ý 1 câu, CẤM lặp chữ "thiếu" ở ly_do):',
+    '  CẦN SỬA: • Viết lại ... thành ... (hành động khắc phục)',
+    '  HƯỚNG DẪN: • Đã làm gì + Kết quả (số) + Vấn đề→Nguyên nhân + Đề xuất→Kết quả + Tiếp theo (làm gì/cho ai/khi nào).',
+    '  VD: "• Đã tiếp cận 20/20 khách, 5/7 đơn — chưa đạt do giá cao 15%, T3 gọi lại 3 khách mục tiêu 2 đơn."',
   ].join('\n');
 }
 
 function buildHuongDanKeHoach(): string {
   return [
-    'CẤU TRÚC PHẢN HỒI — chỉ 1 JSON duy nhất, tiếng Việt CÓ DẤU, không thêm chữ:',
+    'Trả đúng 1 JSON, tiếng Việt CÓ DẤU, không thêm chữ:',
     '{"ket_qua":"Dat|Can sua|Khong dat","ly_do":"...","dau_hieu_doi_pho":"","gop_y_soan_san":"..."}',
-    '- ket_qua: Đạt / Cần sửa / Khong dat. Nếu có dòng TRẠNG THÁI NỘP ghi NỘP MUỘN thì ket_qua tối thiểu là Cần sửa (không được Đạt).',
-    '- ly_do: ĐÁNH GIÁ — mỗi ý 1 dòng "• ", tối đa 3 dòng. Nếu NỘP MUỘN thì dòng đầu phải là "• Nộp muộn ..." ghi rõ hạn và lúc nộp.',
-    '- dau_hieu_doi_pho: để trống "".',
-    '- gop_y_soan_san: 2 phần, mỗi ý 1 câu, tổng 5 dòng. CẤM lặp lại chữ "thiếu" đã nêu ở ly_do — CẦN SỬA chỉ nêu HÀNH ĐỘNG khắc phục (viết lại thế nào), HƯỚNG DẪN cho công thức + VD viết lại mẫu:',
-    '  CẦN SỬA: • Viết lại mục tiêu/dòng việc ... thành ...',
-    '  HƯỚNG DẪN: • Làm gì + Cho ai + Khi nào + Kết quả gì. VD viết lại: "• T3–T4 chào F9 cho 5 khách, mục tiêu 3 đơn."',
-    'QUY ĐỊNH: mỗi ý 1 câu, 6–8 dòng, không chào hỏi/gọi tên/lặp nguyên văn.',
+    '- ket_qua: Đạt/Cần sửa/Không đạt. Có NỘP MUỘN thì tối thiểu Cần sửa.',
+    '- ly_do: tối đa 3 dòng "• ". Có NỘP MUỘN thì dòng đầu là "• Nộp muộn ..." (hạn + lúc nộp).',
+    '- dau_hieu_doi_pho: "".',
+    '- gop_y_soan_san (5 dòng, mỗi ý 1 câu, CẤM lặp chữ "thiếu" ở ly_do):',
+    '  CẦN SỬA: • Viết lại mục tiêu/dòng việc ... thành ... (hành động khắc phục)',
+    '  HƯỚNG DẪN: • Làm gì + Cho ai + Khi nào + Kết quả gì. VD: "• T3–T4 chào F9 cho 5 khách, mục tiêu 3 đơn."',
   ].join('\n');
 }
 
-export function buildCoVanSystem(brief: string, extraInstructions: string, loai?: string): string {
-  const company = (brief || '').trim() || DEFAULT_COMPANY_BRIEF;
-  const now = new Date();
-  const dd = String(now.getDate()).padStart(2, '0');
-  const mm = String(now.getMonth() + 1).padStart(2, '0');
+// Tiêu chí rút gọn
+const TIEU_CHI_KH = 'MỤC TIÊU Đạt khi có Mục tiêu+Phạm vi+Đầu ra (số)+Thời hạn. Từng dòng việc Đạt khi có Việc gì+Cho ai+Khi nào+Kết quả gì. Chưa gắn KR nào thì ghi rõ.';
+const TIEU_CHI_BC = 'Báo cáo: Đã làm gì→Kết quả (số, %HT)→Thông tin thực tế→Vấn đề→Nguyên nhân→Đề xuất→Tiếp theo. Sales ưu tiên số khách→đơn→doanh số→cơ hội. Ngắn mà đủ thì Đạt.';
+
+export function buildCoVanSystem(_brief: string, extraInstructions: string, loai?: string): string {
+  // Cố ý bỏ full brief công ty (~1800 ký tự) — proxy AI trả rỗng khi system quá dài.
   const parts = [
-    'Bạn là BOT KIỂM TRA CHẤT LƯỢNG. Chấm chất lượng, không chấm văn. Không suy đoán, không tự đặt chuẩn.',
-    `BỐI CẢNH:\n${company}`,
-    tieuChiTheoLoai(loai ?? 'ke_hoach'),
-    `Hôm nay: ${dd}/${mm}/${now.getFullYear()}.`,
+    'Bạn là BOT KIỂM TRA CHẤT LƯỢNG. Chấm chất lượng, không chấm văn.',
+    `BỐI CẢNH: ${BRIEF_NGAN}`,
+    loai === 'bao_cao' ? TIEU_CHI_BC : loai === 'ke_hoach' ? TIEU_CHI_KH : tieuChiTheoLoai(loai ?? 'ke_hoach'),
   ];
   if (extraInstructions.trim()) parts.push(`GHI CHÚ GIÁM ĐỐC:\n${extraInstructions.trim()}`);
   parts.push(loai === 'bao_cao' ? buildHuongDanBaoCao() : buildHuongDanKeHoach());
