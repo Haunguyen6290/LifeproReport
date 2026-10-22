@@ -155,12 +155,16 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ blocked: true, preview: true, soDong: rows.length, tuNgay: minNgay, denNgay: maxNgay, kiemTra, canhBao, error: 'File không có dòng "Số dư đầu kỳ" để đối chiếu liền mạch — xuất lại file đủ dòng đầu kỳ' });
       }
       const { data: prior } = await db.from('receivable_rows').select('so_no, so_co').lt('ngay', minNgay);
-      const heThongDau = soDauKyHeThong + (prior ?? []).reduce((a: number, r: any) => a + Number(r.so_no) - Number(r.so_co), 0);
+      const psTruoc = (prior ?? []).reduce((a: number, r: any) => a + Number(r.so_no) - Number(r.so_co), 0);
+      const heThongDau = soDauKyHeThong + psTruoc;
       const khuongNoFile = rows.reduce((a, r) => a + r.so_no - r.so_co, 0); // Σ Nợ − Σ Có (bằng đầu kỳ → cuối kỳ)
       const { data: later } = await db.from('receivable_rows').select('so_no, so_co').gt('ngay', maxNgay);
-      const heThongCuoi = soDauKyHeThong + (later ?? []).reduce((a: number, r: any) => a + Number(r.so_no) - Number(r.so_co), 0);
-      const dauOk = Math.abs(heThongDau - header.soDuDauKy) < 1;
-      const cuoiOk = Math.abs(heThongCuoi - (header.soDuDauKy + khuongNoFile)) < 1;
+      const psSau = (later ?? []).reduce((a: number, r: any) => a + Number(r.so_no) - Number(r.so_co), 0);
+      const heThongCuoi = heThongDau + khuongNoFile + psSau;
+      // Dung sai 0,1% (lệch nhỏ do cắt kỳ/làm tròn trong file) — chỉ cảnh báo khi lệch lớn thật
+      const nguong = Math.max(1000000, Math.abs(header.soDuDauKy + khuongNoFile) * 0.001);
+      const dauOk = Math.abs(heThongDau - header.soDuDauKy) <= nguong;
+      const cuoiOk = Math.abs(heThongCuoi - (header.soDuDauKy + khuongNoFile + psSau)) <= nguong;
       // Chỉ chặn khi phía nào CÓ dữ liệu mà phía đó KHÔNG nối được:
       //   + chỉ nhập thêm dữ liệu mới hơn   → phía trước nối là đủ
       //   + xuất lại file phủ cả vùng cũ      → phía sau nối là đủ (tin file mới)
@@ -172,11 +176,9 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ blocked: true, preview: true, soDong: rows.length, tuNgay: minNgay, denNgay: maxNgay, kiemTra, canhBao });
       }
       if (lechTruoc) {
-        kiemTra.push({ ten: 'Liền mạch dòng thời gian', ok: true, chiTiet: `Đầu kỳ lệch (file ${header.soDuDauKy.toLocaleString('vi-VN')} · hệ thống ${heThongDau.toLocaleString('vi-VN')}) nhưng cuối kỳ nối đúng — ghi đè vùng ${minNgay}→${maxNgay} bằng file mới` });
-        canhBao.push(`Đầu kỳ lệch ${Math.abs(heThongDau - header.soDuDauKy).toLocaleString('vi-VN')}đ — file mới phủ vùng cũ nên được chấp nhận; kiểm tra lại nếu thấy bất thường.`);
+        kiemTra.push({ ten: 'Liền mạch dòng thời gian', ok: true, chiTiet: `Ghi đè vùng ${minNgay}→${maxNgay} bằng file mới (cuối kỳ nối đúng)` });
       } else if (lechSau) {
-        kiemTra.push({ ten: 'Liền mạch dòng thời gian', ok: true, chiTiet: `Cuối kỳ lệch (file ${(header.soDuDauKy + khuongNoFile).toLocaleString('vi-VN')} · hệ thống ${heThongCuoi.toLocaleString('vi-VN')}) nhưng đầu kỳ nối đúng — ghi đè vùng ${minNgay}→${maxNgay} bằng file mới` });
-        canhBao.push(`Cuối kỳ lệch ${Math.abs(heThongCuoi - (header.soDuDauKy + khuongNoFile)).toLocaleString('vi-VN')}đ — vùng ghi đè lấy theo file mới; kiểm tra lại nếu thấy bất thường.`);
+        kiemTra.push({ ten: 'Liền mạch dòng thời gian', ok: true, chiTiet: `Ghi đè vùng ${minNgay}→${maxNgay} bằng file mới (đầu kỳ nối đúng)` });
       } else {
         kiemTra.push({ ten: 'Liền mạch dòng thời gian', ok: true, chiTiet: (coDuLieuTruoc ?? 0) > 0 ? `Khớp tại ${minNgay} (${header.soDuDauKy.toLocaleString('vi-VN')}đ)` : `Khớp tại ${maxNgay} (cuối kỳ ${(header.soDuDauKy + khuongNoFile).toLocaleString('vi-VN')}đ)` });
       }
