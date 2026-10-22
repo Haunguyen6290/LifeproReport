@@ -1,5 +1,6 @@
 // src/lib/receivable-import.ts — parse sheet TK131 & DataKH từ file MISA xuất.
 import { parseNgay } from '@/lib/finance';
+import { normMaKH } from '@/lib/makh';
 
 export type RcvRow = {
   ngay: string; so_ct: string; ma_kh: string; ten_kh: string;
@@ -83,7 +84,7 @@ export function parseTk131Sheet(rows: unknown[][]): { header: Tk131Header; rows:
     out.push({
       ngay,
       so_ct: s(r[soHieuCol]),
-      ma_kh: s(r[ngayCol + 1]),
+      ma_kh: normMaKH(r[ngayCol + 1]),
       ten_kh: s(r[ngayCol + 2]),
       dien_giai: s(r[ngayCol + 3]),
       tk_doi_ung: s(r[ngayCol + 4]),
@@ -108,7 +109,7 @@ export function parseDataKHSheet(rows: unknown[][]): { ma: string; ten: string; 
   if (colNvkd === -1) colNvkd = 2; // fallback cột "NVKD" thường ở vị trí 3
   const out: { ma: string; ten: string; nvkd: string; duNo: number }[] = [];
   for (let i = 1; i < rows.length; i++) {
-    const ma = s(rows[i][0]);
+    const ma = normMaKH(rows[i][0]);
     if (!ma) continue;
     const v = num(rows[i][colDu]);
     out.push({ ma, ten: s(rows[i][1]), nvkd: s(rows[i][colNvkd]), duNo: v ?? 0 });

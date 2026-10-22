@@ -78,13 +78,12 @@ export async function POST(req: NextRequest) {
 
       const soCt = String(row['Số chứng từ (*)'] ?? '').trim();
       const maHang = String(row['Mã hàng (*)'] ?? '').trim();
-      const maKh = String(row['Mã khách hàng'] ?? '').trim();
 
       if (!soCt || !maHang) continue;
 
       rows.push({
         so_ct: soCt,
-        ma_kh: maKh,
+        ma_kh: String(row['Mã khách hàng'] ?? '').trim().toUpperCase().replace(/\s+/g, '_'),
         ma_hang: maHang,
         ngay_hach_toan: parseDate(row['Ngày hạch toán (*)']),
         rawData: row,

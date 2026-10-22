@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import * as XLSX from 'xlsx';
 import { isAllowedNameWithMap, mapSalesName, parseNumber, parseSalesSheet, saleMonthFromDate } from '@/lib/sales';
+import { normMaKH } from '@/lib/makh';
 
 // Cho phép tiến trình kéo dài tới 60s (import + ghi nhiều tháng + tạo khách mới)
 export const maxDuration = 60;
@@ -87,7 +88,7 @@ function prepareInsert(header: { col: Record<string, number>; dataStart: number 
       sale_month: saleMonth,
       ma_vt: get('ma_vt'),
       ten_vt: get('ten_vt'),
-      ma_kh: get('ma_kh'),
+      ma_kh: normMaKH(get('ma_kh')),
       ten_kh: get('ten_kh'),
       kinh_doanh_raw: rawKd,
       kinh_doanh: kinhDoanh,

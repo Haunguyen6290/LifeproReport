@@ -6,6 +6,10 @@ const STOP = new Set([
   'rua', 'xe', 'phu', 'kien',
 ]);
 
+export function normMaKH(s: unknown): string {
+  return String(s ?? '').trim().toUpperCase().replace(/\s+/g, '_');
+}
+
 export function buildMaKH(ten: string, tinh: string, existing: ReadonlySet<string> = new Set()): string {
   const prov = normText(tinh).split(' ').filter(Boolean).map((w) => w.charAt(0)).join('').toUpperCase();
   const words = normText(ten).replace(/[^a-z0-9 ]/g, ' ').split(' ').filter(Boolean);

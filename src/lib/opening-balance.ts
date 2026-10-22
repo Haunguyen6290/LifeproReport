@@ -2,6 +2,7 @@
 // Cột bắt buộc: Mã khách, Tên khách, Dư Nợ, Dư Có. Các cột khác dùng lại IMPORT_MAP của import khách hàng.
 import { IMPORT_MAP, normalizeHeader } from './import-map';
 import { fmtPhone } from './format';
+import { normMaKH } from './makh';
 
 export type OpeningRow = { ma_kh: string; ten_kh: string; du_no: number; extra: Record<string, string> };
 export type OpeningParse = {
@@ -43,7 +44,7 @@ export function parseOpeningSheet(table: unknown[][]): OpeningParse {
     const o: Record<string, unknown> = {};
     fields.forEach((f, j) => { if (f) o[f] = row[j]; });
 
-    const ma = String(o.MaKH ?? '').trim();
+    const ma = normMaKH(o.MaKH);
     const ten = String(o.TenKH ?? '').trim();
     const no = parseMoney(o.DuNo);
     const co = parseMoney(o.DuCo);
@@ -55,7 +56,7 @@ export function parseOpeningSheet(table: unknown[][]): OpeningParse {
     if (Number.isNaN(no) || Number.isNaN(co)) { out.errors.push({ dong, ma_kh: ma, lyDo: 'Dư Nợ / Dư Có không phải số' }); continue; }
     if (no < 0 || co < 0) { out.errors.push({ dong, ma_kh: ma, lyDo: 'Không ghi số âm — khách trả trước thì ghi vào Dư Có' }); continue; }
     if (no > 0 && co > 0) { out.errors.push({ dong, ma_kh: ma, lyDo: 'Ghi cả Dư Nợ lẫn Dư Có — chỉ ghi 1 bên' }); continue; }
-    const key = ma.toLowerCase();
+    const key = ma;
     if (seen.has(key)) { out.errors.push({ dong, ma_kh: ma, lyDo: 'Mã khách bị lặp trong file' }); continue; }
     seen.add(key);
 

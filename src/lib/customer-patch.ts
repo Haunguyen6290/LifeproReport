@@ -1,6 +1,7 @@
 // src/lib/customer-patch.ts — dựng dữ liệu ghi vào bảng customers từ 1 dòng Excel đã map (IMPORT_MAP).
 // Dùng chung cho Import khách hàng và Import số dư đầu kỳ.
 import { normText } from './format';
+import { normMaKH } from './makh';
 
 const TEXT_COLS: Record<string, string> = {
   SDT: 'sdt', Facebook: 'facebook', GoogleMaps: 'google_maps',
@@ -13,9 +14,11 @@ export type PatchLookups = {
   findStatusId: (name: string) => string | null;
 };
 
-/** Chỉ lấy ô CÓ dữ liệu — ô trống không xóa dữ liệu đang có. */
+/** Chỉ lấy ô CÓ dữ liệu — ô trống không xóa dữ liệu đang có. Mã KH tự chuẩn hóa hoa (LP-Cotu → LP-COTU). */
 export function customerPatch(data: Record<string, string>, lk: PatchLookups): Record<string, string> {
   const p: Record<string, string> = {};
+  const ma = normMaKH(data.MaKH);
+  if (ma) p.ma_kh = ma;
   for (const [k, col] of Object.entries(TEXT_COLS)) {
     const v = String(data[k] ?? '').trim();
     if (v) p[col] = v;
